@@ -1,0 +1,1863 @@
+{
+ "_source": "Songkick venue calendars, fetched 2026-11-01. Sold-out status from venue sites, 2026-11-02.",
+ "venues": {
+  "rickshaw-stop": {
+   "name": "Rickshaw Stop",
+   "address": "155 Fell St",
+   "capacity": 350,
+   "shows": [
+    [
+     "2026-11-04",
+     [
+      "Mary In The Junkyard",
+      "Lefty Parker"
+     ],
+     "43223446-mary-in-the-junkyard-at-rickshaw-stop"
+    ],
+    [
+     "2026-11-05",
+     [
+      "Kennedy Ryon",
+      "Malachi"
+     ],
+     "43345800-kennedy-ryon-at-rickshaw-stop"
+    ],
+    [
+     "2026-11-06",
+     [
+      "Genesis Owusu"
+     ],
+     "43236217-genesis-owusu-at-rickshaw-stop"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Peach Tree Rascals",
+      "Michael Sneed"
+     ],
+     "43417715-peach-tree-rascals-at-rickshaw-stop"
+    ],
+    [
+     "2026-11-11",
+     [
+      "Sparta"
+     ],
+     "43455704-sparta-at-rickshaw-stop"
+    ],
+    [
+     "2026-11-11",
+     [
+      "Public Opinion"
+     ],
+     "43373889-public-opinion-at-rickshaw-stop"
+    ],
+    [
+     "2026-11-12",
+     [
+      "jake minch",
+      "Alix Page"
+     ],
+     "43312445-jake-minch-at-rickshaw-stop"
+    ],
+    [
+     "2026-11-13",
+     [
+      "The Hails"
+     ],
+     "43288495-hails-at-rickshaw-stop"
+    ],
+    [
+     "2026-11-15",
+     [
+      "Francisca Valenzuela",
+      "Gabi Bravo"
+     ],
+     "43240648-francisca-valenzuela-at-rickshaw-stop"
+    ],
+    [
+     "2026-11-18",
+     [
+      "Jamila Woods",
+      "Hannah Mayree"
+     ],
+     "43363407-jamila-woods-at-rickshaw-stop"
+    ],
+    [
+     "2026-11-19",
+     [
+      "Cannelle"
+     ],
+     "43390356-cannelle-at-rickshaw-stop"
+    ],
+    [
+     "2026-11-20",
+     [
+      "Natural Child",
+      "Buzzed Lightbeer",
+      "CatNip",
+      "Milk For The Angry"
+     ],
+     "43169314-natural-child-at-rickshaw-stop"
+    ],
+    [
+     "2026-11-22",
+     [
+      "Qendresa"
+     ],
+     "43357632-qendresa-at-rickshaw-stop"
+    ],
+    [
+     "2026-12-02",
+     [
+      "L'Rain",
+      "ZAYALLCAPS",
+      "Cole Pulice"
+     ],
+     "43312510-lrain-at-rickshaw-stop"
+    ],
+    [
+     "2026-12-03",
+     [
+      "Emancipator",
+      "Shrimpnose",
+      "Lapa"
+     ],
+     "43345796-emancipator-at-rickshaw-stop"
+    ],
+    [
+     "2026-12-04",
+     [
+      "Niko Rubio"
+     ],
+     "43431069-niko-rubio-at-rickshaw-stop"
+    ],
+    [
+     "2026-12-05",
+     [
+      "Alison's Halo",
+      "Cathedral Bells"
+     ],
+     "43415272-alisons-halo-at-rickshaw-stop"
+    ],
+    [
+     "2026-12-09",
+     [
+      "Jessica Lea Mayfield",
+      "Horsepower"
+     ],
+     "43323105-jessica-lea-mayfield-at-rickshaw-stop"
+    ],
+    [
+     "2026-12-10",
+     [
+      "Oliver Hazard",
+      "Downey Chase"
+     ],
+     "43264478-oliver-hazard-at-rickshaw-stop"
+    ],
+    [
+     "2026-12-11",
+     [
+      "Graham Hunt",
+      "9Million",
+      "Seltzer"
+     ],
+     "43375870-graham-hunt-at-rickshaw-stop"
+    ],
+    [
+     "2026-12-12",
+     [
+      "Tanukichan",
+      "Badvril"
+     ],
+     "43396502-tanukichan-at-rickshaw-stop"
+    ],
+    [
+     "2026-12-15",
+     [
+      "Ruby Haunt",
+      "VHS Ghost"
+     ],
+     "43325251-ruby-haunt-at-rickshaw-stop"
+    ],
+    [
+     "2026-12-17",
+     [
+      "Starcrawler"
+     ],
+     "43490269-starcrawler-at-rickshaw-stop"
+    ],
+    [
+     "2026-12-18",
+     [
+      "Milk & Bone"
+     ],
+     "43409494-milk-and-bone-at-rickshaw-stop"
+    ],
+    [
+     "2027-01-07",
+     [
+      "Chris Simpson"
+     ],
+     "43444089-chris-simpson-at-rickshaw-stop"
+    ],
+    [
+     "2027-01-09",
+     [
+      "Super Greens",
+      "Sweet Plot"
+     ],
+     "43450449-super-greens-at-rickshaw-stop"
+    ],
+    [
+     "2027-01-15",
+     [
+      "Seb Lowe"
+     ],
+     "43426969-seb-lowe-at-rickshaw-stop"
+    ],
+    [
+     "2027-01-18",
+     [
+      "Tara Clerkin Trio"
+     ],
+     "43444088-tara-clerkin-trio-at-rickshaw-stop"
+    ],
+    [
+     "2027-01-21",
+     [
+      "BREE RUNWAY"
+     ],
+     "43439245-bree-runway-at-rickshaw-stop"
+    ],
+    [
+     "2027-02-19",
+     [
+      "Small Brown Bike",
+      "SUZZALLO"
+     ],
+     "43280340-small-brown-bike-at-rickshaw-stop"
+    ],
+    [
+     "2027-02-24",
+     [
+      "Radio Free Alice"
+     ],
+     "43475587-radio-free-alice-at-rickshaw-stop"
+    ],
+    [
+     "2027-02-25",
+     [
+      "deathbyromy"
+     ],
+     "43453251-deathbyromy-at-rickshaw-stop"
+    ],
+    [
+     "2027-02-25",
+     [
+      "bodyimage"
+     ],
+     "43453221-bodyimage-at-rickshaw-stop"
+    ],
+    [
+     "2027-02-28",
+     [
+      "Girl Ultra"
+     ],
+     "43455194-girl-ultra-at-rickshaw-stop"
+    ],
+    [
+     "2027-03-16",
+     [
+      "BESS ATWELL"
+     ],
+     "43466094-bess-atwell-at-rickshaw-stop"
+    ],
+    [
+     "2027-03-25",
+     [
+      "Fenne Lily"
+     ],
+     "43479572-fenne-lily-at-rickshaw-stop"
+    ],
+    [
+     "2027-03-26",
+     [
+      "sadurn"
+     ],
+     "43475339-sadurn-at-rickshaw-stop"
+    ],
+    [
+     "2027-03-30",
+     [
+      "DJ Suzy"
+     ],
+     "43478089-dj-suzy-at-rickshaw-stop"
+    ],
+    [
+     "2027-04-06",
+     [
+      "Valencia Grace"
+     ],
+     "43321045-valencia-grace-at-rickshaw-stop"
+    ],
+    [
+     "2027-04-27",
+     [
+      "The F16'S"
+     ],
+     "43478078-f16s-at-rickshaw-stop"
+    ],
+    [
+     "2027-04-29",
+     [
+      "Paloma Morphy"
+     ],
+     "43213027-paloma-morphy-at-rickshaw-stop"
+    ]
+   ]
+  },
+  "the-independent": {
+   "name": "The Independent",
+   "address": "628 Divisadero St",
+   "capacity": 500,
+   "shows": [
+    [
+     "2026-11-01",
+     [
+      "Six60"
+     ],
+     "43333977-six60-at-independent"
+    ],
+    [
+     "2026-11-02",
+     [
+      "Lexi Jayde"
+     ],
+     "43391670-lexi-jayde-at-independent"
+    ],
+    [
+     "2026-11-03",
+     [
+      "Gilla Band"
+     ],
+     "43239047-gilla-band-at-independent"
+    ],
+    [
+     "2026-11-04",
+     [
+      "INOHA"
+     ],
+     "43290285-inoha-at-independent"
+    ],
+    [
+     "2026-11-05",
+     [
+      "Greg Freeman"
+     ],
+     "43334067-greg-freeman-at-independent"
+    ],
+    [
+     "2026-11-06",
+     [
+      "King Buffalo",
+      "L.A. Witch"
+     ],
+     "43224118-king-buffalo-at-independent"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Karina Rykman"
+     ],
+     "43286758-karina-rykman-at-independent"
+    ],
+    [
+     "2026-11-08",
+     [
+      "Thao & The Get Down Stay Down"
+     ],
+     "43345479-thao-and-the-get-down-stay-down-at-independent"
+    ],
+    [
+     "2026-11-09",
+     [
+      "Weston Estate"
+     ],
+     "43411479-weston-estate-at-independent"
+    ],
+    [
+     "2026-11-11",
+     [
+      "Stop Light Observations"
+     ],
+     "43251303-stop-light-observations-at-independent"
+    ],
+    [
+     "2026-11-12",
+     [
+      "Stephen Day",
+      "Elysia Biro"
+     ],
+     "43259725-stephen-day-at-independent"
+    ],
+    [
+     "2026-11-13",
+     [
+      "whitmer thomas"
+     ],
+     "43371801-whitmer-thomas-at-independent"
+    ],
+    [
+     "2026-11-14",
+     [
+      "Sean Hayes"
+     ],
+     "43270930-sean-hayes-at-independent"
+    ],
+    [
+     "2026-11-17",
+     [
+      "Silverada",
+      "Emily Nenni"
+     ],
+     "43279584-silverada-at-independent"
+    ],
+    [
+     "2026-11-18",
+     [
+      "Icona Pop"
+     ],
+     "43411327-icona-pop-at-independent"
+    ],
+    [
+     "2026-11-19",
+     [
+      "Pretty Sick"
+     ],
+     "43365396-pretty-sick-at-independent"
+    ],
+    [
+     "2026-11-20",
+     [
+      "NICKCHEO",
+      "SCREAMING PEACHES"
+     ],
+     "43387476-nickcheo-at-independent"
+    ],
+    [
+     "2026-11-21",
+     [
+      "Q",
+      "Rahm"
+     ],
+     "43395917-q-at-independent"
+    ],
+    [
+     "2026-11-22",
+     [
+      "mark william lewis"
+     ],
+     "43337407-mark-william-lewis-at-independent"
+    ],
+    [
+     "2026-11-27",
+     [
+      "O'Flynn"
+     ],
+     "43375226-oflynn-at-independent"
+    ],
+    [
+     "2026-11-30",
+     [
+      "Unkle"
+     ],
+     "43419386-unkle-at-independent"
+    ],
+    [
+     "2026-12-02",
+     [
+      "The Buttertones"
+     ],
+     "43407433-buttertones-at-independent"
+    ],
+    [
+     "2026-12-03",
+     [
+      "MeeK"
+     ],
+     "43243752-meek-at-independent"
+    ],
+    [
+     "2026-12-04",
+     [
+      "Nirosta Steel"
+     ],
+     "43463753-nirosta-steel-at-independent"
+    ],
+    [
+     "2026-12-06",
+     [
+      "Stateside"
+     ],
+     "43458662-stateside-at-independent"
+    ],
+    [
+     "2026-12-08",
+     [
+      "Wishy",
+      "The Umbrellas"
+     ],
+     "43373320-wishy-at-independent"
+    ],
+    [
+     "2026-12-09",
+     [
+      "feeble little horse"
+     ],
+     "43288344-feeble-little-horse-at-independent"
+    ],
+    [
+     "2026-12-11",
+     [
+      "THE BOBBY LEES"
+     ],
+     "43212285-bobby-lees-at-independent"
+    ],
+    [
+     "2026-12-12",
+     [
+      "The Olllam"
+     ],
+     "43363903-olllam-at-independent"
+    ],
+    [
+     "2026-12-13",
+     [
+      "Swervedriver"
+     ],
+     "43212327-swervedriver-at-independent"
+    ],
+    [
+     "2026-12-14",
+     [
+      "Willi Carlisle",
+      "Amelia Day"
+     ],
+     "43322954-willi-carlisle-at-independent"
+    ],
+    [
+     "2026-12-16",
+     [
+      "Labiahead",
+      "Charlene Kaye",
+      "Meg Toohey",
+      "Lena Hall"
+     ],
+     "43432380-labiahead-at-independent"
+    ],
+    [
+     "2026-12-17",
+     [
+      "The Polish Ambassador"
+     ],
+     "43456534-polish-ambassador-at-independent"
+    ],
+    [
+     "2027-01-08",
+     [
+      "Com Truise",
+      "Matthew Dear"
+     ],
+     "43315762-com-truise-at-independent"
+    ],
+    [
+     "2027-01-09",
+     [
+      "Scott Pemberton",
+      "Boot Juice",
+      "The Westons"
+     ],
+     "43465600-scott-pemberton-at-independent"
+    ],
+    [
+     "2027-01-15",
+     [
+      "Sister Nancy",
+      "Reggae Angels"
+     ],
+     "43430839-sister-nancy-at-independent"
+    ],
+    [
+     "2027-01-16",
+     [
+      "Taper's choice"
+     ],
+     "43465835-tapers-choice-at-independent"
+    ],
+    [
+     "2027-01-17",
+     [
+      "STS9"
+     ],
+     "43385581-sts9-at-independent"
+    ],
+    [
+     "2027-01-22",
+     [
+      "The Brothers Comatose"
+     ],
+     "43474898-brothers-comatose-at-independent"
+    ],
+    [
+     "2027-01-26",
+     [
+      "The Flatliners"
+     ],
+     "43465834-flatliners-at-independent"
+    ],
+    [
+     "2027-01-31",
+     [
+      "Winona Fighter"
+     ],
+     "43456065-winona-fighter-at-independent"
+    ],
+    [
+     "2027-02-05",
+     [
+      "Odezenne"
+     ],
+     "42544052-odezenne-at-independent"
+    ],
+    [
+     "2027-02-06",
+     [
+      "Romare"
+     ],
+     "43426073-romare-at-independent"
+    ],
+    [
+     "2027-02-12",
+     [
+      "Ely Oaks"
+     ],
+     "43428816-ely-oaks-at-independent"
+    ],
+    [
+     "2027-02-14",
+     [
+      "Ikkimel"
+     ],
+     "43421603-ikkimel-at-independent"
+    ],
+    [
+     "2027-02-19",
+     [
+      "Fink"
+     ],
+     "43387507-fink-at-independent"
+    ],
+    [
+     "2027-02-21",
+     [
+      "Bella Poarch"
+     ],
+     "43450156-bella-poarch-at-independent"
+    ],
+    [
+     "2027-02-24",
+     [
+      "Way Dynamic"
+     ],
+     "43236913-way-dynamic-at-independent"
+    ],
+    [
+     "2027-02-26",
+     [
+      "Jack Kays"
+     ],
+     "43438043-jack-kays-at-independent"
+    ],
+    [
+     "2027-03-01",
+     [
+      "Valley",
+      "Moody Joody"
+     ],
+     "43423394-valley-at-independent"
+    ],
+    [
+     "2027-03-06",
+     [
+      "Rayland Baxter"
+     ],
+     "43428821-rayland-baxter-at-independent"
+    ],
+    [
+     "2027-03-07",
+     [
+      "Danielle Ponder"
+     ],
+     "43463752-danielle-ponder-at-independent"
+    ],
+    [
+     "2027-03-09",
+     [
+      "strongboi",
+      "Salami Rose Joe Louis"
+     ],
+     "43270730-strongboi-at-independent"
+    ],
+    [
+     "2027-03-24",
+     [
+      "Hans Williams"
+     ],
+     "43452141-hans-williams-at-independent"
+    ],
+    [
+     "2027-03-25",
+     [
+      "Dan Reeder",
+      "Peggy Reeder"
+     ],
+     "43311433-dan-reeder-at-independent"
+    ],
+    [
+     "2027-03-31",
+     [
+      "Camel Power Club"
+     ],
+     "43467768-camel-power-club-at-independent"
+    ],
+    [
+     "2027-04-05",
+     [
+      "Iceage"
+     ],
+     "43361019-iceage-at-independent"
+    ]
+   ]
+  },
+  "bottom-of-the-hill": {
+   "name": "Bottom of the Hill",
+   "address": "1233 17th St",
+   "capacity": 275,
+   "shows": [
+    [
+     "2026-11-01",
+     [
+      "Mutants",
+      "Fuzz Attack"
+     ],
+     "43421272-mutants-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-04",
+     [
+      "Team Dresch",
+      "The Third Sex",
+      "Longstocking"
+     ],
+     "43296513-team-dresch-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-06",
+     [
+      "Loquat",
+      "Halou",
+      "steilacoom"
+     ],
+     "43359778-loquat-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Southern Culture On The Skids",
+      "Van Goat"
+     ],
+     "43195881-southern-culture-on-the-skids-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-08",
+     [
+      "Armand Hammer",
+      "Sha Ray",
+      "Dj Haram"
+     ],
+     "42979796-armand-hammer-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-10",
+     [
+      "Hit the Lights",
+      "Forever Came Calling",
+      "Fox Royale"
+     ],
+     "43174408-hit-the-lights-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-11",
+     [
+      "Lowercase",
+      "shearling"
+     ],
+     "43385167-lowercase-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-12",
+     [
+      "Maus Haus",
+      "Battlehooch"
+     ],
+     "43398022-maus-haus-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-13",
+     [
+      "JON SPENCER"
+     ],
+     "43211709-jon-spencer-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-14",
+     [
+      "Avengers",
+      "Pansy Division"
+     ],
+     "43283505-avengers-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-15",
+     [
+      "Picture Atlantic",
+      "Field Medic"
+     ],
+     "43432351-picture-atlantic-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-18",
+     [
+      "mild universe",
+      "Joel Robinow"
+     ],
+     "43421287-mild-universe-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-19",
+     [
+      "Ruby Ibarra"
+     ],
+     "43445211-ruby-ibarra-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-20",
+     [
+      "Earthless",
+      "Carlton Melton",
+      "Terry Gross"
+     ],
+     "43292296-earthless-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-21",
+     [
+      "MDC",
+      "Frightwig",
+      "Class of 77"
+     ],
+     "43264315-mdc-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-22",
+     [
+      "Verst"
+     ],
+     "43367932-verst-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-23",
+     [
+      "Pedro the Lion"
+     ],
+     "43406606-pedro-the-lion-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-27",
+     [
+      "Dr. Know"
+     ],
+     "43372426-dr-know-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-28",
+     [
+      "A-100s",
+      "The InCiters"
+     ],
+     "43317531-a100s-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-11-29",
+     [
+      "The Clarke Nova",
+      "Floorists",
+      "Very Paranoia"
+     ],
+     "43432372-clarke-nova-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-12-01",
+     [
+      "Fat, Evil Children"
+     ],
+     "43467330-fat-evil-children-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-12-03",
+     [
+      "Hazzard's Cure",
+      "Genghis Bong",
+      "Supernaut"
+     ],
+     "43450899-hazzards-cure-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-12-04",
+     [
+      "ultra Q"
+     ],
+     "43473514-ultra-q-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-12-05",
+     [
+      "Sonny & The Sunsets",
+      "Kelly McFarling",
+      "Noelle and the Deserters"
+     ],
+     "43372437-sonny-and-the-sunsets-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-12-08",
+     [
+      "Makeout Reef",
+      "Lovers Peak"
+     ],
+     "43435001-makeout-reef-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-12-11",
+     [
+      "Andre Nickatina"
+     ],
+     "43282056-andre-nickatina-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-12-12",
+     [
+      "Drunk Horse",
+      "Hightower"
+     ],
+     "43360091-drunk-horse-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-12-13",
+     [
+      "El Vez",
+      "Rip Room"
+     ],
+     "43473519-el-vez-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-12-15",
+     [
+      "The Velvet Teen",
+      "The Shutups",
+      "Pocket Full Of Crumbs"
+     ],
+     "43469050-velvet-teen-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-12-18",
+     [
+      "Two Gallants"
+     ],
+     "43467341-two-gallants-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-12-21",
+     [
+      "Cult Strange",
+      "Nove Vita"
+     ],
+     "43284109-cult-strange-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-12-23",
+     [
+      "Swingin' Utters",
+      "Western Addiction",
+      "Seized Up"
+     ],
+     "43419306-swingin-utters-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-12-27",
+     [
+      "Crop Top",
+      "Mark Eitzel"
+     ],
+     "43476622-crop-top-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-12-28",
+     [
+      "Man or Astro-man?"
+     ],
+     "43476626-man-or-astroman-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-12-30",
+     [
+      "Shannon Shaw",
+      "Tino Drima"
+     ],
+     "43474127-shannon-shaw-at-bottom-of-the-hill"
+    ],
+    [
+     "2026-12-31",
+     [
+      "Shannon Shaw",
+      "Will Sprott"
+     ],
+     "43474132-shannon-shaw-at-bottom-of-the-hill"
+    ]
+   ]
+  },
+  "the-chapel": {
+   "name": "The Chapel",
+   "address": "777 Valencia St",
+   "capacity": 450,
+   "shows": [
+    [
+     "2026-11-05",
+     [
+      "Squirrel Flower",
+      "Sour Widows"
+     ],
+     "43209734-squirrel-flower-at-chapel"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Alex Cameron"
+     ],
+     "43215910-alex-cameron-at-chapel"
+    ],
+    [
+     "2026-11-10",
+     [
+      "Buzzcocks",
+      "Modern English",
+      "Grade 2"
+     ],
+     "43335619-buzzcocks-at-chapel"
+    ],
+    [
+     "2026-11-12",
+     [
+      "Marc Broussard",
+      "Cristina Vane"
+     ],
+     "43323056-marc-broussard-at-chapel"
+    ],
+    [
+     "2026-11-13",
+     [
+      "Other Lives",
+      "Kelcey Ayer"
+     ],
+     "43222278-other-lives-at-chapel"
+    ],
+    [
+     "2026-11-14",
+     [
+      "The Cactus Blossoms",
+      "Margo Cilker"
+     ],
+     "43310548-cactus-blossoms-at-chapel"
+    ],
+    [
+     "2026-11-15",
+     [
+      "Craig Finn"
+     ],
+     "43280354-craig-finn-at-chapel"
+    ],
+    [
+     "2026-11-16",
+     [
+      "Margaret Glaspy",
+      "Anna Tivel"
+     ],
+     "43254466-margaret-glaspy-at-chapel"
+    ],
+    [
+     "2026-11-18",
+     [
+      "John Carroll Kirby"
+     ],
+     "43353740-john-carroll-kirby-at-chapel"
+    ],
+    [
+     "2026-11-20",
+     [
+      "Maddie Zahm",
+      "OSTON"
+     ],
+     "43264473-maddie-zahm-at-chapel"
+    ],
+    [
+     "2026-11-21",
+     [
+      "Poi Dog Pondering"
+     ],
+     "43448438-poi-dog-pondering-at-chapel"
+    ],
+    [
+     "2026-11-21",
+     [
+      "Archer Monk"
+     ],
+     "43421900-archer-monk-at-chapel"
+    ],
+    [
+     "2026-11-25",
+     [
+      "Moonalice"
+     ],
+     "43469728-moonalice-at-chapel"
+    ],
+    [
+     "2026-11-27",
+     [
+      "Brian Mello",
+      "Bar Fight",
+      "Nashville Honeymoon",
+      "Penelope Houston",
+      "Country Risqué"
+     ],
+     "43455203-brian-mello-at-chapel"
+    ],
+    [
+     "2026-11-28",
+     [
+      "Petty Theft"
+     ],
+     "43421899-petty-theft-at-chapel"
+    ],
+    [
+     "2026-12-07",
+     [
+      "Buck Meek",
+      "Kisser"
+     ],
+     "43067051-buck-meek-at-chapel"
+    ],
+    [
+     "2026-12-19",
+     [
+      "Ramones X",
+      "The Living Eyes"
+     ],
+     "43415277-ramones-x-at-chapel"
+    ],
+    [
+     "2026-12-26",
+     [
+      "Chuck Prophet"
+     ],
+     "43445725-chuck-prophet-at-chapel"
+    ],
+    [
+     "2026-12-31",
+     [
+      "The Lemon Twigs",
+      "Tchotchke"
+     ],
+     "43472037-lemon-twigs-at-chapel"
+    ],
+    [
+     "2027-01-07",
+     [
+      "Russell Quan",
+      "The Vesuvians",
+      "Karina Denike"
+     ],
+     "43453248-russell-quan-at-chapel"
+    ],
+    [
+     "2027-01-07",
+     [
+      "Loved Ones"
+     ],
+     "43458653-loved-ones-at-chapel"
+    ],
+    [
+     "2027-01-08",
+     [
+      "Western Standard Time Ska Orchestra"
+     ],
+     "43458651-western-standard-time-ska-orchestra-at-chapel"
+    ],
+    [
+     "2027-01-08",
+     [
+      "Tectonics"
+     ],
+     "43410002-tectonics-at-chapel"
+    ],
+    [
+     "2027-01-09",
+     [
+      "Swirlies"
+     ],
+     "43458654-swirlies-at-chapel"
+    ],
+    [
+     "2027-01-09",
+     [
+      "SEKO"
+     ],
+     "43444087-seko-at-chapel"
+    ],
+    [
+     "2027-01-10",
+     [
+      "Nora Brown",
+      "Stephanie Coleman"
+     ],
+     "43444092-nora-brown-at-chapel"
+    ],
+    [
+     "2027-01-15",
+     [
+      "Book of Love"
+     ],
+     "43219256-book-of-love-at-chapel"
+    ],
+    [
+     "2027-01-22",
+     [
+      "Fruition",
+      "Rainbow Girls"
+     ],
+     "43389407-fruition-at-chapel"
+    ],
+    [
+     "2027-01-29",
+     [
+      "Ty Segall"
+     ],
+     "43465277-ty-segall-at-chapel"
+    ],
+    [
+     "2027-02-09",
+     [
+      "Rebirth Brass Band"
+     ],
+     "43364226-rebirth-brass-band-at-chapel"
+    ],
+    [
+     "2027-02-12",
+     [
+      "Lael Neale"
+     ],
+     "43464111-lael-neale-at-chapel"
+    ],
+    [
+     "2027-03-17",
+     [
+      "The Rockers",
+      "Coffin Hunters"
+     ],
+     "43475677-rockers-at-chapel"
+    ],
+    [
+     "2027-03-18",
+     [
+      "Helena Deland"
+     ],
+     "43467997-helena-deland-at-chapel"
+    ],
+    [
+     "2027-03-19",
+     [
+      "Jimmy Rip",
+      "Jay Dee Daugherty",
+      "Chris Lightcap",
+      "Jackson Smith"
+     ],
+     "43464113-jimmy-rip-at-chapel"
+    ]
+   ]
+  },
+  "cafe-du-nord": {
+   "name": "Café du Nord",
+   "address": "2170 Market St",
+   "capacity": 250,
+   "shows": [
+    [
+     "2026-11-01",
+     [
+      "Token"
+     ],
+     "43324398-token-at-cafe-du-nord"
+    ],
+    [
+     "2026-11-03",
+     [
+      "Sobs",
+      "Lace"
+     ],
+     "43373660-sobs-at-cafe-du-nord"
+    ],
+    [
+     "2026-11-04",
+     [
+      "Dice"
+     ],
+     "43215171-dice-at-cafe-du-nord"
+    ],
+    [
+     "2026-11-05",
+     [
+      "Dave Hause"
+     ],
+     "43464684-dave-hause-at-cafe-du-nord"
+    ],
+    [
+     "2026-11-06",
+     [
+      "IAN SWEET"
+     ],
+     "43173475-ian-sweet-at-cafe-du-nord"
+    ],
+    [
+     "2026-11-08",
+     [
+      "454"
+     ],
+     "43450122-454-at-cafe-du-nord"
+    ],
+    [
+     "2026-11-12",
+     [
+      "Wyatt Waddell"
+     ],
+     "43243842-wyatt-waddell-at-cafe-du-nord"
+    ],
+    [
+     "2026-11-13",
+     [
+      "MARIS"
+     ],
+     "43243611-maris-at-cafe-du-nord"
+    ],
+    [
+     "2026-11-17",
+     [
+      "Jammy Buffet"
+     ],
+     "43394118-jammy-buffet-at-cafe-du-nord"
+    ],
+    [
+     "2026-11-18",
+     [
+      "Laya",
+      "Lipstick N Leather"
+     ],
+     "43467756-laya-at-cafe-du-nord"
+    ],
+    [
+     "2026-11-19",
+     [
+      "Internet Girl"
+     ],
+     "43363919-internet-girl-at-cafe-du-nord"
+    ],
+    [
+     "2026-11-20",
+     [
+      "Memphis LK"
+     ],
+     "43383296-memphis-lk-at-cafe-du-nord"
+    ],
+    [
+     "2026-11-21",
+     [
+      "Frances Whitney"
+     ],
+     "43441310-frances-whitney-at-cafe-du-nord"
+    ],
+    [
+     "2026-12-03",
+     [
+      "Solo Smith",
+      "Elijah Fox"
+     ],
+     "43417424-solo-smith-at-cafe-du-nord"
+    ],
+    [
+     "2026-12-07",
+     [
+      "Keenan TreVon"
+     ],
+     "43428826-keenan-trevon-at-cafe-du-nord"
+    ],
+    [
+     "2026-12-08",
+     [
+      "HARBOUR"
+     ],
+     "43281289-harbour-at-cafe-du-nord"
+    ],
+    [
+     "2026-12-15",
+     [
+      "Josie Edwards"
+     ],
+     "43406769-josie-edwards-at-cafe-du-nord"
+    ],
+    [
+     "2026-12-31",
+     [
+      "Jimmie Allen"
+     ],
+     "42755236-jimmie-allen-at-cafe-du-nord"
+    ],
+    [
+     "2027-01-26",
+     [
+      "Youth Fountain"
+     ],
+     "43441126-youth-fountain-at-cafe-du-nord"
+    ],
+    [
+     "2027-01-27",
+     [
+      "Jon Bryant"
+     ],
+     "43489749-jon-bryant-at-cafe-du-nord"
+    ],
+    [
+     "2027-01-30",
+     [
+      "Zach Seabaugh"
+     ],
+     "43472551-zach-seabaugh-at-cafe-du-nord"
+    ],
+    [
+     "2027-01-30",
+     [
+      "The Arcadian Wild"
+     ],
+     "43452823-arcadian-wild-at-cafe-du-nord"
+    ],
+    [
+     "2027-02-06",
+     [
+      "The Sways"
+     ],
+     "43472500-sways-at-cafe-du-nord"
+    ],
+    [
+     "2027-02-13",
+     [
+      "Aubory Bugg"
+     ],
+     "43426095-aubory-bugg-at-cafe-du-nord"
+    ],
+    [
+     "2027-02-17",
+     [
+      "L.A.B",
+      "Seven Suns"
+     ],
+     "43440897-lab-nz-at-cafe-du-nord"
+    ],
+    [
+     "2027-02-19",
+     [
+      "Devvy Dub"
+     ],
+     "43475114-devvy-dub-at-cafe-du-nord"
+    ],
+    [
+     "2027-02-22",
+     [
+      "Cut Worms"
+     ],
+     "43475131-cut-worms-at-cafe-du-nord"
+    ],
+    [
+     "2027-02-23",
+     [
+      "Alt Bloom",
+      "DOUBLECAMP"
+     ],
+     "43477702-alt-bloom-at-cafe-du-nord"
+    ],
+    [
+     "2027-02-24",
+     [
+      "Hot Freaks"
+     ],
+     "43439007-hot-freaks-at-cafe-du-nord"
+    ],
+    [
+     "2027-02-25",
+     [
+      "Brooke Alexx"
+     ],
+     "43405210-brooke-alexx-at-cafe-du-nord"
+    ],
+    [
+     "2027-02-26",
+     [
+      "The Stone Foxes"
+     ],
+     "43475113-stone-foxes-at-cafe-du-nord"
+    ],
+    [
+     "2027-03-10",
+     [
+      "Katherine Li"
+     ],
+     "43487520-katherine-li-at-cafe-du-nord"
+    ],
+    [
+     "2027-03-13",
+     [
+      "Surfer Girl",
+      "The Holdup",
+      "Joby"
+     ],
+     "43438575-surfer-girl-at-cafe-du-nord"
+    ],
+    [
+     "2027-03-19",
+     [
+      "Bo Staloch"
+     ],
+     "43428878-bo-staloch-at-cafe-du-nord"
+    ],
+    [
+     "2027-03-25",
+     [
+      "Rowena Wise"
+     ],
+     "43451237-rowena-wise-at-cafe-du-nord"
+    ],
+    [
+     "2027-03-27",
+     [
+      "Sarah Julia"
+     ],
+     "43475129-sarah-julia-at-cafe-du-nord"
+    ],
+    [
+     "2027-03-30",
+     [
+      "Games We Play",
+      "Bears In Trees"
+     ],
+     "43423344-games-we-play-at-cafe-du-nord"
+    ],
+    [
+     "2027-04-05",
+     [
+      "Victoryland"
+     ],
+     "43467751-victoryland-at-cafe-du-nord"
+    ],
+    [
+     "2027-04-07",
+     [
+      "Arthur Hill"
+     ],
+     "43391714-arthur-hill-at-cafe-du-nord"
+    ],
+    [
+     "2027-04-13",
+     [
+      "Jack and Jack"
+     ],
+     "43473971-jack-and-jack-at-cafe-du-nord"
+    ],
+    [
+     "2027-04-23",
+     [
+      "Alex Sampson"
+     ],
+     "43472584-alex-sampson-at-cafe-du-nord"
+    ]
+   ]
+  },
+  "brick-and-mortar": {
+   "name": "Brick & Mortar Music Hall",
+   "address": "1710 Mission St",
+   "capacity": 250,
+   "shows": [
+    [
+     "2026-11-01",
+     [
+      "Cardinal Bloom"
+     ],
+     "43296163-cardinal-bloom-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-03",
+     [
+      "MISSIO"
+     ],
+     "43365377-missio-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-04",
+     [
+      "Sassy 009"
+     ],
+     "43255344-sassy-009-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-05",
+     [
+      "AZ Chike"
+     ],
+     "43385589-az-chike-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-06",
+     [
+      "Clay Street Unit"
+     ],
+     "43326030-clay-street-unit-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Supertaste"
+     ],
+     "43333978-supertaste-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-08",
+     [
+      "Triptides"
+     ],
+     "43335939-triptides-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-09",
+     [
+      "Past Self",
+      "Creux Lies",
+      "Hot Goth GF"
+     ],
+     "43377365-past-self-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-11",
+     [
+      "Mad Tsai"
+     ],
+     "43290268-mad-tsai-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-12",
+     [
+      "Natanya"
+     ],
+     "43262237-natanya-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-13",
+     [
+      "Deante Hitchcock"
+     ],
+     "43403078-deante-hitchcock-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-14",
+     [
+      "Denise Julia"
+     ],
+     "43387471-denise-julia-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-17",
+     [
+      "Brokencyde",
+      "Dot Dot Curve"
+     ],
+     "43463754-brokencyde-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-19",
+     [
+      "Brothel in Belize"
+     ],
+     "43470855-brothel-in-belize-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-20",
+     [
+      "Bayonne"
+     ],
+     "43171133-bayonne-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-21",
+     [
+      "veggi"
+     ],
+     "43458561-veggi-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-21",
+     [
+      "La Reezy"
+     ],
+     "43294910-la-reezy-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-25",
+     [
+      "ovrkast."
+     ],
+     "43464822-ovrkast-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-27",
+     [
+      "Thoughts on Bowling"
+     ],
+     "43371818-thoughts-on-bowling-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-11-28",
+     [
+      "Mikey V"
+     ],
+     "43464826-mikey-v-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-12-02",
+     [
+      "The Kilans"
+     ],
+     "43368490-kilans-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-12-04",
+     [
+      "Nightmare of You"
+     ],
+     "43384309-nightmare-of-you-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-12-05",
+     [
+      "Tommy Fleece",
+      "Reserv"
+     ],
+     "43405033-tommy-fleece-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-12-06",
+     [
+      "Geordie Kieffer"
+     ],
+     "43393948-geordie-kieffer-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-12-08",
+     [
+      "Kumo 99"
+     ],
+     "43432411-kumo-99-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-12-09",
+     [
+      "Father of Peace"
+     ],
+     "43292932-father-of-peace-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-12-10",
+     [
+      "Sam Quealy"
+     ],
+     "43325256-sam-quealy-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2026-12-18",
+     [
+      "Nueve Lio"
+     ],
+     "43472990-nueve-lio-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2027-01-09",
+     [
+      "Anna von Hausswolff"
+     ],
+     "42803107-anna-von-hausswolff-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2027-01-23",
+     [
+      "44phantom"
+     ],
+     "43463801-44phantom-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2027-02-06",
+     [
+      "Pratt & Moody"
+     ],
+     "43443830-pratt-and-moody-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2027-02-25",
+     [
+      "Anna Shoemaker"
+     ],
+     "43395611-anna-shoemaker-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2027-02-27",
+     [
+      "Claud"
+     ],
+     "43420954-claud-at-brick-and-mortar-music-hall"
+    ],
+    [
+     "2027-03-26",
+     [
+      "Caiola"
+     ],
+     "43416367-caiola-at-brick-and-mortar-music-hall"
+    ]
+   ]
+  }
+ },
+ "_sold_out_note": "Shows known to be sold out, by their Songkick id. Add more as you hear about them.",
+ "sold_out": [
+  "43243611-maris-at-cafe-du-nord"
+ ]
+}
