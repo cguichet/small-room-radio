@@ -2,7 +2,7 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Small Room Radio</title>
+<title>Will Call Radio</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Tune into San Francisco's small venues. Every station plays bands with a show coming up.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -106,8 +106,9 @@ header p{margin:0;color:var(--muted);max-width:56ch}
 /* Controls */
 .controls{grid-area:controls;min-width:0;display:flex;flex-direction:column;align-items:center;gap:14px}
 .toprow{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.nameplate{font:400 13px/1.25 var(--f-engrave);letter-spacing:.2em;color:var(--engrave);text-shadow:0 1px 0 rgba(255,255,255,.6)}
-.nameplate span{display:block;font-size:8px;letter-spacing:.3em;opacity:.8}
+.nameplate{min-width:0;font:400 15px/1.2 var(--f-engrave);letter-spacing:.16em;color:var(--engrave);text-shadow:0 1px 0 rgba(255,255,255,.6);text-wrap:balance}
+.nameplate span{display:block;margin-top:4px;font-size:8.5px;letter-spacing:.32em;opacity:.8}
+@media (max-width:420px){.nameplate{font-size:12px;letter-spacing:.12em}}
 .power{display:flex;align-items:center;gap:10px}
 .power-col{display:flex;flex-direction:column;align-items:center;gap:12px}
 .toggle{position:relative;width:40px;height:40px;border:0;border-radius:50%;cursor:pointer;padding:0;
@@ -204,7 +205,7 @@ footer{font-size:12px;color:var(--muted)}
 
 <div class="wrap">
   <header>
-    <h1>Small Room Radio</h1>
+    <h1>Will Call Radio</h1>
     <div>
       <p>Six small San Francisco venues. Every song is by a band with a show coming up.</p>
       <p class="reach" id="reach" hidden></p>
@@ -225,14 +226,14 @@ footer{font-size:12px;color:var(--muted)}
         <div class="dial" aria-live="polite">
           <div class="scale" id="scale" tabindex="0" role="slider" aria-label="Skip to a show date"><div id="ticks"></div><div id="dots"></div><span class="needle" id="needle"></span><span class="hover" id="hoverDate" hidden></span></div>
           <div class="dial-top" id="dialTop">—</div>
-          <div class="dial-artist" id="artist">Small Room Radio</div>
+          <div class="dial-artist" id="artist">Will Call Radio</div>
           <div class="dial-song" id="song">Power is off</div>
           <div class="dial-gig" id="gig"></div>
         </div>
 
         <div class="controls">
           <div class="toprow">
-            <div class="nameplate">SMALL ROOM<span>RADIO · SAN FRANCISCO</span></div>
+            <div class="nameplate">WILL CALL RADIO<span>SAN FRANCISCO</span></div>
             <div class="power">
               <div class="power-col">
                 <span class="eng">On</span>
@@ -441,7 +442,7 @@ function renderDial(){
   $("dialTop").textContent=`${station().name} · ${n} venue${n===1?"":"s"} on`;
   renderScaleDots();
   $("needle").style.left=current?pct(dayNum(current.show.date))+"%":"0%";
-  if(!power){$("artist").textContent="Small Room Radio";$("song").textContent="Power is off";$("gig").innerHTML="";return}
+  if(!power){$("artist").textContent="Will Call Radio";$("song").textContent="Power is off";$("gig").innerHTML="";return}
   if(!current){
     $("artist").textContent=station().name;
     $("song").textContent=queue.length?`${queue.length} songs from ${new Set(queue.map(t=>t.artist)).size} bands`:(n?"No songs for this station at these venues":"Switch a venue on using the map");
@@ -639,7 +640,7 @@ function fetchCount(path){
 const plural=(n,w)=>`${n.toLocaleString()} ${w}${n===1?"":"s"}`;
 async function fillCount(el){
   const p=el.dataset.count, n=(await fetchCount(p))+(mine.get(p)||0);
-  el.hidden=!n; el.textContent=n.toLocaleString(); el.title=`${plural(n,"click")} from Small Room Radio`;
+  el.hidden=!n; el.textContent=n.toLocaleString(); el.title=`${plural(n,"click")} from Will Call Radio`;
 }
 // Counts load when their link scrolls near the screen (the empty badge itself is hidden, so we watch the link).
 const countObserver=("IntersectionObserver" in window)?new IntersectionObserver(es=>es.forEach(e=>{
