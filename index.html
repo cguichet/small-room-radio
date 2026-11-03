@@ -228,8 +228,9 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 .soon span{opacity:.75;max-width:30ch}
 
 /* shuffle key: a solid cap like the other keys, set into a cutout at the top of the date window */
-.ui-dial .vfd-row{align-items:center;gap:.5em} .ui-dial .vfd-row .dial-top{white-space:nowrap;letter-spacing:.1em}
-.shuf{margin:0 auto 0 0;padding:calc(var(--pw) * .0032) calc(var(--pw) * .007);flex:none;border:0;border-radius:calc(var(--pw) * .004);cursor:pointer;
+.ui-dial .vfd-row{align-items:center;gap:.5em}
+#order{position:absolute} .ui-dial .vfd-row .dial-top{white-space:nowrap;letter-spacing:.1em}
+.shuf{margin:calc(var(--pw) * .009) 0 0 0;padding:calc(var(--pw) * .0032) calc(var(--pw) * .007);flex:none;border:0;border-radius:calc(var(--pw) * .004);cursor:pointer;
   font:700 calc(var(--pw) * .0092)/1 var(--f-body);letter-spacing:.1em;text-transform:uppercase;color:var(--idx);
   background:linear-gradient(180deg,var(--k-hi),var(--k-mid) 60%,var(--k-lo));
   box-shadow:0 calc(var(--pw) * .0016) 0 var(--k-edge),0 calc(var(--pw) * .003) calc(var(--pw) * .004) rgba(0,0,0,.55);transition:transform .07s,box-shadow .07s;
@@ -242,7 +243,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 .shuf-ico{width:calc(var(--pw) * .024);height:auto;opacity:.22;transition:opacity .3s,color .3s,filter .3s}
 .on .shuf-ico.lit{opacity:1;color:var(--amber);filter:drop-shadow(0 0 calc(var(--pw) * .005) var(--amber-glow))}
 .shuf-ico.lit{opacity:.5}
-.tall .shuf{font-size:calc(var(--pw) * .016)} .tall .shuf-ico{width:calc(var(--pw) * .04)}
+.tall .shuf{font-size:calc(var(--pw) * .016);margin-top:calc(var(--pw) * .016)} .tall .shuf-ico{width:calc(var(--pw) * .04)}
 </style>
 
 <header class="signband"><div class="in">
@@ -259,9 +260,10 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
       <div class="tube-msg" id="tubeMsg"><span>Press <span class="playdot" aria-hidden="true"></span> Play</span><small>to start the station.</small></div>
     </div>
     <div class="ui-dial vfd" id="uiDial">
-      <div class="vfd-row"><span class="dial-top" id="dialTop">—</span><button type="button" id="order" class="shuf" role="switch" aria-checked="false" aria-label="Shuffle">Shuffle</button><span class="dateblk"><svg class="shuf-ico" id="shufIco" viewBox="0 0 24 16" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h4.5c2.2 0 3.6 1.2 4.8 3.4l1.4 3.2c1.2 2.2 2.6 3.4 4.8 3.4H21"/><path d="M2 13h4.5c1.6 0 2.8-.7 3.8-2"/><path d="M13.7 5c1-1.3 2.2-2 3.8-2H21"/><path d="M18.5 .6 21.2 3l-2.7 2.4M18.5 10.6l2.7 2.4-2.7 2.4"/></g></svg><span class="date-read" id="dateRead">—</span></span></div>
+      <div class="vfd-row"><span class="dial-top" id="dialTop">—</span><span class="dateblk"><svg class="shuf-ico" id="shufIco" viewBox="0 0 24 16" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h4.5c2.2 0 3.6 1.2 4.8 3.4l1.4 3.2c1.2 2.2 2.6 3.4 4.8 3.4H21"/><path d="M2 13h4.5c1.6 0 2.8-.7 3.8-2"/><path d="M13.7 5c1-1.3 2.2-2 3.8-2H21"/><path d="M18.5 .6 21.2 3l-2.7 2.4M18.5 10.6l2.7 2.4-2.7 2.4"/></g></svg><span class="date-read" id="dateRead">—</span></span></div>
       <div class="scale" id="scale" tabindex="0" role="slider" aria-label="Skip to a show date"><div id="ticks"></div><div id="dots"></div><span class="needle" id="needle"></span><span class="hover" id="hoverDate" hidden></span></div>
     </div>
+    <button type="button" id="order" class="shuf" role="switch" aria-checked="false" aria-label="Shuffle">Shuffle</button>
     <div class="ui-display vfd" id="uiDisplay" aria-live="polite">
       <div class="info-artist">
         <div class="dial-top">Artist</div>
@@ -709,6 +711,7 @@ function applyGeom(v){
   const g=GEOM[v]; variant=v; ANG=g.angles; $("radio").classList.toggle("tall",v==="tall");
   for(const [id,b] of Object.entries(g.boxes)) placeBox($(id==="screen"?"uiScreen":id==="display"?"uiDisplay":id==="dial"?"uiDial":id),b);
   document.querySelectorAll(".slabel").forEach((b,i)=>placeBox(b,g.labels[i]));
+  {const d=g.boxes.dial,o=$("order");o.style.left="auto";o.style.right=pc(1-d[2]);o.style.top=pc(d[3])}
   setSceneTheme(); if(typeof stationIdx==="number") renderKnob();
 }
 function layoutScene(){
