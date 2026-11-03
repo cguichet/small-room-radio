@@ -10,7 +10,8 @@ Six San Francisco venues, four genre stations each. Every station plays 3–5 so
 | `shows.json` | Upcoming shows for the 6 venues (243 shows, 353 artists, pulled Nov 1 2026) |
 | `genres.json` | Which station each artist plays on. Anyone not listed goes to Indie |
 | `build_tracks.py` | Finds each artist's songs on YouTube and writes `tracks.json` |
-| `tracks.json` | Created by the script. The site plays whatever is in here |
+| `tracks.json` | Created by the script. The site plays whatever is in here (not in this zip: keep the one you built) |
+| `sources.json` | Optional SoundCloud and Bandcamp links per band. A band listed here plays from SoundCloud instead of YouTube |
 
 ## Step 1: Get a free YouTube API key (10 minutes)
 
@@ -53,3 +54,16 @@ Show listings change. Once a month, ask me to refresh `shows.json`, then rerun `
 ## Optional: your own domain
 
 A domain like smallroom.fm costs about $10–40/year. GitHub Pages supports custom domains under Settings → Pages.
+
+## Click counts
+
+Visits and clicks on Tickets, YouTube, SoundCloud and Bandcamp links are counted at https://cguichet.goatcounter.com.
+The code is set near the top of the script in `index.html` (`GOATCOUNTER_CODE`).
+
+## Adding SoundCloud bands
+
+In `sources.json`, add the band's name exactly as it appears in `shows.json`, with a SoundCloud profile, playlist, or list of song links:
+
+```
+"Jake Minch": { "soundcloud": "https://soundcloud.com/jakeminch", "bandcamp": "https://jakeminch.bandcamp.com" }
+```

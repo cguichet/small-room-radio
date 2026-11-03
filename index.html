@@ -56,12 +56,23 @@ header p{margin:0;color:var(--muted);max-width:56ch}
 .screen{grid-area:screen;min-width:0}
 .bezel{background:radial-gradient(120% 90% at 30% 10%,#3a302a 0%,var(--bakelite) 60%);border-radius:26px;padding:14px;
   box-shadow:0 2px 0 rgba(255,255,255,.12) inset,0 -3px 6px rgba(0,0,0,.6) inset,0 3px 6px rgba(0,0,0,.35)}
-.tube{position:relative;aspect-ratio:4/3;max-width:100%;border-radius:13% / 17%;overflow:hidden;
+.tube{position:relative;aspect-ratio:4/3;min-height:216px;max-width:100%;border-radius:22px;overflow:hidden;
   background:radial-gradient(80% 70% at 50% 45%,#2b332e 0%,#141917 70%,#0b0e0c 100%);
   box-shadow:0 0 0 3px #0c0a09,0 0 0 4px rgba(255,255,255,.06)}
-.video{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease,filter 1.2s ease;filter:brightness(2.2) saturate(.3)}
-.video iframe,.video > div{position:absolute;top:0;height:100%;width:133.34%;left:-16.67%;border:0}
-.on .video.live{opacity:1;filter:none}
+/* YouTube's rules: nothing drawn over the player, nothing cropped, at least 200x200. The video sits inset
+   inside the tube so the rounded corners never cut into it, and the glass effect only shows while it's off. */
+.video{position:absolute;inset:8px;opacity:0;transition:opacity 1s ease;background:#000}
+.video iframe,.video > div{position:absolute;inset:0;width:100%;height:100%;border:0}
+.on .video.live{opacity:1}
+.video.live ~ .glass{display:none}
+/* SoundCloud songs: the cover art fills the screen, with SoundCloud's own small player along the bottom. */
+.video #art{height:auto;bottom:24px;overflow:hidden}
+.art-bg{position:absolute;inset:-20px;background:center/cover no-repeat;filter:blur(18px) brightness(.45)}
+#artImg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.art-none{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:10%;
+  font:700 26px/1.05 var(--f-display);text-transform:uppercase;letter-spacing:.03em;color:#e9d8b8}
+.video #sc{top:auto;height:20px;bottom:0}
+.video #sc iframe{height:20px}
 .tube-msg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
   text-align:center;padding:12%;font:600 15px/1.3 var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:#7f9a8a}
 .tube-msg small{font:500 13px/1.35 var(--f-body);letter-spacing:0;text-transform:none;color:#62786b}
@@ -76,10 +87,19 @@ header p{margin:0;color:var(--muted);max-width:56ch}
   box-shadow:0 0 0 1px rgba(0,0,0,.6),0 2px 0 rgba(255,255,255,.45),inset 0 3px 8px rgba(0,0,0,.7);transition:color .6s}
 .on .dial{color:var(--amber);text-shadow:0 0 8px var(--amber-glow);
   background:radial-gradient(90% 140% at 50% 0%,#3d2810 0%,var(--dial-bg) 75%)}
-.scale{position:relative;height:14px;margin-bottom:8px;border-bottom:1px solid currentColor;opacity:.75;
-  background:repeating-linear-gradient(90deg,currentColor 0 1px,transparent 1px 10px) bottom/100% 6px no-repeat,
-             repeating-linear-gradient(90deg,currentColor 0 1px,transparent 1px 50px) bottom/100% 12px no-repeat}
-.needle{position:absolute;top:-4px;bottom:-5px;width:2px;left:0;background:#e2361c;box-shadow:0 0 6px rgba(226,54,28,.8);transition:left .8s ease}
+.scale{position:relative;height:34px;margin:0 4px 10px;cursor:pointer;touch-action:none}
+.scale::before{content:"";position:absolute;left:-8px;right:-8px;top:-6px;bottom:-8px}
+.scale .base{position:absolute;left:0;right:0;bottom:0;border-bottom:1px solid currentColor;opacity:.7}
+.tk{position:absolute;bottom:0;width:1px;height:6px;margin-left:-.5px;background:currentColor;opacity:.6}
+.tk.mo{height:13px;opacity:1}
+.mo-l{position:absolute;bottom:16px;font:400 8px/1 var(--f-engrave);letter-spacing:.12em;white-space:nowrap}
+.mo-l.end{transform:translateX(-100%)}
+.dot{position:absolute;bottom:-3px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:currentColor;opacity:.6}
+.needle{position:absolute;top:2px;bottom:-6px;width:2px;margin-left:-1px;left:0;background:#e2361c;box-shadow:0 0 6px rgba(226,54,28,.8);transition:left .6s ease}
+.hover{position:absolute;top:-4px;transform:translateX(-50%);font:600 12px/1 var(--f-display);letter-spacing:.06em;text-transform:uppercase;
+  background:var(--dial-bg);padding:2px 4px;border-radius:2px;pointer-events:none;white-space:nowrap}
+.scale:focus-visible{outline:1px dashed currentColor;outline-offset:6px}
+.foot-note{margin-top:6px}
 .dial-top{font:400 9px/1.3 var(--f-engrave);letter-spacing:.16em;text-transform:uppercase}
 .dial-artist{font:700 30px/1.02 var(--f-display);text-transform:uppercase;letter-spacing:.02em;margin-top:6px;overflow-wrap:anywhere}
 .dial-song{font:500 15px/1.3 var(--f-body);margin-top:3px;opacity:.9;overflow-wrap:anywhere}
@@ -197,14 +217,14 @@ footer{font-size:12px;color:var(--muted)}
       <div class="plate">
         <div class="screen">
           <div class="bezel"><div class="tube">
-            <div class="video" id="video"><div id="yt"></div></div>
+            <div class="video" id="video"><div id="yt"></div><div id="art" hidden><div class="art-bg" id="artBg"></div><img id="artImg" alt=""><div class="art-none" id="artNone" hidden></div></div><div id="sc" hidden></div></div>
             <div class="tube-msg" id="tubeMsg">Off<small>Flip the power switch to start the station.</small></div>
             <div class="glass"></div>
           </div></div>
         </div>
 
         <div class="dial" aria-live="polite">
-          <div class="scale"><span class="needle" id="needle"></span></div>
+          <div class="scale" id="scale" tabindex="0" role="slider" aria-label="Skip to a show date"><div id="ticks"></div><div id="dots"></div><span class="needle" id="needle"></span><span class="hover" id="hoverDate" hidden></span></div>
           <div class="dial-top" id="dialTop">—</div>
           <div class="dial-artist" id="artist">Small Room Radio</div>
           <div class="dial-song" id="song">Power is off</div>
@@ -272,10 +292,15 @@ footer{font-size:12px;color:var(--muted)}
     </section>
   </div>
 
-  <footer>Show dates from venue calendars via Songkick. Music plays from YouTube. Dates and sell-outs change, so check the ticket page before you go.</footer>
+  <footer>
+    <div>Show dates from venue calendars via Songkick. Music plays from SoundCloud when a band has it, otherwise YouTube. Dates and sell-outs change, so check the ticket page before you go.</div>
+    <div class="foot-note"><b>Have YouTube Premium but hearing ads?</b> Some browsers hide your YouTube sign-in from players embedded in other sites. In Firefox, tap the shield icon next to the address, turn off Enhanced Tracking Protection for this site, and reload. Safari can only turn this off for every site at once, so Chrome works best on iPhone. Either way, you need to be signed in to YouTube in the same browser.</div>
+  </footer>
 </div>
 
 <script>
+// Click counter: sign up free at goatcounter.com, then put the code you chose between the quotes, e.g. "smallroomradio".
+const GOATCOUNTER_CODE = "cguichet";
 const MAP = {"w": 1000, "h": 660, "hoods": [{"name": "Marina", "d": "M75,-319L137,-329L139,-331L136,-341L116,-338L132,-342L132,-343L132,-342L137,-343L138,-351L141,-344L140,-352L137,-352L140,-352L141,-351L142,-353L142,-351L143,-353L143,-351L144,-353L144,-351L146,-354L146,-352L160,-357L160,-354L159,-355L158,-354L156,-354L157,-353L156,-354L155,-353L155,-354L154,-352L153,-354L151,-352L141,-350L141,-345L145,-347L155,-347L155,-349L156,-348L159,-348L161,-350L161,-348L143,-344L234,-359L234,-361L264,-365L266,-370L270,-368L266,-370L264,-364L262,-365L234,-361L239,-346L257,-348L260,-344L276,-346L264,-344L260,-342L263,-325L265,-323L280,-325L284,-330L281,-328L284,-331L282,-341L285,-332L284,-330L287,-331L281,-376L285,-376L289,-352L298,-353L294,-385L299,-386L306,-354L314,-357L310,-388L317,-389L321,-363L330,-365L344,-374L362,-369L354,-378L348,-377L347,-380L358,-381L355,-379L365,-369L376,-347L383,-339L408,-176L77,-124L61,-249L54,-248L42,-256L36,-269L36,-278L39,-291L44,-297L51,-301L51,-311L53,-311L50,-335L60,-336L58,-348L70,-357L119,-361L137,-367L160,-370L166,-373L173,-382L175,-381L168,-369L140,-365L138,-363L144,-364L145,-362L144,-364L142,-364L142,-361L140,-363L141,-361L138,-363L139,-360L135,-359L134,-363L124,-361L121,-359L121,-357L98,-350L101,-349L100,-347L104,-348L101,-347L103,-345L107,-346L101,-346L102,-345L100,-347L101,-344L98,-348L96,-348L98,-343L96,-347L95,-347L96,-343L93,-346L95,-342L93,-346L91,-346L92,-343L88,-345L91,-346L81,-343L87,-344L93,-341L87,-344L85,-343L91,-340L84,-343L83,-342L87,-339L83,-342L81,-342L85,-338L81,-341L79,-341L81,-339L78,-341L73,-339L76,-341L73,-340L73,-336L76,-336L73,-335L74,-328L77,-328L74,-328L75,-321L77,-321L76,-319L72,-340L65,-337L68,-317L75,-319Z"}, {"name": "Pacific Heights", "d": "M75,14L63,-67L84,-71L77,-124L408,-176L430,-43L75,14Z"}, {"name": "Nob Hill", "d": "M484,-17L435,-9L414,-142L605,-172L626,-40L484,-17Z"}, {"name": "Presidio Heights", "d": "M-154,-19L-34,-49L63,-67L78,31L63,49L66,68L71,91L67,103L44,105L-54,122L-100,124L-105,21L-153,23L-154,-19Z"}, {"name": "Downtown/Civic Center", "d": "M624,-39L650,-43L663,42L669,41L669,42L432,277L401,84L449,76L435,-9L624,-39Z"}, {"name": "Bernal Heights", "d": "M344,1031L346,1029L319,1021L286,1022L263,1032L238,1031L326,981L369,947L395,915L407,882L395,736L461,730L589,729L644,726L670,713L693,708L702,708L682,784L669,809L648,841L638,886L637,911L645,957L656,968L556,1018L536,1026L477,1026L421,1037L388,1036L344,1031Z"}, {"name": "Western Addition", "d": "M432,277L372,337L232,348L231,337L219,323L199,204L80,224L63,122L65,110L71,91L63,49L78,31L75,14L430,-43L449,76L401,84L432,277Z"}, {"name": "Chinatown", "d": "M627,-40L605,-172L675,-184L681,-142L695,-51L627,-40Z"}, {"name": "North Beach", "d": "M599,-398L596,-407L596,-404L594,-406L594,-403L593,-405L593,-403L591,-405L592,-402L590,-404L591,-402L590,-404L590,-401L589,-404L589,-401L587,-403L588,-400L587,-403L587,-400L585,-402L586,-400L584,-401L585,-399L583,-401L584,-399L582,-404L583,-401L583,-404L584,-402L584,-405L586,-403L585,-405L586,-403L586,-406L587,-403L587,-406L589,-404L588,-407L590,-404L590,-408L592,-405L591,-408L592,-405L592,-409L594,-406L593,-409L596,-407L590,-421L591,-424L607,-431L630,-427L644,-381L630,-427L606,-431L603,-429L629,-426L629,-423L629,-425L628,-423L628,-426L627,-423L627,-426L625,-424L626,-426L624,-424L624,-426L623,-424L623,-426L622,-424L622,-427L621,-424L621,-427L620,-425L620,-427L619,-425L619,-427L617,-425L617,-427L616,-425L616,-428L615,-425L615,-428L614,-426L614,-428L613,-426L613,-428L611,-426L612,-428L610,-426L610,-429L609,-426L608,-428L608,-426L606,-427L609,-422L606,-408L608,-402L633,-398L635,-399L634,-395L634,-397L625,-399L625,-397L625,-399L611,-401L610,-399L608,-401L614,-387L616,-386L616,-388L618,-386L617,-384L615,-386L618,-380L619,-381L619,-379L620,-380L620,-379L626,-377L627,-378L627,-376L627,-378L628,-376L629,-378L629,-376L629,-378L630,-375L631,-377L631,-375L632,-377L632,-374L633,-376L633,-374L634,-376L633,-373L634,-372L637,-375L635,-371L637,-370L639,-374L639,-369L641,-374L640,-368L640,-370L643,-371L643,-374L645,-365L647,-368L657,-363L655,-403L664,-405L668,-351L676,-346L690,-382L697,-381L685,-348L696,-341L714,-367L720,-363L704,-339L713,-330L740,-360L748,-353L740,-285L741,-283L747,-284L775,-304L775,-303L779,-298L754,-279L759,-271L785,-290L790,-284L758,-260L762,-253L765,-254L796,-275L810,-256L777,-232L783,-224L815,-247L820,-241L789,-219L788,-217L793,-210L799,-213L794,-208L779,-200L758,-198L656,-181L511,-311L469,-345L455,-342L450,-384L451,-381L453,-383L453,-387L459,-385L454,-384L457,-372L477,-375L476,-377L479,-376L494,-378L495,-382L495,-379L500,-377L500,-374L498,-374L498,-372L502,-373L502,-369L517,-371L517,-373L517,-375L505,-376L520,-377L519,-382L501,-384L501,-388L455,-427L459,-431L464,-427L466,-428L465,-432L468,-424L478,-419L476,-422L478,-423L472,-429L473,-431L480,-430L531,-388L534,-389L531,-392L536,-388L538,-389L534,-394L539,-390L531,-399L532,-400L559,-389L559,-391L547,-402L550,-406L554,-402L553,-401L571,-386L574,-388L571,-393L575,-388L578,-390L576,-396L579,-391L581,-392L567,-413L587,-426L570,-414L591,-384L593,-383L590,-388L594,-383L601,-382L603,-391L599,-398Z"}, {"name": "Haight Ashbury", "d": "M232,348L220,349L212,347L197,349L192,358L173,370L164,387L148,401L145,406L134,405L114,422L116,426L114,434L111,434L108,451L90,471L83,471L80,479L76,479L81,494L65,525L54,530L8,537L-38,243L199,204L219,323L231,337L232,348Z"}, {"name": "West of Twin Peaks", "d": "M-8,1189L-138,1154L-197,1129L-226,1100L-240,1072L-264,1056L-286,1044L-280,978L-276,956L-267,939L-247,918L-260,901L-261,897L-268,751L-252,748L-254,716L-208,713L-212,645L-164,643L-139,669L-137,668L-126,697L-98,731L-98,737L-103,746L-96,757L-86,754L-40,767L-26,776L2,777L15,793L32,821L41,827L77,834L84,843L85,857L100,865L108,864L118,877L135,885L139,894L135,906L140,923L137,932L118,947L117,955L125,961L141,954L149,955L144,979L97,979L92,993L74,986L53,984L55,992L-8,993L-21,1002L-20,1064L-6,1066L-3,1123L-8,1174L-8,1189Z"}, {"name": "South of Market", "d": "M936,138L972,135L974,133L974,137L972,135L934,138L935,146L943,145L943,143L945,145L973,143L974,141L974,145L973,143L935,146L935,153L973,150L974,149L974,152L973,151L943,153L941,155L941,153L935,153L936,160L973,157L975,155L975,159L973,157L936,160L936,166L970,164L974,163L974,162L974,165L973,164L936,167L937,172L968,170L969,168L969,172L968,170L954,171L954,173L953,171L937,173L937,177L966,175L966,176L932,177L933,179L893,199L901,211L901,209L934,206L937,209L938,214L941,214L941,218L971,214L973,232L942,237L943,251L1017,245L1022,295L975,268L946,270L948,278L946,279L946,285L949,294L950,294L951,303L956,308L959,317L963,291L961,304L964,304L967,300L961,319L963,318L998,335L995,342L963,327L971,351L973,351L974,355L971,356L969,364L987,364L988,371L1008,370L1008,372L972,375L973,383L681,404L677,368L652,350L627,344L569,338L525,337L447,326L425,319L416,292L669,42L737,110L908,-63L916,-55L914,-53L919,-42L927,-46L927,-45L922,-42L924,-37L961,-54L964,-46L933,-33L937,-24L967,-33L969,-22L939,-14L941,-4L967,-10L969,-2L937,5L936,14L978,12L980,42L934,47L933,57L964,55L965,62L932,66L932,76L952,74L953,84L932,87L931,94L936,96L975,93L975,100L931,105L931,114L963,111L964,114L973,114L964,115L964,118L933,120L934,129L935,129L935,126L937,129L937,126L937,129L939,129L939,126L939,128L941,128L941,126L941,128L943,128L943,126L943,128L945,126L945,128L947,128L947,126L947,128L949,128L949,125L949,128L950,128L951,125L951,128L952,128L952,125L953,128L954,127L954,125L955,127L956,125L957,127L958,127L958,125L959,127L960,125L960,127L962,127L962,125L962,127L964,127L964,124L964,127L966,127L966,124L966,127L968,126L968,124L968,126L970,126L970,124L970,126L972,126L972,124L972,126L973,126L974,124L974,129L974,127L972,127L972,129L972,127L970,129L970,127L968,127L968,129L968,127L966,127L966,129L966,127L964,127L964,129L964,127L962,127L962,130L962,127L960,127L960,130L960,127L959,130L958,128L957,128L957,130L956,128L955,130L954,128L953,128L953,130L952,128L951,130L949,128L949,131L949,128L947,128L947,131L947,128L945,129L945,131L945,129L943,131L943,129L941,129L941,131L941,129L939,129L939,131L939,129L938,129L937,131L936,129L936,131L935,129L934,129L934,138L936,138Z"}, {"name": "Potrero Hill", "d": "M1044,659L1003,664L1007,686L734,707L702,708L710,676L712,614L706,573L696,554L679,541L663,522L663,497L674,467L681,428L681,404L973,383L973,385L1002,382L1003,389L959,392L958,398L949,414L950,433L946,440L948,442L943,446L938,447L939,449L943,448L945,451L949,451L948,455L952,456L953,453L964,452L964,454L967,454L967,452L968,452L970,471L976,475L981,474L979,439L981,439L984,472L994,471L993,468L989,467L987,437L992,435L993,438L996,437L998,471L1010,470L1007,429L1010,429L1013,470L1018,469L1019,426L1022,425L1022,423L1026,423L1027,425L1029,425L1029,473L996,475L1014,498L1015,501L1019,501L1017,475L1024,474L1027,510L1035,510L1030,452L1033,452L1038,510L1051,509L1046,450L1050,450L1055,514L1022,521L1023,526L1025,526L1026,545L1022,559L1023,566L1024,566L1023,579L1025,581L1026,589L1030,590L1029,591L1033,597L1032,602L1025,604L1019,602L984,606L984,611L994,610L1000,612L1003,619L1001,622L1002,630L1005,635L1016,636L1024,643L1045,644L1043,647L1044,659Z"}, {"name": "Inner Richmond", "d": "M80,224L-189,267L-374,277L-387,20L-200,16L-202,-6L-154,-19L-153,23L-105,21L-100,124L-54,122L44,105L67,103L63,122L80,224Z"}, {"name": "Bayview", "d": "M926,737L926,739L925,737L893,739L867,725L856,723L854,731L856,744L861,744L865,748L876,752L875,748L880,749L877,752L891,757L911,756L926,752L932,753L935,750L941,750L942,753L1004,749L1014,751L1048,748L1049,752L1096,749L1110,752L1119,762L1117,774L1128,788L1131,789L1140,782L1145,781L1148,779L1223,878L1219,880L1213,880L1213,883L1170,886L1170,884L1131,888L1138,905L1149,911L1181,914L1197,912L1226,911L1226,913L1223,915L1194,922L1177,928L1170,934L1160,934L1158,932L1150,934L1141,933L1126,921L1109,911L1102,908L1096,910L1095,912L1101,917L1109,917L1113,920L1118,929L1113,949L1105,957L1102,957L1104,963L1101,968L1103,971L1111,964L1115,967L1115,971L1118,972L1114,980L1117,982L1118,987L1106,1010L1108,1012L1108,1014L1113,1009L1116,1013L1122,1011L1122,1012L1117,1016L1119,1017L1121,1015L1125,1017L1128,1016L1138,1009L1138,1007L1145,1000L1152,990L1156,986L1161,986L1173,998L1178,1006L1194,1018L1195,1023L1200,1027L1207,1028L1209,1022L1212,1021L1225,1028L1234,1021L1237,1023L1257,994L1258,995L1239,1023L1243,1022L1253,1008L1256,1008L1244,1028L1246,1030L1261,1011L1261,1015L1250,1031L1251,1034L1263,1017L1265,1018L1259,1026L1280,1040L1292,1024L1295,1027L1284,1043L1292,1049L1303,1033L1308,1035L1296,1052L1305,1057L1303,1060L1306,1062L1316,1062L1321,1065L1322,1064L1322,1059L1335,1057L1351,1067L1348,1069L1350,1070L1348,1072L1305,1085L1300,1088L1300,1091L1306,1092L1312,1090L1366,1074L1370,1077L1364,1083L1332,1092L1328,1097L1334,1097L1375,1085L1375,1088L1377,1087L1367,1132L1362,1136L1310,1151L1315,1170L1363,1156L1365,1162L1311,1178L1304,1172L1303,1174L1262,1142L1259,1142L1256,1145L1260,1151L1299,1179L1293,1187L1334,1217L1330,1222L1290,1192L1278,1208L1346,1259L1336,1274L1334,1275L1294,1245L1280,1264L1297,1276L1297,1280L1354,1322L1352,1325L1295,1283L1277,1307L1334,1349L1333,1351L1276,1309L1270,1315L1257,1333L1258,1335L1318,1378L1316,1380L1255,1334L1269,1314L1266,1312L1263,1312L1258,1320L1253,1320L1241,1305L1221,1290L1195,1286L1190,1282L1186,1274L1181,1270L1173,1270L1164,1265L1156,1264L1138,1269L1131,1267L1128,1264L1128,1257L1124,1251L1108,1238L1103,1223L1103,1199L1098,1189L1091,1184L1092,1181L1086,1169L1064,1174L1057,1179L1054,1191L1047,1195L1043,1206L1036,1213L1031,1214L1020,1207L1013,1207L1014,1206L1006,1203L991,1191L987,1184L981,1182L970,1171L963,1171L952,1165L947,1166L943,1170L1002,1212L1004,1215L1003,1222L994,1237L997,1245L1018,1259L1024,1269L1038,1270L1041,1274L1048,1277L1058,1288L1084,1304L1099,1317L1099,1323L1082,1350L1060,1373L1048,1397L1043,1403L1042,1416L1044,1420L1052,1424L1058,1430L1066,1443L1067,1451L1073,1456L1076,1456L1089,1450L1096,1437L1101,1436L1107,1437L1123,1448L1125,1453L1122,1457L1101,1460L1052,1459L1036,1452L1018,1451L1011,1447L978,1443L956,1430L945,1434L936,1442L926,1454L917,1450L903,1437L891,1445L877,1436L853,1459L826,1459L817,1403L799,1360L774,1326L754,1226L728,1134L703,1054L663,975L645,957L637,911L638,886L648,841L669,809L682,784L702,708L734,707L1007,686L1003,664L1044,659L1100,655L1105,720L972,731L976,730L975,728L969,731L955,732L952,735L945,735L938,741L934,741L932,736L926,737Z"}, {"name": "Noe Valley", "d": "M383,575L403,839L300,847L285,848L277,845L239,853L233,838L216,821L187,800L171,782L171,758L165,748L156,748L125,760L117,757L106,757L105,753L114,747L113,726L121,712L134,644L140,624L149,610L157,593L159,582L189,578L190,597L206,596L206,588L383,575Z"}, {"name": "Inner Sunset", "d": "M8,537L9,540L-10,547L-31,563L-30,576L-42,595L-51,629L-57,641L-61,665L-70,671L-100,661L-121,663L-137,668L-139,669L-164,643L-212,645L-208,713L-348,721L-365,414L-109,400L-95,399L-70,407L-15,397L8,537Z"}, {"name": "Diamond Heights", "d": "M239,853L237,854L238,865L232,884L225,900L218,910L193,908L179,903L172,913L178,930L178,959L176,974L170,973L151,956L141,954L125,961L117,955L118,947L137,932L140,923L135,906L139,894L135,885L118,877L108,864L100,865L85,857L84,843L77,834L41,827L32,821L15,793L4,780L19,774L62,761L104,752L106,757L117,757L125,760L156,748L165,748L171,758L171,782L187,800L216,821L233,838L239,853Z"}, {"name": "Russian Hill", "d": "M450,-384L455,-342L469,-345L511,-311L656,-181L414,-142L383,-339L376,-347L365,-369L366,-370L365,-385L366,-392L373,-408L380,-414L389,-417L397,-418L401,-414L399,-411L395,-415L389,-414L378,-409L372,-401L369,-392L368,-381L369,-369L372,-359L375,-360L377,-358L376,-361L380,-356L378,-358L375,-354L384,-347L393,-343L405,-341L415,-345L442,-368L438,-374L442,-369L445,-372L441,-377L445,-372L448,-377L448,-381L443,-388L423,-408L444,-388L446,-389L450,-384Z"}, {"name": "Twin Peaks", "d": "M-137,668L-121,663L-100,661L-70,671L-61,665L-57,641L-51,629L-42,595L-30,576L-31,563L-10,547L9,540L8,537L54,530L65,525L81,494L82,519L80,534L86,535L103,544L108,545L113,543L129,556L136,568L143,575L151,575L160,583L149,610L140,624L134,644L121,712L113,726L114,747L105,753L104,752L62,761L19,774L4,780L2,777L-26,776L-40,767L-86,754L-96,757L-103,746L-98,737L-98,731L-126,697L-137,668Z"}, {"name": "Golden Gate Park", "d": "M-39,244L-15,397L-70,407L-95,399L-109,400L-877,443L-881,433L-879,410L-882,394L-883,386L-885,384L-886,376L-885,369L-886,308L-189,267L-39,243L-39,244Z"}, {"name": "Financial District", "d": "M837,-221L836,-219L834,-220L804,-198L803,-195L814,-181L843,-201L847,-195L819,-174L822,-172L824,-174L826,-171L823,-168L826,-167L852,-188L856,-182L829,-160L831,-157L853,-174L854,-173L848,-169L839,-162L844,-157L842,-156L846,-150L847,-151L849,-148L848,-148L855,-139L876,-150L881,-143L864,-125L866,-122L870,-126L875,-120L870,-116L874,-111L870,-108L876,-101L874,-100L908,-63L737,110L669,42L663,42L650,-43L695,-51L675,-184L758,-198L779,-200L794,-208L801,-199L803,-199L834,-221L834,-223L837,-221Z"}, {"name": "Mission", "d": "M395,736L366,338L372,337L416,292L425,319L447,326L525,337L569,338L627,344L652,350L677,368L681,392L681,428L674,467L663,497L663,522L679,541L696,554L706,573L712,614L710,676L702,708L693,708L670,713L644,726L589,729L461,730L395,736Z"}, {"name": "Presidio", "d": "M58,-348L60,-336L50,-335L53,-311L51,-311L51,-301L44,-297L39,-291L36,-278L36,-269L42,-256L54,-248L61,-249L84,-71L-34,-49L-202,-6L-200,16L-381,21L-425,17L-462,7L-465,2L-459,-6L-459,-24L-470,-31L-485,-38L-496,-46L-475,-77L-458,-111L-454,-122L-457,-123L-437,-180L-436,-192L-432,-194L-434,-198L-432,-196L-430,-199L-428,-197L-430,-200L-426,-210L-422,-213L-420,-226L-417,-228L-409,-246L-404,-273L-396,-291L-387,-321L-383,-368L-375,-375L-376,-413L-372,-415L-373,-421L-367,-422L-356,-420L-351,-411L-349,-397L-330,-388L-300,-386L-270,-378L-261,-393L-260,-393L-252,-389L-253,-386L-262,-390L-269,-377L-251,-362L-243,-348L-236,-345L-234,-348L-232,-347L-234,-343L-220,-330L-213,-326L-204,-338L-201,-336L-202,-334L-205,-336L-212,-326L-168,-309L-151,-312L-139,-311L-92,-321L-57,-330L-36,-339L-26,-335L-6,-335L39,-345L47,-343L58,-348Z"}, {"name": "Castro/Upper Market", "d": "M81,494L76,479L80,479L83,471L90,471L108,451L111,434L114,434L116,426L114,422L134,405L145,406L148,401L164,387L173,370L192,358L197,349L212,347L220,349L289,343L366,338L383,575L206,588L206,596L190,597L189,578L159,582L151,575L143,575L129,556L113,543L108,545L103,544L86,535L80,534L82,519L81,494Z"}, {"name": "Glen Park", "d": "M403,839L407,882L395,915L369,947L326,981L283,1005L197,984L185,975L176,974L178,959L178,930L172,913L179,903L180,904L209,910L218,910L225,900L238,865L237,854L277,845L285,848L300,847L403,839Z"}], "venues": {"rickshaw-stop": [457.0, 220.0], "the-independent": [207.8, 228.4], "bottom-of-the-hill": [805.2, 422.4], "the-chapel": [443.5, 506.0], "cafe-du-nord": [311.7, 393.6], "brick-and-mortar": [458.3, 334.8]}, "market": "M828,-121L670,39L472,240L413,304L333,374L245,468L159,532", "labels": {"Mission": [507, 578], "Castro": [196, 504], "Haight": [72, 330], "Western Addition": [275, 119], "Potrero Hill": [739, 532], "Mission Bay": [891, 312]}};
 const STATIONS=[
   {id:"indie",l1:"INDIE",l2:"",name:"Indie"},
@@ -293,10 +318,12 @@ const store={get(k,d){try{const v=localStorage.getItem("srr."+k);return v==null?
 const today=(()=>{const d=new Date();return new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)})();
 const fmt=d=>new Date(d+"T12:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
 
-let SHOWS={}, SOLD=new Set(), GENRE_OF={}, TRACKS={};
+let SHOWS={}, SOLD=new Set(), GENRE_OF={}, TRACKS={}, SOURCES={};
 let enabled=new Set(), stationIdx=0, shuffle=false, skipSold=true, removed=new Set(store.get("removed",[]));
 let power=false, queue=[], pos=-1, current=null, played=[], playing=false;
 let player=null, ytReady=false, ytFailed=false, errorsInRow=0;
+let sc=null, scFrame=null, scFailed=false, scToken=0;
+const SC_PER_ARTIST=4;
 
 async function load(name,fb){try{const r=await fetch(name,{cache:"no-store"});return r.ok?await r.json():fb}catch(e){return fb}}
 const station=()=>STATIONS[stationIdx];
@@ -317,7 +344,7 @@ function buildQueue(){
   const lists=[], seen=new Set();
   for(const s of upcoming()) for(const a of s.artists){
     if(seen.has(a)) continue; seen.add(a);
-    const t=(TRACKS[a]||[]).filter(x=>!removed.has(x.id)).map(x=>({...x,artist:a,show:s}));
+    const t=tracksFor(a).filter(x=>!removed.has(x.id)).map(x=>({...x,artist:a,show:s}));
     if(t.length) lists.push(t);
   }
   if(shuffle){
@@ -331,6 +358,17 @@ function buildQueue(){
   const q=[]; for(let r=0,added=true;added;r++){added=false;for(const l of lists) if(l[r]){q.push(l[r]);added=true}}
   return q;
 }
+/* Each band plays from SoundCloud when sources.json lists it there, otherwise from YouTube.
+   A SoundCloud entry is a profile or playlist link (plays its first few songs) or a list of song links. */
+function tracksFor(a){
+  const sc=!scFailed&&SOURCES[a]?.soundcloud;
+  if(sc){
+    if(Array.isArray(sc)) return sc.map(url=>({src:"sc",id:"sc:"+url,url,idx:0,title:""}));
+    return Array.from({length:SC_PER_ARTIST},(_,i)=>({src:"sc",id:`sc:${sc}#${i}`,url:sc,idx:i,title:""}));
+  }
+  return (TRACKS[a]||[]).map(x=>({...x,src:"yt"}));
+}
+const hasMusic=()=>Object.keys(TRACKS).length||Object.keys(SOURCES).some(a=>SOURCES[a]?.soundcloud);
 const key=t=>t.id+"|"+t.artist;
 function rebuild(keepPlace){
   const ahead=keepPlace&&current?queue.slice(pos+1).map(key):[];
@@ -339,35 +377,100 @@ function rebuild(keepPlace){
 }
 
 /* ---------- Player ---------- */
-function startYT(){
-  setTube("Warming up","");
+let blockTimer=null;
+function initYT(){
   window.onYouTubeIframeAPIReady=()=>{
     player=new YT.Player("yt",{width:"100%",height:"100%",
       playerVars:{playsinline:1,controls:0,rel:0,modestbranding:1,iv_load_policy:3,fs:0,disablekb:1},
       events:{
-        onReady:()=>{ytReady=true; if(power) next()},
+        onReady:()=>{ytReady=true; if(power){if(!current) next(); else if(current.src==="yt") play(current)}},
         onStateChange:e=>{
+          if(current?.src!=="yt") return;
           if(e.data===YT.PlayerState.ENDED) next();
-          if(e.data===YT.PlayerState.PLAYING){playing=true;errorsInRow=0;$("video").classList.add("live");setTube(null)}
+          if(e.data===YT.PlayerState.PLAYING){playing=true;errorsInRow=0;clearTimeout(blockTimer);$("video").classList.add("live");setTube(null)}
           if(e.data===YT.PlayerState.PAUSED) playing=false;
           renderPP();
         },
-        onError:()=>{ if(++errorsInRow<8) next(); else setTube("No signal","Several songs in a row wouldn't play. Try another station.") }
+        onError:()=>{ if(current?.src==="yt") skipBroken() }
       }});
   };
   const s=document.createElement("script"); s.src="https://www.youtube.com/iframe_api";
   s.onerror=fail; document.head.appendChild(s);
   setTimeout(()=>{if(!ytReady&&!ytFailed)fail()},8000);
 }
-function fail(){ytFailed=true; if(power){setTube("No picture here","The video player can't load on this page. Use the YouTube link on the dial to hear each song.");if(!current)next()}}
+function fail(){if(ytReady)return; ytFailed=true; if(power&&(!current||current.src==="yt")){setTube("No picture here","The video player can't load on this page. Use the YouTube link on the dial to hear each song.");if(!current)next()}}
+function skipBroken(){ if(++errorsInRow<8) next(); else setTube("No signal","Several songs in a row wouldn't play. Try another station.") }
+
+/* ---------- SoundCloud player ---------- */
+const SC_OPTS={auto_play:true,visual:false,show_comments:false,hide_related:true,show_teaser:false,show_user:true,buying:false,sharing:false,download:false};
+function scPlay(t){
+  const token=++scToken;
+  const begin=()=>{ if(token!==scToken) return;
+    // A profile or playlist loads as a list; jump to this slot's song, or move on if the list is shorter.
+    sc.getSounds(list=>{ if(token!==scToken) return;
+      if(t.idx>=(list||[]).length){ removedThisSession(t); next(); return }
+      if(t.idx>0) sc.skip(t.idx); else sc.play();
+    });
+  };
+  if(sc){ sc.load(t.url,{...SC_OPTS,callback:begin}); return }
+  if(scFrame) return;                       // still loading the player; it starts current when ready
+  scFrame=document.createElement("iframe");
+  scFrame.allow="autoplay"; scFrame.title="SoundCloud player";
+  scFrame.src="https://w.soundcloud.com/player/?url="+encodeURIComponent(t.url)+"&"+Object.entries(SC_OPTS).map(([k,v])=>k+"="+v).join("&");
+  $("sc").appendChild(scFrame);
+  const s=document.createElement("script"); s.src="https://w.soundcloud.com/player/api.js";
+  const giveUp=()=>{ if(sc) return; scFailed=true; scFrame.remove(); scFrame=null; rebuild(true); if(power){current=null; next()} };
+  s.onerror=giveUp; setTimeout(giveUp,9000);
+  s.onload=()=>{
+    sc=SC.Widget(scFrame); const E=SC.Widget.Events;
+    sc.bind(E.READY,()=>{ if(current?.src==="sc"&&current.url===t.url) begin() });
+    sc.bind(E.PLAY,()=>{ if(current?.src!=="sc") {sc.pause();return}
+      playing=true; errorsInRow=0; clearTimeout(blockTimer); $("video").classList.add("live"); setTube(null); renderPP();
+      sc.getCurrentSound(x=>{ if(x&&current?.src==="sc"){ current.title=x.title; current.link=x.permalink_url; showArt(x); renderDial() } });
+    });
+    sc.bind(E.PAUSE,()=>{ if(current?.src==="sc"){playing=false; renderPP()} });
+    sc.bind(E.FINISH,()=>{ if(current?.src==="sc") next() });
+    sc.bind(E.ERROR,()=>{ if(current?.src==="sc") skipBroken() });
+  };
+  document.head.appendChild(s);
+}
+function removedThisSession(t){ const i=queue.findIndex(x=>key(x)===key(t)); if(i>=0){queue.splice(i,1); if(i<=pos) pos--} }
+function stopOthers(src){
+  if(src!=="yt"&&player&&ytReady){try{player.stopVideo()}catch(e){}}
+  if(src!=="sc"&&sc){++scToken; try{sc.pause()}catch(e){}}
+  $("sc").hidden=src!=="sc"; $("art").hidden=src!=="sc";
+  const y=$("yt"); if(y) y.hidden=src==="sc";
+}
+function showArt(x){
+  // SoundCloud gives a small cover link; the -t500x500 version is the large one.
+  const url=(x.artwork_url||x.user?.avatar_url||"").replace(/-(large|t\d+x\d+)\./,"-t500x500.");
+  $("artNone").hidden=!!url; $("artImg").hidden=!url;
+  if(url){const img=$("artImg"); img.onerror=()=>{img.hidden=true;$("artBg").style.backgroundImage="";$("artNone").hidden=false;$("artNone").textContent=current?current.artist:""};
+    img.src=url; $("artBg").style.backgroundImage=`url("${url}")`}
+  else {$("artBg").style.backgroundImage=""; $("artNone").textContent=current?current.artist:""}
+}
 function setTube(title,text){
   const m=$("tubeMsg");
   if(title==null){m.hidden=true;return}
   m.hidden=false; m.innerHTML=`${title}${text?`<small>${text}</small>`:""}`;
 }
 function play(t){
-  current=t; renderDial(); renderLineup(); $("remove").disabled=false;
-  if(player&&ytReady){try{player.loadVideoById(t.id)}catch(e){}}
+  current=t; playing=false; renderDial(); renderLineup(); renderPP(); $("remove").disabled=false;
+  stopOthers(t.src); $("video").classList.remove("live");
+  if(t.src==="sc"){ setTube("Warming up",""); scPlay(t); armTapHint(t); return }
+  if(ytFailed){ fail(); setTube("No picture here","The video player can't load on this page. Use the YouTube link on the dial to hear this song."); return }
+  if(!player){ initYT() }
+  if(!ytReady){ setTube("Warming up",""); return }   // onReady starts it
+  if(player&&ytReady){
+    try{player.loadVideoById(t.id)}catch(e){}
+    // Phones may refuse to start sound on their own. If nothing is playing after a moment,
+    // show the video and ask for a tap on the play key, which counts as permission.
+    armTapHint(t);
+  }
+}
+function armTapHint(t){
+  clearTimeout(blockTimer);
+  blockTimer=setTimeout(()=>{if(power&&!playing&&current===t){$("video").classList.remove("live");setTube("Tap ▶ to start","Your phone needs one tap before it will play sound.")}},t.src==="sc"?4500:2500);
 }
 function next(){
   if(!power) return;
@@ -378,22 +481,26 @@ function next(){
 function prev(){
   if(!power) return;
   if(played.length>1){played.pop();const t=played[played.length-1];const i=queue.findIndex(x=>key(x)===key(t));if(i>=0)pos=i;play(t)}
+  else if(current?.src==="sc"&&sc){sc.seekTo(0)}
   else if(player&&ytReady){try{player.seekTo(0,true)}catch(e){}}
 }
 function playPause(){
   if(!power){setPower(true);return}
-  if(!player||!ytReady){if(!current)next();return}
-  if(playing) player.pauseVideo(); else if(current) player.playVideo(); else next();
+  if(!current){next();return}
+  if(current.src==="sc"){ if(!sc) return; if(playing) sc.pause(); else {setTube(null); sc.play()} return }
+  if(!player||!ytReady) return;
+  if(playing) player.pauseVideo(); else {setTube(null);player.playVideo()}
 }
-function setPower(on){
+function setPower(on,startDay){
   power=on; $("radio").classList.toggle("on",on); $("power").setAttribute("aria-checked",on);
   if(on){
     played=[]; pos=-1; queue=buildQueue();
-    if(!Object.keys(TRACKS).length){setTube("No songs yet","Run build_tracks.py to load songs for each band.");renderDial();return}
-    if(!player&&!ytFailed) startYT(); else if(ytFailed) fail(); else next();
+    if(!hasMusic()){setTube("No songs yet","Run build_tracks.py to load songs for each band.");renderDial();return}
+    if(startDay!=null&&queue.length) pos=closestIndex(startDay)-1;
+    next();
   } else {
-    if(player&&ytReady){try{player.stopVideo()}catch(e){}}
-    playing=false; current=null; $("video").classList.remove("live");
+    stopOthers("none");
+    playing=false; current=null; clearTimeout(blockTimer); $("video").classList.remove("live");
     setTube("Off","Flip the power switch to start the station."); $("remove").disabled=true;
   }
   renderDial(); renderPP(); renderLineup();
@@ -407,7 +514,8 @@ function renderPP(){
 function renderDial(){
   const n=enabled.size;
   $("dialTop").textContent=`${station().name} · ${n} venue${n===1?"":"s"} on`;
-  $("needle").style.left=queue.length&&pos>=0?`calc(${(pos/Math.max(1,queue.length-1))*100}% - 1px)`:"0";
+  renderScaleDots();
+  $("needle").style.left=current?pct(dayNum(current.show.date))+"%":"0%";
   if(!power){$("artist").textContent="Small Room Radio";$("song").textContent="Power is off";$("gig").innerHTML="";return}
   if(!current){
     $("artist").textContent=station().name;
@@ -416,7 +524,7 @@ function renderDial(){
   }
   const s=current.show;
   $("artist").textContent=current.artist; $("song").textContent=current.title;
-  $("gig").innerHTML=`<span>${fmt(s.date)}</span><span>${SHOWS[s.venue].name}</span>${s.sold?'<span class="chip">Sold out</span>':""}<a href="${s.url}" target="_blank" rel="noopener">Tickets ↗</a><a href="https://www.youtube.com/watch?v=${current.id}" target="_blank" rel="noopener">YouTube ↗</a>`;
+  $("gig").innerHTML=`<span>${fmt(s.date)}</span><span>${SHOWS[s.venue].name}</span>${s.sold?'<span class="chip">Sold out</span>':""}<a href="${s.url}" target="_blank" rel="noopener" ${trackAttrs("tickets",current.artist,s)}>Tickets ↗</a>${current.src==="sc"?`<a href="${current.link||current.url}" target="_blank" rel="noopener" ${trackAttrs("soundcloud",current.artist,s)}>SoundCloud ↗</a>`:`<a href="https://www.youtube.com/watch?v=${current.id}" target="_blank" rel="noopener" ${trackAttrs("youtube",current.artist,s)}>YouTube ↗</a>`}${SOURCES[current.artist]?.bandcamp?`<a href="${SOURCES[current.artist].bandcamp}" target="_blank" rel="noopener" ${trackAttrs("bandcamp",current.artist,s)}>Bandcamp ↗</a>`:""}`;
 }
 function renderKnob(){
   $("knob").style.transform=`rotate(${ANG[stationIdx]}deg)`;
@@ -496,7 +604,7 @@ function renderLineup(){
   for(const s of list){
     const li=document.createElement("li"); if(cur===s.url) li.className="now";
     const others=s.all.filter(a=>!s.artists.includes(a));
-    li.innerHTML=`<span class="d">${fmt(s.date)}</span><span class="who"><b>${s.artists.join(", ")}</b>${others.length?` with ${others.join(", ")}`:""}${s.sold?'<span class="so">SOLD OUT</span>':""}<span class="v">${SHOWS[s.venue].name}</span></span><a href="${s.url}" target="_blank" rel="noopener">Tickets ↗</a>`;
+    li.innerHTML=`<span class="d">${fmt(s.date)}</span><span class="who"><b>${s.artists.join(", ")}</b>${others.length?` with ${others.join(", ")}`:""}${s.sold?'<span class="so">SOLD OUT</span>':""}<span class="v">${SHOWS[s.venue].name}</span></span><a href="${s.url}" target="_blank" rel="noopener" ${trackAttrs("tickets",s.artists[0],s)}>Tickets ↗</a>`;
     el.appendChild(li);
   }
   const n=removed.size, note=$("removedNote");
@@ -533,6 +641,68 @@ $("remove").onclick=()=>{if(!current)return;removed.add(current.id);store.set("r
 $("allOn").onclick=()=>{Object.keys(SHOWS).forEach(id=>enabled.add(id));afterFilter()};
 $("allOff").onclick=()=>{enabled.clear();afterFilter()};
 
+/* ---------- Date scale: today to three months out ---------- */
+const DAY=864e5;
+const dayNum=str=>Date.parse(str+"T00:00:00Z")/DAY;
+const T0=dayNum(today), T1=(()=>{const e=new Date(T0*DAY);e.setUTCMonth(e.getUTCMonth()+3);return e.getTime()/DAY})();
+const MON=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+const pct=d=>Math.max(0,Math.min(100,(d-T0)/(T1-T0)*100));
+const dayStr=d=>new Date(d*DAY).toISOString().slice(0,10);
+function buildScale(){
+  let h='<span class="base"></span><span class="tk mo" style="left:0%"></span><span class="mo-l" style="left:0%">TODAY</span>';
+  for(let d=T0+1;d<=T1;d++){
+    const dt=new Date(d*DAY), x=pct(d);
+    if(dt.getUTCDate()===1){
+      h+=`<span class="tk mo" style="left:${x}%"></span>`;
+      if(x>14) h+=`<span class="mo-l${x>88?" end":""}" style="left:${x}%">${x>88?"":"&nbsp;"}${MON[dt.getUTCMonth()]}</span>`;
+    } else if(dt.getUTCDay()===1) h+=`<span class="tk" style="left:${x}%"></span>`;
+  }
+  $("ticks").innerHTML=h;
+  const sc=$("scale"), dayAt=e=>{const r=sc.getBoundingClientRect();return Math.round(T0+Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*(T1-T0))};
+  sc.addEventListener("pointermove",e=>{const d=dayAt(e),hv=$("hoverDate");hv.hidden=false;hv.style.left=pct(d)+"%";hv.textContent=fmt(dayStr(d)).replace(/^\w+, /,"")});
+  sc.addEventListener("pointerleave",()=>{$("hoverDate").hidden=true});
+  sc.addEventListener("click",e=>jumpTo(dayAt(e)));
+  sc.addEventListener("keydown",e=>{
+    if(!["ArrowRight","ArrowLeft"].includes(e.key)) return; e.preventDefault();
+    const dates=[...new Set(queue.map(t=>dayNum(t.show.date)))].sort((a,b)=>a-b); if(!dates.length) return;
+    const cur=current?dayNum(current.show.date):T0-1;
+    const d=e.key==="ArrowRight"?dates.find(x=>x>cur):[...dates].reverse().find(x=>x<cur);
+    if(d!=null) jumpTo(d);
+  });
+}
+function renderScaleDots(){
+  const days=new Set(queue.map(t=>dayNum(t.show.date)).filter(d=>d<=T1));
+  $("dots").innerHTML=[...days].map(d=>`<span class="dot" style="left:${pct(d)}%"></span>`).join("");
+  const sc=$("scale");
+  sc.setAttribute("aria-valuetext",current?`${fmt(current.show.date)}, ${current.artist}`:"No song playing");
+}
+function closestIndex(d){
+  let best=0,bd=Infinity;
+  queue.forEach((t,i)=>{const dd=Math.abs(dayNum(t.show.date)-d)+(dayNum(t.show.date)<d?.5:0);if(dd<bd){bd=dd;best=i}});
+  return best;
+}
+function jumpTo(d){
+  if(!power){setPower(true,d);return}
+  if(!queue.length) return;
+  pos=closestIndex(d); played.push(queue[pos]); play(queue[pos]);
+}
+
+/* ---------- Click counting (GoatCounter) ---------- */
+const slug=x=>String(x).toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+function trackAttrs(kind,artist,s){
+  const path=`${kind}/${s.venue}/${s.date}/${slug(artist)}`;
+  const title=`${{tickets:"Tickets",youtube:"YouTube",soundcloud:"SoundCloud",bandcamp:"Bandcamp"}[kind]}: ${artist} at ${SHOWS[s.venue].name}, ${s.date}`;
+  return `data-track="${path}" data-title="${title.replace(/"/g,"&quot;")}"`;
+}
+document.addEventListener("click",e=>{
+  const a=e.target.closest&&e.target.closest("a[data-track]"); if(!a) return;
+  try{window.goatcounter&&window.goatcounter.count&&window.goatcounter.count({path:a.dataset.track,title:a.dataset.title,event:true})}catch(_){}
+});
+if(GOATCOUNTER_CODE){
+  const g=document.createElement("script"); g.async=true; g.src="https://gc.zgo.at/count.js";
+  g.dataset.goatcounter=`https://${GOATCOUNTER_CODE}.goatcounter.com/count`; document.head.appendChild(g);
+}
+
 /* ---------- Walnut veneer, drawn once ---------- */
 function veneer(){
   try{
@@ -558,9 +728,10 @@ function veneer(){
 
 /* ---------- Start ---------- */
 (async()=>{
-  buildKnob(); veneer();
-  const [shows,genres,tracks]=await Promise.all([load("shows.json",{venues:{}}),load("genres.json",{}),load("tracks.json",{})]);
+  buildKnob(); buildScale(); veneer();
+  const [shows,genres,tracks,sources]=await Promise.all([load("shows.json",{venues:{}}),load("genres.json",{}),load("tracks.json",{}),load("sources.json",{})]);
   SHOWS=shows.venues||{}; SOLD=new Set(shows.sold_out||[]); TRACKS=tracks||{};
+  for(const [a,v] of Object.entries(sources||{})) if(a[0]!=="_"&&v) SOURCES[a]=v;
   for(const g of STATIONS.slice(1)) for(const a of (genres[g.id]||[])) GENRE_OF[a]=g.id;
   buildMap();
   const ids=Object.keys(SHOWS), p=store.get("prefs",null);
@@ -573,5 +744,6 @@ function veneer(){
   }
   $("order").setAttribute("aria-checked",shuffle); $("sold").setAttribute("aria-checked",skipSold);
   queue=buildQueue(); renderAll(); renderPP();
+  if(Object.keys(TRACKS).length) initYT();   // load the player now so the power switch can start sound right away
 })();
 </script>

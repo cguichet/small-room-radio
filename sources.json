@@ -1,0 +1,7 @@
+{
+ "_note": "Optional SoundCloud and Bandcamp links per band, using the band's name exactly as in shows.json. soundcloud: a profile or playlist link (plays its first 4 songs) or a list of song links. A band with a SoundCloud link plays from SoundCloud instead of YouTube. bandcamp: the band's Bandcamp page, shown as a link on the dial.",
+ "Example Band": {
+  "soundcloud": "https://soundcloud.com/example-band",
+  "bandcamp": "https://exampleband.bandcamp.com"
+ }
+}
