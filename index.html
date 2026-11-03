@@ -112,7 +112,6 @@ button{font:inherit;color:inherit}
 .on .video.live{opacity:1}
 .tube-msg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4em;text-align:center;padding:8%;
   font:600 calc(var(--pw) * .02) /1.3 var(--f-dial);letter-spacing:.08em;text-transform:uppercase;color:#7f9a8a}
-.playdot{display:inline-block;width:.95em;height:.95em;border-radius:50%;vertical-align:-.12em;margin:0 .1em;background:radial-gradient(circle at 38% 32%,#e8906a,#c95f2a 70%,#8d3f18)}
 .tube-msg small{font:500 calc(var(--pw) * .016)/1.35 var(--f-body);letter-spacing:0;text-transform:none;color:#62786b}
 /* amber vacuum-fluorescent text over the rendered glass; the glow comes up with the power */
 .vfd{color:var(--dial-off);padding:calc(var(--pw) * .02) calc(var(--pw) * .032);transition:color .6s;display:flex;flex-direction:column;overflow:hidden}
@@ -210,6 +209,23 @@ button{font:inherit;color:inherit}
 .removed button{border:0;background:none;color:var(--orange-ink);text-decoration:underline;cursor:pointer;padding:0;font-size:13px}
 footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;gap:6px;max-width:80ch}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
+
+/* the play key glows while music plays and goes dark when paused */
+#pp{transition:filter .3s}
+#pp:not(.playing){filter:brightness(.6) saturate(.65)}
+#pp.playing{filter:brightness(1.12) saturate(1.1) drop-shadow(0 0 calc(var(--pw) * .012) rgba(255,138,58,.9))}
+.playdot{display:inline-block;width:.95em;height:.95em;border-radius:50%;vertical-align:-.12em;margin:0 .1em;background:radial-gradient(circle at 38% 32%,#e8906a,#c95f2a 70%,#8d3f18)}
+/* city picker in the Venues sign */
+.city{position:relative;display:inline-flex;align-items:center}
+.city select{appearance:none;-webkit-appearance:none;font:600 14px/1.2 var(--f-body);color:var(--sign-ink);background:transparent;
+  border:1.5px solid color-mix(in srgb,var(--sign-ink) 45%,transparent);border-radius:6px;padding:6px 30px 6px 10px;cursor:pointer}
+.city select option{color:#16191c;background:#fff}
+.city::after{content:"";position:absolute;right:11px;top:50%;width:7px;height:7px;margin-top:-5px;border-right:2px solid var(--sign-ink);border-bottom:2px solid var(--sign-ink);transform:rotate(45deg);pointer-events:none}
+.city select:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.soon{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;min-height:280px;padding:24px;border:1.5px dashed var(--line);border-radius:8px}
+.soon b{font:800 22px/1.2 var(--f-body)}
+.soon span{opacity:.75;max-width:30ch}
 </style>
 
 <header class="signband"><div class="in">
@@ -223,7 +239,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
     <img class="scene-img" id="sceneImg" alt="" draggable="false">
     <div class="ui-screen" id="uiScreen">
       <div class="video" id="video"><div id="yt"></div></div>
-      <div class="tube-msg" id="tubeMsg">Off<small>Flip the power switch to start the station.</small></div>
+      <div class="tube-msg" id="tubeMsg"><span>Press <span class="playdot" aria-hidden="true"></span> Play</span><small>to start the station.</small></div>
     </div>
     <div class="ui-dial vfd" id="uiDial">
       <div class="vfd-row"><span class="dial-top" id="dialTop">—</span><span class="date-read" id="dateRead">—</span></div>
@@ -244,19 +260,20 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
     </div>
     <div class="slabels" id="slabels" role="group" aria-label="Station"><button type="button" class="slabel" data-i="0"></button><button type="button" class="slabel" data-i="1"></button><button type="button" class="slabel" data-i="2"></button><button type="button" class="slabel" data-i="3"></button><button type="button" class="slabel" data-i="4"></button><button type="button" class="slabel" data-i="5"></button></div>
     <button type="button" id="knob" class="ctl knob" aria-label="Station knob"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><radialGradient id="gvr" cx=".5" cy=".5" r=".5" fx=".4" fy=".36"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".75" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><path class="shadow" d="M34.4 81.8 L65.6 81.8 L56.9 6.1 L43.1 6.1 Z" transform="translate(1.6 2.6)" stroke-width="5.6" stroke-linejoin="round"/><path d="M34.4 81.8 L65.6 81.8 L56.9 6.1 L43.1 6.1 Z" fill="url(#gside)" stroke="url(#gside)" stroke-width="5.6" stroke-linejoin="round" transform="translate(0 5.0)"/><path d="M34.4 81.8 L65.6 81.8 L56.9 6.1 L43.1 6.1 Z" fill="url(#gk)" stroke="url(#gk)" stroke-width="5.6" stroke-linejoin="round"/><rect x="48.4" y="19.4" width="3.1" height="54.5" rx="1.6" style="fill:var(--idx)"/></svg></button><button type="button" id="vol" class="ctl knob" aria-label="Volume"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><radialGradient id="gvr" cx=".5" cy=".5" r=".5" fx=".4" fy=".36"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".75" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><circle class="shadow" cx="51" cy="52" r="38.5"/><circle cx="50" cy="50" r="38.5" fill="url(#gvr)"/><circle cx="50" cy="50" r="34.3" fill="none" stroke="var(--k-lo)" stroke-width="3.0" opacity=".5"/><g class="rot"><rect x="48.3" y="22.4" width="3.4" height="18.0" rx="1.7" style="fill:var(--idx)"/></g></svg></button><button type="button" id="remove" class="ctl key" aria-label="Skip and remove this song"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><radialGradient id="gvr" cx=".5" cy=".5" r=".5" fx=".4" fy=".36"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".75" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><path class="shadow" d="M39.1 13.0 h21.8 v26.1 h26.1 v21.8 h-26.1 v26.1 h-21.8 v-26.1 h-26.1 v-21.8 h26.1 Z" transform="translate(1.6 2.6) rotate(45 50 50)" stroke-width="9.5" stroke-linejoin="round"/><path class="travel" d="M39.1 13.0 h21.8 v26.1 h26.1 v21.8 h-26.1 v26.1 h-21.8 v-26.1 h-26.1 v-21.8 h26.1 Z" transform="translate(0 8.5) rotate(45 50 50)" fill="url(#gside)" stroke="url(#gside)" stroke-width="9.5" stroke-linejoin="round"/><path class="cap" d="M39.1 13.0 h21.8 v26.1 h26.1 v21.8 h-26.1 v26.1 h-21.8 v-26.1 h-26.1 v-21.8 h26.1 Z" transform="rotate(45 50 50)" fill="url(#gk)" stroke="url(#gk)" stroke-width="9.5" stroke-linejoin="round"/></svg></button><button type="button" id="prev" class="ctl key" aria-label="Previous song"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><radialGradient id="gvr" cx=".5" cy=".5" r=".5" fx=".4" fy=".36"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".75" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><path class="shadow" d="M87.0 13.0 L87.0 87.0 L13.0 50 Z" transform="translate(1.6 2.6) " stroke-width="8.8" stroke-linejoin="round"/><path class="travel" d="M87.0 13.0 L87.0 87.0 L13.0 50 Z" transform="translate(0 7.9) " fill="url(#gside)" stroke="url(#gside)" stroke-width="8.8" stroke-linejoin="round"/><path class="cap" d="M87.0 13.0 L87.0 87.0 L13.0 50 Z" transform="" fill="url(#gk)" stroke="url(#gk)" stroke-width="8.8" stroke-linejoin="round"/></svg></button><button type="button" id="pp" class="ctl key" aria-label="Play"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><radialGradient id="gvr" cx=".5" cy=".5" r=".5" fx=".4" fy=".36"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".75" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><circle class="shadow" cx="51.5" cy="53" r="37.0"/><circle class="travel" cx="50" cy="57.6" r="37.0" style="fill:var(--p-lo)"/><circle class="cap" cx="50" cy="50" r="37.0" fill="url(#gp)"/></svg></button><button type="button" id="next" class="ctl key" aria-label="Next song"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><radialGradient id="gvr" cx=".5" cy=".5" r=".5" fx=".4" fy=".36"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".75" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><path class="shadow" d="M13.0 13.0 L87.0 50 L13.0 87.0 Z" transform="translate(1.6 2.6) " stroke-width="8.8" stroke-linejoin="round"/><path class="travel" d="M13.0 13.0 L87.0 50 L13.0 87.0 Z" transform="translate(0 7.9) " fill="url(#gside)" stroke="url(#gside)" stroke-width="8.8" stroke-linejoin="round"/><path class="cap" d="M13.0 13.0 L87.0 50 L13.0 87.0 Z" transform="" fill="url(#gk)" stroke="url(#gk)" stroke-width="8.8" stroke-linejoin="round"/></svg></button>
-    <button type="button" id="power" class="sprite lever" aria-label="Power"><img data-sprite="lever" alt="" draggable="false"></button>
-    <div id="bulb" class="sprite bulb"><img data-sprite="bulb" alt="" draggable="false"></div>
+    <button type="button" id="power" class="sprite lever" aria-label="Power"><img data-sprite="lever-off" alt="" draggable="false"></button>
+    <div id="bulb" class="sprite bulb"><img data-sprite="bulb-off" alt="" draggable="false"></div>
   </div>
 </section>
 
 <section class="digital"><div class="in">
   <div class="below">
     <section class="card map">
-      <div class="sign"><h2>Venues</h2></div>
+      <div class="sign"><h2>Venues</h2><label class="city"><span class="vh">City</span><select id="city"></select></label></div>
       <div class="body">
-        <div class="cardtools"><p class="sub">Tap a venue to switch it on or off.</p>
+        <div class="cardtools" id="mapTools"><p class="sub">Tap a venue to switch it on or off.</p>
           <div class="linkbtns"><button type="button" id="allOn">All on</button><button type="button" id="allOff">All off</button></div></div>
         <svg id="map" role="group" aria-label="Map of venues"></svg>
+        <div class="soon" id="soon" hidden></div>
       </div>
     </section>
     <section class="card lineup">
@@ -407,6 +424,7 @@ function playPause(){
 }
 let pendingDay=null;
 function setPower(on,startDay){
+  if(on&&!cityLive()){setTube(`Coming soon to ${CITY.name}`,"Switch the city back to San Francisco to listen.");return}
   power=on; $("radio").classList.toggle("on",on); $("power").setAttribute("aria-checked",on); setLamp(on);
   if(on){
     played=[]; pos=-1; queue=buildQueue();
@@ -416,7 +434,7 @@ function setPower(on,startDay){
   } else {
     if(player&&ytReady){try{player.stopVideo()}catch(e){}}
     playing=false; current=null; clearTimeout(blockTimer); $("video").classList.remove("live");
-    setTube("Off","Flip the power switch to start the station."); $("remove").disabled=true;
+    setTube(`<span>Press <span class="playdot" aria-hidden="true"></span> Play</span>`,"to start the station."); $("remove").disabled=true;
   }
   renderDial(); renderPP(); renderLineup();
 }
@@ -511,6 +529,7 @@ function renderMap(){
   }
 }
 function renderLineup(){
+  if(!cityLive()){$("lineupSub").textContent="";$("lineup").innerHTML=`<li class="empty">Shows in ${CITY.name} are coming soon.</li>`;$("removedNote").hidden=true;return}
   const list=upcoming(), el=$("lineup");
   
   $("lineupSub").textContent=enabled.size?`${list.length} show${list.length===1?"":"s"} at ${enabled.size} venue${enabled.size===1?"":"s"}${skipSold?", sold-out shows hidden":""}`:"No venues switched on.";
@@ -720,9 +739,49 @@ function buildVolume(){
   applyVolume();
 }
 
+
+/* ---------- Cities, and day or night in the chosen city ---------- */
+const CITIES=[
+  {id:"sf",name:"San Francisco",lat:37.7749,lon:-122.4194,live:true},
+  {id:"oakland",name:"Oakland",lat:37.8044,lon:-122.2712},
+  {id:"brooklyn",name:"Brooklyn",lat:40.6782,lon:-73.9442},
+  {id:"manhattan",name:"Manhattan",lat:40.7831,lon:-73.9712},
+  {id:"la",name:"Los Angeles",lat:34.0522,lon:-118.2437},
+  {id:"portland",name:"Portland",lat:45.5152,lon:-122.6784},
+  {id:"seattle",name:"Seattle",lat:47.6062,lon:-122.3321}];
+let CITY=CITIES[0];
+const cityLive=()=>!!CITY.live;
+// The sun's height above the horizon in degrees, for a place and moment (low-precision solar position, good to a fraction of a degree).
+function sunHeight(lat,lon,d=new Date()){
+  const r=Math.PI/180, n=d/864e5-10957.5;
+  const L=(280.46+.9856474*n)%360, g=((357.528+.9856003*n)%360)*r;
+  const lam=(L+1.915*Math.sin(g)+.02*Math.sin(2*g))*r, eps=(23.439-4e-7*n)*r;
+  const dec=Math.asin(Math.sin(eps)*Math.sin(lam)), ra=Math.atan2(Math.cos(eps)*Math.sin(lam),Math.cos(lam));
+  const ha=((280.46061837+360.98564736629*n)%360+lon)*r-ra;
+  return Math.asin(Math.sin(lat*r)*Math.sin(dec)+Math.cos(lat*r)*Math.cos(dec)*Math.cos(ha))/r;
+}
+// Day room while the sun is up (through dusk), night room after.
+function cityTheme(){document.documentElement.setAttribute("data-theme",sunHeight(CITY.lat,CITY.lon)>-3?"light":"dark")}
+function buildCity(){
+  const sel=$("city"); sel.innerHTML=CITIES.map(c=>`<option value="${c.id}">${c.name}</option>`).join("");
+  sel.value=CITY.id; sel.onchange=()=>setCity(sel.value);
+  cityTheme(); setInterval(cityTheme,5*60*1000);
+}
+function setCity(id){
+  CITY=CITIES.find(c=>c.id===id)||CITIES[0]; cityTheme();
+  const live=cityLive(), soon=$("soon");
+  $("map").style.display=live?"":"none"; $("mapTools").hidden=!live; soon.hidden=live;
+  if(!live){
+    soon.innerHTML=`<b>Coming soon to ${CITY.name}</b><span>We're mapping the small rooms here next. San Francisco is on the air now.</span>`;
+    if(power) setPower(false);
+    setTube(`Coming soon to ${CITY.name}`,"Switch the city back to San Francisco to listen.");
+  } else if(!power) setTube(`<span>Press <span class="playdot" aria-hidden="true"></span> Play</span>`,"to start the station.");
+  renderDial(); renderLineup();
+}
+
 /* ---------- Start ---------- */
 (async()=>{
-  layoutScene(); buildKnob(); buildScale(); buildVolume();
+  layoutScene(); buildCity(); buildKnob(); buildScale(); buildVolume();
   const [shows,genres,tracks]=await Promise.all([load("shows.json",{venues:{}}),load("genres.json",{}),load("tracks.json",{})]);
   SHOWS=shows.venues||{}; SOLD=new Set(shows.sold_out||[]); TRACKS=tracks||{};
   for(const g of STATIONS.slice(1)) for(const a of (genres[g.id]||[])) GENRE_OF[a]=g.id;
