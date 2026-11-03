@@ -1,13 +1,13 @@
 # Small Room Radio
 
-Six San Francisco venues, four genre stations each. Every station plays 3–5 songs from each band booked there in the coming months, with a ticket link on every song.
+Ten San Francisco venues and six genre stations. Every station plays 3–5 songs from each band booked there in the coming months, with a ticket link on every song.
 
 ## What's in this folder
 
 | File | What it is |
 |---|---|
 | `index.html` | The website |
-| `shows.json` | Upcoming shows for the 6 venues (243 shows, 353 artists, pulled Nov 1 2026) |
+| `shows.json` | Upcoming shows for the 10 venues (378 shows; the first six pulled Nov 1 2026, The Fillmore, Regency Ballroom, Great American Music Hall and SFJAZZ Center added Nov 3) |
 | `genres.json` | Which station each artist plays on. Anyone not listed goes to Indie |
 | `build_tracks.py` | Finds each artist's songs on YouTube and writes `tracks.json` |
 | `tracks.json` | Created by the script. The site plays whatever is in here |
@@ -53,9 +53,3 @@ Show listings change. Once a month, ask me to refresh `shows.json`, then rerun `
 ## Optional: your own domain
 
 A domain like smallroom.fm costs about $10–40/year. GitHub Pages supports custom domains under Settings → Pages.
-
-## Click counts
-
-Visits and clicks on Tickets and YouTube links are counted at https://cguichet.goatcounter.com
-(the code is set near the top of the script in `index.html`, as `GOATCOUNTER_CODE`).
-Only visits to the real site count: GoatCounter ignores localhost and previews on purpose.
