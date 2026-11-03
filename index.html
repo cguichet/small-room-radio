@@ -84,18 +84,27 @@ button{font:inherit;color:inherit}
 .slabels>*{position:absolute;pointer-events:auto}
 .sprite{border:0;background:none;padding:0;margin:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .sprite img{display:block;width:100%;height:100%;pointer-events:none;-webkit-user-drag:none}
-.sprite.key{transition:transform .08s}
-.sprite.key:active,.sprite.key.pressed{transform:scale(.94) translateY(3%)}
-.sprite.key.playing{transform:scale(.96) translateY(2%);filter:brightness(.92)}
-.sprite.key:disabled{cursor:default;opacity:.55}
-.sprite.knob{cursor:grab;touch-action:none;transition:transform .25s cubic-bezier(.3,1.4,.5,1)}
-.sprite.knob:active{cursor:grabbing}
-#vol{transition:none}
-.sprite:focus-visible{outline:2px solid var(--orange);outline-offset:4px;border-radius:50%}
-.slabel{border:0;background:none;cursor:pointer;border-radius:4px}
-.slabel:focus-visible{outline:2px solid var(--orange)}
-.slabel[aria-pressed="true"]{box-shadow:inset 0 -2px 0 var(--orange)}
 .bulb{pointer-events:none}
+/* vector controls: solid-colour caps with a side face and a soft shadow, lit from the upper left like the render */
+.ctl{border:0;background:none;padding:0;margin:0;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  --k-hi:#4a4c50;--k-mid:#303134;--k-lo:#1f2022;--k-edge:#141516;--idx:#f3f1ea;--p-hi:#e8906a;--p-mid:#c95f2a;--p-lo:#8d3f18}
+:root[data-theme="dark"] .ctl{--k-hi:#f7f4ec;--k-mid:#dedad0;--k-lo:#bdb8ab;--k-edge:#8f8a7e;--idx:#2b2c2e;--p-hi:#ffb48c;--p-mid:#e8884f;--p-lo:#a85320}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ctl{--k-hi:#f7f4ec;--k-mid:#dedad0;--k-lo:#bdb8ab;--k-edge:#8f8a7e;--idx:#2b2c2e;--p-hi:#ffb48c;--p-mid:#e8884f;--p-lo:#a85320}}
+.ctl svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none}
+.ctl .shadow{fill:rgba(0,0,0,.36);stroke:rgba(0,0,0,.36);filter:blur(1.2px)}
+.ctl.key .cap,.ctl.key .shadow{transition:transform .07s ease-out,opacity .07s}
+.ctl.key:active .cap,.ctl.key.pressed .cap,.ctl.key.playing .cap{transform:translateY(1.6%)}
+.ctl.key:active .shadow,.ctl.key.pressed .shadow,.ctl.key.playing .shadow{opacity:.45;transform:translate(.8%,-.8%)}
+.ctl.key:disabled{cursor:default;opacity:.55}
+.ctl.knob{cursor:grab;touch-action:none}
+.ctl.knob svg{transition:transform .28s cubic-bezier(.3,1.3,.5,1)}
+#vol svg{transition:none}
+.ctl.knob:active{cursor:grabbing}
+.ctl:focus-visible,.sprite:focus-visible{outline:2px solid var(--orange);outline-offset:4px;border-radius:50%}
+.slabel{border:0;background:none;cursor:pointer;border-radius:3px}
+.slabel:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.slabel::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:1px;background:var(--orange);opacity:0;transition:opacity .2s}
+.slabel[aria-pressed="true"]::after{opacity:1}
 /* screen: YouTube rules, nothing over the player, nothing cropped */
 .ui-screen{overflow:hidden;border-radius:calc(var(--pw) * .018);background:#060807}
 .video{position:absolute;inset:1.5%;opacity:0;transition:opacity 1s ease;background:#000}
@@ -105,7 +114,7 @@ button{font:inherit;color:inherit}
   font:600 calc(var(--pw) * .02) /1.3 var(--f-dial);letter-spacing:.08em;text-transform:uppercase;color:#7f9a8a}
 .tube-msg small{font:500 calc(var(--pw) * .016)/1.35 var(--f-body);letter-spacing:0;text-transform:none;color:#62786b}
 /* amber vacuum-fluorescent text over the rendered glass; the glow comes up with the power */
-.vfd{color:var(--dial-off);padding:calc(var(--pw) * .018) calc(var(--pw) * .022);transition:color .6s;display:flex;flex-direction:column;overflow:hidden}
+.vfd{color:var(--dial-off);padding:calc(var(--pw) * .02) calc(var(--pw) * .026);transition:color .6s;display:flex;flex-direction:column;overflow:hidden}
 .vfd::before{content:'';position:absolute;inset:0;border-radius:calc(var(--pw) * .012);background:radial-gradient(90% 140% at 50% 0%,rgba(255,154,46,.42),rgba(255,120,20,.18) 70%);opacity:0;transition:opacity .6s;pointer-events:none}
 .on .vfd::before{opacity:1}
 .vfd>*{position:relative}
@@ -127,19 +136,20 @@ button{font:inherit;color:inherit}
 .hover{position:absolute;top:-6px;transform:translateX(-50%);font:600 calc(var(--pw) * .013)/1 var(--f-dial);letter-spacing:.06em;text-transform:uppercase;background:#1a1008;padding:2px 4px;border-radius:2px;pointer-events:none;white-space:nowrap}
 .scale:focus-visible{outline:1px dashed currentColor;outline-offset:6px}
 .info-artist{min-width:0;flex:1}
-.info-venue{min-width:0;text-align:right;display:flex;flex-direction:column;align-items:flex-end}
-.dial-artist{font:700 calc(var(--pw) * .034)/1.02 var(--f-dial);text-transform:uppercase;letter-spacing:.02em;margin-top:.15em;overflow-wrap:anywhere}
-.dial-song{font:500 calc(var(--pw) * .016)/1.3 var(--f-body);margin-top:.2em;opacity:.9;overflow-wrap:anywhere}
-.venue-name{font:700 calc(var(--pw) * .024)/1.05 var(--f-dial);text-transform:uppercase;letter-spacing:.02em;margin-top:.2em;overflow-wrap:anywhere}
+.info-venue{min-width:0;max-width:48%;text-align:right;display:flex;flex-direction:column;align-items:flex-end}
+.clamp2{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.dial-artist{font:700 calc(var(--pw) * .03)/1.02 var(--f-dial);text-transform:uppercase;letter-spacing:.02em;margin-top:.15em;overflow-wrap:anywhere}
+.dial-song{font:500 calc(var(--pw) * .015)/1.3 var(--f-body);margin-top:.2em;opacity:.9;overflow-wrap:anywhere}
+.venue-name{font:700 calc(var(--pw) * .022)/1.05 var(--f-dial);text-transform:uppercase;letter-spacing:.02em;margin-top:.2em;overflow-wrap:anywhere}
 .dial-gig{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:.3em 1em;margin-top:.4em;font:600 calc(var(--pw) * .015)/1.3 var(--f-dial);letter-spacing:.06em;text-transform:uppercase}
 .dial-gig a{color:inherit}
 .chip{display:inline-block;border:1px solid currentColor;border-radius:3px;padding:0 .35em;font-size:.85em}
 .cnt{display:inline-block;margin-left:5px;padding:0 6px;border:1px solid currentColor;border-radius:9px;font:600 .8em/1.45 var(--f-dial);letter-spacing:.04em;font-variant-numeric:tabular-nums;opacity:.85;vertical-align:1px}
-/* the tall radio's openings are wider than they are deep: tighter type */
-.tall .vfd{padding:calc(var(--pw) * .02) calc(var(--pw) * .028)}
+/* the tall radio's openings are wider than they are deep: larger type for the phone */
+.tall .vfd{padding:calc(var(--pw) * .024) calc(var(--pw) * .03)}
 .tall .dial-top{font-size:calc(var(--pw) * .02)} .tall .date-read{font-size:calc(var(--pw) * .04)}
-.tall .dial-artist{font-size:calc(var(--pw) * .054)} .tall .dial-song{font-size:calc(var(--pw) * .028)}
-.tall .venue-name{font-size:calc(var(--pw) * .038)} .tall .dial-gig{font-size:calc(var(--pw) * .026)}
+.tall .dial-artist{font-size:calc(var(--pw) * .05)} .tall .dial-song{font-size:calc(var(--pw) * .026)}
+.tall .venue-name{font-size:calc(var(--pw) * .034)} .tall .dial-gig{font-size:calc(var(--pw) * .024)}
 .tall .scale{height:calc(var(--pw) * .05)} .tall .tk{height:calc(var(--pw) * .01)} .tall .tk.mo{height:calc(var(--pw) * .02)}
 .tall .mo-l{font-size:calc(var(--pw) * .013);bottom:calc(var(--pw) * .024)} .tall .hover{font-size:calc(var(--pw) * .018)}
 .tall .tube-msg{font-size:calc(var(--pw) * .03)} .tall .tube-msg small{font-size:calc(var(--pw) * .024)}
@@ -220,22 +230,17 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
     <div class="ui-display vfd" id="uiDisplay" aria-live="polite">
       <div class="info-artist">
         <div class="dial-top">Now playing</div>
-        <div class="dial-artist" id="artist">Will Call Radio</div>
-        <div class="dial-song" id="song">Power is off</div>
+        <div class="dial-artist clamp2" id="artist">Will Call Radio</div>
+        <div class="dial-song clamp2" id="song">Power is off</div>
       </div>
       <div class="info-venue">
         <div class="dial-top">Playing at</div>
-        <div class="venue-name" id="venueName">—</div>
+        <div class="venue-name clamp2" id="venueName">—</div>
         <div class="dial-gig" id="gig"></div>
       </div>
     </div>
     <div class="slabels" id="slabels" role="group" aria-label="Station"><button type="button" class="slabel" data-i="0"></button><button type="button" class="slabel" data-i="1"></button><button type="button" class="slabel" data-i="2"></button><button type="button" class="slabel" data-i="3"></button><button type="button" class="slabel" data-i="4"></button><button type="button" class="slabel" data-i="5"></button></div>
-    <button type="button" id="knob" class="sprite knob" aria-label="Station knob"><img data-sprite="pointer" alt="" draggable="false"></button>
-    <button type="button" id="vol" class="sprite knob" aria-label="Volume"><img data-sprite="volume" alt="" draggable="false"></button>
-    <button type="button" id="remove" class="sprite key" aria-label="Skip and remove this song"><img data-sprite="remove" alt="" draggable="false"></button>
-    <button type="button" id="prev" class="sprite key" aria-label="Previous song"><img data-sprite="last" alt="" draggable="false"></button>
-    <button type="button" id="pp" class="sprite key" aria-label="Play"><img data-sprite="play" alt="" draggable="false"></button>
-    <button type="button" id="next" class="sprite key" aria-label="Next song"><img data-sprite="next" alt="" draggable="false"></button>
+    <button type="button" id="knob" class="ctl knob" aria-label="Station knob"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><path class="shadow" d="M34.4 81.8 L65.6 81.8 L56.9 6.1 L43.1 6.1 Z" transform="translate(1.6 2.6)" stroke-width="5.6" stroke-linejoin="round"/><path d="M34.4 81.8 L65.6 81.8 L56.9 6.1 L43.1 6.1 Z" fill="url(#gside)" stroke="url(#gside)" stroke-width="5.6" stroke-linejoin="round" transform="translate(0 5.0)"/><path d="M34.4 81.8 L65.6 81.8 L56.9 6.1 L43.1 6.1 Z" fill="url(#gk)" stroke="url(#gk)" stroke-width="5.6" stroke-linejoin="round"/><rect x="48.4" y="19.4" width="3.1" height="54.5" rx="1.6" style="fill:var(--idx)"/></svg></button><button type="button" id="vol" class="ctl knob" aria-label="Volume"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><circle class="shadow" cx="51.5" cy="53" r="38.5"/><circle cx="50" cy="56.0" r="38.5" fill="url(#gside)"/><circle cx="50" cy="50" r="38.5" fill="url(#gk)"/><circle cx="50" cy="50" r="34.3" fill="none" stroke="url(#gkr)" stroke-width="3.0" opacity=".55"/><rect x="48.3" y="22.4" width="3.4" height="18.0" rx="1.7" style="fill:var(--idx)"/></svg></button><button type="button" id="remove" class="ctl key" aria-label="Skip and remove this song"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><path class="shadow" d="M39.1 13.0 h21.8 v26.1 h26.1 v21.8 h-26.1 v26.1 h-21.8 v-26.1 h-26.1 v-21.8 h26.1 Z" transform="translate(1.6 2.6) rotate(45 50 50)" stroke-width="9.5" stroke-linejoin="round"/><path class="travel" d="M39.1 13.0 h21.8 v26.1 h26.1 v21.8 h-26.1 v26.1 h-21.8 v-26.1 h-26.1 v-21.8 h26.1 Z" transform="translate(0 8.5) rotate(45 50 50)" fill="url(#gside)" stroke="url(#gside)" stroke-width="9.5" stroke-linejoin="round"/><path class="cap" d="M39.1 13.0 h21.8 v26.1 h26.1 v21.8 h-26.1 v26.1 h-21.8 v-26.1 h-26.1 v-21.8 h26.1 Z" transform="rotate(45 50 50)" fill="url(#gk)" stroke="url(#gk)" stroke-width="9.5" stroke-linejoin="round"/></svg></button><button type="button" id="prev" class="ctl key" aria-label="Previous song"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><path class="shadow" d="M87.0 13.0 L87.0 87.0 L13.0 50 Z" transform="translate(1.6 2.6) " stroke-width="8.8" stroke-linejoin="round"/><path class="travel" d="M87.0 13.0 L87.0 87.0 L13.0 50 Z" transform="translate(0 7.9) " fill="url(#gside)" stroke="url(#gside)" stroke-width="8.8" stroke-linejoin="round"/><path class="cap" d="M87.0 13.0 L87.0 87.0 L13.0 50 Z" transform="" fill="url(#gk)" stroke="url(#gk)" stroke-width="8.8" stroke-linejoin="round"/></svg></button><button type="button" id="pp" class="ctl key" aria-label="Play"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><circle class="shadow" cx="51.5" cy="53" r="37.0"/><circle class="travel" cx="50" cy="57.6" r="37.0" style="fill:var(--p-lo)"/><circle class="cap" cx="50" cy="50" r="37.0" fill="url(#gp)"/></svg></button><button type="button" id="next" class="ctl key" aria-label="Next song"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><path class="shadow" d="M13.0 13.0 L87.0 50 L13.0 87.0 Z" transform="translate(1.6 2.6) " stroke-width="8.8" stroke-linejoin="round"/><path class="travel" d="M13.0 13.0 L87.0 50 L13.0 87.0 Z" transform="translate(0 7.9) " fill="url(#gside)" stroke="url(#gside)" stroke-width="8.8" stroke-linejoin="round"/><path class="cap" d="M13.0 13.0 L87.0 50 L13.0 87.0 Z" transform="" fill="url(#gk)" stroke="url(#gk)" stroke-width="8.8" stroke-linejoin="round"/></svg></button>
     <button type="button" id="power" class="sprite lever" aria-label="Power"><img data-sprite="lever" alt="" draggable="false"></button>
     <div id="bulb" class="sprite bulb"><img data-sprite="bulb" alt="" draggable="false"></div>
   </div>
@@ -420,13 +425,13 @@ function renderDial(){
     clear();return;
   }
   const s=current.show;
-  $("artist").textContent=current.artist; $("song").textContent=current.title;
+  $("artist").textContent=current.artist; $("song").textContent=unesc(current.title);
   $("venueName").textContent=SHOWS[s.venue].name; $("dateRead").textContent=fmt(s.date);
   $("gig").innerHTML=`${s.sold?'<span class="chip">Sold out</span>':""}<span>${countedLink("tickets",s.url,"Tickets ↗",current.artist,s)}</span><span>${countedLink("youtube","https://www.youtube.com/watch?v="+current.id,"YouTube ↗",current.artist,s)}</span>`;
   watchCounts($("gig"));
 }
 function renderKnob(){
-  $("knob").style.transform=`rotate(${-(ANG[stationIdx]-ANG[0])}deg)`;
+  $("knob").querySelector("svg").style.transform=`rotate(${90-ANG[stationIdx]}deg)`;
   $("knob").setAttribute("aria-valuenow",stationIdx); $("knob").setAttribute("aria-valuetext",station().name);
   document.querySelectorAll(".slabel").forEach((b,i)=>b.setAttribute("aria-pressed",i===stationIdx));
 }
@@ -625,22 +630,22 @@ if(GOATCOUNTER_CODE){
   g.dataset.goatcounter=`https://${GOATCOUNTER_CODE}.goatcounter.com/count`; document.head.appendChild(g);
 }
 
+const unesc=t=>{const e=document.createElement("textarea");e.innerHTML=t;return e.value};
 const darkMQ=window.matchMedia?matchMedia("(prefers-color-scheme: dark)"):null;
 function isDark(){const t=document.documentElement.getAttribute("data-theme");return t?t==="dark":!!(darkMQ&&darkMQ.matches)}
 darkMQ&&darkMQ.addEventListener&&darkMQ.addEventListener("change",setSceneTheme);
 new MutationObserver(setSceneTheme).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
 
 /* ---------- Scene geometry: the renders' camera projections, in image fractions ---------- */
-const GEOM={"wide":{"w":2880,"h":1200,"plate":[0.33033,0.38165,0.66967,0.83003],"angles":[30.319,19.335,6.671,-6.671,-19.335,-30.319],"boxes":{"screen":[0.34463,0.41597,0.48761,0.67333],"display":[0.34463,0.70307,0.48761,0.79572],"dial":[0.5,0.41597,0.65537,0.50747],"knob":[0.49401,0.53934,0.55263,0.61437],"vol":[0.60855,0.55595,0.66374,0.65635],"remove":[0.4935,0.6992,0.54386,0.78855],"prev":[0.53801,0.70945,0.58052,0.77827],"pp":[0.57474,0.70558,0.62004,0.78254],"next":[0.6141,0.70945,0.65682,0.77827],"power":[0.60469,0.29714,0.63368,0.35798],"bulb":[0.62738,0.32391,0.66151,0.37248]},"origins":{"knob":[0.4599112930740372,0.8711182193789155],"vol":[0.4942924442833845,0.4855577689243027]},"labels":{"x":0.57101,"rows":[0.54751,0.57038,0.59326,0.61613,0.63901,0.66189],"w":0.058,"h":0.026}},"tall":{"w":1200,"h":2000,"plate":[0.16771,0.13658,0.83229,0.89242],"angles":[26.225,16.466,5.627,-5.627,-16.466,-26.225],"boxes":{"screen":[0.21731,0.16634,0.78269,0.42076],"display":[0.21731,0.44655,0.78269,0.52591],"dial":[0.21731,0.5517,0.78269,0.60625],"knob":[0.22313,0.64504,0.37004,0.72626],"vol":[0.64994,0.64171,0.78208,0.73276],"remove":[0.22641,0.76908,0.34289,0.85052],"prev":[0.3883,0.77796,0.47633,0.84159],"pp":[0.52284,0.77461,0.62018,0.84543],"next":[0.66602,0.77796,0.75481,0.84159],"power":[0.683,0.0636,0.72413,0.12142],"bulb":[0.74815,0.08956,0.80723,0.1349]},"origins":{"knob":[0.45551698318698514,0.49938438808175334],"vol":[0.49167549568639374,0.4820428336079078]},"labels":{"x":0.49008,"rows":[0.63601,0.65585,0.67568,0.69552,0.71536,0.7352],"w":0.13,"h":0.018}}};
+const GEOM={"wide":{"w":2880,"h":1200,"plate":[0.33033,0.38165,0.66967,0.83003],"angles":[30.319,19.335,6.671,-6.671,-19.335,-30.319],"boxes":{"screen":[0.34463,0.41597,0.48761,0.67333],"display":[0.34463,0.70307,0.48761,0.79572],"dial":[0.5,0.41597,0.65537,0.50747],"power":[0.60469,0.29714,0.63368,0.35798],"bulb":[0.62738,0.32391,0.66151,0.37248],"knob":[0.49958,0.55337,0.54236,0.65603],"vol":[0.616,0.55712,0.65566,0.65228],"remove":[0.50609,0.71299,0.53119,0.77321],"prev":[0.54444,0.71067,0.57146,0.77553],"pp":[0.5831,0.70913,0.61142,0.77707],"next":[0.62306,0.71067,0.65008,0.77553]},"labels":[[0.56901,0.54036,0.58957,0.55637],[0.56901,0.56323,0.5982,0.57924],[0.56901,0.58611,0.58599,0.60212],[0.56901,0.60898,0.61656,0.62499],[0.56901,0.63186,0.61198,0.64787],[0.56901,0.65474,0.60124,0.67075]],"pointer":{"L":6.8,"W":2.8,"half":4.488},"vol":{"d":6.4,"half":4.16},"keys":{"remove":{"w":3.9,"h":3.9,"half":2.6325000000000003},"prev":{"w":4.2,"h":4.2,"half":2.8350000000000004},"pp":{"w":4.4,"h":4.4,"half":2.9700000000000006},"next":{"w":4.2,"h":4.2,"half":2.8350000000000004}}},"tall":{"w":1200,"h":2000,"plate":[0.16771,0.13658,0.83229,0.89242],"angles":[26.225,16.466,5.627,-5.627,-16.466,-26.225],"boxes":{"screen":[0.21731,0.16634,0.78269,0.42076],"display":[0.21731,0.44655,0.78269,0.52591],"dial":[0.21731,0.5517,0.78269,0.60625],"power":[0.683,0.0636,0.72413,0.12142],"bulb":[0.74815,0.08956,0.80723,0.1349],"knob":[0.21586,0.64108,0.36424,0.73012],"vol":[0.64614,0.64434,0.78368,0.72686],"remove":[0.24163,0.78274,0.32867,0.83496],"prev":[0.38133,0.78073,0.47507,0.83697],"pp":[0.52214,0.77939,0.62034,0.83831],"next":[0.66741,0.78073,0.76115,0.83697]},"labels":[[0.48808,0.62981,0.54953,0.6437],[0.48808,0.64965,0.57944,0.66354],[0.48808,0.66948,0.53709,0.68337],[0.48808,0.68932,0.64315,0.70321],[0.48808,0.70916,0.62726,0.72305],[0.48808,0.729,0.59,0.74289]],"pointer":{"L":6.8,"W":2.8,"half":4.488},"vol":{"d":6.4,"half":4.16},"keys":{"remove":{"w":3.9,"h":3.9,"half":2.6325000000000003},"prev":{"w":4.2,"h":4.2,"half":2.8350000000000004},"pp":{"w":4.4,"h":4.4,"half":2.9700000000000006},"next":{"w":4.2,"h":4.2,"half":2.8350000000000004}}}};
 let variant=null, ANG=GEOM.wide.angles;
 const pc=v=>(v*100).toFixed(3)+"%";
 function placeBox(el,b){el.style.left=pc(b[0]);el.style.top=pc(b[1]);el.style.width=pc(b[2]-b[0]);el.style.height=pc(b[3]-b[1])}
 function applyGeom(v){
   const g=GEOM[v]; variant=v; ANG=g.angles; $("radio").classList.toggle("tall",v==="tall");
   for(const [id,b] of Object.entries(g.boxes)) placeBox($(id==="screen"?"uiScreen":id==="display"?"uiDisplay":id==="dial"?"uiDial":id),b);
-  for(const [id,o] of Object.entries(g.origins)) $(id).style.transformOrigin=`${(o[0]*100).toFixed(2)}% ${(o[1]*100).toFixed(2)}%`;
-  document.querySelectorAll(".slabel").forEach((b,i)=>placeBox(b,[g.labels.x-.004,g.labels.rows[i]-g.labels.h/2,g.labels.x-.004+g.labels.w,g.labels.rows[i]+g.labels.h/2]));
-  setSceneTheme(); if(typeof renderKnob==="function"&&typeof stationIdx==="number") renderKnob();
+  document.querySelectorAll(".slabel").forEach((b,i)=>placeBox(b,g.labels[i]));
+  setSceneTheme(); if(typeof stationIdx==="number") renderKnob();
 }
 function layoutScene(){
   const vw=document.documentElement.clientWidth;
@@ -666,7 +671,7 @@ addEventListener("resize",layoutScene);
 /* ---------- Volume knob ---------- */
 let volume=store.get("vol",80);
 function applyVolume(){
-  const k=$("vol"); k.style.transform=`rotate(${(volume-50)*2.7}deg)`;
+  const k=$("vol"); k.querySelector("svg").style.transform=`rotate(${(volume-50)*2.7}deg)`;
   k.setAttribute("aria-valuenow",volume); k.setAttribute("aria-valuetext",volume+"%");
   if(player&&ytReady){try{player.setVolume(volume);volume?player.unMute():player.mute()}catch(e){}}
 }
