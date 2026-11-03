@@ -137,11 +137,12 @@ button{font:inherit;color:inherit}
 .hover{position:absolute;top:-6px;transform:translateX(-50%);font:600 calc(var(--pw) * .013)/1 var(--f-dial);letter-spacing:.06em;text-transform:uppercase;background:#1a1008;padding:2px 4px;border-radius:2px;pointer-events:none;white-space:nowrap}
 .scale:focus-visible{outline:1px dashed currentColor;outline-offset:6px}
 .info-artist{min-width:0;flex:1}
-.info-venue{min-width:0;max-width:50%;text-align:right;display:flex;flex-direction:column;align-items:flex-end;padding-right:calc(var(--pw) * .004)}
+.info-venue{min-width:0;max-width:58%;text-align:right;display:flex;flex-direction:column;align-items:flex-end;padding-right:calc(var(--pw) * .004)}
 .clamp2{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
-.dial-artist{font:700 calc(var(--pw) * .028)/1.02 var(--f-dial);text-transform:uppercase;letter-spacing:.02em;margin-top:.15em;overflow-wrap:anywhere}
+.dial-artist{font:700 calc(var(--pw) * .028)/1.02 var(--f-dial);text-transform:uppercase;letter-spacing:.02em;margin-top:.15em;overflow-wrap:normal}
 .dial-song{font:500 calc(var(--pw) * .015)/1.3 var(--f-body);margin-top:.2em;opacity:.9;overflow-wrap:anywhere}
-.venue-name{font:700 calc(var(--pw) * .02)/1.05 var(--f-dial);text-transform:uppercase;letter-spacing:.02em;margin-top:.2em;overflow-wrap:anywhere}
+.venue-name{font:700 calc(var(--pw) * .02)/1.1 var(--f-dial);text-transform:uppercase;letter-spacing:.02em;margin-top:.15em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.venue-date{font:600 calc(var(--pw) * .014)/1.25 var(--f-dial);letter-spacing:.06em;text-transform:uppercase;margin-top:.2em;white-space:nowrap}
 .dial-gig{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:.2em .8em;margin-top:.35em;font:600 calc(var(--pw) * .013)/1.3 var(--f-dial);white-space:nowrap;letter-spacing:.06em;text-transform:uppercase}
 .dial-gig a{color:inherit}
 .chip{display:inline-block;border:1px solid currentColor;border-radius:3px;padding:0 .35em;font-size:.85em}
@@ -150,7 +151,7 @@ button{font:inherit;color:inherit}
 .tall .vfd{padding:calc(var(--pw) * .024) calc(var(--pw) * .036)}
 .tall .dial-top{font-size:calc(var(--pw) * .02)} .tall .date-read{font-size:calc(var(--pw) * .04)}
 .tall .dial-artist{font-size:calc(var(--pw) * .05)} .tall .dial-song{font-size:calc(var(--pw) * .026)}
-.tall .venue-name{font-size:calc(var(--pw) * .034)} .tall .dial-gig{font-size:calc(var(--pw) * .024)}
+.tall .venue-name{font-size:calc(var(--pw) * .034)} .tall .venue-date{font-size:calc(var(--pw) * .025)} .tall .dial-gig{font-size:calc(var(--pw) * .024)}
 .tall .scale{height:calc(var(--pw) * .05)} .tall .tk{height:calc(var(--pw) * .01)} .tall .tk.mo{height:calc(var(--pw) * .02)}
 .tall .mo-l{font-size:calc(var(--pw) * .013);bottom:calc(var(--pw) * .024)} .tall .hover{font-size:calc(var(--pw) * .018)}
 .tall .tube-msg{font-size:calc(var(--pw) * .03)} .tall .tube-msg small{font-size:calc(var(--pw) * .024)}
@@ -230,13 +231,14 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
     </div>
     <div class="ui-display vfd" id="uiDisplay" aria-live="polite">
       <div class="info-artist">
-        <div class="dial-top">Now playing</div>
+        <div class="dial-top">Artist</div>
         <div class="dial-artist clamp2" id="artist">Will Call Radio</div>
         <div class="dial-song clamp2" id="song">Power is off</div>
       </div>
       <div class="info-venue">
-        <div class="dial-top">Playing at</div>
-        <div class="venue-name clamp2" id="venueName">—</div>
+        <div class="dial-top">Venue</div>
+        <div class="venue-name" id="venueName">—</div>
+        <div class="venue-date" id="venueDate"></div>
         <div class="dial-gig" id="gig"></div>
       </div>
     </div>
@@ -426,7 +428,7 @@ function renderDial(){
   $("dialTop").textContent=`${station().name} · ${n} venue${n===1?"":"s"} on`;
   renderScaleDots();
   $("needle").style.left=current?pct(dayNum(current.show.date))+"%":"0%";
-  const clear=()=>{$("venueName").textContent="—";$("gig").innerHTML="";$("dateRead").textContent="—"};
+  const clear=()=>{$("artist").style.fontSize="";$("venueName").style.fontSize="";$("venueName").textContent="—";$("venueDate").textContent="";$("gig").innerHTML="";$("dateRead").textContent="—"};
   if(!power){$("artist").textContent="Will Call Radio";$("song").textContent="Power is off";clear();return}
   if(!current){
     $("artist").textContent=station().name;
@@ -434,11 +436,26 @@ function renderDial(){
     clear();return;
   }
   const s=current.show;
-  $("artist").textContent=current.artist; $("song").textContent=unesc(current.title);
-  $("venueName").textContent=SHOWS[s.venue].name; $("dateRead").textContent=fmt(s.date);
+  $("artist").textContent=current.artist; $("song").textContent=`“${current.title}”`;
+  $("venueName").textContent=SHOWS[s.venue].name; $("venueDate").textContent=fmt(s.date); $("dateRead").textContent=fmt(s.date);
   $("gig").innerHTML=`${s.sold?'<span class="chip">Sold out</span>':""}<span>${countedLink("tickets",s.url,"Tickets ↗",current.artist,s)}</span><span>${countedLink("youtube","https://www.youtube.com/watch?v="+current.id,"YouTube ↗",current.artist,s)}</span>`;
-  watchCounts($("gig"));
+  watchCounts($("gig")); fitVenue();
 }
+// Long names shrink to fit the window rather than breaking mid-word or crowding the other lines.
+function shrink(el,bad,min=.55){
+  el.style.fontSize=""; const base=parseFloat(getComputedStyle(el).fontSize); let f=base;
+  while(bad()&&f>base*min){f*=.94;el.style.fontSize=f+"px"}
+}
+function fitVenue(){
+  const d=$("uiDisplay"), cs=getComputedStyle(d), room=d.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);
+  const v=$("venueName"), a=$("artist"), col=a.parentElement;
+  // the venue column may take up to 58% of the window; measure the name's natural width against that
+  const maxW=(d.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight))*.58-v.parentElement.offsetWidth+v.parentElement.clientWidth-parseFloat(getComputedStyle(v.parentElement).paddingRight)-4;
+  shrink(v,()=>v.scrollWidth>maxW,.5);
+  shrink(a,()=>a.scrollWidth>a.clientWidth+1||col.offsetHeight>room+1);
+}
+addEventListener("resize",()=>{if(current)fitVenue()});
+document.fonts&&document.fonts.ready.then(()=>{if(current)fitVenue()});
 function renderKnob(){
   $("knob").querySelector("svg").style.transform=`rotate(${90-ANG[stationIdx]}deg)`;
   $("knob").setAttribute("aria-valuenow",stationIdx); $("knob").setAttribute("aria-valuetext",station().name);
