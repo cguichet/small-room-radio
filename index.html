@@ -65,14 +65,6 @@ header p{margin:0;color:var(--muted);max-width:56ch}
 .video iframe,.video > div{position:absolute;inset:0;width:100%;height:100%;border:0}
 .on .video.live{opacity:1}
 .video.live ~ .glass{display:none}
-/* SoundCloud songs: the cover art fills the screen, with SoundCloud's own small player along the bottom. */
-.video #art{height:auto;bottom:24px;overflow:hidden}
-.art-bg{position:absolute;inset:-20px;background:center/cover no-repeat;filter:blur(18px) brightness(.45)}
-#artImg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
-.art-none{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:10%;
-  font:700 26px/1.05 var(--f-display);text-transform:uppercase;letter-spacing:.03em;color:#e9d8b8}
-.video #sc{top:auto;height:20px;bottom:0}
-.video #sc iframe{height:20px}
 .tube-msg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
   text-align:center;padding:12%;font:600 15px/1.3 var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:#7f9a8a}
 .tube-msg small{font:500 13px/1.35 var(--f-body);letter-spacing:0;text-transform:none;color:#62786b}
@@ -100,6 +92,10 @@ header p{margin:0;color:var(--muted);max-width:56ch}
   background:var(--dial-bg);padding:2px 4px;border-radius:2px;pointer-events:none;white-space:nowrap}
 .scale:focus-visible{outline:1px dashed currentColor;outline-offset:6px}
 .foot-note{margin-top:6px}
+.cnt{display:inline-block;margin-left:5px;padding:0 6px;border:1px solid currentColor;border-radius:9px;
+  font:600 11px/1.45 var(--f-display);letter-spacing:.04em;font-variant-numeric:tabular-nums;opacity:.85;vertical-align:1px}
+.reach{margin:6px 0 0;color:var(--muted);font-size:14px}
+.reach b{color:var(--ink);font-variant-numeric:tabular-nums}
 .dial-top{font:400 9px/1.3 var(--f-engrave);letter-spacing:.16em;text-transform:uppercase}
 .dial-artist{font:700 30px/1.02 var(--f-display);text-transform:uppercase;letter-spacing:.02em;margin-top:6px;overflow-wrap:anywhere}
 .dial-song{font:500 15px/1.3 var(--f-body);margin-top:3px;opacity:.9;overflow-wrap:anywhere}
@@ -209,7 +205,10 @@ footer{font-size:12px;color:var(--muted)}
 <div class="wrap">
   <header>
     <h1>Small Room Radio</h1>
-    <p>Six small San Francisco venues. Every song is by a band with a show coming up.</p>
+    <div>
+      <p>Six small San Francisco venues. Every song is by a band with a show coming up.</p>
+      <p class="reach" id="reach" hidden></p>
+    </div>
   </header>
 
   <div class="radio" id="radio">
@@ -217,7 +216,7 @@ footer{font-size:12px;color:var(--muted)}
       <div class="plate">
         <div class="screen">
           <div class="bezel"><div class="tube">
-            <div class="video" id="video"><div id="yt"></div><div id="art" hidden><div class="art-bg" id="artBg"></div><img id="artImg" alt=""><div class="art-none" id="artNone" hidden></div></div><div id="sc" hidden></div></div>
+            <div class="video" id="video"><div id="yt"></div></div>
             <div class="tube-msg" id="tubeMsg">Off<small>Flip the power switch to start the station.</small></div>
             <div class="glass"></div>
           </div></div>
@@ -293,7 +292,7 @@ footer{font-size:12px;color:var(--muted)}
   </div>
 
   <footer>
-    <div>Show dates from venue calendars via Songkick. Music plays from SoundCloud when a band has it, otherwise YouTube. Dates and sell-outs change, so check the ticket page before you go.</div>
+    <div>Show dates from venue calendars via Songkick. Music plays from YouTube. Dates and sell-outs change, so check the ticket page before you go.</div>
     <div class="foot-note"><b>Have YouTube Premium but hearing ads?</b> Some browsers hide your YouTube sign-in from players embedded in other sites. In Firefox, tap the shield icon next to the address, turn off Enhanced Tracking Protection for this site, and reload. Safari can only turn this off for every site at once, so Chrome works best on iPhone. Either way, you need to be signed in to YouTube in the same browser.</div>
   </footer>
 </div>
@@ -318,12 +317,10 @@ const store={get(k,d){try{const v=localStorage.getItem("srr."+k);return v==null?
 const today=(()=>{const d=new Date();return new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)})();
 const fmt=d=>new Date(d+"T12:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
 
-let SHOWS={}, SOLD=new Set(), GENRE_OF={}, TRACKS={}, SOURCES={};
+let SHOWS={}, SOLD=new Set(), GENRE_OF={}, TRACKS={};
 let enabled=new Set(), stationIdx=0, shuffle=false, skipSold=true, removed=new Set(store.get("removed",[]));
 let power=false, queue=[], pos=-1, current=null, played=[], playing=false;
 let player=null, ytReady=false, ytFailed=false, errorsInRow=0;
-let sc=null, scFrame=null, scFailed=false, scToken=0;
-const SC_PER_ARTIST=4;
 
 async function load(name,fb){try{const r=await fetch(name,{cache:"no-store"});return r.ok?await r.json():fb}catch(e){return fb}}
 const station=()=>STATIONS[stationIdx];
@@ -344,7 +341,7 @@ function buildQueue(){
   const lists=[], seen=new Set();
   for(const s of upcoming()) for(const a of s.artists){
     if(seen.has(a)) continue; seen.add(a);
-    const t=tracksFor(a).filter(x=>!removed.has(x.id)).map(x=>({...x,artist:a,show:s}));
+    const t=(TRACKS[a]||[]).filter(x=>!removed.has(x.id)).map(x=>({...x,artist:a,show:s}));
     if(t.length) lists.push(t);
   }
   if(shuffle){
@@ -358,17 +355,6 @@ function buildQueue(){
   const q=[]; for(let r=0,added=true;added;r++){added=false;for(const l of lists) if(l[r]){q.push(l[r]);added=true}}
   return q;
 }
-/* Each band plays from SoundCloud when sources.json lists it there, otherwise from YouTube.
-   A SoundCloud entry is a profile or playlist link (plays its first few songs) or a list of song links. */
-function tracksFor(a){
-  const sc=!scFailed&&SOURCES[a]?.soundcloud;
-  if(sc){
-    if(Array.isArray(sc)) return sc.map(url=>({src:"sc",id:"sc:"+url,url,idx:0,title:""}));
-    return Array.from({length:SC_PER_ARTIST},(_,i)=>({src:"sc",id:`sc:${sc}#${i}`,url:sc,idx:i,title:""}));
-  }
-  return (TRACKS[a]||[]).map(x=>({...x,src:"yt"}));
-}
-const hasMusic=()=>Object.keys(TRACKS).length||Object.keys(SOURCES).some(a=>SOURCES[a]?.soundcloud);
 const key=t=>t.id+"|"+t.artist;
 function rebuild(keepPlace){
   const ahead=keepPlace&&current?queue.slice(pos+1).map(key):[];
@@ -383,94 +369,35 @@ function initYT(){
     player=new YT.Player("yt",{width:"100%",height:"100%",
       playerVars:{playsinline:1,controls:0,rel:0,modestbranding:1,iv_load_policy:3,fs:0,disablekb:1},
       events:{
-        onReady:()=>{ytReady=true; if(power){if(!current) next(); else if(current.src==="yt") play(current)}},
+        onReady:()=>{ytReady=true; if(power){if(pendingDay!=null&&queue.length)pos=closestIndex(pendingDay)-1;pendingDay=null;next()}},
         onStateChange:e=>{
-          if(current?.src!=="yt") return;
           if(e.data===YT.PlayerState.ENDED) next();
           if(e.data===YT.PlayerState.PLAYING){playing=true;errorsInRow=0;clearTimeout(blockTimer);$("video").classList.add("live");setTube(null)}
           if(e.data===YT.PlayerState.PAUSED) playing=false;
           renderPP();
         },
-        onError:()=>{ if(current?.src==="yt") skipBroken() }
+        onError:()=>{ if(++errorsInRow<8) next(); else setTube("No signal","Several songs in a row wouldn't play. Try another station.") }
       }});
   };
   const s=document.createElement("script"); s.src="https://www.youtube.com/iframe_api";
   s.onerror=fail; document.head.appendChild(s);
   setTimeout(()=>{if(!ytReady&&!ytFailed)fail()},8000);
 }
-function fail(){if(ytReady)return; ytFailed=true; if(power&&(!current||current.src==="yt")){setTube("No picture here","The video player can't load on this page. Use the YouTube link on the dial to hear each song.");if(!current)next()}}
-function skipBroken(){ if(++errorsInRow<8) next(); else setTube("No signal","Several songs in a row wouldn't play. Try another station.") }
-
-/* ---------- SoundCloud player ---------- */
-const SC_OPTS={auto_play:true,visual:false,show_comments:false,hide_related:true,show_teaser:false,show_user:true,buying:false,sharing:false,download:false};
-function scPlay(t){
-  const token=++scToken;
-  const begin=()=>{ if(token!==scToken) return;
-    // A profile or playlist loads as a list; jump to this slot's song, or move on if the list is shorter.
-    sc.getSounds(list=>{ if(token!==scToken) return;
-      if(t.idx>=(list||[]).length){ removedThisSession(t); next(); return }
-      if(t.idx>0) sc.skip(t.idx); else sc.play();
-    });
-  };
-  if(sc){ sc.load(t.url,{...SC_OPTS,callback:begin}); return }
-  if(scFrame) return;                       // still loading the player; it starts current when ready
-  scFrame=document.createElement("iframe");
-  scFrame.allow="autoplay"; scFrame.title="SoundCloud player";
-  scFrame.src="https://w.soundcloud.com/player/?url="+encodeURIComponent(t.url)+"&"+Object.entries(SC_OPTS).map(([k,v])=>k+"="+v).join("&");
-  $("sc").appendChild(scFrame);
-  const s=document.createElement("script"); s.src="https://w.soundcloud.com/player/api.js";
-  const giveUp=()=>{ if(sc) return; scFailed=true; scFrame.remove(); scFrame=null; rebuild(true); if(power){current=null; next()} };
-  s.onerror=giveUp; setTimeout(giveUp,9000);
-  s.onload=()=>{
-    sc=SC.Widget(scFrame); const E=SC.Widget.Events;
-    sc.bind(E.READY,()=>{ if(current?.src==="sc"&&current.url===t.url) begin() });
-    sc.bind(E.PLAY,()=>{ if(current?.src!=="sc") {sc.pause();return}
-      playing=true; errorsInRow=0; clearTimeout(blockTimer); $("video").classList.add("live"); setTube(null); renderPP();
-      sc.getCurrentSound(x=>{ if(x&&current?.src==="sc"){ current.title=x.title; current.link=x.permalink_url; showArt(x); renderDial() } });
-    });
-    sc.bind(E.PAUSE,()=>{ if(current?.src==="sc"){playing=false; renderPP()} });
-    sc.bind(E.FINISH,()=>{ if(current?.src==="sc") next() });
-    sc.bind(E.ERROR,()=>{ if(current?.src==="sc") skipBroken() });
-  };
-  document.head.appendChild(s);
-}
-function removedThisSession(t){ const i=queue.findIndex(x=>key(x)===key(t)); if(i>=0){queue.splice(i,1); if(i<=pos) pos--} }
-function stopOthers(src){
-  if(src!=="yt"&&player&&ytReady){try{player.stopVideo()}catch(e){}}
-  if(src!=="sc"&&sc){++scToken; try{sc.pause()}catch(e){}}
-  $("sc").hidden=src!=="sc"; $("art").hidden=src!=="sc";
-  const y=$("yt"); if(y) y.hidden=src==="sc";
-}
-function showArt(x){
-  // SoundCloud gives a small cover link; the -t500x500 version is the large one.
-  const url=(x.artwork_url||x.user?.avatar_url||"").replace(/-(large|t\d+x\d+)\./,"-t500x500.");
-  $("artNone").hidden=!!url; $("artImg").hidden=!url;
-  if(url){const img=$("artImg"); img.onerror=()=>{img.hidden=true;$("artBg").style.backgroundImage="";$("artNone").hidden=false;$("artNone").textContent=current?current.artist:""};
-    img.src=url; $("artBg").style.backgroundImage=`url("${url}")`}
-  else {$("artBg").style.backgroundImage=""; $("artNone").textContent=current?current.artist:""}
-}
+function fail(){if(ytReady)return; ytFailed=true; if(power){setTube("No picture here","The video player can't load on this page. Use the YouTube link on the dial to hear each song.");if(!current)next()}}
 function setTube(title,text){
   const m=$("tubeMsg");
   if(title==null){m.hidden=true;return}
   m.hidden=false; m.innerHTML=`${title}${text?`<small>${text}</small>`:""}`;
 }
 function play(t){
-  current=t; playing=false; renderDial(); renderLineup(); renderPP(); $("remove").disabled=false;
-  stopOthers(t.src); $("video").classList.remove("live");
-  if(t.src==="sc"){ setTube("Warming up",""); scPlay(t); armTapHint(t); return }
-  if(ytFailed){ fail(); setTube("No picture here","The video player can't load on this page. Use the YouTube link on the dial to hear this song."); return }
-  if(!player){ initYT() }
-  if(!ytReady){ setTube("Warming up",""); return }   // onReady starts it
+  current=t; renderDial(); renderLineup(); $("remove").disabled=false;
   if(player&&ytReady){
     try{player.loadVideoById(t.id)}catch(e){}
     // Phones may refuse to start sound on their own. If nothing is playing after a moment,
     // show the video and ask for a tap on the play key, which counts as permission.
-    armTapHint(t);
+    clearTimeout(blockTimer);
+    blockTimer=setTimeout(()=>{if(power&&!playing&&current===t){$("video").classList.remove("live");setTube("Tap ▶ to start","Your phone needs one tap before it will play sound.")}},2500);
   }
-}
-function armTapHint(t){
-  clearTimeout(blockTimer);
-  blockTimer=setTimeout(()=>{if(power&&!playing&&current===t){$("video").classList.remove("live");setTube("Tap ▶ to start","Your phone needs one tap before it will play sound.")}},t.src==="sc"?4500:2500);
 }
 function next(){
   if(!power) return;
@@ -481,25 +408,23 @@ function next(){
 function prev(){
   if(!power) return;
   if(played.length>1){played.pop();const t=played[played.length-1];const i=queue.findIndex(x=>key(x)===key(t));if(i>=0)pos=i;play(t)}
-  else if(current?.src==="sc"&&sc){sc.seekTo(0)}
   else if(player&&ytReady){try{player.seekTo(0,true)}catch(e){}}
 }
 function playPause(){
   if(!power){setPower(true);return}
-  if(!current){next();return}
-  if(current.src==="sc"){ if(!sc) return; if(playing) sc.pause(); else {setTube(null); sc.play()} return }
-  if(!player||!ytReady) return;
-  if(playing) player.pauseVideo(); else {setTube(null);player.playVideo()}
+  if(!player||!ytReady){if(!current)next();return}
+  if(playing) player.pauseVideo(); else if(current){setTube(null);player.playVideo()} else next();
 }
+let pendingDay=null;
 function setPower(on,startDay){
   power=on; $("radio").classList.toggle("on",on); $("power").setAttribute("aria-checked",on);
   if(on){
     played=[]; pos=-1; queue=buildQueue();
-    if(!hasMusic()){setTube("No songs yet","Run build_tracks.py to load songs for each band.");renderDial();return}
+    if(!Object.keys(TRACKS).length){setTube("No songs yet","Run build_tracks.py to load songs for each band.");renderDial();return}
     if(startDay!=null&&queue.length) pos=closestIndex(startDay)-1;
-    next();
+    if(ytFailed) fail(); else if(ytReady) next(); else {pendingDay=startDay??null;setTube("Warming up","")}
   } else {
-    stopOthers("none");
+    if(player&&ytReady){try{player.stopVideo()}catch(e){}}
     playing=false; current=null; clearTimeout(blockTimer); $("video").classList.remove("live");
     setTube("Off","Flip the power switch to start the station."); $("remove").disabled=true;
   }
@@ -524,7 +449,8 @@ function renderDial(){
   }
   const s=current.show;
   $("artist").textContent=current.artist; $("song").textContent=current.title;
-  $("gig").innerHTML=`<span>${fmt(s.date)}</span><span>${SHOWS[s.venue].name}</span>${s.sold?'<span class="chip">Sold out</span>':""}<a href="${s.url}" target="_blank" rel="noopener" ${trackAttrs("tickets",current.artist,s)}>Tickets ↗</a>${current.src==="sc"?`<a href="${current.link||current.url}" target="_blank" rel="noopener" ${trackAttrs("soundcloud",current.artist,s)}>SoundCloud ↗</a>`:`<a href="https://www.youtube.com/watch?v=${current.id}" target="_blank" rel="noopener" ${trackAttrs("youtube",current.artist,s)}>YouTube ↗</a>`}${SOURCES[current.artist]?.bandcamp?`<a href="${SOURCES[current.artist].bandcamp}" target="_blank" rel="noopener" ${trackAttrs("bandcamp",current.artist,s)}>Bandcamp ↗</a>`:""}`;
+  $("gig").innerHTML=`<span>${fmt(s.date)}</span><span>${SHOWS[s.venue].name}</span>${s.sold?'<span class="chip">Sold out</span>':""}<span>${countedLink("tickets",s.url,"Tickets ↗",current.artist,s)}</span><span>${countedLink("youtube","https://www.youtube.com/watch?v="+current.id,"YouTube ↗",current.artist,s)}</span>`;
+  watchCounts($("gig"));
 }
 function renderKnob(){
   $("knob").style.transform=`rotate(${ANG[stationIdx]}deg)`;
@@ -604,9 +530,10 @@ function renderLineup(){
   for(const s of list){
     const li=document.createElement("li"); if(cur===s.url) li.className="now";
     const others=s.all.filter(a=>!s.artists.includes(a));
-    li.innerHTML=`<span class="d">${fmt(s.date)}</span><span class="who"><b>${s.artists.join(", ")}</b>${others.length?` with ${others.join(", ")}`:""}${s.sold?'<span class="so">SOLD OUT</span>':""}<span class="v">${SHOWS[s.venue].name}</span></span><a href="${s.url}" target="_blank" rel="noopener" ${trackAttrs("tickets",s.artists[0],s)}>Tickets ↗</a>`;
+    li.innerHTML=`<span class="d">${fmt(s.date)}</span><span class="who"><b>${s.artists.join(", ")}</b>${others.length?` with ${others.join(", ")}`:""}${s.sold?'<span class="so">SOLD OUT</span>':""}<span class="v">${SHOWS[s.venue].name}</span></span><span>${countedLink("tickets",s.url,"Tickets ↗",s.artists[0],s)}</span>`;
     el.appendChild(li);
   }
+  watchCounts(el);
   const n=removed.size, note=$("removedNote");
   note.hidden=!n; if(n) note.innerHTML=`You've removed ${n} song${n===1?"":"s"}. <button type="button" id="restore">Put them back</button>`;
   if(n) $("restore").onclick=()=>{removed.clear();store.set("removed",[]);rebuild(true);renderAll()};
@@ -640,6 +567,7 @@ $("sold").onclick=()=>{skipSold=!skipSold;$("sold").setAttribute("aria-checked",
 $("remove").onclick=()=>{if(!current)return;removed.add(current.id);store.set("removed",[...removed]);rebuild(true);next();renderLineup()};
 $("allOn").onclick=()=>{Object.keys(SHOWS).forEach(id=>enabled.add(id));afterFilter()};
 $("allOff").onclick=()=>{enabled.clear();afterFilter()};
+
 
 /* ---------- Date scale: today to three months out ---------- */
 const DAY=864e5;
@@ -689,14 +617,52 @@ function jumpTo(d){
 
 /* ---------- Click counting (GoatCounter) ---------- */
 const slug=x=>String(x).toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
-function trackAttrs(kind,artist,s){
-  const path=`${kind}/${s.venue}/${s.date}/${slug(artist)}`;
-  const title=`${{tickets:"Tickets",youtube:"YouTube",soundcloud:"SoundCloud",bandcamp:"Bandcamp"}[kind]}: ${artist} at ${SHOWS[s.venue].name}, ${s.date}`;
-  return `data-track="${path}" data-title="${title.replace(/"/g,"&quot;")}"`;
+// Ticket clicks are counted per show (everyone in the lineup shares one count); YouTube clicks per band.
+// Every click is also counted under all/tickets or all/youtube for the totals at the top of the page.
+function linkPath(kind,artist,s){return kind==="tickets"?`tickets/${s.venue}/${s.date}/${slug(s.all[0])}`:`youtube/${slug(artist)}`}
+function countedLink(kind,href,label,artist,s){
+  const path=linkPath(kind,artist,s);
+  const title=`${kind==="tickets"?"Tickets":"YouTube"}: ${kind==="tickets"?s.all.join(", "):artist} at ${SHOWS[s.venue].name}, ${s.date}`;
+  return `<a href="${href}" target="_blank" rel="noopener" data-track="${path}" data-kind="${kind}" data-title="${title.replace(/"/g,"&quot;")}">${label}</a>`+
+         `<span class="cnt" data-count="${path}" hidden></span>`;
+}
+/* Public click counts come from GoatCounter's counter feature, which GoatCounter refreshes every few hours.
+   Clicks made during this visit are added on the spot so people see their own click register. */
+const GC_BASE=GOATCOUNTER_CODE?`https://${GOATCOUNTER_CODE}.goatcounter.com`:"";
+const counts=new Map(), mine=new Map();
+function fetchCount(path){
+  if(!GC_BASE) return Promise.resolve(0);
+  if(!counts.has(path)) counts.set(path,fetch(`${GC_BASE}/counter/${encodeURIComponent(path)}.json`)
+    .then(r=>r.ok?r.json():{count:"0"}).then(j=>parseInt(String(j.count).replace(/\D/g,""),10)||0).catch(()=>0));
+  return counts.get(path);
+}
+const plural=(n,w)=>`${n.toLocaleString()} ${w}${n===1?"":"s"}`;
+async function fillCount(el){
+  const p=el.dataset.count, n=(await fetchCount(p))+(mine.get(p)||0);
+  el.hidden=!n; el.textContent=n.toLocaleString(); el.title=`${plural(n,"click")} from Small Room Radio`;
+}
+// Counts load when their link scrolls near the screen (the empty badge itself is hidden, so we watch the link).
+const countObserver=("IntersectionObserver" in window)?new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){countObserver.unobserve(e.target);fillCount(e.target.nextElementSibling)}}),{rootMargin:"300px"}):null;
+function watchCounts(root){ if(!GC_BASE) return; root.querySelectorAll(".cnt").forEach(el=>countObserver?countObserver.observe(el.previousElementSibling):fillCount(el)) }
+async function renderReach(){
+  if(!GC_BASE) return;
+  const [t,y]=await Promise.all(["all/tickets","all/youtube"].map(fetchCount));
+  const T=t+(mine.get("all/tickets")||0), Y=y+(mine.get("all/youtube")||0), r=$("reach");
+  if(!T&&!Y){r.hidden=true;return}
+  r.hidden=false;
+  r.innerHTML=`So far listeners have opened <b>${plural(T,"ticket page")}</b> and <b>${plural(Y,"YouTube video")}</b> from this radio.`;
 }
 document.addEventListener("click",e=>{
   const a=e.target.closest&&e.target.closest("a[data-track]"); if(!a) return;
-  try{window.goatcounter&&window.goatcounter.count&&window.goatcounter.count({path:a.dataset.track,title:a.dataset.title,event:true})}catch(_){}
+  const path=a.dataset.track, total="all/"+a.dataset.kind;
+  try{ const gc=window.goatcounter; if(gc&&gc.count){
+    gc.count({path,title:a.dataset.title,event:true});
+    gc.count({path:total,title:a.dataset.kind==="tickets"?"All ticket clicks":"All YouTube clicks",event:true});
+  }}catch(_){}
+  for(const p of [path,total]) mine.set(p,(mine.get(p)||0)+1);
+  document.querySelectorAll(`.cnt[data-count="${CSS.escape(path)}"]`).forEach(fillCount);
+  renderReach();
 });
 if(GOATCOUNTER_CODE){
   const g=document.createElement("script"); g.async=true; g.src="https://gc.zgo.at/count.js";
@@ -729,9 +695,8 @@ function veneer(){
 /* ---------- Start ---------- */
 (async()=>{
   buildKnob(); buildScale(); veneer();
-  const [shows,genres,tracks,sources]=await Promise.all([load("shows.json",{venues:{}}),load("genres.json",{}),load("tracks.json",{}),load("sources.json",{})]);
+  const [shows,genres,tracks]=await Promise.all([load("shows.json",{venues:{}}),load("genres.json",{}),load("tracks.json",{})]);
   SHOWS=shows.venues||{}; SOLD=new Set(shows.sold_out||[]); TRACKS=tracks||{};
-  for(const [a,v] of Object.entries(sources||{})) if(a[0]!=="_"&&v) SOURCES[a]=v;
   for(const g of STATIONS.slice(1)) for(const a of (genres[g.id]||[])) GENRE_OF[a]=g.id;
   buildMap();
   const ids=Object.keys(SHOWS), p=store.get("prefs",null);
@@ -743,7 +708,7 @@ function veneer(){
     if(v) enabled=new Set([v]); if(i>=0) stationIdx=i;
   }
   $("order").setAttribute("aria-checked",shuffle); $("sold").setAttribute("aria-checked",skipSold);
-  queue=buildQueue(); renderAll(); renderPP();
+  queue=buildQueue(); renderAll(); renderPP(); renderReach();
   if(Object.keys(TRACKS).length) initYT();   // load the player now so the power switch can start sound right away
 })();
 </script>
