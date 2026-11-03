@@ -652,10 +652,10 @@ function layoutScene(){
   const vw=document.documentElement.clientWidth;
   const v=(vw<700&&GEOM.tall)?"tall":"wide"; if(v!==variant) applyGeom(v);
   const g=GEOM[v], pw=g.plate[2]-g.plate[0], cx=(g.plate[0]+g.plate[2])/2;
-  const cropTop=v==="tall"?.0:.226, cropBot=v==="tall"?.0:.05;
+  const cropTop=v==="tall"?.0:.25, cropBot=v==="tall"?.0:.08;
   const vh=window.innerHeight, top=$("radio").getBoundingClientRect().top+scrollY;
-  const fitH=(vh-top-84)/(g.h/(g.w*pw)*(1-cropTop-cropBot));
-  const platePx=v==="tall"?Math.min(560,vw*.92):Math.max(Math.min(640,vw*.94),Math.min(1000,vw*.94,fitH));
+  const fitH=(vh-top-230)/(g.h/(g.w*pw)*(1-cropTop-cropBot));
+  const platePx=v==="tall"?Math.min(560,vw*.92):Math.max(Math.min(600,vw*.94),Math.min(1000,vw*.94,fitH));
   const W=platePx/pw, H=W*g.h/g.w;
   const box=$("sceneBox"); box.style.width=W+"px"; box.style.height=H+"px"; box.style.left=(vw/2-cx*W)+"px"; box.style.top=(-cropTop*H)+"px";
   box.style.setProperty("--pw",platePx+"px");
