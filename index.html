@@ -119,9 +119,11 @@ button{font:inherit;color:inherit}
   box-shadow:inset 0 1px 2px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.45)}
 :root[data-theme="dark"] .scrub .slot{box-shadow:inset 0 1px 2px rgba(0,0,0,.9),0 1px 0 rgba(255,255,255,.08)}
 .scrub .handle{position:absolute;top:0;height:100%;width:var(--hw);left:calc(var(--hw) / 2 + var(--p) * (100% - var(--hw)));transform:translateX(-50%);border-radius:50%;
-  background:radial-gradient(circle at 38% 32%,#fffdf8,#efebe2 55%,#d4cfc3);box-shadow:0 calc(var(--pw) * .0025) 0 #a9a497,0 calc(var(--pw) * .004) calc(var(--pw) * .006) rgba(0,0,0,.45)}
+  --h-hi:#55575b;--h-mid:#34363a;--h-lo:#202124;--h-edge:#121314;
+  background:radial-gradient(circle at 38% 32%,var(--h-hi),var(--h-mid) 55%,var(--h-lo));box-shadow:0 calc(var(--pw) * .0025) 0 var(--h-edge),0 calc(var(--pw) * .004) calc(var(--pw) * .006) rgba(0,0,0,.45)}
+:root[data-theme="dark"] .scrub .handle{--h-hi:#fffdf8;--h-mid:#efebe2;--h-lo:#d4cfc3;--h-edge:#a9a497}
 .scrub .handle::after{content:"";position:absolute;left:50%;top:22%;bottom:22%;width:2px;margin-left:-1px;border-radius:1px;background:#d22f1c}
-.scrub.dragging .handle,.scrub:active .handle{box-shadow:0 calc(var(--pw) * .001) 0 #a9a497,0 calc(var(--pw) * .002) calc(var(--pw) * .003) rgba(0,0,0,.4);transform:translateX(-50%) translateY(calc(var(--pw) * .0015))}
+.scrub.dragging .handle,.scrub:active .handle{box-shadow:0 calc(var(--pw) * .001) 0 var(--h-edge),0 calc(var(--pw) * .002) calc(var(--pw) * .003) rgba(0,0,0,.4);transform:translateX(-50%) translateY(calc(var(--pw) * .0015))}
 .scrub.idle{cursor:default} .scrub.idle .handle{filter:saturate(.6)}
 .scrub:focus-visible{outline:2px solid var(--orange);outline-offset:3px;border-radius:999px}
 /* the heart takes the accent colour while the song playing is a favorite */
@@ -846,9 +848,9 @@ function applyGeom(v){
      const lb=document.querySelector(`.tl[data-for="${id}"]`); lb.style.left=pc(id==="prev"?gx-off*1.25:id==="next"?gx+off*1.25:x); lb.style.top=ly}
    // scrub slider: a 2 mm slot as wide as the video window, centred in the strip below it, with a 7 mm round handle
    // the model is drawn at about 4.5 mm per unit (faceplate ~32 cm wide): 7 mm handle, 2 mm slot
-   const MM=1/4.5, fx=hw("prev")/g.keys.prev.half, S=B.screen, mid=(S[3]+B.display[1])/2, sc=$("scrub"), hd=7*MM;
+   const MM=1/4.5, fx=hw("prev")/g.keys.prev.half, S=B.screen, mid=(S[3]+B.display[1])/2, sc=$("scrub"), hd=10*MM;
    placeBox(sc,[S[0],mid-hd/2*fy,S[2],mid+hd/2*fy]);
-   sc.style.setProperty("--hw",hd*fx/(S[2]-S[0])*100+"%"); sc.style.setProperty("--slot",(2/7*100)+"%")}
+   sc.style.setProperty("--hw",hd*fx/(S[2]-S[0])*100+"%"); sc.style.setProperty("--slot",(3/10*100)+"%")}
   {const d=g.boxes.dial,b=g.boxes.vol,x=pc((b[0]+b[2])/2);for(const id of ["order","favmode"]){const o=$(id);o.style.left=x;o.style.top=pc(d[3])}}
   setSceneTheme(); if(typeof sel==="object") renderKnob();
 }
