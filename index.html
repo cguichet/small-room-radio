@@ -791,8 +791,8 @@ function applyGeom(v){
    const xP=(vb[0]+vb[2])/2, sp=xP-xL;
    const gx=xL+sp*.645, bw=hw("prev")*2*.9, off=bw*(2.45/(2*g.keys.prev.half))/2+bw*.125;
    // every transport key is as tall as last/next; labels sit in one row about 5 mm under them
-   const L={fav:["remove",0,1.016],remove:["remove",.3,1.05],prev:["prev",(gx-off-xL)/sp,.9],next:["next",(gx+off-xL)/sp,.9],pp:["pp",1,.852]};
-   const ly=pc(cy+(Hv/2+.5)*fy);
+   const L={fav:["remove",0,.914],remove:["remove",.3,.945],prev:["prev",(gx-off-xL)/sp,.9],next:["next",(gx+off-xL)/sp,.9],pp:["pp",1,1.022]};
+   const ly=pc(cy+(Hv/2+1.0)*fy);
    for(const [id,[src,f,sc]] of Object.entries(L)){const x=xL+sp*f,w=hw(src)*sc,h=hh(src)*sc;placeBox($(id),[x-w,cy-h,x+w,cy+h]);
      const lb=document.querySelector(`.tl[data-for="${id}"]`); lb.style.left=pc(id==="prev"?gx-off*1.25:id==="next"?gx+off*1.25:x); lb.style.top=ly}}
   {const d=g.boxes.dial,b=g.boxes.vol,x=pc((b[0]+b[2])/2);for(const id of ["order","favmode"]){const o=$(id);o.style.left=x;o.style.top=pc(d[3])}}
