@@ -793,7 +793,7 @@ function applyGeom(v){
    // every transport key is as tall as last/next; labels sit in one row about 5 mm under them
    const L={fav:["remove",0,.914],remove:["remove",.3,.945],prev:["prev",(gx-off-xL)/sp,.9],next:["next",(gx+off-xL)/sp,.9],pp:["pp",1,1.022]};
    const ly=pc(cy+(Hv/2+1.5)*fy);
-   for(const [id,[src,f,sc]] of Object.entries(L)){const x=xL+sp*f,w=hw(src)*sc,h=hh(src)*sc;placeBox($(id),[x-w,cy-h,x+w,cy+h]);
+   for(const [id,[src,f,sc]] of Object.entries(L)){const x=xL+sp*f,w=hw(src)*sc,h=hh(src)*sc,y=cy+(id==="fav"?.3*fy:0);placeBox($(id),[x-w,y-h,x+w,y+h]);
      const lb=document.querySelector(`.tl[data-for="${id}"]`); lb.style.left=pc(id==="prev"?gx-off*1.25:id==="next"?gx+off*1.25:x); lb.style.top=ly}}
   {const d=g.boxes.dial,b=g.boxes.vol,x=pc((b[0]+b[2])/2);for(const id of ["order","favmode"]){const o=$(id);o.style.left=x;o.style.top=pc(d[3])}}
   setSceneTheme(); if(typeof sel==="object") renderKnob();
