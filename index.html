@@ -297,6 +297,41 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 .lineup li.playable{cursor:pointer}
 .lineup li.playable:hover{background:color-mix(in srgb,var(--green) 6%,transparent)}
 @media (max-width:520px){.flist li{grid-template-columns:24px minmax(0,1fr)} .flist .lk{grid-column:2}}
+/* ---- dateline: a printed tuning dial behind glass. White face, ink scale, red needle, red dots for shows;
+   a small amber window for the station text and two amber indicators for Favorites and Shuffle ---- */
+#uiDial{--face:#f5f2ea;--ink:#2b2b2a;--ink2:#6d6b66;--red:#d22f1c;
+  color:var(--ink);background:linear-gradient(180deg,#fbf9f4,var(--face) 30%,#ebe6db);border-radius:calc(var(--pw) * .008);
+  box-shadow:0 0 0 calc(var(--pw) * .0022) #3a3631,inset 0 calc(var(--pw) * .004) calc(var(--pw) * .008) rgba(0,0,0,.22),inset 0 0 0 1px rgba(0,0,0,.08);
+  padding:calc(var(--pw) * .012) calc(var(--pw) * .02) calc(var(--pw) * .008);text-shadow:none;justify-content:space-between}
+:root[data-theme="dark"] #uiDial{--face:#e7decb;background:linear-gradient(180deg,#efe7d5,var(--face) 30%,#d9cfba)}
+#uiDial::before{display:none}
+.on #uiDial{color:var(--ink);text-shadow:none}
+/* glass glare across the top of the face */
+#uiDial::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(170deg,rgba(255,255,255,.55),rgba(255,255,255,0) 38%)}
+.dialhead{display:flex;align-items:stretch;gap:calc(var(--pw) * .007)}
+.minivfd{position:relative;display:flex;align-items:center;border-radius:calc(var(--pw) * .004);background:#22160a;color:var(--dial-off);
+  box-shadow:inset 0 calc(var(--pw) * .0015) calc(var(--pw) * .003) rgba(0,0,0,.7),0 1px 0 rgba(255,255,255,.6);padding:calc(var(--pw) * .0045) calc(var(--pw) * .009);transition:color .6s}
+.on .minivfd{color:var(--amber);text-shadow:0 0 calc(var(--pw) * .006) var(--amber-glow);background:radial-gradient(120% 160% at 50% 0%,#5a330d,#2a1708 75%)}
+.dialhead>.minivfd:first-child{flex:1;min-width:0}
+.dialhead .dial-top{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.1em}
+.dialhead .ind{justify-content:center;width:calc(var(--pw) * .042);padding:0}
+.dialhead .shuf-ico{width:calc(var(--pw) * .02)} .dialhead .heart-ico{width:calc(var(--pw) * .016)}
+/* the printed scale */
+#uiDial .scale{height:calc(var(--pw) * .046);margin:0 1.5% calc(var(--pw) * .016)}
+#uiDial .scale .base{border-bottom:1px solid var(--ink);opacity:.85}
+#uiDial .tk{background:var(--ink);opacity:.75;height:calc(var(--pw) * .01)}
+#uiDial .tk.dd{height:calc(var(--pw) * .005);opacity:.35}
+#uiDial .tk.mo{height:calc(var(--pw) * .024);opacity:.95;width:1.4px}
+#uiDial .mo-l{color:var(--ink2);bottom:calc(var(--pw) * .027);font-size:calc(var(--pw) * .0095)}
+#uiDial .dot{background:var(--red);opacity:.85;width:3.5px;height:3.5px;margin-left:-1.75px;bottom:calc(var(--pw) * .0145)}
+#uiDial .needle{background:var(--red);width:3px;margin-left:-1.5px;top:-6%;bottom:-14%;box-shadow:1px 1px 2px rgba(0,0,0,.35);border-radius:1px}
+#uiDial .hover{background:var(--ink);color:#fff}
+.tall #uiDial .scale{height:calc(var(--pw) * .07)} .tall #uiDial .tk{height:calc(var(--pw) * .014)} .tall #uiDial .tk.dd{height:calc(var(--pw) * .007)}
+.tall #uiDial .tk.mo{height:calc(var(--pw) * .034)} .tall #uiDial .mo-l{bottom:calc(var(--pw) * .038);font-size:calc(var(--pw) * .014)}
+.tall #uiDial .dot{bottom:calc(var(--pw) * .019)} .tall .dialhead .ind{width:calc(var(--pw) * .07)}
+.tall .dialhead .shuf-ico{width:calc(var(--pw) * .034)} .tall .dialhead .heart-ico{width:calc(var(--pw) * .028)}
+#uiDial .wk-l{position:absolute;top:calc(100% + 2px);transform:translateX(-50%);font:500 calc(var(--pw) * .0072)/1 var(--f-body);color:var(--ink2);letter-spacing:.02em}
+.tall #uiDial .wk-l{font-size:calc(var(--pw) * .011)} .tall #uiDial .scale{margin-bottom:calc(var(--pw) * .024)} .tall #uiDial .dot{width:4px;height:4px;margin-left:-2px}
 .tall .dot{bottom:calc(var(--pw) * .0118)}
 </style>
 
@@ -314,7 +349,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
       <div class="tube-msg" id="tubeMsg"><span>Press <span class="playdot" aria-hidden="true"></span> to start</span><small class="tip">Tip: check which venues are on in the Venues window. Try picking a few near you.</small></div>
     </div>
     <div class="ui-dial vfd" id="uiDial">
-      <div class="vfd-row"><span class="dial-top" id="dialTop">—</span><span class="dateblk"><svg class="shuf-ico heart-ico" id="favIco" viewBox="0 0 24 22" aria-hidden="true"><path d="M12 20.5C10 19 2.5 13.6 2.5 7.9 2.5 4.9 4.8 2.6 7.6 2.6c1.8 0 3.4 1 4.4 2.5 1-1.5 2.6-2.5 4.4-2.5 2.8 0 5.1 2.3 5.1 5.3 0 5.7-7.5 11.1-9.5 12.6Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><svg class="shuf-ico" id="shufIco" viewBox="0 0 24 16" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h4.5c2.2 0 3.6 1.2 4.8 3.4l1.4 3.2c1.2 2.2 2.6 3.4 4.8 3.4H21"/><path d="M2 13h4.5c1.6 0 2.8-.7 3.8-2"/><path d="M13.7 5c1-1.3 2.2-2 3.8-2H21"/><path d="M18.5 .6 21.2 3l-2.7 2.4M18.5 10.6l2.7 2.4-2.7 2.4"/></g></svg><span class="date-read" id="dateRead" hidden>—</span></span></div>
+      <div class="vfd-row dialhead"><div class="minivfd"><span class="dial-top" id="dialTop">—</span></div><span class="ind minivfd" title="Favorites"><svg class="shuf-ico heart-ico" id="favIco" viewBox="0 0 24 22" aria-hidden="true"><path d="M12 20.5C10 19 2.5 13.6 2.5 7.9 2.5 4.9 4.8 2.6 7.6 2.6c1.8 0 3.4 1 4.4 2.5 1-1.5 2.6-2.5 4.4-2.5 2.8 0 5.1 2.3 5.1 5.3 0 5.7-7.5 11.1-9.5 12.6Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg></span><span class="ind minivfd" title="Shuffle"><svg class="shuf-ico" id="shufIco" viewBox="0 0 24 16" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h4.5c2.2 0 3.6 1.2 4.8 3.4l1.4 3.2c1.2 2.2 2.6 3.4 4.8 3.4H21"/><path d="M2 13h4.5c1.6 0 2.8-.7 3.8-2"/><path d="M13.7 5c1-1.3 2.2-2 3.8-2H21"/><path d="M18.5 .6 21.2 3l-2.7 2.4M18.5 10.6l2.7 2.4-2.7 2.4"/></g></svg></span><span class="date-read" id="dateRead" hidden>—</span></div>
       <div class="scale" id="scale" tabindex="0" role="slider" aria-label="Skip to a show date"><div id="ticks"></div><div id="dots"></div><span class="needle" id="needle"></span><span class="hover" id="hoverDate" hidden></span></div>
     </div>
     <button type="button" id="favmode" class="tkey" role="switch" aria-checked="false" aria-label="Play favorites">Favorites</button><button type="button" id="order" class="tkey" role="switch" aria-checked="false" aria-label="Shuffle">Shuffle</button>
@@ -678,7 +713,7 @@ function buildScale(){
     if(dt.getUTCDate()===1){
       h+=`<span class="tk mo" style="left:${x}%"></span>`;
       if(x>14) h+=`<span class="mo-l${x>88?" end":""}" style="left:${x}%">${x>88?"":"&nbsp;"}${MON[dt.getUTCMonth()]}</span>`;
-    } else if(dt.getUTCDay()===1) h+=`<span class="tk" style="left:${x}%"></span>`;
+    } else if(dt.getUTCDay()===1) h+=`<span class="tk" style="left:${x}%"></span><span class="wk-l" style="left:${x}%">${dt.getUTCDate()}</span>`; else h+=`<span class="tk dd" style="left:${x}%"></span>`;
   }
   $("ticks").innerHTML=h;
   const sc=$("scale"), dayAt=e=>{const r=sc.getBoundingClientRect();return Math.round(T0+Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*(T1-T0))};
@@ -779,6 +814,7 @@ const pc=v=>(v*100).toFixed(3)+"%";
 function placeBox(el,b){el.style.left=pc(b[0]);el.style.top=pc(b[1]);el.style.width=pc(b[2]-b[0]);el.style.height=pc(b[3]-b[1])}
 function applyGeom(v){
   const g=GEOM[v]; variant=v; $("radio").classList.toggle("tall",v==="tall");
+  if(!g._dialGrown){const d=g.boxes.dial; d[3]=d[1]+(d[3]-d[1])*1.15; g._dialGrown=true}
   for(const [id,b] of Object.entries(g.boxes)) placeBox($(id==="screen"?"uiScreen":id==="display"?"uiDisplay":id==="dial"?"uiDial":id),b);
   {const B=g.boxes, k=$("gbank");
    const cy=(B.remove[1]+B.remove[3])/2, xL=(B.remove[0]+B.remove[2])/2;
