@@ -318,21 +318,21 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 .dialhead .ind{display:flex;align-items:center}
 .dialhead .shuf-ico{width:calc(var(--pw) * .02)} .dialhead .heart-ico{width:calc(var(--pw) * .016)}
 /* the printed scale */
-#uiDial .scale{height:calc(var(--pw) * .046);margin:0 1.5% calc(var(--pw) * .027)}
+#uiDial .scale{height:calc(var(--pw) * .046);margin:0 1.5% calc(var(--pw) * .016)}
 #uiDial .scale .base{border-bottom:1px solid var(--ink);opacity:.85}
 #uiDial .tk{background:var(--ink);opacity:.75;height:calc(var(--pw) * .01)}
 #uiDial .tk.dd{height:calc(var(--pw) * .005);opacity:.35}
 #uiDial .tk.mo{height:calc(var(--pw) * .024);opacity:.95;width:1.4px}
 #uiDial .mo-l{color:var(--ink2);bottom:calc(var(--pw) * .027);font-size:calc(var(--pw) * .0095)}
 #uiDial .dot{background:var(--red);opacity:.85;width:3.5px;height:3.5px;margin-left:-1.75px;bottom:calc(var(--pw) * .0145)}
-#uiDial .needle{background:var(--red);width:3px;margin-left:-1.5px;top:calc(var(--pw) * .02);bottom:calc(var(--pw) * -.035);box-shadow:1px 1px 2px rgba(0,0,0,.35);border-radius:1px}
+#uiDial .needle{background:var(--red);width:3px;margin-left:-1.5px;top:calc(var(--pw) * .02);bottom:calc(var(--pw) * -.024);box-shadow:1px 1px 2px rgba(0,0,0,.35);border-radius:1px}
 #uiDial .hover{background:var(--ink);color:#fff}
 .tall #uiDial .scale{height:calc(var(--pw) * .07)} .tall #uiDial .tk{height:calc(var(--pw) * .014)} .tall #uiDial .tk.dd{height:calc(var(--pw) * .007)}
-.tall #uiDial .tk.mo{height:calc(var(--pw) * .034)} .tall #uiDial .needle{top:calc(var(--pw) * .031);bottom:calc(var(--pw) * -.0445)} .tall #uiDial .mo-l{bottom:calc(var(--pw) * .038);font-size:calc(var(--pw) * .014)}
+.tall #uiDial .tk.mo{height:calc(var(--pw) * .034)} .tall #uiDial .needle{top:calc(var(--pw) * .031);bottom:calc(var(--pw) * -.032)} .tall #uiDial .mo-l{bottom:calc(var(--pw) * .038);font-size:calc(var(--pw) * .014)}
 .tall #uiDial .dot{bottom:calc(var(--pw) * .019)} 
 .tall .dialhead .shuf-ico{width:calc(var(--pw) * .034)} .tall .dialhead .heart-ico{width:calc(var(--pw) * .028)}
 #uiDial .wk-l{position:absolute;top:calc(100% + 2px);transform:translateX(-50%);font:500 calc(var(--pw) * .0072)/1 var(--f-body);color:var(--ink2);letter-spacing:.02em}
-.tall #uiDial .wk-l{font-size:calc(var(--pw) * .011)} .tall #uiDial .scale{margin-bottom:calc(var(--pw) * .0365)} .tall #uiDial .dot{width:4px;height:4px;margin-left:-2px}
+.tall #uiDial .wk-l{font-size:calc(var(--pw) * .011)} .tall #uiDial .scale{margin-bottom:calc(var(--pw) * .024)} .tall #uiDial .dot{width:4px;height:4px;margin-left:-2px}
 .tall .dot{bottom:calc(var(--pw) * .0118)}
 </style>
 
@@ -815,7 +815,7 @@ const pc=v=>(v*100).toFixed(3)+"%";
 function placeBox(el,b){el.style.left=pc(b[0]);el.style.top=pc(b[1]);el.style.width=pc(b[2]-b[0]);el.style.height=pc(b[3]-b[1])}
 function applyGeom(v){
   const g=GEOM[v]; variant=v; $("radio").classList.toggle("tall",v==="tall");
-  if(!g._dialGrown){const d=g.boxes.dial; d[3]=d[1]+(d[3]-d[1])*1.15; g._dialGrown=true}
+  if(!g._dialGrown){const d=g.boxes.dial, P=g.boxes.prev, fy=(P[3]-P[1])/2/g.keys.prev.half; d[3]=d[1]+(d[3]-d[1])*1.15-.5*fy; g._dialGrown=true}
   for(const [id,b] of Object.entries(g.boxes)) placeBox($(id==="screen"?"uiScreen":id==="display"?"uiDisplay":id==="dial"?"uiDial":id),b);
   {const B=g.boxes, k=$("gbank");
    const cy=(B.remove[1]+B.remove[3])/2, xL=(B.remove[0]+B.remove[2])/2;
