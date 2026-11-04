@@ -114,8 +114,8 @@ button{font:inherit;color:inherit}
 .vlabel.tl{font-size:calc(var(--pw) * .0115);margin-top:0}
 .tall .vlabel{margin-top:calc(var(--pw) * .018)} .tall .vlabel.tl{font-size:calc(var(--pw) * .019);margin-top:0}
 /* crisp rims on the rendered video and information windows */
-.ui-screen,.ui-display{box-shadow:0 0 0 calc(var(--pw) * .0016) #0b0907,0 calc(var(--pw) * .0012) 0 calc(var(--pw) * .0016) rgba(255,255,255,.28)}
-:root[data-theme="dark"] .ui-screen,:root[data-theme="dark"] .ui-display{box-shadow:0 0 0 calc(var(--pw) * .0016) #070605,0 calc(var(--pw) * .0012) 0 calc(var(--pw) * .0016) rgba(255,255,255,.06)}
+.ui-screen{box-shadow:0 0 0 calc(var(--pw) * .0016) #0b0907,0 calc(var(--pw) * .0012) 0 calc(var(--pw) * .0016) rgba(255,255,255,.28)}
+:root[data-theme="dark"] .ui-screen{box-shadow:0 0 0 calc(var(--pw) * .0016) #070605,0 calc(var(--pw) * .0012) 0 calc(var(--pw) * .0016) rgba(255,255,255,.06)}
 .ui-display{border-radius:calc(var(--pw) * .012)}
 /* scrub slider under the video window */
 .scrub{cursor:pointer;touch-action:none;-webkit-tap-highlight-color:transparent;--p:0}
@@ -839,7 +839,7 @@ function applyGeom(v){
    const hw=id=>(B[id][2]-B[id][0])/2, hh=id=>(B[id][3]-B[id][1])/2;
    const fy=hh("prev")/g.keys.prev.half, Hv=2*2.45*.85*.9;           // cm -> frame fraction; height of the last/next keys in cm
    // genre bank and volume knob sit centred between the dateline window and the tops of the transport keys
-   const v0=B.vol, vh=(v0[3]-v0[1])/2/1.3, vc=(B.dial[3]+cy-Hv/2*fy)/2, vb=[v0[0],vc-(v0[3]-v0[1])/2,v0[2],vc+(v0[3]-v0[1])/2];
+   const v0=B.vol, vh=(v0[3]-v0[1])/2/1.3, vc=(B.dial[3]+cy-Hv/2*fy)/2+4/4.5*fy, vb=[v0[0],vc-(v0[3]-v0[1])/2,v0[2],vc+(v0[3]-v0[1])/2];
    placeBox($("vol"),vb); $("vlabel").style.left=pc((vb[0]+vb[2])/2); $("vlabel").style.top=pc(vc+vh);
    k.style.transform="none"; k.style.bottom="auto"; k.style.top=pc(vc-vh*1.06); k.style.height=pc(vh*2.12);
    const xP=(vb[0]+vb[2])/2, sp=xP-xL;
@@ -851,7 +851,7 @@ function applyGeom(v){
      const lb=document.querySelector(`.tl[data-for="${id}"]`); lb.style.left=pc(id==="prev"?gx-off*1.25:id==="next"?gx+off*1.25:x); lb.style.top=ly}
    // scrub slider: a 2 mm slot as wide as the video window, centred in the strip below it, with a 7 mm round handle
    // the model is drawn at about 4.5 mm per unit (faceplate ~32 cm wide): 7 mm handle, 2 mm slot
-   const MM=1/4.5, fx=hw("prev")/g.keys.prev.half, S=B.screen, mid=(S[3]+B.display[1])/2, sc=$("scrub"), hd=8.5*MM;
+   const MM=1/4.5, fx=hw("prev")/g.keys.prev.half, S=B.screen, mid=(S[3]+B.display[1])/2-3*MM*fy, sc=$("scrub"), hd=8.5*MM;
    const ins=3*MM*fx; placeBox(sc,[S[0]+ins,mid-hd/2*fy,S[2]-ins,mid+hd/2*fy]);
    sc.style.setProperty("--hw",hd*fx/(S[2]-S[0]-2*ins)*100+"%"); sc.style.setProperty("--slot",(2.5/8.5*100)+"%")}
   {const d=g.boxes.dial,b=g.boxes.vol,x=pc((b[0]+b[2])/2);for(const id of ["order","favmode"]){const o=$(id);o.style.left=x;o.style.top=pc(d[3])}}
