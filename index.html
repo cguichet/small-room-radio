@@ -96,28 +96,27 @@ button{font:inherit;color:inherit}
 .scene-img{display:block;width:100%;height:100%;max-width:none;user-select:none;-webkit-user-drag:none}
 .scene-box>*{position:absolute;box-sizing:border-box}
 .scene-box>.scene-img{position:relative}
-/* genre bank: two rows of four latching keys; a latched key sits down in the plate and its lamp glows when the radio is on */
-.gbank{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:auto auto;align-content:end;column-gap:1%;row-gap:calc(var(--pw) * .016);padding:calc(var(--pw) * .004) calc(var(--pw) * .024) 0 0;box-sizing:border-box;
-  --k-hi:#4a4c50;--k-mid:#303134;--k-lo:#1f2022;--k-edge:#141516;--lbl:#6f7072}
-:root[data-theme="dark"] .gbank{--k-hi:#f7f4ec;--k-mid:#dedad0;--k-lo:#bdb8ab;--k-edge:#8f8a7e;--lbl:#c9c6be}
-.gkey{min-width:0;overflow:visible;border:0;background:none;padding:0;margin:0;display:flex;flex-direction:column;align-items:center;gap:calc(var(--pw) * .012);cursor:pointer;
-  -webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none;-webkit-user-select:none}
-.gkey .cap{position:relative;display:block;width:74%;height:calc(var(--pw) * .031);border-radius:calc(var(--pw) * .0085);
-  background:linear-gradient(180deg,var(--k-hi),var(--k-mid) 60%,var(--k-lo));
-  box-shadow:0 calc(var(--pw) * .003) 0 var(--k-edge),0 calc(var(--pw) * .005) calc(var(--pw) * .006) rgba(0,0,0,.45);transition:transform .08s,box-shadow .08s}
-.gkey[aria-pressed="true"] .cap{transform:translateY(calc(var(--pw) * .0024));box-shadow:0 calc(var(--pw) * .0007) 0 var(--k-edge),0 calc(var(--pw) * .0014) calc(var(--pw) * .002) rgba(0,0,0,.4)}
-.gkey .led{position:absolute;left:50%;top:50%;width:calc(var(--pw) * .0095);height:calc(var(--pw) * .0095);margin:calc(var(--pw) * -.00475);border-radius:50%;
-  background:#2a1d14;box-shadow:inset 0 calc(var(--pw) * .001) calc(var(--pw) * .0012) rgba(0,0,0,.7);transition:background .2s,box-shadow .2s}
-.gkey[aria-pressed="true"] .led{background:#7a4a22}
-.on .gkey[aria-pressed="true"] .led{background:radial-gradient(circle at 40% 35%,#ffe2a8,#ffa63d 60%,#e07a1c);box-shadow:0 0 calc(var(--pw) * .007) rgba(255,160,60,.95),0 0 calc(var(--pw) * .016) rgba(255,140,40,.5)}
-.gkey .gl,.vlabel{font:600 calc(var(--pw) * .0138)/1.15 var(--f-body);letter-spacing:.03em;text-transform:uppercase;color:var(--lbl);white-space:nowrap;text-align:center}
-.vlabel{position:absolute;transform:translateX(-50%);line-height:1.15;margin-top:calc(var(--pw) * .012);color:var(--lbl);white-space:nowrap;pointer-events:none;
-  --lbl:#6f7072}
+/* genre bank: two rows of four light keys with the genre printed on the cap; a latched key sits down and its legend glows amber */
+.gbank{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:auto auto;align-content:space-between;column-gap:calc(var(--pw) * .019);padding:0 calc(var(--pw) * .022) 0 0;box-sizing:border-box}
+.gkey,.tkey{--c-hi:#fdfcf8;--c-mid:#efece4;--c-lo:#dcd8cd;--c-edge:#a9a497;--ink:#1d1e20;--glow:#ff7a00}
+:root[data-theme="dark"] .gkey,:root[data-theme="dark"] .tkey{--c-edge:#8f8a7e}
+.gkey{min-width:0;border:0;background:none;padding:0;margin:0;display:block;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.gkey .cap,.tkey{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:calc(var(--pw) * .039);border-radius:calc(var(--pw) * .0085);
+  background:linear-gradient(180deg,var(--c-hi),var(--c-mid) 60%,var(--c-lo));
+  box-shadow:0 calc(var(--pw) * .003) 0 var(--c-edge),0 calc(var(--pw) * .005) calc(var(--pw) * .006) rgba(0,0,0,.4);transition:transform .08s,box-shadow .08s}
+.gkey[aria-pressed="true"] .cap,.tkey[aria-checked="true"]{transform:translateY(calc(var(--pw) * .0024));box-shadow:0 calc(var(--pw) * .0007) 0 var(--c-edge),0 calc(var(--pw) * .0014) calc(var(--pw) * .002) rgba(0,0,0,.35)}
+.gkey .gl,.tkey{font:800 calc(var(--pw) * .0118)/1 var(--f-body);letter-spacing:.02em;text-transform:uppercase;color:var(--ink);white-space:nowrap;transition:color .2s,text-shadow .2s}
+.gkey[aria-pressed="true"] .gl,.tkey[aria-checked="true"]{color:#c86a1c}
+.on .gkey[aria-pressed="true"] .gl,.on .tkey[aria-checked="true"]{color:var(--glow);text-shadow:0 0 calc(var(--pw) * .0016) rgba(255,170,60,.9),0 0 calc(var(--pw) * .007) rgba(255,140,30,.45)}
+.vlabel{font:600 calc(var(--pw) * .0138)/1.15 var(--f-body);letter-spacing:.03em;text-transform:uppercase;color:var(--lbl);white-space:nowrap;text-align:center}
+.vlabel{position:absolute;transform:translateX(-50%);line-height:1.15;margin-top:calc(var(--pw) * .012);pointer-events:none;--lbl:#6f7072}
 :root[data-theme="dark"] .vlabel{--lbl:#c9c6be}
-.tall .vlabel{margin-top:calc(var(--pw) * .018)}
+.vlabel.tl{font-size:calc(var(--pw) * .0115);margin-top:calc(var(--pw) * .009)}
+.tall .vlabel{margin-top:calc(var(--pw) * .018)} .tall .vlabel.tl{font-size:calc(var(--pw) * .019);margin-top:calc(var(--pw) * .014)}
+/* the heart takes the accent colour while the song playing is a favorite */
+.ctl#fav.faved .cap{fill:url(#gp);stroke:url(#gp)}
 .gkey:focus-visible{outline:2px solid var(--orange);outline-offset:3px;border-radius:4px}
-.tall .gkey .cap{height:calc(var(--pw) * .05);border-radius:calc(var(--pw) * .014)} .tall .gkey .gl,.tall .vlabel{font-size:calc(var(--pw) * .024)} .tall .gkey{gap:calc(var(--pw) * .018)} .tall .gbank{row-gap:calc(var(--pw) * .026)}
-.tall .gkey .led{width:calc(var(--pw) * .016);height:calc(var(--pw) * .016);margin:calc(var(--pw) * -.008)}
+.tall .gkey .cap,.tall .tkey{height:calc(var(--pw) * .062);border-radius:calc(var(--pw) * .014)} .tall .gkey .gl,.tall .tkey{font-size:calc(var(--pw) * .0195)} .tall .vlabel{font-size:calc(var(--pw) * .024)} .tall .gbank{column-gap:calc(var(--pw) * .03)}
 .sprite{border:0;background:none;padding:0;margin:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .sprite img{display:block;width:100%;height:100%;pointer-events:none;-webkit-user-drag:none}
 .bulb{pointer-events:none}
@@ -163,7 +162,7 @@ button{font:inherit;color:inherit}
 .tk.mo{height:calc(var(--pw) * .014);opacity:1}
 .mo-l{position:absolute;bottom:calc(var(--pw) * .017);font:400 calc(var(--pw) * .009)/1 var(--f-engrave);letter-spacing:.12em;white-space:nowrap}
 .mo-l.end{transform:translateX(-100%)}
-.dot{position:absolute;bottom:-3px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:currentColor;opacity:.6}
+.dot{position:absolute;bottom:calc(var(--pw) * .0078);width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:currentColor;opacity:.6}
 .needle{position:absolute;top:0;bottom:-6px;width:2px;margin-left:-1px;left:0;background:#e2361c;box-shadow:0 0 6px rgba(226,54,28,.8);transition:left .6s ease}
 .hover{position:absolute;top:-6px;transform:translateX(-50%);font:600 calc(var(--pw) * .013)/1 var(--f-dial);letter-spacing:.06em;text-transform:uppercase;background:#1a1008;padding:2px 4px;border-radius:2px;pointer-events:none;white-space:nowrap}
 .scale:focus-visible{outline:1px dashed currentColor;outline-offset:6px}
@@ -259,24 +258,46 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 .soon b{font:800 22px/1.2 var(--f-body)}
 .soon span{opacity:.75;max-width:30ch}
 
-/* shuffle key: a solid cap like the other keys, set into a cutout at the top of the date window */
-.ui-dial .vfd-row{align-items:center;gap:.5em}
-#order{position:absolute;transform:translateX(-50%)}
-#order:active{transform:translateX(-50%) translateY(calc(var(--pw) * .0014))} .ui-dial .vfd-row .dial-top{white-space:nowrap;letter-spacing:.1em}
-.shuf{margin:calc(var(--pw) * .009) 0 0 0;padding:calc(var(--pw) * .0048) calc(var(--pw) * .011);flex:none;border:0;border-radius:calc(var(--pw) * .004);cursor:pointer;
-  font:500 calc(var(--pw) * .0112)/1 var(--f-body);letter-spacing:.1em;text-transform:uppercase;color:var(--idx);
-  background:linear-gradient(180deg,var(--k-hi),var(--k-mid) 60%,var(--k-lo));
-  box-shadow:0 calc(var(--pw) * .0016) 0 var(--k-edge),0 calc(var(--pw) * .003) calc(var(--pw) * .004) rgba(0,0,0,.55);transition:transform .07s,box-shadow .07s;
-  --k-hi:#4a4c50;--k-mid:#303134;--k-lo:#1f2022;--k-edge:#141516;--idx:#f3f1ea;text-shadow:none}
-:root[data-theme="dark"] .shuf{--k-hi:#f7f4ec;--k-mid:#dedad0;--k-lo:#bdb8ab;--k-edge:#8f8a7e;--idx:#2b2c2e}
-.shuf:active{box-shadow:0 calc(var(--pw) * .0002) 0 var(--k-edge),0 calc(var(--pw) * .001) calc(var(--pw) * .002) rgba(0,0,0,.5)}
-.shuf:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
-.dateblk{display:inline-flex;align-items:center;gap:calc(var(--pw) * .007);flex:none}
-/* the glyph is printed on the display glass: a ghost when off, lit amber when shuffle is on (and the power is up) */
+.ui-dial .vfd-row{align-items:center;gap:.5em} .ui-dial .vfd-row .dial-top{white-space:nowrap;letter-spacing:.1em}
+#order,#favmode{position:absolute;width:calc(var(--pw) * .078);margin-top:calc(var(--pw) * .011);height:calc(var(--pw) * .026);padding:0;border:0;cursor:pointer;
+  font-size:calc(var(--pw) * .0098);letter-spacing:.09em;-webkit-tap-highlight-color:transparent;border-radius:calc(var(--pw) * .0065)}
+#order{transform:translateX(-50%)} #favmode{transform:translateX(calc(-150% - var(--pw) * .008))}
+#order[aria-checked="true"]{transform:translateX(-50%) translateY(calc(var(--pw) * .0024))}
+#favmode[aria-checked="true"]{transform:translateX(calc(-150% - var(--pw) * .008)) translateY(calc(var(--pw) * .0024))}
+.tkey:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.tall #order,.tall #favmode{width:calc(var(--pw) * .13);height:calc(var(--pw) * .042);font-size:calc(var(--pw) * .0165);margin-top:calc(var(--pw) * .016);border-radius:calc(var(--pw) * .011)}
+.tall #favmode{transform:translateX(calc(-150% - var(--pw) * .014))} .tall #favmode[aria-checked="true"]{transform:translateX(calc(-150% - var(--pw) * .014)) translateY(calc(var(--pw) * .003))}
+.dateblk{display:inline-flex;align-items:center;gap:calc(var(--pw) * .009);flex:none}
+/* glyphs printed on the display glass: ghosts when off, lit amber when on (and the power is up) */
 .shuf-ico{width:calc(var(--pw) * .024);height:auto;opacity:.22;transition:opacity .3s,color .3s,filter .3s}
+.heart-ico{width:calc(var(--pw) * .02)}
 .on .shuf-ico.lit{opacity:1;color:var(--amber);filter:drop-shadow(0 0 calc(var(--pw) * .005) var(--amber-glow))}
+.on .heart-ico.lit path{fill:currentColor}
 .shuf-ico.lit{opacity:.5}
-.tall .shuf{font-size:calc(var(--pw) * .019);padding:calc(var(--pw) * .007) calc(var(--pw) * .016);margin-top:calc(var(--pw) * .016)} .tall .shuf-ico{width:calc(var(--pw) * .04)}
+.tall .shuf-ico{width:calc(var(--pw) * .04)} .tall .heart-ico{width:calc(var(--pw) * .034)}
+.ui-screen{cursor:pointer}
+.tube-msg small.tip{display:block;margin-top:.7em;max-width:36ch;opacity:.85;font-style:italic}
+/* left column: the map with Favorites under it (after it on phones) */
+.col{display:flex;flex-direction:column;gap:22px;min-width:0}
+.favhead{width:100%;border:0;cursor:pointer;text-align:left;font:inherit;color:var(--sign-ink)}
+.favhead h2 .fcount{font-weight:500;opacity:.7;margin-left:.2em}
+.favhead .chev{width:9px;height:9px;border-right:2.5px solid currentColor;border-bottom:2.5px solid currentColor;transform:translateY(-3px) rotate(45deg);transition:transform .2s;margin-right:6px}
+.favhead[aria-expanded="true"] .chev{transform:translateY(2px) rotate(225deg)}
+.favhead:focus-visible{outline:2px solid var(--orange);outline-offset:-4px}
+.flist{list-style:none;margin:0;padding:0;max-height:520px;overflow:auto;border-top:1px solid var(--line)}
+.flist li{display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:11px 2px;border-bottom:1px solid var(--line);cursor:pointer}
+.flist li:hover{background:color-mix(in srgb,var(--green) 6%,transparent)}
+.flist li.now{background:linear-gradient(90deg,color-mix(in srgb,var(--green) 12%,transparent),transparent)}
+.flist li.empty{display:block;cursor:default;color:var(--muted);padding:16px 2px}
+.flist .who b{display:block;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.flist .who .v{display:block;color:var(--muted);font-size:13px}
+.flist .lk{display:flex;gap:12px;white-space:nowrap;font-size:14px}
+.unfav{border:0;background:none;padding:0;font-size:19px;line-height:1;color:var(--orange);cursor:pointer}
+.unfav:hover{opacity:.7}
+.lineup li.playable{cursor:pointer}
+.lineup li.playable:hover{background:color-mix(in srgb,var(--green) 6%,transparent)}
+@media (max-width:520px){.flist li{grid-template-columns:24px minmax(0,1fr)} .flist .lk{grid-column:2}}
+.tall .dot{bottom:calc(var(--pw) * .0118)}
 </style>
 
 <header class="signband"><div class="in">
@@ -290,13 +311,13 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
     <img class="scene-img" id="sceneImg" alt="" draggable="false">
     <div class="ui-screen" id="uiScreen">
       <div class="video" id="video"><div id="yt"></div></div>
-      <div class="tube-msg" id="tubeMsg"><span>Press <span class="playdot" aria-hidden="true"></span> Play</span><small>to start the station.</small></div>
+      <div class="tube-msg" id="tubeMsg"><span>Press <span class="playdot" aria-hidden="true"></span> to start</span><small class="tip">Tip: check which venues are on in the Venues window. Try picking a few near you.</small></div>
     </div>
     <div class="ui-dial vfd" id="uiDial">
-      <div class="vfd-row"><span class="dial-top" id="dialTop">—</span><span class="dateblk"><svg class="shuf-ico" id="shufIco" viewBox="0 0 24 16" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h4.5c2.2 0 3.6 1.2 4.8 3.4l1.4 3.2c1.2 2.2 2.6 3.4 4.8 3.4H21"/><path d="M2 13h4.5c1.6 0 2.8-.7 3.8-2"/><path d="M13.7 5c1-1.3 2.2-2 3.8-2H21"/><path d="M18.5 .6 21.2 3l-2.7 2.4M18.5 10.6l2.7 2.4-2.7 2.4"/></g></svg><span class="date-read" id="dateRead">—</span></span></div>
+      <div class="vfd-row"><span class="dial-top" id="dialTop">—</span><span class="dateblk"><svg class="shuf-ico heart-ico" id="favIco" viewBox="0 0 24 22" aria-hidden="true"><path d="M12 20.5C10 19 2.5 13.6 2.5 7.9 2.5 4.9 4.8 2.6 7.6 2.6c1.8 0 3.4 1 4.4 2.5 1-1.5 2.6-2.5 4.4-2.5 2.8 0 5.1 2.3 5.1 5.3 0 5.7-7.5 11.1-9.5 12.6Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><svg class="shuf-ico" id="shufIco" viewBox="0 0 24 16" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h4.5c2.2 0 3.6 1.2 4.8 3.4l1.4 3.2c1.2 2.2 2.6 3.4 4.8 3.4H21"/><path d="M2 13h4.5c1.6 0 2.8-.7 3.8-2"/><path d="M13.7 5c1-1.3 2.2-2 3.8-2H21"/><path d="M18.5 .6 21.2 3l-2.7 2.4M18.5 10.6l2.7 2.4-2.7 2.4"/></g></svg><span class="date-read" id="dateRead" hidden>—</span></span></div>
       <div class="scale" id="scale" tabindex="0" role="slider" aria-label="Skip to a show date"><div id="ticks"></div><div id="dots"></div><span class="needle" id="needle"></span><span class="hover" id="hoverDate" hidden></span></div>
     </div>
-    <button type="button" id="order" class="shuf" role="switch" aria-checked="false" aria-label="Shuffle">Shuffle</button>
+    <button type="button" id="favmode" class="tkey" role="switch" aria-checked="false" aria-label="Play favorites">Favorites</button><button type="button" id="order" class="tkey" role="switch" aria-checked="false" aria-label="Shuffle">Shuffle</button>
     <div class="ui-display vfd" id="uiDisplay" aria-live="polite">
       <div class="info-artist">
         <div class="dial-top">Artist</div>
@@ -310,9 +331,11 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
         <div class="dial-gig" id="gig"></div>
       </div>
     </div>
-    <div class="gbank" id="gbank" role="group" aria-label="Genres"><button type="button" class="gkey" data-g="indie" aria-pressed="true"><span class="cap"><i class="led"></i></span><span class="gl">INDIE</span></button><button type="button" class="gkey" data-g="jazz" aria-pressed="true"><span class="cap"><i class="led"></i></span><span class="gl">JAZZ</span></button><button type="button" class="gkey" data-g="hiphop" aria-pressed="true"><span class="cap"><i class="led"></i></span><span class="gl">HIP HOP</span></button><button type="button" class="gkey" data-g="rnb" aria-pressed="true"><span class="cap"><i class="led"></i></span><span class="gl">R&amp;B</span></button><button type="button" class="gkey" data-g="rock" aria-pressed="true"><span class="cap"><i class="led"></i></span><span class="gl">ROCK</span></button><button type="button" class="gkey" data-g="punk" aria-pressed="true"><span class="cap"><i class="led"></i></span><span class="gl">METAL</span></button><button type="button" class="gkey" data-g="electronic" aria-pressed="true"><span class="cap"><i class="led"></i></span><span class="gl">EDM</span></button><button type="button" class="gkey" data-g="ambient" aria-pressed="true"><span class="cap"><i class="led"></i></span><span class="gl">AMBIENT</span></button></div>
+    <div class="gbank" id="gbank" role="group" aria-label="Genres"><button type="button" class="gkey" data-g="indie" aria-pressed="true"><span class="cap"><span class="gl">INDIE</span></span></button><button type="button" class="gkey" data-g="jazz" aria-pressed="true"><span class="cap"><span class="gl">JAZZ</span></span></button><button type="button" class="gkey" data-g="hiphop" aria-pressed="true"><span class="cap"><span class="gl">HIP HOP</span></span></button><button type="button" class="gkey" data-g="rnb" aria-pressed="true"><span class="cap"><span class="gl">R&amp;B</span></span></button><button type="button" class="gkey" data-g="rock" aria-pressed="true"><span class="cap"><span class="gl">ROCK</span></span></button><button type="button" class="gkey" data-g="punk" aria-pressed="true"><span class="cap"><span class="gl">METAL</span></span></button><button type="button" class="gkey" data-g="electronic" aria-pressed="true"><span class="cap"><span class="gl">EDM</span></span></button><button type="button" class="gkey" data-g="ambient" aria-pressed="true"><span class="cap"><span class="gl">AMBIENT</span></span></button></div>
     <span class="vlabel" id="vlabel" aria-hidden="true">Volume</span>
-    <button type="button" id="vol" class="ctl knob" aria-label="Volume"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><radialGradient id="gvr" cx=".5" cy=".5" r=".5" fx=".4" fy=".36"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".75" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><circle class="shadow" cx="51" cy="52" r="38.5"/><circle cx="50" cy="50" r="38.5" fill="url(#gvr)"/><circle cx="50" cy="50" r="34.3" fill="none" stroke="var(--k-lo)" stroke-width="3.0" opacity=".5"/><g class="rot"><rect x="48.3" y="22.4" width="3.4" height="18.0" rx="1.7" style="fill:var(--idx)"/></g></svg></button><button type="button" id="remove" class="ctl key" aria-label="Skip and remove this song"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><radialGradient id="gvr" cx=".5" cy=".5" r=".5" fx=".4" fy=".36"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".75" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><path class="shadow" d="M39.1 13.0 h21.8 v26.1 h26.1 v21.8 h-26.1 v26.1 h-21.8 v-26.1 h-26.1 v-21.8 h26.1 Z" transform="translate(1.6 2.6) rotate(45 50 50)" stroke-width="9.5" stroke-linejoin="round"/><path class="travel" d="M39.1 13.0 h21.8 v26.1 h26.1 v21.8 h-26.1 v26.1 h-21.8 v-26.1 h-26.1 v-21.8 h26.1 Z" transform="translate(0 8.5) rotate(45 50 50)" fill="url(#gside)" stroke="url(#gside)" stroke-width="9.5" stroke-linejoin="round"/><path class="cap" d="M39.1 13.0 h21.8 v26.1 h26.1 v21.8 h-26.1 v26.1 h-21.8 v-26.1 h-26.1 v-21.8 h26.1 Z" transform="rotate(45 50 50)" fill="url(#gk)" stroke="url(#gk)" stroke-width="9.5" stroke-linejoin="round"/></svg></button><button type="button" id="prev" class="ctl key" aria-label="Previous song"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><radialGradient id="gvr" cx=".5" cy=".5" r=".5" fx=".4" fy=".36"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".75" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><path class="shadow" d="M87.0 13.0 L87.0 87.0 L13.0 50 Z" transform="translate(1.6 2.6) " stroke-width="8.8" stroke-linejoin="round"/><path class="travel" d="M87.0 13.0 L87.0 87.0 L13.0 50 Z" transform="translate(0 7.9) " fill="url(#gside)" stroke="url(#gside)" stroke-width="8.8" stroke-linejoin="round"/><path class="cap" d="M87.0 13.0 L87.0 87.0 L13.0 50 Z" transform="" fill="url(#gk)" stroke="url(#gk)" stroke-width="8.8" stroke-linejoin="round"/></svg></button><button type="button" id="pp" class="ctl key" aria-label="Play"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><radialGradient id="gvr" cx=".5" cy=".5" r=".5" fx=".4" fy=".36"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".75" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><circle class="shadow" cx="51.5" cy="53" r="37.0"/><circle class="travel" cx="50" cy="57.6" r="37.0" style="fill:var(--p-lo)"/><circle class="cap" cx="50" cy="50" r="37.0" fill="url(#gp)"/></svg></button><button type="button" id="next" class="ctl key" aria-label="Next song"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><radialGradient id="gvr" cx=".5" cy=".5" r=".5" fx=".4" fy=".36"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".75" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><path class="shadow" d="M13.0 13.0 L87.0 50 L13.0 87.0 Z" transform="translate(1.6 2.6) " stroke-width="8.8" stroke-linejoin="round"/><path class="travel" d="M13.0 13.0 L87.0 50 L13.0 87.0 Z" transform="translate(0 7.9) " fill="url(#gside)" stroke="url(#gside)" stroke-width="8.8" stroke-linejoin="round"/><path class="cap" d="M13.0 13.0 L87.0 50 L13.0 87.0 Z" transform="" fill="url(#gk)" stroke="url(#gk)" stroke-width="8.8" stroke-linejoin="round"/></svg></button>
+    <span class="vlabel tl" data-for="fav" aria-hidden="true">Favorite</span><span class="vlabel tl" data-for="remove" aria-hidden="true">Remove</span>
+    <span class="vlabel tl" data-for="prev" aria-hidden="true">Last</span><span class="vlabel tl" data-for="next" aria-hidden="true">Next</span><span class="vlabel tl" data-for="pp" aria-hidden="true">Play</span>
+    <button type="button" id="vol" class="ctl knob" aria-label="Volume"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><radialGradient id="gvr" cx=".5" cy=".5" r=".5" fx=".4" fy=".36"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".75" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><circle class="shadow" cx="51" cy="52" r="38.5"/><circle cx="50" cy="50" r="38.5" fill="url(#gvr)"/><circle cx="50" cy="50" r="34.3" fill="none" stroke="var(--k-lo)" stroke-width="3.0" opacity=".5"/><g class="rot"><rect x="48.3" y="22.4" width="3.4" height="18.0" rx="1.7" style="fill:var(--idx)"/></g></svg></button><button type="button" id="fav" class="ctl key" aria-label="Favorite this song"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><radialGradient id="gvr" cx=".5" cy=".5" r=".5" fx=".4" fy=".36"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".75" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><path class="shadow" d="M50.0 80.1 C37.3 68.1 13.7 52.9 13.7 35.5 C13.7 17.3 31.1 10.1 42.0 14.4 C47.1 16.6 50.0 23.1 50.0 25.3 C50.0 23.1 52.9 16.6 58.0 14.4 C68.9 10.1 86.3 17.3 86.3 35.5 C86.3 52.9 62.7 68.1 50.0 80.1 Z" transform="translate(1.6 2.6) " stroke-width="9.5" stroke-linejoin="round"/><path class="travel" d="M50.0 80.1 C37.3 68.1 13.7 52.9 13.7 35.5 C13.7 17.3 31.1 10.1 42.0 14.4 C47.1 16.6 50.0 23.1 50.0 25.3 C50.0 23.1 52.9 16.6 58.0 14.4 C68.9 10.1 86.3 17.3 86.3 35.5 C86.3 52.9 62.7 68.1 50.0 80.1 Z" transform="translate(0 8.5) " fill="url(#gside)" stroke="url(#gside)" stroke-width="9.5" stroke-linejoin="round"/><path class="cap" d="M50.0 80.1 C37.3 68.1 13.7 52.9 13.7 35.5 C13.7 17.3 31.1 10.1 42.0 14.4 C47.1 16.6 50.0 23.1 50.0 25.3 C50.0 23.1 52.9 16.6 58.0 14.4 C68.9 10.1 86.3 17.3 86.3 35.5 C86.3 52.9 62.7 68.1 50.0 80.1 Z" transform="" fill="url(#gk)" stroke="url(#gk)" stroke-width="9.5" stroke-linejoin="round"/></svg></button><button type="button" id="remove" class="ctl key" aria-label="Skip and remove this song"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><radialGradient id="gvr" cx=".5" cy=".5" r=".5" fx=".4" fy=".36"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".75" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><path class="shadow" d="M39.1 13.0 h21.8 v26.1 h26.1 v21.8 h-26.1 v26.1 h-21.8 v-26.1 h-26.1 v-21.8 h26.1 Z" transform="translate(1.6 2.6) rotate(45 50 50)" stroke-width="9.5" stroke-linejoin="round"/><path class="travel" d="M39.1 13.0 h21.8 v26.1 h26.1 v21.8 h-26.1 v26.1 h-21.8 v-26.1 h-26.1 v-21.8 h26.1 Z" transform="translate(0 8.5) rotate(45 50 50)" fill="url(#gside)" stroke="url(#gside)" stroke-width="9.5" stroke-linejoin="round"/><path class="cap" d="M39.1 13.0 h21.8 v26.1 h26.1 v21.8 h-26.1 v26.1 h-21.8 v-26.1 h-26.1 v-21.8 h26.1 Z" transform="rotate(45 50 50)" fill="url(#gk)" stroke="url(#gk)" stroke-width="9.5" stroke-linejoin="round"/></svg></button><button type="button" id="prev" class="ctl key" aria-label="Previous song"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><radialGradient id="gvr" cx=".5" cy=".5" r=".5" fx=".4" fy=".36"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".75" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><path class="shadow" d="M71.6 6.8 L28.4 50 L71.6 93.2 Z" transform="translate(1.6 2.6) " stroke-width="8.8" stroke-linejoin="round"/><path class="travel" d="M71.6 6.8 L28.4 50 L71.6 93.2 Z" transform="translate(0 7.9) " fill="url(#gside)" stroke="url(#gside)" stroke-width="8.8" stroke-linejoin="round"/><path class="cap" d="M71.6 6.8 L28.4 50 L71.6 93.2 Z" transform="" fill="url(#gk)" stroke="url(#gk)" stroke-width="8.8" stroke-linejoin="round"/></svg></button><button type="button" id="pp" class="ctl key" aria-label="Play"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><radialGradient id="gvr" cx=".5" cy=".5" r=".5" fx=".4" fy=".36"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".75" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><circle class="shadow" cx="51.5" cy="53" r="37.0"/><circle class="travel" cx="50" cy="57.6" r="37.0" style="fill:var(--p-lo)"/><circle class="cap" cx="50" cy="50" r="37.0" fill="url(#gp)"/></svg></button><button type="button" id="next" class="ctl key" aria-label="Next song"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".55" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><linearGradient id="gkr" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset="1" style="stop-color:var(--k-lo)"/></linearGradient><radialGradient id="gp" cx=".38" cy=".32" r=".75"><stop offset="0" style="stop-color:var(--p-hi)"/><stop offset=".7" style="stop-color:var(--p-mid)"/><stop offset="1" style="stop-color:var(--p-lo)"/></radialGradient><radialGradient id="gvr" cx=".5" cy=".5" r=".5" fx=".4" fy=".36"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".75" style="stop-color:var(--k-mid)"/><stop offset="1" style="stop-color:var(--k-lo)"/></radialGradient><linearGradient id="gside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--k-lo)"/><stop offset="1" style="stop-color:var(--k-edge)"/></linearGradient></defs><path class="shadow" d="M28.4 6.8 L71.6 50 L28.4 93.2 Z" transform="translate(1.6 2.6) " stroke-width="8.8" stroke-linejoin="round"/><path class="travel" d="M28.4 6.8 L71.6 50 L28.4 93.2 Z" transform="translate(0 7.9) " fill="url(#gside)" stroke="url(#gside)" stroke-width="8.8" stroke-linejoin="round"/><path class="cap" d="M28.4 6.8 L71.6 50 L28.4 93.2 Z" transform="" fill="url(#gk)" stroke="url(#gk)" stroke-width="8.8" stroke-linejoin="round"/></svg></button>
     <button type="button" id="power" class="sprite lever" aria-label="Power"><img data-sprite="lever-off" alt="" draggable="false"></button>
     <div id="bulb" class="sprite bulb"><img data-sprite="bulb-off" alt="" draggable="false"></div>
   </div>
@@ -320,6 +343,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 
 <section class="digital"><div class="in">
   <div class="below">
+    <div class="col">
     <section class="card map">
       <div class="sign"><h2>Venues</h2><label class="city"><span class="vh">City</span><select id="city"></select></label></div>
       <div class="body">
@@ -329,6 +353,11 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
         <div class="soon" id="soon" hidden></div>
       </div>
     </section>
+    <section class="card favs">
+      <button type="button" class="sign favhead" id="favHead" aria-expanded="false" aria-controls="favBody"><h2>Favorites<span class="fcount" id="favCount"></span></h2><span class="chev" aria-hidden="true"></span></button>
+      <div class="body" id="favBody" hidden><ol class="flist" id="favList"></ol></div>
+    </section>
+    </div>
     <section class="card lineup">
       <div class="sign"><h2 id="lineupTitle">Coming up</h2></div>
       <div class="body">
@@ -357,9 +386,11 @@ const STATIONS=[
   {id:"electronic",l1:"EDM",name:"EDM"},
   {id:"ambient",l1:"AMBIENT",name:"Ambient"}];
 /* Each venue gets a line bullet: a letter and a line colour, like a train you can catch. */
-const LINES={"rickshaw-stop":["R","#b8453d"],"the-independent":["I","#2f5d9e"],"bottom-of-the-hill":["B","#c95f2a"],
-  "the-chapel":["C","#7d4f86"],"cafe-du-nord":["N","#d4a72c","#16191c"],"brick-and-mortar":["M","#0a5c48"],
-  "the-fillmore":["F","#996633"],"regency-ballroom":["V","#6cbe45","#16191c"],"great-american-music-hall":["G","#808183"],"sfjazz":["J","#0095a8"]};
+const LINES={"rickshaw-stop":["R","#b8453d"],"bottom-of-the-hill":["B","#b8453d"],
+  "the-independent":["I","#c95f2a"],"great-american-music-hall":["G","#c95f2a"],
+  "brick-and-mortar":["M","#2f5d9e"],"the-fillmore":["F","#2f5d9e"],
+  "regency-ballroom":["V","#d4a72c","#16191c"],"cafe-du-nord":["N","#d4a72c","#16191c"],
+  "sfjazz":["J","#0a5c48"],"the-chapel":["C","#0a5c48"]};
 const lineOf=id=>{const l=LINES[id];return l?{ch:l[0],bg:l[1],fg:l[2]||"#fff"}:{ch:(SHOWS[id]?.name||"?").replace(/^the /i,"")[0].toUpperCase(),bg:"#59626a",fg:"#fff"}};
 const bullet=(id,title)=>{const l=lineOf(id);return `<span class="bul" style="background:${l.bg};color:${l.fg}" title="${title||SHOWS[id]?.name||""}">${l.ch}</span>`};
 /* Neighbourhoods drawn in light green: the commercial districts where most venues cluster. One list per city. */
@@ -382,6 +413,8 @@ const genreName=()=>sel.size===STATIONS.length?"All genres":!sel.size?"No genres
 const station=()=>({id:STATIONS.filter(s=>sel.has(s.id)).map(s=>s.id).join("+"),name:genreName()});
 function parseGenres(str){ if(typeof str!=="string") return null; const ids=str.split("+").filter(id=>STATIONS.some(s=>s.id===id)); return ids.length?new Set(ids):null }
 const genresOf=a=>GENRE_OF[a]||["indie"];
+const vname=s=>SHOWS[s.venue]?.name||s.vname||"";
+const START_MSG=`<span>Press <span class="playdot" aria-hidden="true"></span> to start</span><small class="tip">Tip: check which venues are on in the Venues window. Try picking a few near you.</small>`;
 
 /* ---------- Data ---------- */
 function upcoming(){
@@ -395,6 +428,7 @@ function upcoming(){
   return out.sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:0);
 }
 function buildQueue(){
+  if(favMode) return favQueue();
   const lists=[], seen=new Set();
   for(const s of upcoming()) for(const a of s.artists){
     if(seen.has(a)) continue; seen.add(a);
@@ -426,7 +460,7 @@ function initYT(){
     player=new YT.Player("yt",{width:"100%",height:"100%",
       playerVars:{playsinline:1,controls:0,rel:0,modestbranding:1,iv_load_policy:3,fs:0,disablekb:1},
       events:{
-        onReady:()=>{ytReady=true;applyVolume(); if(power){if(pendingDay!=null&&queue.length)pos=closestIndex(pendingDay)-1;pendingDay=null;next()}},
+        onReady:()=>{ytReady=true;applyVolume(); if(power){if(pendingDay!=null&&queue.length)pos=closestIndex(pendingDay)-1;pendingDay=null;pendingTrack?startPending():next()}},
         onStateChange:e=>{
           if(e.data===YT.PlayerState.ENDED) next();
           if(e.data===YT.PlayerState.PLAYING){playing=true;errorsInRow=0;clearTimeout(blockTimer);$("video").classList.add("live");setTube(null)}
@@ -447,7 +481,7 @@ function setTube(title,text){
   m.hidden=false; m.innerHTML=`${title}${text?`<small>${text}</small>`:""}`;
 }
 function play(t){
-  current=t; renderDial(); renderLineup(); $("remove").disabled=false;
+  current=t; renderDial(); renderLineup(); renderFavs(); $("remove").disabled=false; $("fav").disabled=false;
   if(player&&ytReady){
     try{player.loadVideoById(t.id)}catch(e){}
     // Some browsers refuse to start sound on their own. If the song still hasn't started after a moment,
@@ -466,7 +500,7 @@ function play(t){
 }
 function next(){
   if(!power) return;
-  if(!queue.length){current=null;renderDial();setTube(sel.size?"Nothing to play":"No genres on",sel.size?"Switch on more genres or venues.":"Press a genre key to listen.");return}
+  if(!queue.length){current=null;renderDial();if(favMode)setTube(favs.length?"No favorites in these genres":"No favorites yet",favs.length?"Switch on more genres, or press Favorites to go back to the stations.":"Press the heart while a song plays to save it. Press Favorites to go back to the stations.");else setTube(sel.size?"Nothing to play":"No genres on",sel.size?"Switch on more genres or venues.":"Press a genre key to listen.");return}
   pos=(pos+1)%queue.length; played.push(queue[pos]); if(played.length>200)played.shift();
   play(queue[pos]);
 }
@@ -488,11 +522,11 @@ function setPower(on,startDay){
     played=[]; pos=-1; queue=buildQueue();
     if(!Object.keys(TRACKS).length){setTube("No songs yet","Run build_tracks.py to load songs for each band.");renderDial();return}
     if(startDay!=null&&queue.length) pos=closestIndex(startDay)-1;
-    if(ytFailed) fail(); else if(ytReady) next(); else {pendingDay=startDay??null;setTube("Warming up","")}
+    if(ytFailed) fail(); else if(ytReady) (pendingTrack?startPending():next()); else {pendingDay=startDay??null;setTube("Warming up","")}
   } else {
     if(player&&ytReady){try{player.stopVideo()}catch(e){}}
     playing=false; current=null; clearTimeout(blockTimer); $("video").classList.remove("live");
-    setTube(`<span>Press <span class="playdot" aria-hidden="true"></span> Play</span>`,"to start the station."); $("remove").disabled=true;
+    setTube(START_MSG); $("remove").disabled=true; $("fav").disabled=true;
   }
   renderDial(); renderPP(); renderLineup();
 }
@@ -501,7 +535,8 @@ function setPower(on,startDay){
 function renderPP(){ $("pp").classList.toggle("playing",playing); $("pp").setAttribute("aria-label",playing?"Pause":"Play"); }
 function renderDial(){
   const n=enabled.size;
-  $("dialTop").textContent=`${station().name} · ${n} venue${n===1?"":"s"} on`;
+  renderFavKey();
+  $("dialTop").textContent=favMode?`${station().name} · Favorites`:`${station().name} · ${n} venue${n===1?"":"s"} on`;
   renderScaleDots();
   $("needle").style.left=current?pct(dayNum(current.show.date))+"%":"0%";
   const clear=()=>{$("artist").style.fontSize="";$("venueName").style.fontSize="";$("venueName").textContent="—";$("venueDate").textContent="";$("gig").innerHTML="";$("dateRead").textContent="—"};
@@ -513,7 +548,7 @@ function renderDial(){
   }
   const s=current.show;
   $("artist").textContent=current.artist; $("song").textContent=`“${current.title}”`;
-  $("venueName").textContent=SHOWS[s.venue].name; $("venueDate").textContent=fmt(s.date); $("dateRead").textContent=fmt(s.date);
+  $("venueName").textContent=vname(s); $("venueDate").textContent=fmt(s.date); $("dateRead").textContent=fmt(s.date);
   $("gig").innerHTML=`${s.sold?'<span class="chip">Sold out</span>':""}<span>${countedLink("tickets",s.url,"Tickets ↗",current.artist,s)}</span><span>${countedLink("youtube","https://www.youtube.com/watch?v="+current.id,"YouTube ↗",current.artist,s)}</span>`;
   watchCounts($("gig")); fitVenue();
 }
@@ -588,6 +623,9 @@ function renderLineup(){
   const cur=current&&current.show.url;
   for(const s of list){
     const li=document.createElement("li"); if(cur===s.url) li.className="now";
+    li.classList.add("playable"); li.tabIndex=0;
+    li.addEventListener("click",e=>{if(!e.target.closest("a"))playShow(s)});
+    li.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target===li)playShow(s)});
     const others=s.all.filter(a=>!s.artists.includes(a));
     li.innerHTML=`${bullet(s.venue)}<span class="d">${fmt(s.date)}</span><span class="who"><b>${s.artists.join(", ")}</b>${others.length?` with ${others.join(", ")}`:""}${s.sold?'<span class="so">SOLD OUT</span>':""}<span class="v">${SHOWS[s.venue].name}</span></span><span>${countedLink("tickets",s.url,"Tickets ↗",s.artists[0],s)}</span>`;
     el.appendChild(li);
@@ -621,7 +659,7 @@ $("power").onclick=()=>setPower(!power);
 $("pp").onclick=playPause;
 $("next").onclick=()=>{if(!power)setPower(true);else next()};
 $("prev").onclick=prev;
-$("remove").onclick=()=>{if(!current)return;removed.add(current.id);store.set("removed",[...removed]);rebuild(true);next();renderLineup()};
+$("remove").onclick=()=>{if(!current)return;if(favMode){toggleFav();next();return}removed.add(current.id);store.set("removed",[...removed]);rebuild(true);next();renderLineup()};
 $("allOn").onclick=()=>{Object.keys(SHOWS).forEach(id=>enabled.add(id));afterFilter()};
 $("allOff").onclick=()=>{enabled.clear();afterFilter()};
 
@@ -679,7 +717,7 @@ const slug=x=>String(x).toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]+/g,
 function linkPath(kind,artist,s){return kind==="tickets"?`tickets/${s.venue}/${s.date}/${slug(s.all[0])}`:`youtube/${slug(artist)}`}
 function countedLink(kind,href,label,artist,s){
   const path=linkPath(kind,artist,s);
-  const title=`${kind==="tickets"?"Tickets":"YouTube"}: ${kind==="tickets"?s.all.join(", "):artist} at ${SHOWS[s.venue].name}, ${s.date}`;
+  const title=`${kind==="tickets"?"Tickets":"YouTube"}: ${kind==="tickets"?s.all.join(", "):artist} at ${vname(s)}, ${s.date}`;
   return `<a href="${href}" target="_blank" rel="noopener" data-track="${path}" data-kind="${kind}" data-title="${title.replace(/"/g,"&quot;")}">${label}</a>`+
          `<span class="cnt" data-count="${path}" hidden></span>`;
 }
@@ -742,12 +780,18 @@ function placeBox(el,b){el.style.left=pc(b[0]);el.style.top=pc(b[1]);el.style.wi
 function applyGeom(v){
   const g=GEOM[v]; variant=v; $("radio").classList.toggle("tall",v==="tall");
   for(const [id,b] of Object.entries(g.boxes)) placeBox($(id==="screen"?"uiScreen":id==="display"?"uiDisplay":id==="dial"?"uiDial":id),b);
-  {const b=g.boxes.vol,c=(b[1]+b[3])/2,h=(b[3]-b[1])/2/1.3,l=$("vlabel"),k=$("gbank");
-   l.style.left=pc((b[0]+b[2])/2); l.style.top=pc(c+h);
-   const t=v==="tall", m=t?.018:.012, fs=t?.024:.0138;
-   k.style.transform="none"; k.style.top="auto"; k.style.height="auto";
-   k.style.bottom="calc("+(1-(c+h))*100+"% - var(--pw) * "+(m+fs*1.15)+")"}
-  {const d=g.boxes.dial,b=g.boxes.vol,o=$("order");o.style.right="auto";o.style.left=pc((b[0]+b[2])/2);o.style.top=pc(d[3])}
+  {const B=g.boxes, vb=B.vol, vc=(vb[1]+vb[3])/2, vh=(vb[3]-vb[1])/2/1.3, k=$("gbank");
+   $("vlabel").style.left=pc((vb[0]+vb[2])/2); $("vlabel").style.top=pc(vc+vh);
+   k.style.transform="none"; k.style.bottom="auto"; k.style.top=pc(vc-vh*1.06); k.style.height=pc(vh*2.12);
+   const cy=(B.remove[1]+B.remove[3])/2, xL=(B.remove[0]+B.remove[2])/2, xP=(vb[0]+vb[2])/2, sp=xP-xL;
+   const hw=id=>(B[id][2]-B[id][0])/2, hh=id=>(B[id][3]-B[id][1])/2;
+   const gx=xL+sp*.645, bw=hw("prev")*2*.9, off=bw*(2.45/(2*g.keys.prev.half))/2+bw*.1;
+   const L={fav:["remove",0,.85],remove:["remove",.3,.85],prev:["prev",(gx-off-xL)/sp,.9],next:["next",(gx+off-xL)/sp,.9],pp:["pp",1,1]};
+   for(const [id,[src,f,sc]] of Object.entries(L)){const x=xL+sp*f,w=hw(src)*sc,h=hh(src)*sc;placeBox($(id),[x-w,cy-h,x+w,cy+h]);
+     const lb=document.querySelector(`.tl[data-for="${id}"]`); lb.style.left=pc(x); lb.style.top=pc(cy+h/1.35)}
+   const th=hh("prev")*.9*(2.45/g.keys.prev.half);
+   for(const [id,sg] of [["prev",-1],["next",1]]){const lb=document.querySelector(`.tl[data-for="${id}"]`);lb.style.left=pc(gx+sg*off*1.25);lb.style.top=pc(cy+th)}}
+  {const d=g.boxes.dial,b=g.boxes.vol,x=pc((b[0]+b[2])/2);for(const id of ["order","favmode"]){const o=$(id);o.style.left=x;o.style.top=pc(d[3])}}
   setSceneTheme(); if(typeof sel==="object") renderKnob();
 }
 function layoutScene(){
@@ -834,12 +878,88 @@ function setCity(id){
     soon.innerHTML=`<b>Coming soon to ${CITY.name}</b><span>We're mapping the small rooms here next. San Francisco is on the air now.</span>`;
     if(power) setPower(false);
     setTube(`Coming soon to ${CITY.name}`,"Switch the city back to San Francisco to listen.");
-  } else if(!power) setTube(`<span>Press <span class="playdot" aria-hidden="true"></span> Play</span>`,"to start the station.");
+  } else if(!power) setTube(START_MSG);
   renderDial(); renderLineup();
 }
 
 function renderShuffle(){$("order").setAttribute("aria-checked",shuffle);$("shufIco").classList.toggle("lit",shuffle)}
 $("order").onclick=()=>{shuffle=!shuffle;renderShuffle();savePrefs();rebuild(false)};
+
+/* ---------- Favorites ----------
+   The heart key saves the song playing. The Favorites key switches the radio to play the saved songs:
+   newest first (only the genres that are on), or in shuffle order when Shuffle is on too. */
+let favs=store.get("favs",[]), favMode=!!store.get("favMode",false), favOpen=false;
+const favKey=t=>t.id+"|"+t.artist;
+const isFav=t=>!!t&&favs.some(f=>favKey(f)===favKey(t));
+const escH=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function favTrack(f){return {id:f.id,title:f.title,artist:f.artist,show:{date:f.date,venue:f.venue,vname:f.vname,artists:[f.artist],all:f.all||[f.artist],sold:false,url:f.url}}}
+function favQueue(){
+  const q=favs.slice().sort((a,b)=>b.added-a.added).filter(f=>genresOf(f.artist).some(g=>sel.has(g))).map(favTrack);
+  if(shuffle) for(let i=q.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[q[i],q[j]]=[q[j],q[i]]}
+  return q;
+}
+function toggleFav(t=current){
+  if(!t) return;
+  if(isFav(t)) favs=favs.filter(f=>favKey(f)!==favKey(t));
+  else favs.push({id:t.id,title:t.title,artist:t.artist,date:t.show.date,venue:t.show.venue,vname:vname(t.show),url:t.show.url,all:t.show.all,added:Date.now()});
+  store.set("favs",favs); renderFavs(); renderFavKey(); if(favMode){rebuild(true);renderScaleDots()}
+}
+function renderFavKey(){
+  const on=isFav(current), k=$("fav"); k.classList.toggle("faved",on); k.setAttribute("aria-pressed",on);
+  k.setAttribute("aria-label",on?"Remove this song from favorites":"Favorite this song");
+}
+function renderFavMode(){$("favmode").setAttribute("aria-checked",favMode);$("favIco").classList.toggle("lit",favMode)}
+function setFavMode(on){favMode=on;store.set("favMode",on);renderFavMode();queue=buildQueue();pos=-1;played=[];current=null;renderAll();if(power)next()}
+$("favmode").onclick=()=>setFavMode(!favMode);
+$("fav").onclick=()=>toggleFav();
+
+function renderFavs(){
+  $("favCount").textContent=favs.length?`(${favs.length})`:"";
+  if(!favOpen) return;
+  const el=$("favList"), list=favs.slice().sort((a,b)=>b.added-a.added);
+  el.innerHTML=list.length?"":`<li class="empty">Press the heart on the radio to save the song that's playing.</li>`;
+  for(const f of list){
+    const t=favTrack(f), s=t.show, li=document.createElement("li");
+    if(current&&favKey(current)===favKey(f)) li.className="now";
+    li.innerHTML=`<button type="button" class="unfav" aria-label="Remove from favorites">♥</button>`+
+      `<span class="who"><b>${escH(unesc(f.title))}</b><span class="v">${escH(f.artist)}</span></span>`+
+      `<span class="lk">${countedLink("youtube","https://www.youtube.com/watch?v="+f.id,"YouTube ↗",f.artist,s)}${countedLink("tickets",f.url,"Tickets ↗",f.artist,s)}</span>`;
+    li.querySelector(".unfav").onclick=e=>{e.stopPropagation();toggleFav(t)};
+    li.tabIndex=0;
+    li.addEventListener("click",e=>{if(!e.target.closest("a,button"))playNow(t)});
+    li.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target===li)playNow(t)});
+    el.appendChild(li);
+  }
+  watchCounts(el);
+}
+$("favHead").onclick=()=>{favOpen=!favOpen;$("favHead").setAttribute("aria-expanded",favOpen);$("favBody").hidden=!favOpen;renderFavs()};
+
+/* ---------- Play a particular song: from Coming up, from Favorites ---------- */
+let pendingTrack=null;
+function startPending(){const t=pendingTrack;pendingTrack=null;const i=queue.findIndex(x=>key(x)===key(t));if(i>=0)pos=i;played.push(t);play(t)}
+function playNow(t){
+  if(!cityLive()) return;
+  bringRadio();
+  pendingTrack=t;
+  if(!power){setPower(true);return}
+  if(ytReady||ytFailed) startPending();
+}
+function bringRadio(){const r=$("radio").getBoundingClientRect();if(r.bottom<120||r.top>innerHeight*.55)$("radio").scrollIntoView({behavior:"smooth",block:"start"})}
+function playShow(s){
+  const a=s.artists.find(x=>(TRACKS[x]||[]).some(t=>!removed.has(t.id)));
+  if(!a){bringRadio();if(!playing)setTube(`No songs yet for ${escH(s.artists[0])}`,"Their songs are still being looked up. Try another show.");return}
+  if(favMode){favMode=false;store.set("favMode",false);renderFavMode()}
+  if(!genresOf(a).some(g=>sel.has(g))){sel.add(genresOf(a)[0]);renderKnob();savePrefs()}
+  if(!enabled.has(s.venue)){enabled.add(s.venue);savePrefs()}
+  queue=buildQueue(); pos=-1;
+  const tr=TRACKS[a].find(t=>!removed.has(t.id));
+  const t=queue.find(x=>x.artist===a&&x.id===tr.id&&x.show.url===s.url)||queue.find(x=>x.artist===a&&x.id===tr.id)||{...tr,artist:a,show:s};
+  renderAll(); playNow(t);
+}
+
+/* tapping the dark screen starts the radio (and, if the browser held back sound, starts the song) */
+$("uiScreen").addEventListener("click",()=>{if(!power)setPower(true);else if(!playing&&current&&!$("tubeMsg").hidden)playPause()});
+
 /* ---------- Start ---------- */
 (async()=>{
   layoutScene(); buildCity(); buildKnob(); buildScale(); buildVolume();
@@ -855,7 +975,7 @@ $("order").onclick=()=>{shuffle=!shuffle;renderShuffle();savePrefs();rebuild(fal
     sel=parseGenres(h)??sel;
   }
 
-  renderShuffle();
+  renderShuffle(); renderFavMode(); renderFavs(); $("fav").disabled=true;
   queue=buildQueue(); renderAll(); renderPP(); renderReach();
   if(Object.keys(TRACKS).length) initYT();   // load the player now so the power switch can start sound right away
 })();
