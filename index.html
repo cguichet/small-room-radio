@@ -1011,7 +1011,9 @@ $("uiScreen").addEventListener("click",()=>{if(!power)setPower(true);else if(!pl
   for(const g of STATIONS) for(const a of (genres[g.id]||[])) (GENRE_OF[a]=GENRE_OF[a]||[]).push(g.id);
   buildMap();
   const ids=Object.keys(SHOWS), p=store.get("prefs",null);
-  enabled=new Set(ids);
+  const START_VENUES=["the-independent","rickshaw-stop"].filter(id=>SHOWS[id]);
+  enabled=new Set(p&&Array.isArray(p.venues)?p.venues.filter(id=>SHOWS[id]):(START_VENUES.length?START_VENUES:ids));
+  sel=new Set(["indie"]);
   if(p){shuffle=!!p.shuffle;sel=parseGenres(p.genres)??sel}
   const h=decodeURIComponent(location.hash.slice(1));
   if(h){
