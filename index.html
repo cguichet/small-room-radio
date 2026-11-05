@@ -86,6 +86,7 @@ button{font:inherit;color:inherit}
 .brand svg{width:40px;height:40px;flex:none}
 .brand b{display:block;font:800 21px/1.1 var(--f-body);letter-spacing:-.01em}
 .brand span{display:block;font:600 11px/1.3 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:#aeb5ba}
+.bookmark{margin:0;font:700 14px/1.3 var(--f-body);letter-spacing:.01em;color:#fff}
 .reach{margin:0;font-size:13.5px;color:#c6ccd0;max-width:52ch}
 .reach b{color:#fff;font-variant-numeric:tabular-nums}
 
@@ -565,6 +566,7 @@ html.immersive,html.immersive body{overflow:hidden;overscroll-behavior:none;heig
 
 <header class="signband"><div class="in">
   <div class="brand"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="18" fill="#0a5c48"/><path d="M40 20C27.3 20 17 30.3 17 43C17 60 40 82 40 82C40 82 63 60 63 43C63 30.3 52.7 20 40 20ZM40 34A9 9 0 1 1 39.99 34Z" fill="#fff" fill-rule="evenodd"/><path d="M70 33A14 14 0 0 1 70 57M79 26A23 23 0 0 1 79 64" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/></svg><div><b>Will Call Radio</b><span>Local music utility</span></div></div>
+  <p class="bookmark">Bookmark us! Songs updated daily</p>
   <p class="reach" id="reach" hidden></p>
 </div></header>
 
@@ -863,7 +865,8 @@ document.fonts&&document.fonts.ready.then(()=>{if(current)fitVenue()});
 function renderKnob(){
   document.querySelectorAll(".gkey[data-g]").forEach(b=>b.setAttribute("aria-pressed",sel.has(b.dataset.g)));
 }
-/* Each key latches on or off; several can be on at once. Pressing a key twice quickly turns every other key off. */
+/* Each key latches on or off; several can be on at once. Pressing a key twice quickly turns every other key off.
+   Pressing the only key that is on turns every key back on. */
 let gTimer=null, gLast={g:null,t:0};
 function commitGenres(){ savePrefs(); rebuild(true); renderAll(); if(power&&!current) next(); }   // the song playing carries on
 function buildKnob(){
@@ -871,7 +874,9 @@ function buildKnob(){
     const g=b.dataset.g; b.setAttribute("aria-label",STATIONS.find(s=>s.id===g).name);
     b.addEventListener("click",()=>{
       const now=performance.now(), dbl=gLast.g===g&&now-gLast.t<360; gLast={g:dbl?null:g,t:now};
-      if(dbl) sel=new Set([g]); else sel.has(g)?sel.delete(g):sel.add(g);
+      if(dbl) sel=new Set([g]);
+      else if(sel.size===1&&sel.has(g)) sel=new Set([...document.querySelectorAll(".gkey[data-g]")].map(k=>k.dataset.g));   // the last key on: back to every genre
+      else sel.has(g)?sel.delete(g):sel.add(g);
       renderKnob(); clearTimeout(gTimer); gTimer=setTimeout(commitGenres,dbl?0:380);
     });
   });
