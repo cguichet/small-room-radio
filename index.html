@@ -165,6 +165,12 @@ button{font:inherit;color:inherit}
 .video.away{visibility:hidden}
 .mapscr{position:absolute;left:1.5%;top:1.5%;width:97%;height:97%;background:var(--land);border-radius:calc(var(--pw) * .008);cursor:default}
 .mapscr[hidden]{display:none}
+.scrbtns{position:absolute;left:3.2%;top:3.6%;display:flex;gap:calc(var(--pw) * .006);z-index:2}
+.scrbtns[hidden]{display:none}
+.scrbtns button{font:700 calc(var(--pw) * .0105)/1 var(--f-body);letter-spacing:.04em;color:var(--ink);background:var(--land);border:1.5px solid var(--hood);border-radius:calc(var(--pw) * .004);padding:calc(var(--pw) * .0055) calc(var(--pw) * .011);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.scrbtns button:hover{border-color:var(--muted)}
+.scrbtns button:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.tall .scrbtns button{font-size:calc(var(--pw) * .02);padding:calc(var(--pw) * .009) calc(var(--pw) * .018)}
 .venue .halo{transform-box:fill-box;transform-origin:center}
 .onair .venue.on .halo{animation:breathe 2.8s ease-in-out infinite}
 @keyframes breathe{0%,100%{opacity:.08;transform:scale(.78)}50%{opacity:.3;transform:scale(1.14)}}
@@ -380,6 +386,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
     <div class="ui-screen" id="uiScreen">
       <div class="video" id="video"><div id="yt"></div></div>
       <svg id="mapScr" class="mapscr" role="group" aria-label="Venues, shown while paused" hidden></svg>
+      <div class="scrbtns" id="scrBtns" hidden><button type="button" id="scrAllOn">All on</button><button type="button" id="scrAllOff">All off</button></div>
       <div class="tube-msg" id="tubeMsg"><span>Press <span class="playdot" aria-hidden="true"></span> to start</span><small class="tip">Tip: check which venues are on in the Venues window. Try picking a few near you.</small></div>
     </div>
     <div class="scrub" id="scrub" role="slider" tabindex="0" aria-label="Song position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="slot"></span><span class="handle" id="scrubKnob"></span></div>
@@ -613,7 +620,7 @@ function setPower(on,startDay){
 
 /* ---------- Rendering ---------- */
 function renderPP(){ $("pp").classList.toggle("playing",playing); $("pp").setAttribute("aria-label",playing?"Pause":"Play");
-  const show=power&&userPaused&&!!current&&!!MAP; $("mapScr").toggleAttribute("hidden",!show); $("video").classList.toggle("away",show);
+  const show=power&&userPaused&&!!current&&!!MAP; $("mapScr").toggleAttribute("hidden",!show); $("scrBtns").hidden=!show; $("video").classList.toggle("away",show);
   document.documentElement.classList.toggle("onair",power); syncBreath(); }
 function renderDial(){
   const n=enabled.size;
@@ -734,7 +741,9 @@ function setStation(i){
   renderAll(); if(power) next();
 }
 function toggleVenue(id){
-  enabled.has(id)?enabled.delete(id):enabled.add(id); afterFilter();
+  if(enabled.has(id)&&enabled.size===1) Object.keys(SHOWS).forEach(v=>enabled.add(v));
+  else enabled.has(id)?enabled.delete(id):enabled.add(id);
+  afterFilter();
 }
 function afterFilter(){
   savePrefs(); rebuild(true); renderAll();
@@ -747,6 +756,8 @@ $("prev").onclick=prev;
 $("remove").onclick=()=>{if(!current)return;if(favMode){toggleFav();next();return}removed.add(current.id);store.set("removed",[...removed]);rebuild(true);next();renderLineup()};
 $("allOn").onclick=()=>{Object.keys(SHOWS).forEach(id=>enabled.add(id));afterFilter()};
 $("allOff").onclick=()=>{enabled.clear();afterFilter()};
+$("scrAllOn").onclick=e=>{e.stopPropagation();$("allOn").click()};
+$("scrAllOff").onclick=e=>{e.stopPropagation();$("allOff").click()};
 
 
 /* ---------- Date scale: today to three months out ---------- */
