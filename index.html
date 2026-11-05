@@ -454,6 +454,26 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 .rainabout .in{max-width:760px;margin:0 auto;padding:28px 16px 48px}
 .rainabout h2{margin:0 0 8px}
 .rainabout p{margin:0 0 10px;max-width:62ch}
+/* full screen on phones and tablets */
+#imm{display:none}
+html.immersive,html.immersive body{overflow:hidden;overscroll-behavior:none;height:100%}
+.immersive #imm{display:flex;flex-direction:column;position:fixed;inset:0;z-index:5000;background:radial-gradient(120% 90% at 50% 0%,#2a1a10,#120c08 70%);
+  touch-action:none;overscroll-behavior:none;-webkit-user-select:none;user-select:none}
+#imm .immbar{flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;height:48px;padding:0 10px}
+#imm .immbar button{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px 0 10px;border-radius:999px;border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06);color:#f1e9df;font:600 14px/1 var(--f-body);cursor:pointer;-webkit-tap-highlight-color:transparent}
+#imm .immbar button:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+#imm .immback svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+#imm .immpow{padding:0 14px}
+#imm .immpow i{width:10px;height:10px;border-radius:50%;background:#4a2520;box-shadow:inset 0 1px 2px rgba(0,0,0,.6)}
+#imm .immpow[aria-pressed="true"] i{background:#ff6a3a;box-shadow:0 0 8px 2px rgba(255,106,58,.7)}
+#imm .immtitle{flex:1;min-width:0;text-align:center;color:rgba(241,233,223,.7);font:600 12px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#imm .immstage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:4px 8px 10px}
+#imm .immstage>.rface,#imm .immstage>.eface{position:relative!important;left:auto!important;top:auto!important;right:auto!important;bottom:auto!important;
+  width:var(--immW)!important;height:var(--immH)!important;transform:none!important;flex:none}
+#imm.rain .rface:not([hidden]),#imm.egz .eface:not([hidden]){display:block}
+#imm .immhint{flex:none;margin:0 0 calc(14px + env(safe-area-inset-bottom));text-align:center;color:rgba(241,233,223,.6);font:500 13px/1.3 var(--f-body)}
+#imm .immhint[hidden]{display:none}
 
 /* ---------- eGuzheng mode: the face is drawn over the rendered plate in cm (--u), like the Rain Machine ---------- */
 .eface{display:none;container-type:inline-size}
@@ -1085,7 +1105,7 @@ function applyGeom(v){
 }
 function layoutScene(){
   const vw=document.documentElement.clientWidth;
-  const v=(vw<700&&GEOM.tall&&!document.documentElement.classList.contains("egzmode"))?"tall":"wide"; if(v!==variant) applyGeom(v);   // eGuzheng keeps the desktop face on every screen
+  const RC=document.documentElement.classList, v=!GEOM.tall||RC.contains("egzmode")?"wide":RC.contains("immersive")?(innerHeight>innerWidth?"tall":"wide"):vw<700?"tall":"wide"; if(v!==variant) applyGeom(v);   // eGuzheng keeps the desktop face on every screen
   const g=GEOM[v], pw=g.plate[2]-g.plate[0], cx=(g.plate[0]+g.plate[2])/2;
   const cropTop=v==="tall"?.0:.235, cropBot=v==="tall"?.0:.045;
   const vh=window.innerHeight, top=$("radio").getBoundingClientRect().top+scrollY;
@@ -1517,6 +1537,7 @@ function setMode(m){
   try{ if(alt) history.replaceState(null,"",want==="rain"?"#rain":"#eguzheng"); else if(Object.keys(ALL_SHOWS).length) savePrefs(); else if(/^#(rain|eguzheng)$/.test(location.hash)) history.replaceState(null,"",location.pathname+location.search) }catch(e){}
   applyGeom(variant); layoutScene(); renderRain(); if(typeof renderEgz==="function") renderEgz();
   if(wasOn) setPower(true);
+  updImmersive();
 }
 /* ---------- drawing: the XY pad on the screen, the filter's response in the amber window ---------- */
 function fitCanvas(cv){const r=cv.getBoundingClientRect(); if(!r.width) return null;
@@ -1563,6 +1584,50 @@ function rainFrame(){
     c.strokeStyle=`rgba(255,${Math.round(150+60*lv)},${Math.round(60+40*lv)},${al})`; c.lineWidth=(2.2+1.2*lv)*dpr; c.stroke(); c.shadowBlur=0;
   }
 }
+
+/* ---------- full screen on phones and tablets: the instrument's face fills the screen, the page stops scrolling ---------- */
+const IMM_TOUCH=(()=>{try{return matchMedia("(pointer:coarse)").matches||(/Mac/.test(navigator.platform)&&navigator.maxTouchPoints>1)}catch(e){return false}})();
+let immEl=null, immOn=false;
+function immBuild(){
+  if(immEl) return immEl;
+  immEl=document.createElement("div"); immEl.id="imm";
+  immEl.innerHTML=`<div class="immbar"><button type="button" class="immback" aria-label="Back to the radio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Radio</button>`
+    +`<span class="immtitle"></span><button type="button" class="immpow" aria-pressed="false"><i></i><span>Off</span></button></div>`
+    +`<div class="immstage"></div><p class="immhint" hidden>Turn your phone sideways for a bigger instrument.</p>`;
+  document.body.appendChild(immEl);
+  immEl.querySelector(".immback").onclick=()=>setMode("radio");
+  immEl.querySelector(".immpow").onclick=()=>setPower(!power);
+  // no page scrolling or rubber-banding behind the instrument
+  immEl.addEventListener("touchmove",e=>{if(!(e.target.closest&&e.target.closest("select")))e.preventDefault()},{passive:false});
+  // the overlay wears the radio's state classes (on, rain, egz) so the faces style exactly as they do in place
+  new MutationObserver(immSync).observe($("radio"),{attributes:true,attributeFilter:["class"]});
+  return immEl;
+}
+function immSync(){
+  if(!immEl) return; const r=$("radio"), egz=typeof egzMode!=="undefined"&&egzMode;
+  immEl.className=r.className; immEl.classList.add("immon");
+  const pb=immEl.querySelector(".immpow"); pb.setAttribute("aria-pressed",power); pb.querySelector("span").textContent=power?"On":"Off";
+  immEl.querySelector(".immtitle").textContent=rainMode?"Rain Through a Window":egz?"eGuzheng":"";
+}
+function immFaces(){ return [...document.querySelectorAll(".rface,.eface")] }
+function immSize(){
+  if(!immOn) return; const st=immEl.querySelector(".immstage"), egz=typeof egzMode!=="undefined"&&egzMode;
+  const F=(egz?EFACE:RFACE)[variant]||(egz?EFACE:RFACE).wide, W=st.clientWidth, H=st.clientHeight; if(!W||!H) return;
+  const s=Math.min(W/F.w,H/F.h); immEl.style.setProperty("--immW",Math.floor(F.w*s)+"px"); immEl.style.setProperty("--immH",Math.floor(F.h*s)+"px");
+  immEl.querySelector(".immhint").hidden=!(egz&&innerHeight>innerWidth&&innerWidth<700);
+}
+function updImmersive(){
+  const want=IMM_TOUCH&&(rainMode||(typeof egzMode!=="undefined"&&egzMode));
+  if(want!==immOn){
+    immOn=want; document.documentElement.classList.toggle("immersive",want);
+    if(want){ immBuild(); const st=immEl.querySelector(".immstage"); immFaces().forEach(f=>st.appendChild(f)); scrollTo(0,0) }
+    else if(immEl) immFaces().forEach(f=>$("sceneBox").appendChild(f));
+    layoutScene();
+  }
+  immSync(); immSize();
+}
+addEventListener("resize",()=>{ if(immOn){ layoutScene(); immSize() } });
+addEventListener("orientationchange",()=>setTimeout(()=>{ if(immOn){ layoutScene(); immSize() } },250));
 
 /* ---------- eGuzheng: the radio's third mode ----------
    Eleven bridged-T resonators, D3 to D5 in D major pentatonic, struck from copper pads, droned from touch strips
