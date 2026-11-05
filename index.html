@@ -330,8 +330,8 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 /* glass glare across the top of the face */
 #uiDial::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(170deg,rgba(255,255,255,.55),rgba(255,255,255,0) 38%)}
 .dialhead{display:flex;align-items:stretch;gap:calc(var(--pw) * .007)}
-.minivfd{position:relative;display:flex;align-items:center;border-radius:calc(var(--pw) * .004);background:#38221a;color:var(--dial-off);
-  box-shadow:inset 0 calc(var(--pw) * .0015) calc(var(--pw) * .003) rgba(0,0,0,.7),0 1px 0 rgba(255,255,255,.6);padding:calc(var(--pw) * .0045) calc(var(--pw) * .009);transition:color .6s}
+.minivfd{position:relative;display:flex;align-items:center;border-radius:calc(var(--pw) * .009);background:#38221a;color:var(--dial-off);
+  box-shadow:inset 0 calc(var(--pw) * .0015) calc(var(--pw) * .003) rgba(0,0,0,.7),0 1px 0 rgba(255,255,255,.6);padding:calc(var(--pw) * .0045) calc(var(--pw) * .009) calc(var(--pw) * .0108);transition:color .6s}
 .on .minivfd{color:var(--amber);text-shadow:0 0 calc(var(--pw) * .006) var(--amber-glow);background:linear-gradient(180deg,#7a491b,#593116)}
 :root[data-theme="dark"] .minivfd{background:#281100} :root[data-theme="dark"] .on .minivfd{background:linear-gradient(180deg,#6d3d0e,#4b2304)}
 .dialhead>.minivfd:first-child{flex:1;min-width:0}
@@ -355,6 +355,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 .tall .dialhead .shuf-ico{width:calc(var(--pw) * .034)} .tall .dialhead .heart-ico{width:calc(var(--pw) * .028)}
 #uiDial .wk-l{position:absolute;top:calc(100% + 2px);transform:translateX(-50%);font:500 calc(var(--pw) * .0072)/1 var(--f-body);color:var(--ink2);letter-spacing:.02em}
 .tall #uiDial .wk-l{font-size:calc(var(--pw) * .011)} .tall #uiDial .scale{margin-bottom:calc(var(--pw) * .024)} .tall #uiDial .dot{width:4px;height:4px;margin-left:-2px}
+.tall .minivfd{border-radius:calc(var(--pw) * .014)}
 .tall .dot{bottom:calc(var(--pw) * .0118)}
 </style>
 
