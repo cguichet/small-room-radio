@@ -497,18 +497,22 @@ html.immersive,html.immersive body{overflow:hidden;overscroll-behavior:none;heig
 .eoff{transform:translate(-50%,-50%);font:500 calc(var(--u) * .58)/1 ui-monospace,Menlo,monospace;color:var(--lbl);white-space:nowrap;pointer-events:none}
 .eoff.moved{color:var(--copper)}
 .enote{transform:translate(-50%,-50%);font:700 calc(var(--u) * .82)/1 var(--f-body);color:var(--lbl);white-space:nowrap;pointer-events:none}
-/* a trimmer: a dark slot with a centre mark; its handle is a round knob whose thick line is the voice's level light */
+/* a trimmer: the radio's scrub slider stood on end (a 2.5 mm slot, a round handle with an index line); the index line is the voice's level light */
 .etrim{--s:0;--led:0;cursor:ns-resize;touch-action:none;outline:none}
-.etrim::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:38%;transform:translateX(-50%);border-radius:calc(var(--u) * .25);background:#0e1011;box-shadow:inset 0 1px 3px #000,0 1px 0 rgba(255,255,255,.18);
-  background-image:linear-gradient(transparent calc(50% - 1px),rgba(255,255,255,.75) calc(50% - 1px) calc(50% + 1px),transparent calc(50% + 1px)),
-    linear-gradient(90deg,transparent calc(50% - 1px),rgba(255,255,255,.12) calc(50% - 1px) calc(50% + 1px),transparent calc(50% + 1px))}
-.etrim .eth{--d:min(calc(var(--u) * 2.3),100%);position:absolute;left:50%;width:var(--d);height:auto;aspect-ratio:1;transform:translateX(-50%);
-  top:calc((1 - var(--s)) / 2 * (100% - var(--d)));border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle at 38% 30%,var(--k-hi),var(--k-mid) 55%,var(--k-lo));box-shadow:0 0 0 calc(var(--u) * .06) var(--k-edge),0 calc(var(--u) * .25) calc(var(--u) * .5) rgba(0,0,0,.5)}
-.etrim .eth::before,.etrim .eth::after{content:"";position:absolute;left:14%;right:14%;top:50%;height:22%;margin-top:-11%;border-radius:calc(var(--u) * .12)}
-.etrim .eth::before{background:var(--lamp-off);box-shadow:inset 0 1px 2px rgba(0,0,0,.6)}
-.etrim .eth::after{background:var(--lamp-on);box-shadow:0 0 calc(var(--u) * .5) calc(var(--u) * .12) var(--lamp-on);opacity:var(--led)}
+.etrim::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:calc(var(--u) * .56);transform:translateX(-50%);border-radius:999px;background:#17130f;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.45)}
+:root[data-theme="dark"] .etrim::before{box-shadow:inset 0 1px 2px rgba(0,0,0,.9),0 1px 0 rgba(255,255,255,.08)}
+.etrim .eth{--d:calc(var(--u) * 1.9);--h-hi:#55575b;--h-mid:#34363a;--h-lo:#202124;--h-edge:#121314;--h-ind:#ff7a2e;
+  position:absolute;left:50%;width:var(--d);height:var(--d);transform:translateX(-50%);top:calc((1 - var(--s)) / 2 * (100% - var(--d)));border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 38% 32%,var(--h-hi),var(--h-mid) 55%,var(--h-lo));box-shadow:0 calc(var(--u) * .1) 0 var(--h-edge),0 calc(var(--u) * .17) calc(var(--u) * .25) rgba(0,0,0,.45)}
+:root[data-theme="dark"] .etrim .eth{--h-hi:#fffdf8;--h-mid:#efebe2;--h-lo:#d4cfc3;--h-edge:#a9a497;--h-ind:#b81c0c}
+.etrim .eth::before,.etrim .eth::after{content:"";position:absolute;left:22%;right:22%;top:50%;height:14%;margin-top:-7%;border-radius:calc(var(--u) * .07)}
+.etrim .eth::before{background:var(--h-ind);opacity:.55}
+.etrim .eth::after{background:#ffb070;box-shadow:0 0 calc(var(--u) * .45) calc(var(--u) * .1) #ff6a2a;opacity:var(--led)}
 .etrim:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+/* semitone lines across the trimmer row, centre line a little stronger */
+.esemi{height:0;border-top:1px solid var(--lbl);opacity:.28;pointer-events:none}
+.esemi.zero{opacity:.6}
 /* recessed wells under the strips and the pads */
 .ewell{border-radius:calc(var(--u) * .6);background:#0d0f10;box-shadow:inset 0 calc(var(--u) * .15) calc(var(--u) * .35) rgba(0,0,0,.85),0 1px 0 rgba(255,255,255,.2)}
 /* drone strips: copper pads on black, with the fingertip when one rests on them */
@@ -1681,6 +1685,8 @@ const EFACE={
     dustBox:[2.2,16.6,35.8,7.9], select:[28.4,19.5,8.8,1.7],
     trim:[2.2,26.3,35.8,13.9], droneHead:[2.2,40.8,35.8,1.4], strips:[2.2,42.4,35.8,9.8], pads:[2.2,52.8,35.8,21.2]}};
 const EGZ_OCT={bass:-1,tenor:0,alto:1};
+const TRIM_SEMIS=[-0.9919,-0.8119,-0.6191,-0.4169,-0.2091,0,0.2066,0.4074,0.5997,0.7816,0.952];   // trimmer position of -5 ... +5 semitones
+const TRIM_D=1.9, TRIM_SLOT=.56;   // handle and slot, in the radio scrubber's proportions
 const egzNames=()=>{const o=EGZ_OCT[es.reg]||0; return EGZ_NAMES.map(n=>n.replace(/\d$/,d=>String(+d+o)))};
 // the notes "To random" and "To crackle" can reach, by voice number (1 is the lowest)
 const EGZ_SETS=[["all","All notes"],["odd","Odd notes"],["even","Even notes"],["low","Lower six"],["high","Upper six"],["roots","D notes only"],["fifths","D and A"],
@@ -1710,7 +1716,7 @@ function epost(m){ if(enode) enode.port.postMessage(m) }
 function egzPushAll(){
   for(let i=0;i<EGZ_N;i++){epost({t:"tune",i,s:es.trim[i]});epost({t:"pad",i,p:ePadP[i]});epost({t:"bend",i,x:eBendX[i]});epost({t:"touch",i,g:eTouchG[i]});epost({t:"breath",i,g:eBreathG[i]})}
   epost({t:"gain",x:es.gain});epost({t:"level",x:es.level});epost({t:"sustain",x:es.sus});epost({t:"lim",x:0});epost({t:"ot",x:0});epost({t:"skew",x:es.skew});
-  epost({t:"dens",x:es.dens});epost({t:"dust",x:es.dust});epost({t:"hit",x:es.hit});epost({t:"route",v:true,m:true});epost({t:"targets",s:es.ds});
+  epost({t:"dens",x:es.dens});epost({t:"dust",x:es.dust});epost({t:"hit",x:eHitAmt(es.hit)});epost({t:"route",v:true,m:true});epost({t:"targets",s:es.ds});
 }
 // The register is part of the circuit (Bass, Tenor and Alto swap the resonators' capacitors), so changing it builds a new voice bank.
 function makeEgzNode(){
@@ -1768,7 +1774,9 @@ document.addEventListener("visibilitychange",()=>{if(ectx&&egzMode&&power&&!docu
 
 /* ---------- controls ---------- */
 const eAll=sel=>document.querySelectorAll(".eface "+sel);
-function setE(k,v){ es[k]=Math.max(0,Math.min(1,v)); const map={gain:"gain",level:"level",sus:"sustain",dens:"dens",dust:"dust",hit:"hit",skew:"skew"}; epost({t:map[k],x:es[k]}); egzSave(); renderEgz() }
+// To random: strikes grow in proportion only up to about 0.05 of full height, so the knob is spread over that range on a square law
+const eHitAmt=x=>.08*x*x;
+function setE(k,v){ es[k]=Math.max(0,Math.min(1,v)); const map={gain:"gain",level:"level",sus:"sustain",dens:"dens",dust:"dust",hit:"hit",skew:"skew"}; epost({t:map[k],x:k==="hit"?eHitAmt(es[k]):es[k]}); egzSave(); renderEgz() }
 function setTrim(i,s){ es.trim[i]=Math.max(-1,Math.min(1,s)); epost({t:"tune",i,s:es.trim[i]}); egzSave(); renderEgz() }
 function eSemis(i){ if(!eref) return 0; const d=eref.designs[i]; return 12*Math.log(eref.freqAt(i,es.trim[i])/d.f0)/Math.LN2 }
 const eFmtSemi=x=>{const a=Math.abs(x)<.005?0:x; return (a>0?"+":a<0?"−":"±")+Math.abs(a).toFixed(2)};
@@ -1908,6 +1916,9 @@ function egzFaceHTML(v){
    h+=`<div class="etrimhead" style="left:${cm(x0)};top:${cm(y0)};width:${cm(w)};height:${cm(1.5)}"><span class="rlab sm left" style="position:static;transform:none">Tuning trimmers</span><span class="ebtns"><button type="button" class="ebtn" data-act="centre">Centre all</button><button type="button" class="ebtn" data-act="scramble">Scramble</button></span></div>`;
    const rw=10.2; h+=`<div class="ereg" role="radiogroup" aria-label="Register" style="left:${cm(x0+w/2-rw/2)};top:${cm(y0-.55)};width:${cm(rw)};height:${cm(1.9)}"><span class="eslot"><span class="ecap"></span></span>`
      +["bass","tenor","alto"].map(r=>`<button type="button" role="radio" data-reg="${r}">${r[0].toUpperCase()+r.slice(1)}</button>`).join("")+`</div>`;
+   // a line across the panel at every whole semitone, from the far left slot to the far right one
+   {const ty=y0+3.0, th=hh-4.8, xl=x0+cw*.5-TRIM_SLOT/2, xr=x0+cw*(EGZ_N-.5)+TRIM_SLOT/2;
+    TRIM_SEMIS.forEach((sv,k)=>{h+=`<i class="esemi${k===5?" zero":""}" style="left:${cm(xl)};width:${cm(xr-xl)};top:${cm(ty+TRIM_D/2+(1-sv)/2*(th-TRIM_D))}"></i>`})}
    for(let i=0;i<EGZ_N;i++){const cx=x0+cw*(i+.5);
      h+=`<span class="eoff" data-i="${i}" style="left:${cm(cx)};top:${cm(y0+2.4)}">±0.00</span>`
        +`<div class="etrim" data-i="${i}" role="slider" tabindex="0" aria-orientation="vertical" aria-label="Tune ${NM[i]}" style="left:${cm(cx-cw*.45)};top:${cm(y0+3.0)};width:${cm(cw*.9)};height:${cm(hh-4.8)}"><span class="eth"></span></div>`
