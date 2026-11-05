@@ -968,6 +968,14 @@ function useCity(){
   if(!ENABLED[c]){const st=(START_BY[c]||[]).filter(id=>SHOWS[id]); ENABLED[c]=new Set(st.length?st:Object.keys(SHOWS))}
   enabled=ENABLED[c];
 }
+// First visit: no location prompt; the device's clock says roughly where it is. From US Central time
+// eastwards through Europe, Africa and the Middle East, Brooklyn is nearer; everywhere else, San Francisco.
+function nearestCity(){
+  let h=-new Date().getTimezoneOffset()/60, zone="";
+  try{zone=Intl.DateTimeFormat().resolvedOptions().timeZone||""}catch(e){}
+  if(/^America\/(New_York|Detroit|Toronto|Montreal|Chicago|Indiana|Kentucky)/.test(zone)) h=-5;
+  return CITIES.find(c=>c.id===(h>=-6&&h<=5?"brooklyn":"sf"));
+}
 function setCity(id){
   CITY=CITIES.find(c=>c.id===id)||CITIES[0]; lampFlip=false; cityTheme();
   const live=cityLive(), soon=$("soon");
@@ -1116,7 +1124,7 @@ document.addEventListener("keydown",e=>{
   for(const g of STATIONS) for(const a of (genres[g.id]||[])) (GENRE_OF[a]=GENRE_OF[a]||[]).push(g.id);
   const p=store.get("prefs",null);
   if(p&&Array.isArray(p.venues)) for(const c of (Array.isArray(p.cities)?p.cities:["sf"])) ENABLED[c]=new Set(p.venues.filter(id=>ALL_SHOWS[id]&&cityOfVenue(id)===c));
-  {const pc=CITIES.find(c=>c.id===(p&&p.city)); if(pc&&pc.live) CITY=pc;}
+  {const pc=CITIES.find(c=>c.id===(p&&p.city)); CITY=pc&&pc.live?pc:nearestCity();}
   useCity(); buildMap(); $("city").value=CITY.id; cityTheme();
   sel=new Set(["indie"]);
   if(p){shuffle=!!p.shuffle;sel=parseGenres(p.genres)??sel}
