@@ -376,13 +376,14 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 /* ---------- Rain Through a Window mode ---------- */
 .rui{display:none!important}
 .rain .rui{display:block!important}
-.rain #gbank,.rain #vol,.rain #vlabel,.rain .vlabel.tl,.rain .ctl.key,.rain #scrub,.rain #uiDial,.rain #video,.rain #tubeMsg,.rain #mapScr,.rain #scrBtns,
-.rain .info-artist,.rain .info-venue,.rain #order,.rain #favmode{display:none!important}
-.rainmode section.digital{display:none}
+.alt #gbank,.alt #vol,.alt #vlabel,.alt .vlabel.tl,.alt .ctl.key,.alt #scrub,.alt #uiDial,.alt #video,.alt #tubeMsg,.alt #mapScr,.alt #scrBtns,
+.alt .info-artist,.alt .info-venue,.alt #order,.alt #favmode{display:none!important}
+.altmode section.digital{display:none}
 .rainabout{display:none}
 .rainmode .rainabout{display:block}
 /* the way in: an easter egg at the very bottom of the page; it lights while the Rain Machine is on */
 .eggbar{display:flex;justify-content:center;padding:6px 16px 28px}
+.eggbar{gap:6px;flex-wrap:wrap}
 .egg{display:inline-flex;align-items:center;gap:8px;border:0;background:none;padding:6px 10px;border-radius:999px;cursor:pointer;color:var(--muted);
   font:600 12px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase;-webkit-tap-highlight-color:transparent;opacity:.6;transition:opacity .2s,color .2s}
 .egg:hover{opacity:1}
@@ -394,7 +395,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 :root[data-theme="dark"] .egg[aria-pressed="true"]{color:#ffb347}
 .egg:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
 /* the rain face: drawn over the radio's rendered plate, sized in cm (--u is one centimetre of plate) */
-.rain #uiScreen,.rain #uiDisplay{display:none!important}
+.alt #uiScreen,.alt #uiDisplay{display:none!important}
 .rface{display:none;container-type:inline-size}
 .rain .rface:not([hidden]){display:block}
 .rinner{position:absolute;inset:0;--u:calc(100cqw / var(--pcm));
@@ -453,6 +454,60 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 .rainabout .in{max-width:760px;margin:0 auto;padding:28px 16px 48px}
 .rainabout h2{margin:0 0 8px}
 .rainabout p{margin:0 0 10px;max-width:62ch}
+
+/* ---------- eGuzheng mode: the face is drawn over the rendered plate in cm (--u), like the Rain Machine ---------- */
+.eface{display:none;container-type:inline-size}
+.egz .eface:not([hidden]){display:block}
+.einner{--copper:#f0893a;--copper-d:#a9571f;--velo:#141617;--strip:#4a2c17;--strip-hot:#f0893a;--pad-ink:#f1e3d6;--pad-ink2:#b99d85;--lamp-off:#5a1a15;--lamp-on:#ff4632}
+.escope canvas{position:absolute;inset:0;width:100%;height:100%}
+.escope .rain-msg{font-size:calc(var(--u) * .95)} .escope .rain-msg small{font-size:calc(var(--u) * .75)}
+/* trimmer header with its two buttons */
+.etrimhead{display:flex;align-items:center;justify-content:space-between;gap:calc(var(--u) * .6)}
+.ebtns{display:flex;gap:calc(var(--u) * .4)}
+.ebtn{font:600 calc(var(--u) * .62)/1 var(--f-body);letter-spacing:.03em;color:var(--lbl);background:transparent;border:calc(var(--u) * .08) solid color-mix(in srgb,var(--lbl) 55%,transparent);
+  border-radius:calc(var(--u) * .25);padding:calc(var(--u) * .25) calc(var(--u) * .5);cursor:pointer}
+.ebtn:hover{border-color:var(--lbl)} .ebtn:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.eoff{transform:translate(-50%,-50%);font:500 calc(var(--u) * .58)/1 ui-monospace,Menlo,monospace;color:var(--lbl);white-space:nowrap;pointer-events:none}
+.eoff.moved{color:var(--copper)}
+.enote{transform:translate(-50%,-50%);font:700 calc(var(--u) * .82)/1 var(--f-body);color:var(--lbl);white-space:nowrap;pointer-events:none}
+/* a trimmer: a dark slot with whole-cent ticks and a copper thumb; centre is marked */
+.etrim{--s:0;border-radius:calc(var(--u) * .25);background:#0e1011;box-shadow:inset 0 1px 3px #000,0 1px 0 rgba(255,255,255,.18);cursor:ns-resize;touch-action:none;outline:none;
+  background-image:linear-gradient(transparent calc(50% - 1px),rgba(255,255,255,.75) calc(50% - 1px) calc(50% + 1px),transparent calc(50% + 1px)),
+    linear-gradient(90deg,transparent calc(50% - 1px),rgba(255,255,255,.12) calc(50% - 1px) calc(50% + 1px),transparent calc(50% + 1px))}
+.etrim .eth{position:absolute;left:12%;right:12%;height:calc(var(--u) * .55);top:calc((1 - var(--s)) * 50% - var(--u) * .275);border-radius:calc(var(--u) * .12);
+  background:var(--copper);box-shadow:0 1px 2px rgba(0,0,0,.6);pointer-events:none}
+.etrim .eth::after{content:"";position:absolute;left:15%;right:15%;top:50%;height:2px;margin-top:-1px;background:#3a1a06}
+.etrim:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+/* recessed wells under the strips and the pads */
+.ewell{border-radius:calc(var(--u) * .6);background:#0d0f10;box-shadow:inset 0 calc(var(--u) * .15) calc(var(--u) * .35) rgba(0,0,0,.85),0 1px 0 rgba(255,255,255,.2)}
+/* drone strips: copper pads on black, with the fingertip when one rests on them */
+.estrip{--fy:.5;background:var(--velo);border-radius:calc(var(--u) * .2);overflow:hidden;touch-action:none;cursor:pointer;outline:none}
+.estrip i.pd{position:absolute;left:8%;right:8%;height:calc(5 / 64 * 100% - 2px);background:var(--strip);border-radius:1px;pointer-events:none;
+  background-image:repeating-linear-gradient(90deg,transparent 0 3px,rgba(0,0,0,.35) 3px 4px)}
+.estrip i.pd.on{background-color:var(--strip-hot)}
+.estrip .fing{position:absolute;left:50%;top:calc(var(--fy) * 100%);width:80%;aspect-ratio:1;height:auto;transform:translate(-50%,-50%);
+  border-radius:50%;background:rgba(241,227,214,.38);border:2px solid var(--pad-ink);pointer-events:none;display:none}
+.estrip.touched .fing{display:block}
+.estrip:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+/* strike pads: copper-brown, a lamp for each voice's level LED and a bar for its level */
+.epads{display:grid;grid-template-columns:repeat(11,minmax(0,1fr));gap:calc(var(--u) * .35);touch-action:none;cursor:crosshair;outline:none;user-select:none;-webkit-user-select:none}
+.epads:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+.epad{--lvl:0;--led:0;position:relative;background:var(--strip);border-radius:calc(var(--u) * .2);overflow:hidden}
+.epad .fill{position:absolute;inset:0;background:var(--strip-hot);transform:scaleY(var(--lvl));transform-origin:50% 100%;opacity:.55;pointer-events:none}
+.epad b{position:absolute;left:50%;top:calc(var(--u) * .5);transform:translateX(-50%);background:var(--velo);color:var(--pad-ink);border-radius:2px;padding:.08em .3em;
+  font:700 calc(var(--u) * .66)/1.25 var(--f-body);letter-spacing:.03em;white-space:nowrap}
+.epad .lamp{position:absolute;left:50%;top:calc(var(--u) * 1.75);width:calc(var(--u) * .8);height:calc(var(--u) * .8);transform:translateX(-50%);border-radius:50%;background:var(--velo)}
+.epad .lamp::before,.epad .lamp::after{content:"";position:absolute;inset:22%;border-radius:50%}
+.epad .lamp::before{background:var(--lamp-off)} .epad .lamp::after{background:var(--lamp-on);box-shadow:0 0 calc(var(--u) * .4) calc(var(--u) * .1) var(--lamp-on);opacity:var(--led)}
+.epad .ekey{position:absolute;left:0;right:0;bottom:calc(var(--u) * .4);text-align:center;font:500 calc(var(--u) * .55)/1 ui-monospace,Menlo,monospace;color:var(--pad-ink2)}
+.epad.down{box-shadow:inset 0 0 0 2px var(--pad-ink)}
+.eselect{font:600 calc(var(--u) * .62)/1 var(--f-body);color:var(--lbl);background:transparent;border:calc(var(--u) * .08) solid color-mix(in srgb,var(--lbl) 55%,transparent);border-radius:calc(var(--u) * .25);padding:0 calc(var(--u) * .3)}
+.eselect option{color:#1d1e20}
+/* about eGuzheng, in place of the venues and listings */
+.egzabout{display:none}
+.egzmode .egzabout{display:block}
+.egzabout .in{max-width:760px;margin:0 auto;padding:28px 16px 48px}
+.egzabout h2{margin:0 0 8px} .egzabout p{margin:0 0 10px;max-width:62ch}
 </style>
 
 <header class="signband"><div class="in">
@@ -506,6 +561,11 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
   <p>The Rain knob generates randomly spaced rain drops with increasing density. Each rain drop is a small blip of voltage.</p>
   <p>The blips pass through a low pass filter and a high pass filter (the window). Resonance controls the LPF resonance, and Motion randomly modulates the LPF cutoff with every new blip.</p>
 </div></section>
+<section class="egzabout" id="egzAbout"><div class="in">
+  <h2>eGuzheng</h2>
+  <p>Eleven analog resonators, D3 to D5 in D major pentatonic, played here by a model of Sound Workshop's bridged-T circuit.</p>
+  <p>Tap a pad to strike its note: higher on the pad is a harder tap. Touch a drone strip to make that voice drone, softly low on the strip and fully near the top; tap the finger again to lift it. Decay sets how long struck notes ring, Saw leans every voice toward a sawtooth, and dust noise adds crackle or scatters random strikes across the notes. Keys A to ' strike the notes too.</p>
+</div></section>
 <section class="digital"><div class="in">
   <div class="below">
     <div class="col">
@@ -537,7 +597,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
     <div><b>Have YouTube Premium but hearing ads?</b> Some browsers hide your YouTube sign-in from players embedded in other sites. In Firefox, tap the shield icon next to the address, turn off Enhanced Tracking Protection for this site, and reload. Safari can only turn this off for every site at once, so Chrome works best on iPhone. Either way, you need to be signed in to YouTube in the same browser.</div>
   </footer>
 </div></section>
-<div class="eggbar" id="eggbar"><button type="button" class="egg" id="eggBtn" aria-pressed="false" aria-label="Rain Machine: switch the radio to the noise machine"><svg viewBox="0 0 24 30" aria-hidden="true"><path d="M12 1.5C6.6 1.5 2 10.2 2 17.6 2 24 6.5 28.5 12 28.5S22 24 22 17.6C22 10.2 17.4 1.5 12 1.5Z"/><path class="sp" d="M7 15.5c1.8-1.6 3.4-1.6 5 0s3.2 1.6 5 0M6.2 21c1.9-1.6 3.8-1.6 5.8 0s3.9 1.6 5.8 0"/></svg><span>Rain Machine</span></button></div>
+<div class="eggbar" id="eggbar"><button type="button" class="egg" id="eggBtn" aria-pressed="false" aria-label="Rain Machine: switch the radio to the noise machine"><svg viewBox="0 0 24 30" aria-hidden="true"><path d="M12 1.5C6.6 1.5 2 10.2 2 17.6 2 24 6.5 28.5 12 28.5S22 24 22 17.6C22 10.2 17.4 1.5 12 1.5Z"/><path class="sp" d="M7 15.5c1.8-1.6 3.4-1.6 5 0s3.2 1.6 5 0M6.2 21c1.9-1.6 3.8-1.6 5.8 0s3.9 1.6 5.8 0"/></svg><span>Rain Machine</span></button><button type="button" class="egg" id="eggEgz" aria-pressed="false" aria-label="eGuzheng: switch the radio to the eGuzheng"><svg viewBox="0 0 24 30" aria-hidden="true"><path d="M12 1.5C6.6 1.5 2 10.2 2 17.6 2 24 6.5 28.5 12 28.5S22 24 22 17.6C22 10.2 17.4 1.5 12 1.5Z"/><path class="sp" d="M8 11v14M12 9v17M16 11v14"/></svg><span>eGuzheng</span></button></div>
 <script>
 // Click counter: sign up free at goatcounter.com, then put the code you chose between the quotes, e.g. "smallroomradio".
 const GOATCOUNTER_CODE = "cguichet";
@@ -692,6 +752,7 @@ function playPause(){
 let pendingDay=null;
 function setPower(on,startDay){
   if(rainMode){rainPower(on);return}
+  if(egzMode){egzPower(on);return}
   if(on&&!cityLive()){setTube(`Coming soon to ${CITY.name}`,"Pick San Francisco or Brooklyn to listen.");return}
   power=on; $("radio").classList.toggle("on",on); $("power").setAttribute("aria-checked",on); setLamp(on);
   if(on){
@@ -991,6 +1052,7 @@ function applyGeom(v){
    if(show){placeBox($("lampStem"),[.842,.12,.886,.74]); placeBox($("lampBase"),[.775,.7,.957,.82])}}
   {const d=g.boxes.dial,b=g.boxes.vol,x=pc((b[0]+b[2])/2);for(const id of ["order","favmode"]){const o=$(id);o.style.left=x;o.style.top=pc(d[3])}}
   if(typeof placeRain==="function") placeRain(v);
+  if(typeof placeEgz==="function") placeEgz(v);
   setSceneTheme(); if(typeof sel==="object") renderKnob();
 }
 function layoutScene(){
@@ -1225,6 +1287,7 @@ document.addEventListener("keydown",e=>{
   if(["input","textarea","select"].includes(tag)||t.isContentEditable) return;
   if(t.getAttribute&&t.getAttribute("role")==="slider") return;
   if(t.id==="vol"&&e.key!==" ") return;                                    // the focused volume knob handles its own arrows            // the dial, scrubber and volume knob use the arrows themselves
+  if(egzMode){ if(e.key===" "&&tag!=="button"&&tag!=="a"&&tag!=="select"){ e.preventDefault(); setPower(!power); } return; }
   if(rainMode){
     if(e.key===" "){ if(tag==="button"||tag==="a") return; e.preventDefault(); setPower(!power); }
     else if(e.key==="ArrowUp"||e.key==="ArrowDown"){ e.preventDefault(); setRain("vol",rv.vol+(e.key==="ArrowUp"?.05:-.05)); }
@@ -1410,15 +1473,21 @@ function placeRain(v){
   const g=GEOM[v]; if(!g) return;
   document.querySelectorAll(".rface").forEach(f=>{f.hidden=f.dataset.v!==v; if(f.dataset.v===v) placeBox(f,g.plate)});
 }
+// The radio has three faces: the radio itself, the Rain Machine and the eGuzheng; the eggs at the bottom of the page pick them.
 function setMode(m){
-  const rain=m==="rain", wasOn=power;
-  if(rain!==rainMode&&wasOn) setPower(false);
-  rainMode=rain; store.set("mode",rain?"rain":"radio");
-  document.documentElement.classList.toggle("rainmode",rain); $("radio").classList.toggle("rain",rain);
-  $("eggBtn").setAttribute("aria-pressed",rain); $("eggBtn").setAttribute("aria-label",rain?"Rain Machine is on: switch back to the radio":"Rain Machine: switch the radio to the noise machine");
-  if(rain){ loadRainCore().catch(()=>{}); $("tubeMsg").hidden=true } else if(!power) setTube(START_MSG);
-  try{ if(rain) history.replaceState(null,"","#rain"); else if(Object.keys(ALL_SHOWS).length) savePrefs(); else if(location.hash==="#rain") history.replaceState(null,"",location.pathname+location.search) }catch(e){}
-  applyGeom(variant); layoutScene(); renderRain();
+  const want=m==="rain"?"rain":m==="egz"?"egz":"radio", cur=rainMode?"rain":(typeof egzMode!=="undefined"&&egzMode)?"egz":"radio", wasOn=power;
+  if(want!==cur&&wasOn) setPower(false);
+  rainMode=want==="rain"; if(typeof egzMode!=="undefined") egzMode=want==="egz"; store.set("mode",want);
+  const R=document.documentElement.classList, alt=want!=="radio";
+  R.toggle("altmode",alt); R.toggle("rainmode",rainMode); R.toggle("egzmode",want==="egz");
+  $("radio").classList.toggle("alt",alt); $("radio").classList.toggle("rain",rainMode); $("radio").classList.toggle("egz",want==="egz");
+  $("eggBtn").setAttribute("aria-pressed",rainMode); $("eggBtn").setAttribute("aria-label",rainMode?"Rain Machine is on: switch back to the radio":"Rain Machine: switch the radio to the noise machine");
+  if($("eggEgz")){ $("eggEgz").setAttribute("aria-pressed",want==="egz"); $("eggEgz").setAttribute("aria-label",want==="egz"?"eGuzheng is on: switch back to the radio":"eGuzheng: switch the radio to the eGuzheng") }
+  if(rainMode) loadRainCore().catch(()=>{});
+  if(want==="egz") loadEgzCore().catch(()=>{});
+  if(alt) $("tubeMsg").hidden=true; else if(!power) setTube(START_MSG);
+  try{ if(alt) history.replaceState(null,"",want==="rain"?"#rain":"#eguzheng"); else if(Object.keys(ALL_SHOWS).length) savePrefs(); else if(/^#(rain|eguzheng)$/.test(location.hash)) history.replaceState(null,"",location.pathname+location.search) }catch(e){}
+  applyGeom(variant); layoutScene(); renderRain(); if(typeof renderEgz==="function") renderEgz();
   if(wasOn) setPower(true);
 }
 /* ---------- drawing: the XY pad on the screen, the filter's response in the amber window ---------- */
@@ -1467,10 +1536,251 @@ function rainFrame(){
   }
 }
 
+/* ---------- eGuzheng: the radio's third mode ----------
+   Eleven bridged-T resonators, D3 to D5 in D major pentatonic, struck from copper pads, droned from touch strips
+   that feed each voice's own output back to its + input, and scattered by dust noise. The sound is Sound Workshop's
+   circuit model (egz-worklet.js), sample by sample. Saw is the self-FM skew on the bridged-T (the chopped trimmer feed). */
+const EGZ_N=11, EGZ_NAMES=["D3","E3","F♯3","A3","B3","D4","E4","F♯4","A4","B4","D5"];
+const EGZ_KEYS=["KeyA","KeyS","KeyD","KeyF","KeyG","KeyH","KeyJ","KeyK","KeyL","Semicolon","Quote"], EGZ_CAPS=["A","S","D","F","G","H","J","K","L",";","'"];
+// Face layout, cm from the plate's top-left corner
+const EFACE={
+  wide:{w:71.2,h:39.2,scope:[2.2,2.2,17.2,5.6],
+    knobs:{gain:[6.5,11.4,4.4],level:[15.1,11.4,4.4],dens:[6.4,21.9,4.4],dust:[14.9,20.3,3.2],hit:[14.9,26.0,3.2],skew:[6.5,33.0,4.6],sus:[15.1,33.0,4.6]},
+    dustBox:[2.2,17.0,17.2,12.0], select:[2.8,26.7,7.2,1.6],
+    trim:[21.6,2.2,47.4,12.2], strips:[21.6,15.4,47.4,8.4], pads:[21.6,25.0,47.4,12.0]},
+  tall:{w:40.2,h:76.2,scope:[2.2,2.2,35.8,5.4],
+    knobs:{gain:[6.7,11.6,4.4],level:[15.6,11.6,4.4],skew:[24.6,11.6,4.4],sus:[33.5,11.6,4.4],dens:[7.0,20.3,4.0],dust:[15.6,20.3,3.6],hit:[24.0,20.3,3.6]},
+    dustBox:[2.2,16.6,35.8,7.9], select:[28.4,19.5,8.8,1.7],
+    trim:[2.2,26.2,35.8,13.0], strips:[2.2,40.8,35.8,9.6], pads:[2.2,52.0,35.8,22.0]}};
+const EGZ_LABELS={gain:"Gain",level:"Attenuation",dens:"Density",dust:"To crackle",hit:"To random",skew:"Saw",sus:"Decay"};
+let egzMode=false, eref=null, ectx=null, enode=null, eStarting=null, eAnalyser=null;
+let emeters={lv:new Array(EGZ_N).fill(0),led:new Array(EGZ_N).fill(0),clip:0};
+let es={trim:new Array(EGZ_N).fill(0),gain:.45,level:.8,sus:.72,dens:.4,dust:0,hit:0,ds:"all",skew:0};
+try{const s=store.get("egz",null); if(s) for(const k in es) if(k in s){ if(k==="trim"){ if(Array.isArray(s.trim)&&s.trim.length===EGZ_N) es.trim=s.trim.map(x=>Math.max(-1,Math.min(1,+x||0))) }
+  else if(k==="ds") es.ds=String(s.ds); else if(isFinite(s[k])) es[k]=Math.max(0,Math.min(1,+s[k])) }}catch(e){}
+const egzSave=()=>store.set("egz",es);
+const ePadP=new Array(EGZ_N).fill(0), eTouchG=new Array(EGZ_N).fill(0), eFinger=new Array(EGZ_N).fill(null);
+
+function loadEgzCore(){
+  if(window.createKalimbaCore) return Promise.resolve();
+  return new Promise((res,rej)=>{const s=document.createElement("script");s.src="egz-core.js";s.onload=()=>{eref=createKalimbaCore(48000,{octave:0,spread:0,skewHw:true});res();renderEgz()};s.onerror=rej;document.head.appendChild(s)});
+}
+function epost(m){ if(enode) enode.port.postMessage(m) }
+function egzPushAll(){
+  for(let i=0;i<EGZ_N;i++){epost({t:"tune",i,s:es.trim[i]});epost({t:"pad",i,p:ePadP[i]});epost({t:"bend",i,x:0});epost({t:"touch",i,g:eTouchG[i]});epost({t:"breath",i,g:0})}
+  epost({t:"gain",x:es.gain});epost({t:"level",x:es.level});epost({t:"sustain",x:es.sus});epost({t:"lim",x:0});epost({t:"ot",x:0});epost({t:"skew",x:es.skew});
+  epost({t:"dens",x:es.dens});epost({t:"dust",x:es.dust});epost({t:"hit",x:es.hit});epost({t:"route",v:true,m:true});epost({t:"targets",s:es.ds});
+}
+async function startEgzNode(){
+  await loadEgzCore();
+  try{
+    if(!ectx.audioWorklet) throw new Error("no worklet");
+    await ectx.audioWorklet.addModule("egz-worklet.js");
+    enode=new AudioWorkletNode(ectx,"kalimba",{numberOfInputs:0,numberOfOutputs:1,outputChannelCount:[2],processorOptions:{octave:0,spread:0,hw:true}});
+    enode.port.onmessage=e=>{emeters.lv=e.data.lv;emeters.led=e.data.led;if(e.data.clip>emeters.clip)emeters.clip=e.data.clip};
+  }catch(err){   // older browsers: the same model on the main thread
+    const core=createKalimbaCore(ectx.sampleRate,{octave:0,spread:0,skewHw:true}), sp=ectx.createScriptProcessor(1024,1,2);
+    sp.onaudioprocess=ev=>{const a=ev.outputBuffer.getChannelData(0);core.process(a,a.length);ev.outputBuffer.getChannelData(1).set(a);
+      const m=core.meters(); if(m.clip>emeters.clip)emeters.clip=m.clip; for(let i=0;i<EGZ_N;i++){emeters.lv[i]=core.levels[i];emeters.led[i]=core.leds[i]}};
+    enode={port:{postMessage:m=>applyMsg(core,m)},connect:x=>sp.connect(x)};
+  }
+  egzPushAll();
+  eAnalyser=ectx.createAnalyser(); eAnalyser.fftSize=2048; eAnalyser.smoothingTimeConstant=0;
+  enode.connect(eAnalyser); enode.connect(ectx.destination);
+}
+function egzAudio(on){
+  if(!on){ if(ectx) ectx.suspend().catch(()=>{}); return }
+  if(!ectx){ const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return;
+    if(navigator.audioSession) try{navigator.audioSession.type="playback"}catch(e){}
+    ectx=new AC({latencyHint:"interactive"}); }
+  ectx.resume().catch(()=>{});
+  if(!enode){ if(!eStarting) eStarting=startEgzNode().catch(e=>{console.warn("eguzheng audio",e);eStarting=null}); eStarting.then(()=>power&&egzMode&&ectx.resume().catch(()=>{})) }
+}
+function egzPower(on){
+  power=on; $("radio").classList.toggle("on",on); $("power").setAttribute("aria-checked",on); setLamp(on);
+  egzAudio(on); renderEgz();
+}
+document.addEventListener("visibilitychange",()=>{if(ectx&&egzMode&&power&&!document.hidden)ectx.resume().catch(()=>{})});
+
+/* ---------- controls ---------- */
+const eAll=sel=>document.querySelectorAll(".eface "+sel);
+function setE(k,v){ es[k]=Math.max(0,Math.min(1,v)); const map={gain:"gain",level:"level",sus:"sustain",dens:"dens",dust:"dust",hit:"hit",skew:"skew"}; epost({t:map[k],x:es[k]}); egzSave(); renderEgz() }
+function setTrim(i,s){ es.trim[i]=Math.max(-1,Math.min(1,s)); epost({t:"tune",i,s:es.trim[i]}); egzSave(); renderEgz() }
+function eSemis(i){ if(!eref) return 0; const d=eref.designs[i]; return 12*Math.log(eref.freqAt(i,es.trim[i])/d.f0)/Math.LN2 }
+const eFmtSemi=x=>{const a=Math.abs(x)<.005?0:x; return (a>0?"+":a<0?"−":"±")+Math.abs(a).toFixed(2)};
+function eKnobText(k){
+  const v=es[k], L=eref;
+  if(k==="gain") return L?"×"+L.gainOf(v).toFixed(2):"";
+  if(k==="level") return v<.005?"−∞ dB":"−"+Math.abs(60*Math.log10(v)).toFixed(1)+" dB";
+  if(k==="sus"){ if(!L) return ""; const sg=L.sustainOf(v); return sg<.005?"off":sg>=.999?"drone":"ring ×"+(1/(1-sg)).toFixed(1) }
+  if(k==="dens"){ if(!L) return ""; const r=L.dustRate(v); return L.densityOf(v)>.25?"white noise":"about "+Math.round(r)+" blips a second" }
+  return v<.01?"off":Math.round(v*100)+"%";
+}
+function renderEgz(){
+  if(!document.querySelector(".eface")) return;
+  for(const k in EGZ_LABELS) eAll(`[data-k="${k}"]`).forEach(el=>{
+    el.querySelector(".ri").style.transform=`rotate(${(-135+270*es[k]).toFixed(1)}deg)`;
+    el.setAttribute("aria-valuenow",Math.round(es[k]*100)); el.setAttribute("aria-valuetext",eKnobText(k))});
+  for(let i=0;i<EGZ_N;i++){ const st=eSemis(i), txt=eFmtSemi(st);
+    eAll(`.etrim[data-i="${i}"]`).forEach(el=>{el.style.setProperty("--s",es.trim[i]); el.setAttribute("aria-valuetext",txt+" semitones")});
+    eAll(`.eoff[data-i="${i}"]`).forEach(el=>{el.textContent=txt; el.classList.toggle("moved",Math.abs(st)>=.005)}) }
+  eAll(".eselect").forEach(s=>s.value=es.ds);
+  eAll(".rain-msg").forEach(m=>m.hidden=power);
+}
+function bindEKnob(el,k){
+  let y0=0,v0=0;
+  el.addEventListener("pointerdown",e=>{el.setPointerCapture(e.pointerId);y0=e.clientY;v0=es[k];e.preventDefault();el.focus({preventScroll:true})});
+  el.addEventListener("pointermove",e=>{if(el.hasPointerCapture(e.pointerId)) setE(k,v0+(y0-e.clientY)/(e.shiftKey?1200:Math.max(140,el.offsetHeight*2.2)))});
+  const up=e=>{if(el.hasPointerCapture(e.pointerId))el.releasePointerCapture(e.pointerId)}; el.addEventListener("pointerup",up); el.addEventListener("pointercancel",up);
+  el.addEventListener("wheel",e=>{e.preventDefault();setE(k,es[k]-Math.sign(e.deltaY)*.01)},{passive:false});
+  el.addEventListener("keydown",e=>{const s=e.shiftKey?.002:.02;
+    if(e.key==="ArrowUp"||e.key==="ArrowRight")setE(k,es[k]+s); else if(e.key==="ArrowDown"||e.key==="ArrowLeft")setE(k,es[k]-s); else return; e.preventDefault(); e.stopPropagation()});
+}
+function bindETrim(el,i){
+  let drag=null;
+  const sAt=e=>{const r=el.getBoundingClientRect(); return 1-2*(e.clientY-r.top)/r.height};
+  el.addEventListener("pointerdown",e=>{e.preventDefault();el.focus({preventScroll:true});el.setPointerCapture(e.pointerId);drag={y:e.clientY,s:es.trim[i],h:el.getBoundingClientRect().height};if(!e.shiftKey){let s=sAt(e);if(Math.abs(s)<.02)s=0;setTrim(i,s)}});
+  el.addEventListener("pointermove",e=>{if(!drag||!el.hasPointerCapture(e.pointerId))return;
+    if(e.shiftKey) setTrim(i,drag.s-(e.clientY-drag.y)/drag.h*2/8); else {let s=sAt(e);if(Math.abs(s)<.02)s=0;drag={y:e.clientY,s,h:drag.h};setTrim(i,s)}});
+  el.addEventListener("pointerup",()=>drag=null); el.addEventListener("pointercancel",()=>drag=null);
+  el.addEventListener("dblclick",()=>setTrim(i,0));
+  el.addEventListener("keydown",e=>{const st=e.key==="ArrowUp"?.002:e.key==="ArrowDown"?-.002:e.key==="PageUp"?.05:e.key==="PageDown"?-.05:0;
+    if(st){e.preventDefault();e.stopPropagation();setTrim(i,es.trim[i]+st)} else if(e.key==="Home"){e.preventDefault();setTrim(i,0)}});
+}
+/* drone strips (from the e-guzheng R&D board): ten 5 mm copper pads per voice on a series ladder from the voice's clipped
+   output; a 10 mm fingertip bridges the pads it covers to a return that reaches the + input through 100k. Pad 1, at the bottom, is softest. */
+const TD_CHAIN=[910e3,750e3,680e3,560e3,510e3,430e3,390e3,330e3,270e3,1100e3], TD_ESD=100e3, TD_KICK=.03, TD_SKIN=3e5;
+function ladderG(chain,yc,rSkin,rEsd){
+  const NP=10,PAD=5,RAD=5; let i,j,k;
+  const band=(y0,y1)=>{const F=t=>{t=Math.max(-1,Math.min(1,t));return (t*Math.sqrt(1-t*t)+Math.asin(t))/Math.PI+.5};return Math.max(0,F((y1-yc)/RAD)-F((y0-yc)/RAD))};
+  const a=[]; let aSum=0; for(k=1;k<=NP;k++){a[k]=band((k-1)*PAD,k*PAD);aSum+=a[k]} if(aSum<1e-6) return 0;
+  const gHalf=2/rSkin, gRet=1/(1/(aSum*gHalf)+rEsd), n=NP+1, M=[];
+  for(i=0;i<n;i++) M.push(new Array(n+1).fill(0));
+  for(k=1;k<=NP;k++){const r=k-1,g=a[k]*gHalf; M[r][r]+=g;M[r][NP]-=g;M[NP][NP]+=g;M[NP][r]-=g;
+    const gUp=1/chain[k-1]; M[r][r]+=gUp; if(k===NP) M[r][n]+=gUp; else {M[r][r+1]-=gUp;M[r+1][r+1]+=gUp;M[r+1][r]-=gUp}}
+  M[NP][NP]+=gRet;
+  for(i=0;i<n;i++){let p=i;for(j=i+1;j<n;j++)if(Math.abs(M[j][i])>Math.abs(M[p][i]))p=j;const t=M[i];M[i]=M[p];M[p]=t;
+    for(j=i+1;j<n;j++){const f=M[j][i]/M[i][i];if(f)for(let c=i;c<=n;c++)M[j][c]-=f*M[i][c]}}
+  const x=new Array(n); for(i=n-1;i>=0;i--){let s=M[i][n];for(j=i+1;j<n;j++)s-=M[i][j]*x[j];x[i]=s/M[i][i]}
+  return x[NP]*gRet;
+}
+function setFinger(i,y){
+  const was=eFinger[i]!==null; if(y!==null) y=Math.max(-7,Math.min(57,y)); eFinger[i]=y; const on=y!==null;
+  eAll(`.estrip[data-i="${i}"]`).forEach(el=>{el.classList.toggle("touched",on); if(on) el.style.setProperty("--fy",((57-y)/64).toFixed(4));
+    el.querySelectorAll("i.pd").forEach((pd,k)=>{const lo=k*5,hi=lo+5;pd.classList.toggle("on",on&&y+5>lo&&y-5<hi)});
+    el.setAttribute("aria-valuenow",on?Math.max(1,Math.min(10,Math.floor(y/5)+1)):0)});
+  eTouchG[i]=on?ladderG(TD_CHAIN,y,TD_SKIN,TD_ESD):0; epost({t:"touch",i,g:eTouchG[i]});
+  if(on&&!was&&eTouchG[i]>0) epost({t:"tkick",i,x:TD_KICK});
+}
+function bindEStrip(el,i){
+  const mmAt=e=>{const r=el.getBoundingClientRect();return 64*(r.bottom-e.clientY)/r.height-7}; let drag=null;
+  el.addEventListener("pointerdown",e=>{e.preventDefault();el.focus({preventScroll:true});el.setPointerCapture(e.pointerId);
+    const y=mmAt(e), near=eFinger[i]!==null&&Math.abs(y-eFinger[i])<5; drag={y0:y,moved:false,lift:near}; if(!near) setFinger(i,y)});
+  el.addEventListener("pointermove",e=>{if(!drag||!el.hasPointerCapture(e.pointerId))return;const y=mmAt(e);if(Math.abs(y-drag.y0)>1)drag.moved=true;if(drag.moved)setFinger(i,y)});
+  const end=()=>{if(!drag)return; if(drag.lift&&!drag.moved) setFinger(i,null); drag=null};   // a finger stays put; tap it again to lift it
+  el.addEventListener("pointerup",end); el.addEventListener("pointercancel",end);
+  el.addEventListener("keydown",e=>{const st=e.key==="ArrowUp"?2.5:e.key==="ArrowDown"?-2.5:0;
+    if(st){e.preventDefault();e.stopPropagation();setFinger(i,eFinger[i]===null?(st>0?2.5:47.5):Math.max(-5,Math.min(55,eFinger[i]+st)))}
+    else if(e.key==="Escape"||e.key==="Delete"||e.key==="Backspace"){e.preventDefault();setFinger(i,null)}});
+}
+/* strike pads: higher on a pad is a harder tap */
+const ePointers=new Map(), eKeys={};
+function eRecompute(){
+  const want=new Array(EGZ_N).fill(0);
+  ePointers.forEach(pt=>{want[pt.col]=Math.max(want[pt.col],pt.p)});
+  for(const c in eKeys){const k=EGZ_KEYS.indexOf(c); if(k>=0) want[k]=Math.max(want[k],eKeys[c])}
+  for(let i=0;i<EGZ_N;i++) if(want[i]!==ePadP[i]){ePadP[i]=want[i];epost({t:"pad",i,p:want[i]});eAll(`.epad[data-i="${i}"]`).forEach(c=>c.classList.toggle("down",want[i]>0))}
+}
+function bindEPads(host){
+  const at=e=>{const r=host.getBoundingClientRect(); return {col:Math.max(0,Math.min(EGZ_N-1,Math.floor((e.clientX-r.left)/r.width*EGZ_N))), p:.1+.9*Math.max(0,Math.min(1,(r.bottom-e.clientY)/r.height))}};
+  host.addEventListener("pointerdown",e=>{e.preventDefault();host.focus({preventScroll:true});host.setPointerCapture(e.pointerId);ePointers.set(e.pointerId,{...at(e),t0:performance.now()});eRecompute()});
+  const rel=e=>{const pt=ePointers.get(e.pointerId); if(!pt) return; const held=performance.now()-pt.t0, id=e.pointerId;
+    const drop=()=>{if(ePointers.get(id)===pt){ePointers.delete(id);eRecompute()}}; if(held<35) setTimeout(drop,35-held); else drop()};  // a tap still needs time to charge the cap
+  host.addEventListener("pointerup",rel); host.addEventListener("pointercancel",rel);
+  host.addEventListener("contextmenu",e=>e.preventDefault());
+}
+addEventListener("keydown",e=>{
+  if(!egzMode||e.metaKey||e.ctrlKey||e.altKey) return; const t=e.target; if(t&&/^(input|textarea|select)$/i.test(t.tagName||"")) return;
+  if(EGZ_KEYS.indexOf(e.code)<0) return; e.preventDefault(); if(e.repeat) return;
+  if(!power) setPower(true); eKeys[e.code]=e.shiftKey?1:.5; eKeys["t"+e.code]=performance.now(); eRecompute();
+});
+addEventListener("keyup",e=>{ if(!(e.code in eKeys)) return; const t0=eKeys["t"+e.code], held=performance.now()-t0;
+  const drop=()=>{if(eKeys["t"+e.code]===t0){delete eKeys[e.code];delete eKeys["t"+e.code];eRecompute()}}; if(held<35) setTimeout(drop,35-held); else drop() });
+
+/* ---------- building the face ---------- */
+function egzFaceHTML(v){
+  const F=EFACE[v], cm=x=>`calc(var(--u) * ${(+x).toFixed(2)})`, box=b=>`left:${cm(b[0])};top:${cm(b[1])};width:${cm(b[2])};height:${cm(b[3])}`;
+  const T=rTicks(), lab=(x,y,t,c="")=>`<span class="rlab${c}" style="left:${cm(x)};top:${cm(y)}" aria-hidden="true">${t}</span>`;
+  let h=`<div class="rplate"></div>`;
+  h+=`<div class="rscreen escope" style="${box(F.scope)}"><canvas class="escope-c" aria-hidden="true"></canvas><div class="rain-msg"><span>eGuzheng</span><small>Flip the power switch, or strike a pad.</small></div></div>`;
+  h+=`<span class="rbox" style="${box(F.dustBox)}"></span>`+lab(F.dustBox[0]+.6,F.dustBox[1]+.75,"Dust noise"," sm left");
+  for(const [k,[x,y,d]] of Object.entries(F.knobs)){const ring=d*1.25;
+    h+=`<div class="rknob eknob" data-k="${k}" role="slider" tabindex="0" aria-label="${EGZ_LABELS[k]}" aria-valuemin="0" aria-valuemax="100" style="left:${cm(x-ring/2)};top:${cm(y-ring/2)};width:${cm(ring)};height:${cm(ring)}"><svg viewBox="0 0 100 100" aria-hidden="true">${T}</svg><span class="body"><span class="ri"><i></i></span></span></div>`
+      +lab(x,y+ring/2+.55,EGZ_LABELS[k],d<4.2?" sm":"")}
+  {const s=F.select; h+=`<select class="eselect" aria-label="Notes the dust reaches" style="${box(s)}"><option value="all">All notes</option><option value="odd">Odd notes</option><option value="even">Even notes</option><option value="s4">D major chord tones</option><option value="s6">B minor chord tones</option></select>`}
+  // tuning trimmers
+  {const [x0,y0,w,hh]=F.trim, cw=w/EGZ_N;
+   h+=`<div class="etrimhead" style="left:${cm(x0)};top:${cm(y0)};width:${cm(w)};height:${cm(1.5)}"><span class="rlab sm left" style="position:static;transform:none">Tuning trimmers, low to high</span><span class="ebtns"><button type="button" class="ebtn" data-act="centre">Centre all</button><button type="button" class="ebtn" data-act="scramble">Scramble</button></span></div>`;
+   for(let i=0;i<EGZ_N;i++){const cx=x0+cw*(i+.5);
+     h+=`<span class="eoff" data-i="${i}" style="left:${cm(cx)};top:${cm(y0+2.4)}">±0.00</span>`
+       +`<div class="etrim" data-i="${i}" role="slider" tabindex="0" aria-orientation="vertical" aria-label="Tune ${EGZ_NAMES[i]}" style="left:${cm(cx-cw*.32)};top:${cm(y0+3.1)};width:${cm(cw*.64)};height:${cm(hh-4.9)}"><span class="eth"></span></div>`
+       +`<span class="enote" style="left:${cm(cx)};top:${cm(y0+hh-.85)}">${EGZ_NAMES[i]}</span>`}}
+  // drone strips
+  {const [x0,y0,w,hh]=F.strips, cw=w/EGZ_N;
+   h+=`<span class="ewell" style="${box(F.strips)}"></span>`;
+   for(let i=0;i<EGZ_N;i++){const cx=x0+cw*(i+.5); let pads="";
+     for(let k=0;k<10;k++) pads+=`<i class="pd" style="top:${((52-5*k)/64*100).toFixed(2)}%"></i>`;
+     h+=`<div class="estrip" data-i="${i}" role="slider" tabindex="0" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="10" aria-label="Drone strip ${EGZ_NAMES[i]}" style="left:${cm(cx-cw*.36)};top:${cm(y0+.5)};width:${cm(cw*.72)};height:${cm(hh-1)}">${pads}<span class="fing"></span></div>`}}
+  // strike pads
+  {h+=`<span class="ewell" style="${box(F.pads)}"></span><div class="epads" tabindex="0" aria-label="Strike pads: higher on a pad is a harder tap. Keys A to apostrophe play them too." style="left:${cm(F.pads[0]+.4)};top:${cm(F.pads[1]+.4)};width:${cm(F.pads[2]-.8)};height:${cm(F.pads[3]-.8)}">`;
+   for(let i=0;i<EGZ_N;i++) h+=`<div class="epad" data-i="${i}"><i class="fill"></i><b>${EGZ_NAMES[i]}</b><i class="lamp"></i><span class="ekey">${EGZ_CAPS[i]}</span></div>`;
+   h+=`</div>`}
+  return h;
+}
+function buildEgz(){
+  for(const v of ["wide","tall"]){const f=document.createElement("div"); f.className="eface "+v; f.dataset.v=v; f.innerHTML=`<div class="rinner einner" style="--pcm:${EFACE[v].w}">${egzFaceHTML(v)}</div>`;
+    $("sceneBox").appendChild(f);
+    f.querySelectorAll(".eknob").forEach(k=>bindEKnob(k,k.dataset.k));
+    f.querySelectorAll(".etrim").forEach(el=>bindETrim(el,+el.dataset.i));
+    f.querySelectorAll(".estrip").forEach(el=>bindEStrip(el,+el.dataset.i));
+    bindEPads(f.querySelector(".epads"));
+    f.querySelector(".eselect").addEventListener("change",e=>{es.ds=e.target.value;epost({t:"targets",s:es.ds});egzSave();renderEgz()});
+    f.querySelector('[data-act="centre"]').onclick=()=>{for(let i=0;i<EGZ_N;i++)setTrim(i,0)};
+    f.querySelector('[data-act="scramble"]').onclick=()=>{for(let i=0;i<EGZ_N;i++)setTrim(i,(Math.random()+Math.random()-1)*.5)};
+    // touching any control switches the instrument on (phones only allow sound once the finger lifts, so resume then too)
+    f.addEventListener("pointerdown",e=>{if(egzMode&&!power&&e.target.closest(".eknob,.etrim,.estrip,.epads,.ebtn,.eselect")) setPower(true)},true);
+    f.addEventListener("keydown",e=>{if(egzMode&&!power&&e.target.closest(".eknob,.etrim,.estrip,.epads")&&e.key!=="Tab") setPower(true)},true);
+    const res=()=>{if(egzMode&&power&&ectx&&ectx.state!=="running") ectx.resume().catch(()=>{})}; f.addEventListener("pointerup",res,true); f.addEventListener("click",res,true);
+  }
+  $("eggEgz").onclick=()=>{setMode(egzMode?"radio":"egz"); $("radio").scrollIntoView({behavior:"smooth",block:"start"})};
+  placeEgz(variant); renderEgz(); requestAnimationFrame(egzFrame);
+}
+function placeEgz(v){ const g=GEOM[v]; if(!g) return; document.querySelectorAll(".eface").forEach(f=>{f.hidden=f.dataset.v!==v; if(f.dataset.v===v) placeBox(f,g.plate)}) }
+/* ---------- meters and scope ---------- */
+const eBuf=new Float32Array(2048); let eScopeGain=8;
+function egzFrame(){
+  requestAnimationFrame(egzFrame);
+  if(!egzMode) return;
+  const face=document.querySelector(`.eface[data-v="${variant}"]`); if(!face) return;
+  const full=eref?eref.ledFull:1e-3;
+  face.querySelectorAll(".epad").forEach((c,i)=>{c.style.setProperty("--lvl",Math.min(1,(power&&emeters.lv[i])||0).toFixed(3));
+    const lit=Math.sqrt(Math.min(1,((power&&emeters.led[i])||0)/full)); c.style.setProperty("--led",lit<.03?0:lit.toFixed(3))});
+  const cv=face.querySelector(".escope-c"), r=cv.getBoundingClientRect(); if(!r.width) return;
+  const dpr=Math.min(2,devicePixelRatio||1), W=Math.round(r.width*dpr), H=Math.round(r.height*dpr); if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H}
+  const g=cv.getContext("2d"); g.fillStyle="#0b0d0d"; g.fillRect(0,0,W,H);
+  g.strokeStyle="rgba(240,137,58,.18)"; g.lineWidth=dpr; g.beginPath(); g.moveTo(0,H/2); g.lineTo(W,H/2); g.stroke();
+  if(eAnalyser&&power){ eAnalyser.getFloatTimeDomainData(eBuf);
+    let pk=0,k; for(k=0;k<eBuf.length;k++){const a=Math.abs(eBuf[k]);if(a>pk)pk=a}
+    const target=.85/Math.max(pk,.03); eScopeGain+=(target-eScopeGain)*(target<eScopeGain?.5:.05);
+    let start=0; for(k=1;k<900;k++) if(eBuf[k-1]<0&&eBuf[k]>=0&&eBuf[k+4]>eBuf[k]){start=k;break}
+    g.strokeStyle="#f0893a"; g.lineWidth=2*dpr; g.shadowColor="rgba(240,137,58,.6)"; g.shadowBlur=6*dpr; g.beginPath();
+    const span=1100; for(k=0;k<span;k++){const x=k/(span-1)*W,y=H/2-eBuf[start+k]*eScopeGain*H/2; k?g.lineTo(x,y):g.moveTo(x,y)} g.stroke(); g.shadowBlur=0 }
+}
+
 /* ---------- Start ---------- */
 (async()=>{
-  layoutScene(); buildCity(); buildKnob(); buildScale(); buildVolume(); buildRain();
-  if(location.hash==="#rain"||store.get("mode","radio")==="rain") setMode("rain");
+  layoutScene(); buildCity(); buildKnob(); buildScale(); buildVolume(); buildRain(); buildEgz();
+  {const h=location.hash, sm=store.get("mode","radio"); if(h==="#rain") setMode("rain"); else if(h==="#eguzheng") setMode("egz"); else if(sm==="rain"||sm==="egz") setMode(sm);}
   const [shows,genres,tracks]=await Promise.all([load("shows.json",{venues:{}}),load("genres.json",{}),load("tracks.json",{})]);
   ALL_SHOWS=shows.venues||{}; UPDATED=shows._updated||""; SOLD=new Set(shows.sold_out||[]); TRACKS=tracks||{};
   for(const g of STATIONS) for(const a of (genres[g.id]||[])) (GENRE_OF[a]=GENRE_OF[a]||[]).push(g.id);
