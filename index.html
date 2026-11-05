@@ -457,22 +457,22 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 /* full screen on phones and tablets */
 #imm{display:none}
 html.immersive,html.immersive body{overflow:hidden;overscroll-behavior:none;height:100%}
-.immersive #imm{display:flex;flex-direction:column;position:fixed;inset:0;z-index:5000;background:radial-gradient(120% 90% at 50% 0%,#2a1a10,#120c08 70%);
-  touch-action:none;overscroll-behavior:none;-webkit-user-select:none;user-select:none}
-#imm .immbar{flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;height:48px;padding:0 10px}
-#imm .immbar button{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px 0 10px;border-radius:999px;border:1px solid rgba(255,255,255,.18);
+.immersive #imm{display:block;position:fixed;inset:0;z-index:5000;background:radial-gradient(120% 90% at 50% 0%,#2a1a10,#120c08 70%);
+  touch-action:none;overscroll-behavior:none;-webkit-user-select:none;user-select:none;overflow:hidden}
+#imm .immbar{position:absolute;left:6px;top:6px;display:flex;flex-direction:row;gap:8px;z-index:1}
+#imm.immside .immbar{flex-direction:column;align-items:stretch}
+#imm .immbar button{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:36px;padding:0 14px 0 10px;border-radius:999px;border:1px solid rgba(255,255,255,.18);
   background:rgba(255,255,255,.06);color:#f1e9df;font:600 14px/1 var(--f-body);cursor:pointer;-webkit-tap-highlight-color:transparent}
 #imm .immbar button:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
 #imm .immback svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 #imm .immpow{padding:0 14px}
 #imm .immpow i{width:10px;height:10px;border-radius:50%;background:#4a2520;box-shadow:inset 0 1px 2px rgba(0,0,0,.6)}
 #imm .immpow[aria-pressed="true"] i{background:#ff6a3a;box-shadow:0 0 8px 2px rgba(255,106,58,.7)}
-#imm .immtitle{flex:1;min-width:0;text-align:center;color:rgba(241,233,223,.7);font:600 12px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#imm .immstage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:4px 8px 10px}
-#imm .immstage>.rface,#imm .immstage>.eface{position:relative!important;left:auto!important;top:auto!important;right:auto!important;bottom:auto!important;
-  width:var(--immW)!important;height:var(--immH)!important;transform:none!important;flex:none}
+#imm .immstage{position:absolute;inset:0}
+#imm .immstage>.rface,#imm .immstage>.eface{position:absolute!important;left:var(--immX)!important;top:var(--immY)!important;right:auto!important;bottom:auto!important;
+  width:var(--immW)!important;height:var(--immH)!important;transform:none!important}
 #imm.rain .rface:not([hidden]),#imm.egz .eface:not([hidden]){display:block}
-#imm .immhint{flex:none;margin:0 0 calc(14px + env(safe-area-inset-bottom));text-align:center;color:rgba(241,233,223,.6);font:500 13px/1.3 var(--f-body)}
+#imm .immhint{position:absolute;left:16px;right:16px;margin:0;text-align:center;color:rgba(241,233,223,.6);font:500 13px/1.3 var(--f-body)}
 #imm .immhint[hidden]{display:none}
 
 /* ---------- eGuzheng mode: the face is drawn over the rendered plate in cm (--u), like the Rain Machine ---------- */
@@ -1592,7 +1592,7 @@ function immBuild(){
   if(immEl) return immEl;
   immEl=document.createElement("div"); immEl.id="imm";
   immEl.innerHTML=`<div class="immbar"><button type="button" class="immback" aria-label="Back to the radio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Radio</button>`
-    +`<span class="immtitle"></span><button type="button" class="immpow" aria-pressed="false"><i></i><span>Off</span></button></div>`
+    +`<button type="button" class="immpow" aria-pressed="false"><i></i><span>Off</span></button></div>`
     +`<div class="immstage"></div><p class="immhint" hidden>Turn your phone sideways for a bigger instrument.</p>`;
   document.body.appendChild(immEl);
   immEl.querySelector(".immback").onclick=()=>setMode("radio");
@@ -1605,16 +1605,24 @@ function immBuild(){
 }
 function immSync(){
   if(!immEl) return; const r=$("radio"), egz=typeof egzMode!=="undefined"&&egzMode;
-  immEl.className=r.className; immEl.classList.add("immon");
+  const side=immEl.classList.contains("immside"); immEl.className=r.className; immEl.classList.add("immon"); immEl.classList.toggle("immside",side);
   const pb=immEl.querySelector(".immpow"); pb.setAttribute("aria-pressed",power); pb.querySelector("span").textContent=power?"On":"Off";
-  immEl.querySelector(".immtitle").textContent=rainMode?"Rain Through a Window":egz?"eGuzheng":"";
 }
 function immFaces(){ return [...document.querySelectorAll(".rface,.eface")] }
+// The two buttons share one corner: a row along the top or a column down the left, whichever leaves the face larger.
 function immSize(){
-  if(!immOn) return; const st=immEl.querySelector(".immstage"), egz=typeof egzMode!=="undefined"&&egzMode;
-  const F=(egz?EFACE:RFACE)[variant]||(egz?EFACE:RFACE).wide, W=st.clientWidth, H=st.clientHeight; if(!W||!H) return;
-  const s=Math.min(W/F.w,H/F.h); immEl.style.setProperty("--immW",Math.floor(F.w*s)+"px"); immEl.style.setProperty("--immH",Math.floor(F.h*s)+"px");
-  immEl.querySelector(".immhint").hidden=!(egz&&innerHeight>innerWidth&&innerWidth<700);
+  if(!immOn) return; const egz=typeof egzMode!=="undefined"&&egzMode, bar=immEl.querySelector(".immbar");
+  const F=(egz?EFACE:RFACE)[variant]||(egz?EFACE:RFACE).wide, VW=immEl.clientWidth, VH=immEl.clientHeight; if(!VW||!VH) return;
+  const P=6, bs=[...bar.children].map(b=>b.getBoundingClientRect()), BW=Math.max(...bs.map(r=>r.width)), BH=Math.max(...bs.map(r=>r.height));
+  const rowW=bs.reduce((a,r)=>a+r.width,0)+8*(bs.length-1);
+  const fit=(w,h)=>Math.min(w/F.w,h/F.h);
+  const top={x:P,y:BH+2*P,w:VW-2*P,h:VH-BH-3*P}, side={x:BW+2*P,y:P,w:VW-BW-3*P,h:VH-2*P};
+  const useSide=fit(side.w,side.h)>fit(top.w,top.h), A=useSide?side:top, s=fit(A.w,A.h), W=Math.floor(F.w*s), H=Math.floor(F.h*s);
+  immEl.classList.toggle("immside",useSide);
+  immEl.style.setProperty("--immW",W+"px"); immEl.style.setProperty("--immH",H+"px");
+  immEl.style.setProperty("--immX",Math.round(A.x+(A.w-W)/2)+"px"); immEl.style.setProperty("--immY",Math.round(A.y+(A.h-H)/2)+"px");
+  const hint=immEl.querySelector(".immhint"); hint.hidden=!(egz&&VH>VW&&VW<700);
+  if(!hint.hidden) hint.style.top=Math.round(A.y+(A.h+H)/2+16)+"px";
 }
 function updImmersive(){
   const want=IMM_TOUCH&&(rainMode||(typeof egzMode!=="undefined"&&egzMode));
