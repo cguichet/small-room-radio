@@ -162,6 +162,13 @@ button{font:inherit;color:inherit}
 .video{position:absolute;inset:1.5%;opacity:0;transition:opacity 1s ease;background:#000}
 .video iframe,.video > div{position:absolute;inset:0;width:100%;height:100%;border:0}
 .on .video.live{opacity:1}
+.video.away{visibility:hidden}
+.mapscr{position:absolute;left:1.5%;top:1.5%;width:97%;height:97%;background:var(--land);border-radius:calc(var(--pw) * .008);cursor:default}
+.mapscr[hidden]{display:none}
+.venue .halo{transform-box:fill-box;transform-origin:center}
+.onair .venue.on .halo{animation:breathe 2.8s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.08;transform:scale(.78)}50%{opacity:.3;transform:scale(1.14)}}
+@media (prefers-reduced-motion:reduce){.onair .venue.on .halo{animation:none}}
 .tube-msg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4em;text-align:center;padding:8%;
   font:600 calc(var(--pw) * .02) /1.3 var(--f-dial);letter-spacing:.08em;text-transform:uppercase;color:#7f9a8a}
 .tube-msg small{font:500 calc(var(--pw) * .016)/1.35 var(--f-body);letter-spacing:0;text-transform:none;color:#62786b}
@@ -225,14 +232,14 @@ button{font:inherit;color:inherit}
 .linkbtns button{border:1px solid var(--line);background:transparent;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:13px;font-weight:600;color:var(--ink)}
 .linkbtns button:hover{border-color:var(--ink)}
 .map svg{display:block;width:100%;height:auto;border-radius:4px}
-.map .hood{fill:var(--land);stroke:var(--hood);stroke-width:2}
-.map .hood.alt{fill:var(--land2)}
-.map .hood.biz{fill:var(--biz)}
-.map .hood.biz.alt{fill:var(--biz2)}
-.map .water{fill:var(--land)}
-.map .street{fill:none;stroke:var(--muted);stroke-width:4;stroke-dasharray:14 8;opacity:.5}
-.map .hl{fill:var(--muted);font:600 17px var(--f-body);letter-spacing:.12em;text-transform:uppercase;opacity:.7}
-.map .st{fill:var(--muted);font:600 15px var(--f-body);letter-spacing:.1em;opacity:.75}
+:is(.map,.mapscr) .hood{fill:var(--land);stroke:var(--hood);stroke-width:2}
+:is(.map,.mapscr) .hood.alt{fill:var(--land2)}
+:is(.map,.mapscr) .hood.biz{fill:var(--biz)}
+:is(.map,.mapscr) .hood.biz.alt{fill:var(--biz2)}
+:is(.map,.mapscr) .water{fill:var(--land)}
+:is(.map,.mapscr) .street{fill:none;stroke:var(--muted);stroke-width:4;stroke-dasharray:14 8;opacity:.5}
+:is(.map,.mapscr) .hl{fill:var(--muted);font:600 17px var(--f-body);letter-spacing:.12em;text-transform:uppercase;opacity:.7}
+:is(.map,.mapscr) .st{fill:var(--muted);font:600 15px var(--f-body);letter-spacing:.1em;opacity:.75}
 .venue{cursor:pointer}
 .venue .halo{fill:var(--green);opacity:0;transition:opacity .3s}
 .venue .b{transition:fill .3s}
@@ -372,6 +379,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
     <img class="scene-img" id="sceneImg" alt="" draggable="false">
     <div class="ui-screen" id="uiScreen">
       <div class="video" id="video"><div id="yt"></div></div>
+      <svg id="mapScr" class="mapscr" role="group" aria-label="Venues, shown while paused" hidden></svg>
       <div class="tube-msg" id="tubeMsg"><span>Press <span class="playdot" aria-hidden="true"></span> to start</span><small class="tip">Tip: check which venues are on in the Venues window. Try picking a few near you.</small></div>
     </div>
     <div class="scrub" id="scrub" role="slider" tabindex="0" aria-label="Song position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="slot"></span><span class="handle" id="scrubKnob"></span></div>
@@ -474,7 +482,7 @@ const fmt=d=>new Date(d+"T12:00:00").toLocaleDateString("en-US",{weekday:"short"
 
 let UPDATED="", ALL_SHOWS={}, ENABLED={}, SHOWS={}, SOLD=new Set(), GENRE_OF={}, TRACKS={};
 let enabled=new Set(), sel=new Set(STATIONS.map(s=>s.id)), stationIdx=0, shuffle=false, skipSold=false, removed=new Set(store.get("removed",[]));
-let power=false, queue=[], pos=-1, current=null, played=[], playing=false;
+let power=false, queue=[], pos=-1, current=null, played=[], playing=false, userPaused=false;
 let player=null, ytReady=false, ytFailed=false, errorsInRow=0;
 
 async function load(name,fb){try{const r=await fetch(name,{cache:"no-store"});return r.ok?await r.json():fb}catch(e){return fb}}
@@ -532,7 +540,7 @@ function initYT(){
         onReady:()=>{ytReady=true;applyVolume(); if(power){if(pendingDay!=null&&queue.length)pos=closestIndex(pendingDay)-1;pendingDay=null;pendingTrack?startPending():next()}},
         onStateChange:e=>{
           if(e.data===YT.PlayerState.ENDED) next();
-          if(e.data===YT.PlayerState.PLAYING){playing=true;captionsOff();errorsInRow=0;clearTimeout(blockTimer);$("video").classList.add("live");setTube(null)}
+          if(e.data===YT.PlayerState.PLAYING){playing=true;userPaused=false;captionsOff();errorsInRow=0;clearTimeout(blockTimer);$("video").classList.add("live");setTube(null)}
           if(e.data===YT.PlayerState.PAUSED) playing=false;
           renderPP();
         },
@@ -583,7 +591,8 @@ function prev(){
 function playPause(){
   if(!power){setPower(true);return}
   if(!player||!ytReady){if(!current)next();return}
-  if(playing) player.pauseVideo(); else if(current){setTube(null);player.playVideo()} else next();
+  if(playing){userPaused=true;player.pauseVideo()} else if(current){userPaused=false;setTube(null);player.playVideo()} else next();
+  renderPP();
 }
 let pendingDay=null;
 function setPower(on,startDay){
@@ -596,14 +605,16 @@ function setPower(on,startDay){
     if(ytFailed) fail(); else if(ytReady) (pendingTrack?startPending():next()); else {pendingDay=startDay??null;setTube("Warming up","")}
   } else {
     if(player&&ytReady){try{player.stopVideo()}catch(e){}}
-    playing=false; current=null; clearTimeout(blockTimer); $("video").classList.remove("live");
+    playing=false; userPaused=false; current=null; clearTimeout(blockTimer); $("video").classList.remove("live");
     setTube(START_MSG); $("remove").disabled=true; $("fav").disabled=true;
   }
   renderDial(); renderPP(); renderLineup();
 }
 
 /* ---------- Rendering ---------- */
-function renderPP(){ $("pp").classList.toggle("playing",playing); $("pp").setAttribute("aria-label",playing?"Pause":"Play"); }
+function renderPP(){ $("pp").classList.toggle("playing",playing); $("pp").setAttribute("aria-label",playing?"Pause":"Play");
+  const show=power&&userPaused&&!!current&&!!MAP; $("mapScr").toggleAttribute("hidden",!show); $("video").classList.toggle("away",show);
+  document.documentElement.classList.toggle("onair",power); }
 function renderDial(){
   const n=enabled.size;
   renderFavKey();
@@ -655,8 +666,8 @@ function buildKnob(){
   });
 }
 let vLast={id:null,t:0};
-function buildMap(){
-  const svg=$("map"); if(!MAP){svg.innerHTML="";return}
+function buildMap(){buildMapInto($("map"),"m-");buildMapInto($("mapScr"),"s-")}
+function buildMapInto(svg,pre){ if(!MAP){svg.innerHTML="";return}
   const ns="http://www.w3.org/2000/svg";
   svg.setAttribute("viewBox",`0 0 ${MAP.w} ${MAP.h}`);
   let h=`<rect class="water" width="${MAP.w}" height="${MAP.h}"/>`;
@@ -666,7 +677,7 @@ function buildMap(){
   svg.innerHTML=h;
   for(const [id,[x,y]] of Object.entries(MAP.venues)){
     if(!SHOWS[id]) continue;
-    const g=document.createElementNS(ns,"g"); g.setAttribute("class","venue"); g.id="m-"+id;
+    const g=document.createElementNS(ns,"g"); g.setAttribute("class","venue"); g.id=pre+id;
     g.setAttribute("role","switch"); g.setAttribute("tabindex","0");
     const side=LABEL_SIDE[id]||"right";
     const mid=side==="above"||side==="below", tx=side==="left"?x-28:mid?x:x+28, ty=side==="above"?y-30:side==="below"?y+52:y+11, anc=side==="left"?"end":mid?"middle":"start";
@@ -681,9 +692,9 @@ function buildMap(){
 }
 function renderMap(){
   for(const id of Object.keys(SHOWS)){
-    const g=$("m-"+id); if(!g) continue;
-    const on=enabled.has(id); g.classList.toggle("on",on);
-    g.setAttribute("aria-checked",on); g.setAttribute("aria-label",SHOWS[id].name);
+    const on=enabled.has(id);
+    for(const g of [$("m-"+id),$("s-"+id)]){ if(!g) continue;
+      g.classList.toggle("on",on); g.setAttribute("aria-checked",on); g.setAttribute("aria-label",SHOWS[id].name); }
   }
 }
 function renderLineup(){
