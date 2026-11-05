@@ -614,7 +614,7 @@ function setPower(on,startDay){
 /* ---------- Rendering ---------- */
 function renderPP(){ $("pp").classList.toggle("playing",playing); $("pp").setAttribute("aria-label",playing?"Pause":"Play");
   const show=power&&userPaused&&!!current&&!!MAP; $("mapScr").toggleAttribute("hidden",!show); $("video").classList.toggle("away",show);
-  document.documentElement.classList.toggle("onair",power); }
+  document.documentElement.classList.toggle("onair",power); syncBreath(); }
 function renderDial(){
   const n=enabled.size;
   renderFavKey();
@@ -690,7 +690,8 @@ function buildMapInto(svg,pre){ if(!MAP){svg.innerHTML="";return}
     svg.appendChild(g);
   }
 }
-function renderMap(){
+function syncBreath(){requestAnimationFrame(()=>{try{for(const a of document.getAnimations()) if(a.animationName==="breathe") a.startTime=0}catch(e){}})}
+function renderMap(){syncBreath();
   for(const id of Object.keys(SHOWS)){
     const on=enabled.has(id);
     for(const g of [$("m-"+id),$("s-"+id)]){ if(!g) continue;
