@@ -150,6 +150,8 @@ button{font:inherit;color:inherit}
 .ctl.key:active .cap,.ctl.key.pressed .cap,.ctl.key.playing .cap{transform:translateY(1.6%)}
 .ctl.key:active .shadow,.ctl.key.pressed .shadow,.ctl.key.playing .shadow{opacity:.45;transform:translate(.8%,-.8%)}
 .ctl.key:disabled{cursor:default;opacity:.55}
+/* night: a deeper under-layer so the keys read as raised */
+:root[data-theme="dark"] .ctl.key{--k-edge:#4c4842} :root[data-theme="dark"] .ctl.key .shadow{fill:rgba(0,0,0,.6);stroke:rgba(0,0,0,.6)}
 .ctl.knob{cursor:grab;touch-action:none}
 .ctl.knob svg{transition:transform .28s cubic-bezier(.3,1.3,.5,1)}
 #vol .rot{transform-box:view-box;transform-origin:50% 50%}
@@ -328,9 +330,10 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 /* glass glare across the top of the face */
 #uiDial::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(170deg,rgba(255,255,255,.55),rgba(255,255,255,0) 38%)}
 .dialhead{display:flex;align-items:stretch;gap:calc(var(--pw) * .007)}
-.minivfd{position:relative;display:flex;align-items:center;border-radius:calc(var(--pw) * .004);background:#22160a;color:var(--dial-off);
+.minivfd{position:relative;display:flex;align-items:center;border-radius:calc(var(--pw) * .004);background:#38221a;color:var(--dial-off);
   box-shadow:inset 0 calc(var(--pw) * .0015) calc(var(--pw) * .003) rgba(0,0,0,.7),0 1px 0 rgba(255,255,255,.6);padding:calc(var(--pw) * .0045) calc(var(--pw) * .009);transition:color .6s}
-.on .minivfd{color:var(--amber);text-shadow:0 0 calc(var(--pw) * .006) var(--amber-glow);background:radial-gradient(120% 160% at 50% 0%,#5a330d,#2a1708 75%)}
+.on .minivfd{color:var(--amber);text-shadow:0 0 calc(var(--pw) * .006) var(--amber-glow);background:linear-gradient(180deg,#7a491b,#593116)}
+:root[data-theme="dark"] .minivfd{background:#281100} :root[data-theme="dark"] .on .minivfd{background:linear-gradient(180deg,#6d3d0e,#4b2304)}
 .dialhead>.minivfd:first-child{flex:1;min-width:0}
 .dialhead .dial-top{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.1em}
 .dialhead .inds{display:flex;align-items:center;gap:calc(var(--pw) * .012);margin-left:auto;padding-left:calc(var(--pw) * .012);flex:none}
@@ -344,7 +347,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 #uiDial .tk.mo{height:calc(var(--pw) * .024);opacity:.95;width:1.4px}
 #uiDial .mo-l{color:var(--ink2);bottom:calc(var(--pw) * .027);font-size:calc(var(--pw) * .0095)}
 #uiDial .dot{background:var(--red);opacity:.85;width:3.5px;height:3.5px;margin-left:-1.75px;bottom:calc(var(--pw) * .0145)}
-#uiDial .needle{background:var(--red);width:3px;margin-left:-1.5px;top:calc(var(--pw) * .02);bottom:calc(var(--pw) * -.024);box-shadow:1px 1px 2px rgba(0,0,0,.35);border-radius:1px}
+#uiDial .needle{background:var(--red);width:1.6px;margin-left:-.8px;top:calc(var(--pw) * .02);bottom:calc(var(--pw) * -.024);box-shadow:1px 1px 2px rgba(0,0,0,.35);border-radius:1px}
 #uiDial .hover{background:var(--ink);color:#fff}
 .tall #uiDial .scale{height:calc(var(--pw) * .07)} .tall #uiDial .tk{height:calc(var(--pw) * .014)} .tall #uiDial .tk.dd{height:calc(var(--pw) * .007)}
 .tall #uiDial .tk.mo{height:calc(var(--pw) * .034)} .tall #uiDial .needle{top:calc(var(--pw) * .031);bottom:calc(var(--pw) * -.032)} .tall #uiDial .mo-l{bottom:calc(var(--pw) * .038);font-size:calc(var(--pw) * .014)}
@@ -640,6 +643,7 @@ function buildKnob(){
     });
   });
 }
+let vLast={id:null,t:0};
 function buildMap(){
   const svg=$("map"); if(!MAP){svg.remove();return}
   const ns="http://www.w3.org/2000/svg";
@@ -658,7 +662,7 @@ function buildMap(){
     const l=lineOf(id);
     g.innerHTML=`<circle class="halo" cx="${x}" cy="${y}" r="40"/><circle class="b" cx="${x}" cy="${y}" r="21" style="fill:${l.bg}"/><circle class="ring" cx="${x}" cy="${y}" r="23.5"/>`+
       `<text class="letter" x="${x}" y="${y+9}" style="fill:${l.fg}">${l.ch}</text><text class="name" x="${tx}" y="${ty}" text-anchor="${anc}">${SHOWS[id].name}</text>`;
-    const t=()=>toggleVenue(id);
+    const t=()=>{const now=performance.now();if(vLast.id===id&&now-vLast.t<360){vLast={id:null,t:0};enabled=new Set([id]);afterFilter()}else{vLast={id,t:now};toggleVenue(id)}};
     g.addEventListener("click",t);
     g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();t()}});
     svg.appendChild(g);
@@ -1063,6 +1067,19 @@ const scrubEnd=()=>{if(!scrubDrag)return;scrubDrag=false;scrub.classList.remove(
 scrub.addEventListener("pointerup",scrubEnd); scrub.addEventListener("pointercancel",scrubEnd);
 scrub.addEventListener("keydown",e=>{const d=songLen();if(!d||!["ArrowLeft","ArrowRight"].includes(e.key))return;e.preventDefault();
   try{const t=Math.max(0,Math.min(d,player.getCurrentTime()+(e.key==="ArrowRight"?5:-5)));player.seekTo(t,true);sT=t;sAt=performance.now()}catch(e){}});
+
+/* ---------- Keyboard: space plays/pauses, left/right last/next, up/down volume ---------- */
+document.addEventListener("keydown",e=>{
+  if(e.metaKey||e.ctrlKey||e.altKey) return;
+  const t=e.target, tag=(t.tagName||"").toLowerCase();
+  if(["input","textarea","select"].includes(tag)||t.isContentEditable) return;
+  if(t.getAttribute&&t.getAttribute("role")==="slider") return;
+  if(t.id==="vol"&&e.key!==" ") return;                                    // the focused volume knob handles its own arrows            // the dial, scrubber and volume knob use the arrows themselves
+  if(e.key===" "){ if(tag==="button"||tag==="a") return; e.preventDefault(); playPause(); }
+  else if(e.key==="ArrowRight"){ e.preventDefault(); if(!power)setPower(true); else next(); }
+  else if(e.key==="ArrowLeft"){ e.preventDefault(); prev(); }
+  else if(e.key==="ArrowUp"||e.key==="ArrowDown"){ e.preventDefault(); setVolume(volume+(e.key==="ArrowUp"?5:-5)); }
+});
 
 /* ---------- Start ---------- */
 (async()=>{
