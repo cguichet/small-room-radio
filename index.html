@@ -425,7 +425,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 .rknob:active{cursor:grabbing}
 .rknob svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
 .rknob svg line{stroke:var(--lbl);stroke-width:1.1;stroke-linecap:round}
-.rknob .body{position:absolute;inset:10%;border-radius:50%;background:radial-gradient(circle at 38% 30%,var(--k-hi),var(--k-mid) 55%,var(--k-lo));
+.rknob .body{position:absolute;inset:10%;padding:0;border-radius:50%;background:radial-gradient(circle at 38% 30%,var(--k-hi),var(--k-mid) 55%,var(--k-lo));
   box-shadow:0 0 0 calc(var(--u) * .08) var(--k-edge),0 calc(var(--u) * .3) calc(var(--u) * .7) rgba(0,0,0,.42),inset 0 calc(var(--u) * -.18) calc(var(--u) * .3) rgba(0,0,0,.18),inset 0 1px 1px rgba(255,255,255,.18)}
 .rknob .ri{position:absolute;inset:0;transition:transform .05s linear}
 .rknob .ri i{position:absolute;left:50%;top:7%;width:5%;height:26%;margin-left:-2.5%;border-radius:2px;background:var(--idx)}
@@ -1085,7 +1085,7 @@ function applyGeom(v){
 }
 function layoutScene(){
   const vw=document.documentElement.clientWidth;
-  const v=(vw<700&&GEOM.tall)?"tall":"wide"; if(v!==variant) applyGeom(v);
+  const v=(vw<700&&GEOM.tall&&!document.documentElement.classList.contains("egzmode"))?"tall":"wide"; if(v!==variant) applyGeom(v);   // eGuzheng keeps the desktop face on every screen
   const g=GEOM[v], pw=g.plate[2]-g.plate[0], cx=(g.plate[0]+g.plate[2])/2;
   const cropTop=v==="tall"?.0:.235, cropBot=v==="tall"?.0:.045;
   const vh=window.innerHeight, top=$("radio").getBoundingClientRect().top+scrollY;
