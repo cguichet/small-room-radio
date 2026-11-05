@@ -425,7 +425,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 .rknob svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
 .rknob svg line{stroke:var(--lbl);stroke-width:1.1;stroke-linecap:round}
 .rknob .body{position:absolute;inset:10%;border-radius:50%;background:radial-gradient(circle at 38% 30%,var(--k-hi),var(--k-mid) 55%,var(--k-lo));
-  box-shadow:0 calc(var(--u) * .22) 0 var(--k-edge),0 calc(var(--u) * .45) calc(var(--u) * .7) rgba(0,0,0,.42),inset 0 1px 1px rgba(255,255,255,.18)}
+  box-shadow:0 0 0 calc(var(--u) * .08) var(--k-edge),0 calc(var(--u) * .3) calc(var(--u) * .7) rgba(0,0,0,.42),inset 0 calc(var(--u) * -.18) calc(var(--u) * .3) rgba(0,0,0,.18),inset 0 1px 1px rgba(255,255,255,.18)}
 .rknob .ri{position:absolute;inset:0;transition:transform .05s linear}
 .rknob .ri i{position:absolute;left:50%;top:7%;width:5%;height:26%;margin-left:-2.5%;border-radius:2px;background:var(--idx)}
 .rknob:focus-visible .body{outline:2px solid var(--orange);outline-offset:3px}
@@ -1247,10 +1247,11 @@ const RFACE={
         presets:{x:2.2,y:25.2,w:8.6,h:11.8},rain:{x:13.0,y:25.2,w:10.5,h:11.8},gbox:{x:25.7,y:25.2,w:30.6,h:11.8},vol:{x:58.5,y:25.2,w:10.5,h:11.8}},
   tall:{w:40.2,h:76.2,screen:{x:2.3,y:2.3,w:35.6,h:23.5},display:{x:2.3,y:28.1,w:35.6,h:7},sliders:{x:2.3,y:37.4,w:35.6,h:10.4},
         presets:{x:2.3,y:50.1,w:9.6,h:11.8},rain:{x:14.2,y:50.1,w:10.75,h:11.8},vol:{x:27.25,y:50.1,w:10.75,h:11.8},gbox:{x:2.3,y:64.2,w:35.6,h:9.7}}};
+// Chris's presets (Nov 4), read off his settings
 const RAIN_PRESETS=[
-  ["Gentle rain",{density:.38,hp:.3,lp:.5,res:.55,mod:.35,vol:.75,poles:1}],
-  ["Filtered noise",{density:1,hp:.25,lp:.55,res:.5,mod:0,vol:.6,poles:1}],
-  ["Wind chimes",{density:.2,hp:.25,lp:.62,res:.8,mod:.55,vol:.75,poles:1}]];
+  ["Gentle rain",{density:.537,hp:.612,lp:.434,res:.22,mod:.22,vol:.75,poles:0}],
+  ["Filtered noise",{density:1,hp:.36,lp:.675,res:0,mod:0,vol:.385,poles:0}],
+  ["Wind chimes",{density:.141,hp:.496,lp:.467,res:.74,mod:.385,vol:.97,poles:0}]];
 const RAIN_DEF=RAIN_PRESETS[2][1];
 let rainMode=false, rv=Object.assign({},RAIN_DEF,store.get("rainVals",{})), rPreset=store.get("rainPreset","Wind chimes");
 if(rPreset&&!RAIN_PRESETS.some(p=>p[0]===rPreset)) rPreset=null;
@@ -1275,7 +1276,7 @@ async function startRainNode(){
       n+=L.length;if(n>=rctx.sampleRate/30){n=0;rnode.port.onmessage&&rnode.port.onmessage({data:core.info()})}};
   }
   for(const k in rv) rnode.port.postMessage({set:k,v:rv[k]});
-  rnode.port.onmessage=e=>{rInfo=e.data; rLed=e.data.led}; rnode.connect(rctx.destination);
+  rnode.port.onmessage=e=>{rInfo=e.data; rLed=e.data.led}; const trim=rctx.createGain(); trim.gain.value=.5; rnode.connect(trim); trim.connect(rctx.destination);   // the whole machine sits 6 dB down
 }
 function rainAudio(on){
   if(!on){ if(rctx) rctx.suspend().catch(()=>{}); rInfo=null; return }
