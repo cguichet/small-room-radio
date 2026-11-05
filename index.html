@@ -559,6 +559,7 @@ html.immersive,html.immersive body{overflow:hidden;overscroll-behavior:none;heig
 :root[data-theme="dark"] .ebtn[aria-checked="true"]{color:var(--copper)}
 /* bend: a copper tether from where the pad was struck up to the pointer */
 .etether{position:absolute;width:2px;margin-left:-1px;height:0;background:var(--pad-ink);box-shadow:0 0 4px rgba(240,137,58,.8);pointer-events:none;z-index:2}
+.etether.dn::before{bottom:auto;top:-5px}
 .etether::before{content:"";position:absolute;left:50%;bottom:-5px;width:10px;height:10px;margin-left:-5px;border-radius:50%;border:2px solid var(--pad-ink);box-sizing:border-box}
 .epad b .bd{color:var(--copper)}
 /* about eGuzheng, in place of the venues and listings */
@@ -623,7 +624,7 @@ html.immersive,html.immersive body{overflow:hidden;overscroll-behavior:none;heig
 <section class="egzabout" id="egzAbout"><div class="in">
   <h2>eGuzheng</h2>
   <p>Synthesizer instrument inspired by &ldquo;less notes&rdquo; instruments like Kalimba, Hand Pan, and Guzheng.</p>
-  <p>Eleven analog resonators in D major pentatonic, played here by a model of Sound Workshop's bridged-T circuit. Tap a pad to strike its note: higher on the pad is a harder tap. Hold it down and drag upward to bend the note. Bass, Tenor and Alto move all eleven notes down or up an octave.</p>
+  <p>Eleven analog resonators in D major pentatonic, played here by a model of Sound Workshop's bridged-T circuit. Tap a pad to strike its note: higher on the pad is a harder tap. Hold it down and drag up or down to bend the note; the bend stays after you let go, until that note is struck again. Drag sideways to strum across the notes. Bass, Tenor and Alto move all eleven notes down or up an octave.</p>
   <p>Touch a drone strip to make that voice drone, softly low on the strip and fully near the top; tap the finger again to lift it. Self-oscillation feeds each voice its own output until it sings on its own; Noise agitation blows white noise through each resonator, which picks its own note out of it. Decay sets how long struck notes ring, Saw leans every voice toward a sawtooth, and dust noise adds crackle or scatters random strikes across the notes you choose. Keys A to ' strike the notes too.</p>
 </div></section>
 <section class="digital"><div class="in">
@@ -1593,7 +1594,14 @@ function rainFrame(){
   if(a&&L){const [c,W,H,dpr]=a; c.clearRect(0,0,W,H);
     const fh=L.hpF(rv.hp), fc=rInfo&&power?rInfo.fc:L.lpF(rv.lp,0), k=Math.min(L.resK(rv.res),3.9995), four=rv.poles>=.5;
     const FMIN=20,FMAX=20000, top=H*.14, bot=H*.1, fx=f=>W*.04+W*.92*Math.log(f/FMIN)/Math.log(FMAX/FMIN), dy=db=>top+(30-Math.max(-30,Math.min(30,db)))/60*(H-top-bot);
-    c.beginPath(); for(let i=0;i<=180;i++){const f=FMIN*Math.pow(FMAX/FMIN,i/180), xx=fx(f), yy=dy(respDb(f,fh,fc,k,four)); i?c.lineTo(xx,yy):c.moveTo(xx,yy)}
+    // A narrow resonance falls between evenly spaced points and its drawn height flickers as the cutoff moves, so the
+    // curve is sampled densely around the cutoff and always includes the true peak, found by a golden-section search.
+    const fs_=[]; for(let i=0;i<=180;i++) fs_.push(FMIN*Math.pow(FMAX/FMIN,i/180));
+    for(let i=-60;i<=60;i++) fs_.push(fc*Math.pow(2,i/60));
+    {const g=(Math.sqrt(5)-1)/2, db=lf=>respDb(Math.exp(lf),fh,fc,k,four); let a=Math.log(fc)-.7, b=Math.log(fc)+.7, x1=b-g*(b-a), x2=a+g*(b-a), y1=db(x1), y2=db(x2);
+     for(let it=0;it<40;it++){ if(y1>y2){b=x2;x2=x1;y2=y1;x1=b-g*(b-a);y1=db(x1)} else {a=x1;x1=x2;y1=y2;x2=a+g*(b-a);y2=db(x2)} } fs_.push(Math.exp((a+b)/2))}
+    const fl=fs_.filter(f=>f>=FMIN&&f<=FMAX).sort((p,q)=>p-q);
+    c.beginPath(); fl.forEach((f,i)=>{const xx=fx(f), yy=dy(respDb(f,fh,fc,k,four)); i?c.lineTo(xx,yy):c.moveTo(xx,yy)});
     const lv=power?rLvl:0, al=.28+.72*lv;
     c.lineJoin="round"; c.lineCap="round";
     c.shadowColor=`rgba(255,150,40,${.9*lv})`; c.shadowBlur=(4+14*lv)*dpr;
@@ -1869,22 +1877,48 @@ function eRecompute(){
   for(const c in eKeys){const k=EGZ_KEYS.indexOf(c); if(k>=0) want[k]=Math.max(want[k],eKeys[c])}
   for(let i=0;i<EGZ_N;i++) if(want[i]!==ePadP[i]){ePadP[i]=want[i];epost({t:"pad",i,p:want[i]});eAll(`.epad[data-i="${i}"]`).forEach(c=>c.classList.toggle("down",want[i]>0))}
 }
-function eBendRecompute(){
-  const want=new Array(EGZ_N).fill(0); ePointers.forEach(pt=>{want[pt.col]=Math.max(want[pt.col],pt.bx||0)});
-  for(let i=0;i<EGZ_N;i++) if(want[i]!==eBendX[i]){ eBendX[i]=want[i]; epost({t:"bend",i,x:want[i]});
-    const st=want[i]>.004&&eref?eref.bendAt(i,es.trim[i],want[i]):0;
-    eAll(`.epad[data-i="${i}"] b .bd`).forEach(el=>el.textContent=st?" +"+st.toFixed(1):"") }
+// Bend: drag up or down from where a pad was struck, up to 3 semitones each way. The bend stays on the voice after
+// the pointer lets go, and the voice's next strike (pad, strum or key) brings it back to its tuned pitch.
+function eSetBend(i,x){
+  x=Math.max(-1,Math.min(1,x)); if(Math.abs(x)<.004) x=0; if(x===eBendX[i]) return;
+  eBendX[i]=x; epost({t:"bend",i,x});
+  const st=x&&eref?eref.bendAt(i,es.trim[i],x):0;
+  eAll(`.epad[data-i="${i}"] b .bd`).forEach(el=>el.textContent=Math.abs(st)>=.05?(st>0?" +":" −")+Math.abs(st).toFixed(1):"");
+}
+const eStruck=i=>eSetBend(i,0);
+let eGhostN=0;
+function eGhost(col,p,heldMs){   // a voice the strum has left keeps its pad down until it has had 35 ms to charge
+  const key="g"+(++eGhostN); ePointers.set(key,{col,p}); setTimeout(()=>{ePointers.delete(key);eRecompute()},Math.max(0,35-heldMs));
 }
 function bindEPads(host){
-  const at=e=>{const r=host.getBoundingClientRect(); return {col:Math.max(0,Math.min(EGZ_N-1,Math.floor((e.clientX-r.left)/r.width*EGZ_N))), p:.1+.9*Math.max(0,Math.min(1,(r.bottom-e.clientY)/r.height))}};
+  const colAt=x=>{const r=host.getBoundingClientRect(); return Math.max(0,Math.min(EGZ_N-1,Math.floor((x-r.left)/r.width*EGZ_N)))};
+  const pAt=y=>{const r=host.getBoundingClientRect(); return .1+.9*Math.max(0,Math.min(1,(r.bottom-y)/r.height))};
+  const tether=(pt,y)=>{const d=Math.max(-pt.travel,Math.min(pt.travel,y-pt.y0)); pt.tt.classList.toggle("dn",d>0);
+    pt.tt.style.height=Math.abs(d)+"px"; pt.tt.style.transform=d<0?`translateY(${d}px)`:"none"};
   host.addEventListener("pointerdown",e=>{if(e.pointerType==="mouse"&&e.button!==0)return; e.preventDefault();host.focus({preventScroll:true});host.setPointerCapture(e.pointerId);
-    const r=host.getBoundingClientRect(), tt=document.createElement("span"); tt.className="etether"; tt.style.left=(e.clientX-r.left)+"px"; tt.style.top=(e.clientY-r.top)+"px"; host.appendChild(tt);
-    ePointers.set(e.pointerId,{...at(e),t0:performance.now(),y0:e.clientY,travel:Math.max(60,r.height*.8),bx:0,tt});eRecompute()});
+    const r=host.getBoundingClientRect(), col=colAt(e.clientX), tt=document.createElement("span"); tt.className="etether"; tt.style.left=(e.clientX-r.left)+"px"; tt.style.top=(e.clientY-r.top)+"px"; host.appendChild(tt);
+    eStruck(col);
+    ePointers.set(e.pointerId,{col,p:pAt(e.clientY),t0:performance.now(),y0:e.clientY,travel:Math.max(60,r.height*.8),tt,strum:false});eRecompute()});
   host.addEventListener("pointermove",e=>{const pt=ePointers.get(e.pointerId); if(!pt||!host.hasPointerCapture(e.pointerId)) return;
     if(e.pointerType==="mouse"&&e.buttons===0) return rel(e);
-    const up=Math.max(0,pt.y0-e.clientY); pt.bx=Math.min(1,up/pt.travel); pt.tt.style.height=Math.min(up,pt.travel)+"px"; pt.tt.style.transform=`translateY(-${Math.min(up,pt.travel)}px)`; eBendRecompute()});
+    const r=host.getBoundingClientRect(), cw=r.width/EGZ_N, fx=(e.clientX-r.left)/cw;   // position in columns
+    // sideways past a column's edge (with a little give, so a bend that drifts does not strum): strike each voice crossed
+    let to=pt.col; if(fx>=pt.col+1.15) to=Math.min(EGZ_N-1,Math.floor(fx)); else if(fx<pt.col-.15) to=Math.max(0,Math.floor(fx));
+    if(to!==pt.col){
+      if(!pt.strum){pt.strum=true; pt.tt.remove()}
+      const step=to>pt.col?1:-1, p=pAt(e.clientY);
+      if(pt.p>0) eGhost(pt.col,pt.p,performance.now()-pt.t0);   // (a column still waiting its turn in the queue strikes as a ghost when its turn comes)
+      // a fast sweep that skips columns still sounds them one after another, 6 ms apart, in the sweep's direction
+      const now=performance.now(); let t=Math.max(now,pt.qt||0);
+      for(let c=pt.col+step;c!==to;c+=step){const cc=c; t+=6; setTimeout(()=>{eStruck(cc);eGhost(cc,p,0);eRecompute()},t-now)}
+      pt.col=to; pt.p=0; pt.t0=now; eRecompute();
+      const arrive=()=>{ if(ePointers.get(e.pointerId)===pt&&pt.col===to){eStruck(to);pt.p=p;pt.t0=performance.now();eRecompute()} else {eStruck(to);eGhost(to,p,0);eRecompute()} };
+      if(t>now){t+=6; setTimeout(arrive,t-now)} else arrive(); pt.qt=t; return;
+    }
+    if(pt.strum) return;
+    eSetBend(pt.col,(pt.y0-e.clientY)/pt.travel); tether(pt,e.clientY)});
   const rel=e=>{const pt=ePointers.get(e.pointerId); if(!pt) return; const held=performance.now()-pt.t0, id=e.pointerId;
-    if(pt.bx){pt.bx=0;eBendRecompute()} pt.tt.remove();   // the spring
+    pt.tt.remove();   // the bend itself stays where it was left
     const drop=()=>{if(ePointers.get(id)===pt){ePointers.delete(id);eRecompute()}}; if(held<35) setTimeout(drop,35-held); else drop()};  // a tap still needs time to charge the cap
   host.addEventListener("lostpointercapture",rel);
   host.addEventListener("pointerup",rel); host.addEventListener("pointercancel",rel);
@@ -1893,7 +1927,7 @@ function bindEPads(host){
 addEventListener("keydown",e=>{
   if(!egzMode||e.metaKey||e.ctrlKey||e.altKey) return; const t=e.target; if(t&&/^(input|textarea|select)$/i.test(t.tagName||"")) return;
   if(EGZ_KEYS.indexOf(e.code)<0) return; e.preventDefault(); if(e.repeat) return;
-  if(!power) setPower(true); eKeys[e.code]=e.shiftKey?1:.5; eKeys["t"+e.code]=performance.now(); eRecompute();
+  if(!power) setPower(true); eStruck(EGZ_KEYS.indexOf(e.code)); eKeys[e.code]=e.shiftKey?1:.5; eKeys["t"+e.code]=performance.now(); eRecompute();
 });
 addEventListener("keyup",e=>{ if(!(e.code in eKeys)) return; const t0=eKeys["t"+e.code], held=performance.now()-t0;
   const drop=()=>{if(eKeys["t"+e.code]===t0){delete eKeys[e.code];delete eKeys["t"+e.code];eRecompute()}}; if(held<35) setTimeout(drop,35-held); else drop() });
@@ -1933,7 +1967,7 @@ function egzFaceHTML(v){
      for(let k=0;k<10;k++) pads+=`<i class="pd" style="top:${((52-5*k)/64*100).toFixed(2)}%"></i>`;
      h+=`<div class="estrip" data-i="${i}" role="slider" tabindex="0" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="10" aria-label="Drone strip ${NM[i]}" style="left:${cm(cx-cw*.36)};top:${cm(y0+.5)};width:${cm(cw*.72)};height:${cm(hh-1)}">${pads}<span class="fing"></span></div>`}}
   // strike pads
-  {h+=`<span class="ewell" style="${box(F.pads)}"></span><div class="epads" tabindex="0" aria-label="Strike pads: higher on a pad is a harder tap; hold and drag upward to bend. Keys A to apostrophe play them too." style="left:${cm(F.pads[0]+.4)};top:${cm(F.pads[1]+.4)};width:${cm(F.pads[2]-.8)};height:${cm(F.pads[3]-.8)}">`;
+  {h+=`<span class="ewell" style="${box(F.pads)}"></span><div class="epads" tabindex="0" aria-label="Strike pads: higher on a pad is a harder tap; hold and drag up or down to bend, sideways to strum. Keys A to apostrophe play them too." style="left:${cm(F.pads[0]+.4)};top:${cm(F.pads[1]+.4)};width:${cm(F.pads[2]-.8)};height:${cm(F.pads[3]-.8)}">`;
    for(let i=0;i<EGZ_N;i++) h+=`<div class="epad" data-i="${i}"><i class="fill"></i><b><span class="nn">${NM[i]}</span><span class="bd"></span></b><span class="ekey">${EGZ_CAPS[i]}</span></div>`;
    h+=`</div>`}
   return h;

@@ -32,7 +32,7 @@ function createKalimbaCore(sampleRate, opt) {
   var RES_A0 = 2e6;                 // op-amp DC gain (126 dB). The ring and the drone point lean on it, so the design wants a high-gain part.
   var POT = 2e3, R_BOT = 1.37e3, R_LOAD = 2.74e3;   // tuning trimmer, its end-stop and its wiper load
   var P_BEND = 10e3, R_END = 10;                    // bend slider, and the resistance left at either end of its track
-  var RD = 40.2e3, BEND_ST = 3;                     // damping divider's leg to Vref, and the bend at the slider's stop in semitones
+  var RD = 40.2e3, BEND_ST = 3, BEND_DN = 0.62;                     // damping divider's leg to Vref, and the bend at the slider's stop in semitones
   var SHARE_MAX = 1 / 0.9, R_P = 536;               // with its switch always closed a voice cancels 111% of its loss, so DECAY reaches the drone point at 90 % of
   // its travel and the top 10 % self-oscillates; R_P is the resistor from each + input to Vref
   // (R&D: 536 ohm rather than 100. Every feed into the + node is a current, so a larger Rp gives the touch strips more push for
@@ -244,11 +244,13 @@ function createKalimbaCore(sampleRate, opt) {
   }
   function resCoeffs(v) {
     // Sustain, pitch feedback and damping are all tapped from the trimmer's wiper, so they scale together when the voice is retuned.
-    var d = designRes[v], y = resNet(d, tuneRes[v], bendUsed[v]), K = K_ERR * (KERR_V ? KERR_V[v] : 1) * susV[v] * d.kcrit * y.kT / d.kT0 + tdK[v], c = d.c;
+    // A bend below rest has no slider travel to use, so it lowers the trimmer's wiper instead (3 semitones flat at full).
+    var bu = bendUsed[v], sB = bu < 0 ? Math.max(-1, tuneRes[v] + bu * BEND_DN) : tuneRes[v], xB = bu > 0 ? bu : 0;
+    var d = designRes[v], y = resNet(d, sB, xB), K = K_ERR * (KERR_V ? KERR_V[v] : 1) * susV[v] * d.kcrit * y.kT / d.kT0 + tdK[v], c = d.c;
     // op-amp in its linear range
     var A, yo;
     if (SKH) {                        // chopped feed: keep both circuits, and rest at the nominal duty
-      yo = resNet(d, tuneRes[v], bendUsed[v], 1);
+      yo = resNet(d, sB, xB, 1);
       var Ac_ = resMatrix(d, y, K), Ao_ = resMatrix(d, yo, tdK[v]), q4_ = v * 4;
       for (var m_ = 0; m_ < 4; m_++) { hwAo[q4_ + m_] = Ao_[m_]; hwdA[q4_ + m_] = Ac_[m_] - Ao_[m_]; }
       A = avgMatrix(d, y, yo, K, tdK[v], SKH_D0);
@@ -413,7 +415,7 @@ function createKalimbaCore(sampleRate, opt) {
       // bend slider: follows the finger closely, and its spring takes a moment longer to bring it home
       var bt = bendTarget[v], bn = bendNow[v];
       if (bn !== bt) {
-        bn += (bt - bn) * (bt > bn ? B_PUSH : B_SPRING);
+        bn += (bt - bn) * (Math.abs(bt) > Math.abs(bn) ? B_PUSH : B_SPRING);
         if (Math.abs(bt - bn) < 2e-4) bn = bt;
         bendNow[v] = bn;
         if (bn === bt || Math.abs(bn - bendUsed[v]) > 4e-4) { bendUsed[v] = bn; resCoeffs(v); }
@@ -636,9 +638,9 @@ function createKalimbaCore(sampleRate, opt) {
       if (v < 0 || v >= N) return;
       tuneRes[v] = s < -1 ? -1 : (s > 1 ? 1 : s); resCoeffs(v);
     },
-    setBend: function (v, x) { if (v >= 0 && v < N) bendTarget[v] = x < 0 ? 0 : (x > 1 ? 1 : x); },
+    setBend: function (v, x) { if (v >= 0 && v < N) bendTarget[v] = x < -1 ? -1 : (x > 1 ? 1 : x); },
     bendNow: bendNow,
-    bendAt: function (v, s, x) { var d = designRes[v]; return 12 * Math.log(resPole(d, s, x).f / resPole(d, s, 0).f) / Math.LN2; },
+    bendAt: function (v, s, x) { var d = designRes[v], p = x < 0 ? resPole(d, Math.max(-1, s + x * BEND_DN), 0) : resPole(d, s, x); return 12 * Math.log(p.f / resPole(d, s, 0).f) / Math.LN2; },
     setGain: function (x) { gainKnob = x; knobs(); },
     // LIMIT knob: 0 is off; otherwise the bus level it allows, in units of one voice droning at about full level
     touchKick: function (v, x) { if (v >= 0 && v < N) tdKick[v] = x; },
