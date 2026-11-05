@@ -1353,7 +1353,7 @@ function faceHTML(v){
   const knob=(id,name,x,y,ring)=>`<div class="rknob" data-r="${id}" role="slider" tabindex="0" aria-label="${name}" aria-valuemin="0" aria-valuemax="100" style="left:${cm(x-ring/2)};top:${cm(y-ring/2)};width:${cm(ring)};height:${cm(ring)}"><svg viewBox="0 0 100 100" aria-hidden="true">${T}</svg><span class="body"><span class="ri"><i></i></span></span></div>`;
   let h=`<div class="rplate"></div>`;
   // screen: the XY pad
-  const S=F.screen; h+=`<div class="rscreen" style="${at(S)}"><canvas class="rpane" aria-hidden="true"></canvas><div class="xypad" role="slider" tabindex="0" aria-label="Filter pad: across sets the low pass, up sets the high pass"></div><div class="rain-msg"><span>Rain Through a Window</span><small>Flip the power switch to start the rain.</small></div></div>`;
+  const S=F.screen; h+=`<div class="rscreen" style="${at(S)}"><canvas class="rpane" aria-hidden="true"></canvas><div class="xypad" role="slider" tabindex="0" aria-label="Filter pad: up opens the low pass, right lowers the high pass; bottom left is silent, top right is unfiltered"></div><div class="rain-msg"><span>Rain Through a Window</span><small>Flip the power switch to start the rain.</small></div></div>`;
   // amber window: the filter's response
   h+=`<div class="ramber" style="${at(F.display)}"><canvas class="rcurve" aria-hidden="true"></canvas></div>`;
   // sliders: LPF on top, HPF below, staggered, a printed box around the shared middle
@@ -1382,13 +1382,14 @@ function faceHTML(v){
 function bindFace(face){
   face.querySelectorAll(".rknob").forEach(k=>bindRainDrag(k,k.dataset.r));
   face.querySelectorAll(".rslider").forEach(f=>bindRainDrag(f,f.dataset.s,e=>{const r=f.getBoundingClientRect(),h=r.height;return (e.clientX-r.left-h/2)/Math.max(1,r.width-h)},true));
-  // XY pad on the screen: across is the low pass cutoff, up is the high pass cutoff
-  const pad=face.querySelector(".xypad"), xy=e=>{const r=pad.getBoundingClientRect(); setRain("lp",(e.clientX-r.left)/r.width); setRain("hp",1-(e.clientY-r.top)/r.height)};
+  // XY pad on the screen: up opens the low pass, right lowers the high pass.
+  // Bottom left: low pass shut and high pass high, so nothing gets through. Top right: both wide open.
+  const pad=face.querySelector(".xypad"), xy=e=>{const r=pad.getBoundingClientRect(); setRain("lp",1-(e.clientY-r.top)/r.height); setRain("hp",1-(e.clientX-r.left)/r.width)};
   pad.addEventListener("pointerdown",e=>{pad.setPointerCapture(e.pointerId);e.preventDefault();pad.focus({preventScroll:true});xy(e)});
   pad.addEventListener("pointermove",e=>{if(pad.hasPointerCapture(e.pointerId))xy(e)});
   pad.addEventListener("keydown",e=>{const s=e.shiftKey?.002:.01, k=e.key;
-    if(k==="ArrowRight")setRain("lp",rv.lp+s); else if(k==="ArrowLeft")setRain("lp",rv.lp-s);
-    else if(k==="ArrowUp")setRain("hp",rv.hp+s); else if(k==="ArrowDown")setRain("hp",rv.hp-s); else return; e.preventDefault(); e.stopPropagation()});
+    if(k==="ArrowUp")setRain("lp",rv.lp+s); else if(k==="ArrowDown")setRain("lp",rv.lp-s);
+    else if(k==="ArrowRight")setRain("hp",rv.hp-s); else if(k==="ArrowLeft")setRain("hp",rv.hp+s); else return; e.preventDefault(); e.stopPropagation()});
   face.querySelector(".rswitch").onclick=()=>setRain("poles",rv.poles>=.5?0:1);
   face.querySelectorAll(".rkey").forEach(b=>b.onclick=()=>applyPreset(b.dataset.p));
 }
@@ -1438,15 +1439,15 @@ function rainFrame(){
     c.fillStyle="#08100f"; c.fillRect(0,0,W,H);
     c.strokeStyle="rgba(150,190,170,.09)"; c.lineWidth=1;
     for(let i=1;i<6;i++){const x=Math.round(W*i/6)+.5,y=Math.round(H*i/6)+.5;c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.moveTo(0,y);c.lineTo(W,y);c.stroke()}
-    const x=rv.lp*W, y=(1-rv.hp)*H, on=power;
+    const x=(1-rv.hp)*W, y=(1-rv.lp)*H, on=power;
     c.strokeStyle=on?"rgba(255,170,70,.45)":"rgba(150,190,170,.25)"; c.lineWidth=dpr;
     c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.moveTo(0,y);c.lineTo(W,y);c.stroke();
     const r=Math.max(6*dpr,Math.min(W,H)*.035);
     if(on){c.fillStyle="rgba(255,150,40,.18)";c.beginPath();c.arc(x,y,r*2.4,0,7);c.fill()}
     c.fillStyle=on?"#ffb050":"#7f9a8a"; c.beginPath();c.arc(x,y,r,0,7);c.fill();
     c.fillStyle=on?"rgba(255,200,130,.75)":"rgba(127,154,138,.6)"; c.font=`600 ${Math.round(Math.max(9*dpr,H*.045))}px ui-sans-serif,system-ui,sans-serif`;
-    c.textBaseline="alphabetic"; c.textAlign="right"; c.fillText(`LPF ${L?fmtHz(L.lpF(rv.lp,0)):""} →`,W-H*.04,H-H*.04);
-    c.textAlign="left"; c.save(); c.translate(H*.04+H*.04,H-H*.04); c.rotate(-Math.PI/2); c.fillText(`HPF ${L?fmtHz(L.hpF(rv.hp)):""} →`,0,0); c.restore();
+    c.textBaseline="alphabetic"; c.textAlign="right"; c.fillText(`HPF ${L?fmtHz(L.hpF(rv.hp)):""}`,W-H*.04,H-H*.04);
+    c.textAlign="left"; c.save(); c.translate(H*.04+H*.04,H-H*.04); c.rotate(-Math.PI/2); c.fillText(`LPF ${L?fmtHz(L.lpF(rv.lp,0)):""}`,0,0); c.restore();
   }
   // amber window: the filter response, as bright as the output
   a=fitCanvas(face.querySelector(".rcurve"));
