@@ -1,13 +1,13 @@
 # Small Room Radio
 
-Ten San Francisco venues and six genre stations. Every station plays 3–5 songs from each band booked there in the coming months, with a ticket link on every song.
+Ten venues each in San Francisco and Brooklyn, and eight genre keys. Every station plays 3–5 songs from each band booked there in the coming months, with a ticket link on every song.
 
 ## What's in this folder
 
 | File | What it is |
 |---|---|
 | `index.html` | The website |
-| `shows.json` | Upcoming shows for the 10 venues (378 shows; the first six pulled Nov 1 2026, The Fillmore, Regency Ballroom, Great American Music Hall and SFJAZZ Center added Nov 3) |
+| `shows.json` | Upcoming shows for 20 venues. San Francisco: the first six pulled Nov 1 2026, The Fillmore, Regency Ballroom, Great American Music Hall and SFJAZZ Center added Nov 3. Brooklyn (each venue has `"city":"brooklyn"`): Baby's All Right, Union Pool, Music Hall of Williamsburg, National Sawdust, Brooklyn Steel, Elsewhere, Market Hotel, The Sultan Room, Saint Vitus and Warsaw, pulled Nov 4. The nightly songs job reads every venue, whatever the city. |
 | `genres.json` | Which station each artist plays on. Anyone not listed goes to Indie |
 | `build_tracks.py` | Finds each artist's songs on YouTube and writes `tracks.json` |
 | `tracks.json` | Created by the script. The site plays whatever is in here |

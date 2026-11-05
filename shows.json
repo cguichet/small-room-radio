@@ -1,11 +1,12 @@
 {
- "_source": "Songkick venue calendars, fetched 2026-11-01 (first six venues) and 2026-11-03 (Fillmore, Regency Ballroom, Great American Music Hall, SFJAZZ Center). Sold-out status from venue sites, 2026-11-02.",
- "_updated": "2026-11-03",
+ "_source": "Songkick venue calendars, fetched 2026-11-01 (first six venues) and 2026-11-03 (Fillmore, Regency Ballroom, Great American Music Hall, SFJAZZ Center). Sold-out status from venue sites, 2026-11-02. Brooklyn: Songkick calendars for Baby's All Right, Union Pool, Music Hall of Williamsburg, National Sawdust, Brooklyn Steel, Elsewhere (incl. The Hall), Market Hotel, The Sultan Room, Saint Vitus and Warsaw, fetched 2026-11-04.",
+ "_updated": "2026-11-04",
  "venues": {
   "rickshaw-stop": {
    "name": "Rickshaw Stop",
    "address": "155 Fell St",
    "capacity": 350,
+   "city": "sf",
    "shows": [
     [
      "2026-11-04",
@@ -322,6 +323,7 @@
    "name": "The Independent",
    "address": "628 Divisadero St",
    "capacity": 500,
+   "city": "sf",
    "shows": [
     [
      "2026-11-01",
@@ -745,6 +747,7 @@
    "name": "Bottom of the Hill",
    "address": "1233 17th St",
    "capacity": 275,
+   "city": "sf",
    "shows": [
     [
      "2026-11-01",
@@ -1041,6 +1044,7 @@
    "name": "The Chapel",
    "address": "777 Valencia St",
    "capacity": 450,
+   "city": "sf",
    "shows": [
     [
      "2026-11-05",
@@ -1309,6 +1313,7 @@
    "name": "Café du Nord",
    "address": "2170 Market St",
    "capacity": 250,
+   "city": "sf",
    "shows": [
     [
      "2026-11-01",
@@ -1611,6 +1616,7 @@
    "name": "Brick & Mortar Music Hall",
    "address": "1710 Mission St",
    "capacity": 250,
+   "city": "sf",
    "shows": [
     [
      "2026-11-01",
@@ -1860,6 +1866,7 @@
    "name": "The Fillmore",
    "address": "1805 Geary Blvd",
    "capacity": 1150,
+   "city": "sf",
    "shows": [
     [
      "2026-11-06",
@@ -2193,6 +2200,7 @@
    "name": "The Regency Ballroom",
    "address": "1300 Van Ness Ave",
    "capacity": 1400,
+   "city": "sf",
    "shows": [
     [
      "2026-11-05",
@@ -2478,6 +2486,7 @@
    "name": "Great American Music Hall",
    "address": "859 O'Farrell St",
    "capacity": 470,
+   "city": "sf",
    "shows": [
     [
      "2026-11-04",
@@ -2804,6 +2813,7 @@
    "name": "SFJAZZ Center",
    "address": "201 Franklin St",
    "capacity": 700,
+   "city": "sf",
    "shows": [
     [
      "2026-11-06",
@@ -2890,6 +2900,2193 @@
       "Poncho Sanchez"
      ],
      "43270004-poncho-sanchez-and-his-latin-jazz-band-at-miner-auditorium-sfjazz-center"
+    ]
+   ]
+  },
+  "babys-all-right": {
+   "name": "Baby's All Right",
+   "address": "146 Broadway",
+   "capacity": 280,
+   "city": "brooklyn",
+   "shows": [
+    [
+     "2026-11-04",
+     [
+      "Mad Tsai"
+     ],
+     "43289767-mad-tsai-at-babys-all-right"
+    ],
+    [
+     "2026-11-04",
+     [
+      "Imperial Teen",
+      "Gay Meat"
+     ],
+     "43325284-imperial-teen-at-babys-all-right"
+    ],
+    [
+     "2026-11-05",
+     [
+      "Bass Drum of Death",
+      "Gnarcissists",
+      "Mary Shelley"
+     ],
+     "43353765-bass-drum-of-death-at-babys-all-right"
+    ],
+    [
+     "2026-11-06",
+     [
+      "Natanya"
+     ],
+     "43260947-natanya-at-babys-all-right"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Babehoven",
+      "Jane Lai"
+     ],
+     "43362172-babehoven-at-babys-all-right"
+    ],
+    [
+     "2026-11-08",
+     [
+      "Jukebox the Ghost"
+     ],
+     "43475630-jukebox-the-ghost-at-babys-all-right"
+    ],
+    [
+     "2026-11-08",
+     [
+      "Persona 749",
+      "Roe Kapara"
+     ],
+     "43453274-persona-749-at-babys-all-right"
+    ],
+    [
+     "2026-11-09",
+     [
+      "Denise Julia"
+     ],
+     "43387016-denise-julia-at-babys-all-right"
+    ],
+    [
+     "2026-11-10",
+     [
+      "Madra Salach"
+     ],
+     "43407922-madra-salach-at-babys-all-right"
+    ],
+    [
+     "2026-11-10",
+     [
+      "Jorjiana"
+     ],
+     "43386862-jorjiana-at-babys-all-right"
+    ],
+    [
+     "2026-11-10",
+     [
+      "Panicbaby"
+     ],
+     "43264485-panicbaby-at-babys-all-right"
+    ],
+    [
+     "2026-11-11",
+     [
+      "Sweeping Promises"
+     ],
+     "43209975-sweeping-promises-at-babys-all-right"
+    ],
+    [
+     "2026-11-11",
+     [
+      "Laveda",
+      "Shady Bug",
+      "Fish Hunt",
+      "Wesley Wolffe"
+     ],
+     "43455208-laveda-at-babys-all-right"
+    ],
+    [
+     "2026-11-12",
+     [
+      "Genesis Owusu"
+     ],
+     "43236240-genesis-owusu-at-babys-all-right"
+    ],
+    [
+     "2026-11-12",
+     [
+      "Memphis LK"
+     ],
+     "43383891-memphis-lk-at-babys-all-right"
+    ],
+    [
+     "2026-11-13",
+     [
+      "Genesis Owusu",
+      "DJ Soko"
+     ],
+     "43256760-genesis-owusu-at-babys-all-right"
+    ],
+    [
+     "2026-11-13",
+     [
+      "Emma Ogier",
+      "Mali Velasquez",
+      "Harrison Whitford"
+     ],
+     "43445727-emma-ogier-at-babys-all-right"
+    ],
+    [
+     "2026-11-15",
+     [
+      "Sophie Hunter"
+     ],
+     "43292568-sophie-hunter-at-babys-all-right"
+    ],
+    [
+     "2026-11-15",
+     [
+      "Frances Whitney",
+      "Aggie Miller"
+     ],
+     "43441754-frances-whitney-at-babys-all-right"
+    ],
+    [
+     "2026-11-16",
+     [
+      "Qendresa"
+     ],
+     "43356682-qendresa-at-babys-all-right"
+    ],
+    [
+     "2026-11-17",
+     [
+      "Sarah Kinsley"
+     ],
+     "42930425-sarah-kinsley-at-babys-all-right"
+    ],
+    [
+     "2026-11-17",
+     [
+      "Qendresa"
+     ],
+     "43368340-qendresa-at-babys-all-right"
+    ],
+    [
+     "2026-11-17",
+     [
+      "Mary In The Junkyard",
+      "Lefty Parker"
+     ],
+     "43362187-mary-in-the-junkyard-at-babys-all-right"
+    ],
+    [
+     "2026-11-18",
+     [
+      "Mary In The Junkyard",
+      "Lefty Parker"
+     ],
+     "43223428-mary-in-the-junkyard-at-babys-all-right"
+    ],
+    [
+     "2026-11-18",
+     [
+      "8RO8"
+     ],
+     "43469726-8ro8-at-babys-all-right"
+    ],
+    [
+     "2026-11-19",
+     [
+      "Jessie Mazin"
+     ],
+     "43458063-jessie-mazin-at-babys-all-right"
+    ],
+    [
+     "2026-11-19",
+     [
+      "The Quarters",
+      "Wulfer"
+     ],
+     "43485417-quarters-at-babys-all-right"
+    ],
+    [
+     "2026-11-20",
+     [
+      "Francis of Delirium"
+     ],
+     "43171239-francis-of-delirium-at-babys-all-right"
+    ],
+    [
+     "2026-11-21",
+     [
+      "Resavoir",
+      "Declan"
+     ],
+     "43341697-resavoir-at-babys-all-right"
+    ],
+    [
+     "2026-11-21",
+     [
+      "A Good Year"
+     ],
+     "43364168-a-good-year-at-babys-all-right"
+    ],
+    [
+     "2026-11-22",
+     [
+      "Racecourse"
+     ],
+     "43444020-racecourse-at-babys-all-right"
+    ],
+    [
+     "2026-11-23",
+     [
+      "Wendy Eisenberg",
+      "More Eaze"
+     ],
+     "43469724-wendy-eisenberg-at-babys-all-right"
+    ],
+    [
+     "2026-11-24",
+     [
+      "Zoe Bayani",
+      "Whisper Doll",
+      "Whiskey Ginger",
+      "Trash Rabbit"
+     ],
+     "43485427-zoe-bayani-at-babys-all-right"
+    ],
+    [
+     "2026-11-25",
+     [
+      "The Slim Kings"
+     ],
+     "43458773-slim-kings-at-babys-all-right"
+    ],
+    [
+     "2026-11-29",
+     [
+      "liim"
+     ],
+     "43421110-liim-at-babys-all-right"
+    ],
+    [
+     "2026-12-01",
+     [
+      "Leanna Firestone",
+      "Sydney Sprague"
+     ],
+     "43423141-leanna-firestone-at-babys-all-right"
+    ],
+    [
+     "2026-12-01",
+     [
+      "Rugburn"
+     ],
+     "43478086-rugburn-at-babys-all-right"
+    ],
+    [
+     "2026-12-02",
+     [
+      "Aura",
+      "gabby start"
+     ],
+     "43237956-aura-at-babys-all-right"
+    ],
+    [
+     "2026-12-02",
+     [
+      "The Nu-Viles"
+     ],
+     "43436291-nuviles-at-babys-all-right"
+    ],
+    [
+     "2026-12-03",
+     [
+      "The Rat Utopia Experiment",
+      "Rat Sauce"
+     ],
+     "43490284-rat-utopia-experiment-at-babys-all-right"
+    ],
+    [
+     "2026-12-04",
+     [
+      "Marianne Beaulieu"
+     ],
+     "43441712-marianne-beaulieu-at-babys-all-right"
+    ],
+    [
+     "2026-12-05",
+     [
+      "A Country Western"
+     ],
+     "43448622-a-country-western-at-babys-all-right"
+    ],
+    [
+     "2026-12-06",
+     [
+      "Tama Gucci",
+      "Boyfriend Dick"
+     ],
+     "43485442-tama-gucci-at-babys-all-right"
+    ],
+    [
+     "2026-12-08",
+     [
+      "Corey Parsons"
+     ],
+     "43348915-corey-parsons-at-babys-all-right"
+    ],
+    [
+     "2026-12-08",
+     [
+      "Jeffers Insley"
+     ],
+     "43498690-jeffers-insley-at-babys-all-right"
+    ],
+    [
+     "2026-12-10",
+     [
+      "Stevie Bill"
+     ],
+     "43440525-stevie-bill-at-babys-all-right"
+    ],
+    [
+     "2026-12-11",
+     [
+      "whitmer thomas"
+     ],
+     "43371967-whitmer-thomas-at-babys-all-right"
+    ],
+    [
+     "2026-12-12",
+     [
+      "Adanna Duru",
+      "Phoenix James"
+     ],
+     "43419304-adanna-duru-at-babys-all-right"
+    ],
+    [
+     "2026-12-12",
+     [
+      "Anna Luna"
+     ],
+     "43464131-anna-luna-at-babys-all-right"
+    ]
+   ]
+  },
+  "union-pool": {
+   "name": "Union Pool",
+   "address": "484 Union Ave",
+   "capacity": 250,
+   "city": "brooklyn",
+   "shows": [
+    [
+     "2026-11-05",
+     [
+      "Darryl Rahn"
+     ],
+     "43420355-darryl-rahn-at-union-pool"
+    ],
+    [
+     "2026-11-09",
+     [
+      "Rev. Vince Anderson"
+     ],
+     "43354178-rev-vince-anderson-at-union-pool"
+    ],
+    [
+     "2026-11-10",
+     [
+      "Hohnen Ford"
+     ],
+     "43429690-hohnen-ford-at-union-pool"
+    ],
+    [
+     "2026-11-11",
+     [
+      "Aaron Lee Tasjan",
+      "Madeleine Kelson"
+     ],
+     "43160653-aaron-lee-tasjan-at-union-pool"
+    ],
+    [
+     "2026-11-12",
+     [
+      "Gwenifer Raymond"
+     ],
+     "43450735-gwenifer-raymond-at-union-pool"
+    ],
+    [
+     "2026-11-13",
+     [
+      "Snowmen"
+     ],
+     "43446959-snowmen-at-union-pool"
+    ],
+    [
+     "2026-11-15",
+     [
+      "Charlie Parr"
+     ],
+     "43345041-charlie-parr-at-union-pool"
+    ],
+    [
+     "2026-11-16",
+     [
+      "Rev. Vince Anderson"
+     ],
+     "43354180-rev-vince-anderson-at-union-pool"
+    ],
+    [
+     "2026-11-18",
+     [
+      "Honeycrush",
+      "Scout Paré-Phillips",
+      "Riley McBride"
+     ],
+     "43473499-honeycrush-at-union-pool"
+    ],
+    [
+     "2026-11-23",
+     [
+      "Rev. Vince Anderson"
+     ],
+     "43354193-rev-vince-anderson-at-union-pool"
+    ],
+    [
+     "2026-11-30",
+     [
+      "Rev. Vince Anderson"
+     ],
+     "43354197-rev-vince-anderson-at-union-pool"
+    ],
+    [
+     "2026-12-02",
+     [
+      "Róis"
+     ],
+     "43466488-rois-at-union-pool"
+    ],
+    [
+     "2026-12-03",
+     [
+      "Róis"
+     ],
+     "43440512-rois-at-union-pool"
+    ],
+    [
+     "2026-12-04",
+     [
+      "Tami Hart"
+     ],
+     "43476503-tami-hart-at-union-pool"
+    ],
+    [
+     "2026-12-07",
+     [
+      "Rev. Vince Anderson"
+     ],
+     "43354199-rev-vince-anderson-at-union-pool"
+    ],
+    [
+     "2026-12-08",
+     [
+      "BCMC",
+      "Gift Horse"
+     ],
+     "43455550-bcmc-at-union-pool"
+    ],
+    [
+     "2026-12-10",
+     [
+      "Manas"
+     ],
+     "43418431-manas-at-union-pool"
+    ],
+    [
+     "2026-12-11",
+     [
+      "Angela Autumn"
+     ],
+     "43320267-angela-autumn-at-union-pool"
+    ],
+    [
+     "2026-12-14",
+     [
+      "Rev. Vince Anderson"
+     ],
+     "43354206-rev-vince-anderson-at-union-pool"
+    ],
+    [
+     "2026-12-15",
+     [
+      "The Fiery Furnaces"
+     ],
+     "43465303-fiery-furnaces-at-union-pool"
+    ],
+    [
+     "2026-12-16",
+     [
+      "The Fiery Furnaces"
+     ],
+     "43465305-fiery-furnaces-at-union-pool"
+    ],
+    [
+     "2026-12-21",
+     [
+      "Rev. Vince Anderson"
+     ],
+     "43354208-rev-vince-anderson-at-union-pool"
+    ]
+   ]
+  },
+  "music-hall-of-williamsburg": {
+   "name": "Music Hall of Williamsburg",
+   "address": "66 N 6th St",
+   "capacity": 550,
+   "city": "brooklyn",
+   "shows": [
+    [
+     "2026-11-04",
+     [
+      "Jeff Tweedy",
+      "Case Oats"
+     ],
+     "43290512-jeff-tweedy-at-music-hall-of-williamsburg"
+    ],
+    [
+     "2026-11-05",
+     [
+      "Avalon Emerson"
+     ],
+     "43374178-avalon-emerson-at-music-hall-of-williamsburg"
+    ],
+    [
+     "2026-11-06",
+     [
+      "Blu DeTiger"
+     ],
+     "43439542-blu-detiger-at-music-hall-of-williamsburg"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Boston Manor",
+      "Ben Quad",
+      "Spaced"
+     ],
+     "43238632-boston-manor-at-music-hall-of-williamsburg"
+    ],
+    [
+     "2026-11-09",
+     [
+      "ROSTAM",
+      "Hamilton Leithauser"
+     ],
+     "43409142-rostam-at-music-hall-of-williamsburg"
+    ],
+    [
+     "2026-11-10",
+     [
+      "ROSTAM",
+      "Hamilton Leithauser"
+     ],
+     "43409143-rostam-at-music-hall-of-williamsburg"
+    ],
+    [
+     "2026-11-11",
+     [
+      "Michigander",
+      "Wildermiss"
+     ],
+     "43199826-michigander-at-music-hall-of-williamsburg"
+    ],
+    [
+     "2026-11-13",
+     [
+      "Nation of Language"
+     ],
+     "43455368-nation-of-language-at-music-hall-of-williamsburg"
+    ],
+    [
+     "2026-11-14",
+     [
+      "Donny Benet",
+      "OTNES"
+     ],
+     "43159798-donny-benet-at-music-hall-of-williamsburg"
+    ],
+    [
+     "2026-11-15",
+     [
+      "Armand Hammer"
+     ],
+     "42974907-armand-hammer-at-music-hall-of-williamsburg"
+    ],
+    [
+     "2026-11-18",
+     [
+      "Julia Jacklin",
+      "Palehound"
+     ],
+     "43432394-julia-jacklin-at-music-hall-of-williamsburg"
+    ],
+    [
+     "2026-11-19",
+     [
+      "Guster",
+      "Adam Pally"
+     ],
+     "43393357-guster-at-music-hall-of-williamsburg"
+    ],
+    [
+     "2026-11-20",
+     [
+      "Guster"
+     ],
+     "43393359-guster-at-music-hall-of-williamsburg"
+    ],
+    [
+     "2026-11-22",
+     [
+      "Jamila Woods"
+     ],
+     "43364437-jamila-woods-at-music-hall-of-williamsburg"
+    ],
+    [
+     "2026-11-23",
+     [
+      "Glassjaw"
+     ],
+     "43418169-glassjaw-at-music-hall-of-williamsburg"
+    ],
+    [
+     "2026-11-24",
+     [
+      "Glassjaw"
+     ],
+     "43424024-glassjaw-at-music-hall-of-williamsburg"
+    ]
+   ]
+  },
+  "national-sawdust": {
+   "name": "National Sawdust",
+   "address": "80 N 6th St",
+   "capacity": 350,
+   "city": "brooklyn",
+   "shows": [
+    [
+     "2026-11-04",
+     [
+      "Francisca Valenzuela"
+     ],
+     "43451544-francisca-valenzuela-at-national-sawdust"
+    ],
+    [
+     "2026-11-12",
+     [
+      "Diles Que No Me Maten"
+     ],
+     "43150160-diles-que-no-me-maten-at-national-sawdust"
+    ],
+    [
+     "2026-11-13",
+     [
+      "Surprise Chef"
+     ],
+     "43361799-surprise-chef-at-national-sawdust"
+    ],
+    [
+     "2026-11-21",
+     [
+      "Rising Appalachia",
+      "Viv & Riley"
+     ],
+     "43269795-rising-appalachia-at-national-sawdust"
+    ],
+    [
+     "2026-11-22",
+     [
+      "Rising Appalachia"
+     ],
+     "43269796-rising-appalachia-at-national-sawdust"
+    ],
+    [
+     "2026-12-06",
+     [
+      "S. Carey"
+     ],
+     "43353051-s-carey-at-national-sawdust"
+    ]
+   ]
+  },
+  "brooklyn-steel": {
+   "name": "Brooklyn Steel",
+   "address": "319 Frost St",
+   "capacity": 1800,
+   "city": "brooklyn",
+   "shows": [
+    [
+     "2026-11-06",
+     [
+      "Tobiahs"
+     ],
+     "43386168-tobiahs-at-brooklyn-steel"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Blasting Company"
+     ],
+     "43354050-blasting-company-at-brooklyn-steel"
+    ],
+    [
+     "2026-11-08",
+     [
+      "Blasting Company"
+     ],
+     "43290520-blasting-company-at-brooklyn-steel"
+    ],
+    [
+     "2026-11-10",
+     [
+      "Chat Pile",
+      "Soul Glo",
+      "Virga"
+     ],
+     "43259386-chat-pile-at-brooklyn-steel"
+    ],
+    [
+     "2026-11-11",
+     [
+      "George Clanton"
+     ],
+     "43356007-george-clanton-at-brooklyn-steel"
+    ],
+    [
+     "2026-11-13",
+     [
+      "Giant Rooks"
+     ],
+     "43213646-giant-rooks-at-brooklyn-steel"
+    ],
+    [
+     "2026-11-14",
+     [
+      "Winyah"
+     ],
+     "43238640-winyah-at-brooklyn-steel"
+    ],
+    [
+     "2026-11-15",
+     [
+      "Angine de Poitrine"
+     ],
+     "43289346-angine-de-poitrine-at-brooklyn-steel"
+    ],
+    [
+     "2026-11-16",
+     [
+      "Angine de Poitrine"
+     ],
+     "43218098-angine-de-poitrine-at-brooklyn-steel"
+    ],
+    [
+     "2026-11-17",
+     [
+      "Angine de Poitrine"
+     ],
+     "43218099-angine-de-poitrine-at-brooklyn-steel"
+    ],
+    [
+     "2026-11-18",
+     [
+      "Angine de Poitrine"
+     ],
+     "43226536-angine-de-poitrine-at-brooklyn-steel"
+    ],
+    [
+     "2026-11-21",
+     [
+      "Pain of Truth",
+      "Madball",
+      "Rotting Out",
+      "Locked Shut"
+     ],
+     "43354061-pain-of-truth-at-brooklyn-steel"
+    ],
+    [
+     "2026-11-28",
+     [
+      "TroyBoi"
+     ],
+     "43313132-troyboi-at-brooklyn-steel"
+    ],
+    [
+     "2026-11-30",
+     [
+      "LCD Soundsystem"
+     ],
+     "43442733-lcd-soundsystem-at-brooklyn-steel"
+    ],
+    [
+     "2026-12-01",
+     [
+      "LCD Soundsystem"
+     ],
+     "43442734-lcd-soundsystem-at-brooklyn-steel"
+    ],
+    [
+     "2026-12-02",
+     [
+      "LCD Soundsystem"
+     ],
+     "43442735-lcd-soundsystem-at-brooklyn-steel"
+    ],
+    [
+     "2026-12-03",
+     [
+      "LCD Soundsystem"
+     ],
+     "43442736-lcd-soundsystem-at-brooklyn-steel"
+    ],
+    [
+     "2026-12-04",
+     [
+      "Daily Bread",
+      "ProbCause",
+      "Noetika"
+     ],
+     "43320554-daily-bread-at-brooklyn-steel"
+    ],
+    [
+     "2026-12-05",
+     [
+      "Daily Bread",
+      "Steller",
+      "Motifv"
+     ],
+     "43322302-daily-bread-at-brooklyn-steel"
+    ],
+    [
+     "2026-12-10",
+     [
+      "Rhye"
+     ],
+     "43265150-rhye-at-brooklyn-steel"
+    ],
+    [
+     "2026-12-11",
+     [
+      "F5VE"
+     ],
+     "43462133-f5ve-at-brooklyn-steel"
+    ],
+    [
+     "2026-12-12",
+     [
+      "Jai Wolf",
+      "Koastle"
+     ],
+     "43289298-jai-wolf-at-brooklyn-steel"
+    ],
+    [
+     "2026-12-18",
+     [
+      "LYNY"
+     ],
+     "43429534-lyny-at-brooklyn-steel"
+    ],
+    [
+     "2026-12-31",
+     [
+      "William Black"
+     ],
+     "43418201-william-black-at-brooklyn-steel"
+    ],
+    [
+     "2027-01-09",
+     [
+      "Portugal. The Man",
+      "Anthony Green"
+     ],
+     "43488086-portugal-the-man-at-brooklyn-steel"
+    ],
+    [
+     "2027-01-22",
+     [
+      "3BallMTY"
+     ],
+     "43408260-3ballmty-at-brooklyn-steel"
+    ],
+    [
+     "2027-01-23",
+     [
+      "SABAI",
+      "Hoang"
+     ],
+     "43332517-sabai-at-brooklyn-steel"
+    ],
+    [
+     "2027-02-04",
+     [
+      "feeble little horse",
+      "Snuggle"
+     ],
+     "43218619-feeble-little-horse-at-brooklyn-steel"
+    ],
+    [
+     "2027-02-05",
+     [
+      "La Roux"
+     ],
+     "43430434-la-roux-at-brooklyn-steel"
+    ],
+    [
+     "2027-02-11",
+     [
+      "Dinosaur Jr.",
+      "Horse Jumper of Love"
+     ],
+     "43389704-dinosaur-jr-at-brooklyn-steel"
+    ],
+    [
+     "2027-02-12",
+     [
+      "Dinosaur Jr.",
+      "Starcrawler"
+     ],
+     "43389705-dinosaur-jr-at-brooklyn-steel"
+    ],
+    [
+     "2027-02-13",
+     [
+      "Effin",
+      "Nikita, the Wicked",
+      "AYCH"
+     ],
+     "43474429-effin-at-brooklyn-steel"
+    ],
+    [
+     "2027-02-16",
+     [
+      "CHVRCHES"
+     ],
+     "43488109-chvrches-at-brooklyn-steel"
+    ],
+    [
+     "2027-02-17",
+     [
+      "CHVRCHES"
+     ],
+     "43478431-chvrches-at-brooklyn-steel"
+    ],
+    [
+     "2027-02-18",
+     [
+      "Die Spitz"
+     ],
+     "43497217-die-spitz-at-brooklyn-steel"
+    ],
+    [
+     "2027-02-19",
+     [
+      "Die Spitz"
+     ],
+     "43145184-die-spitz-at-brooklyn-steel"
+    ],
+    [
+     "2027-02-20",
+     [
+      "Die Spitz"
+     ],
+     "43499251-die-spitz-at-brooklyn-steel"
+    ],
+    [
+     "2027-02-27",
+     [
+      "Vacations",
+      "TWEN"
+     ],
+     "43451154-vacations-at-brooklyn-steel"
+    ],
+    [
+     "2027-03-04",
+     [
+      "Michael Shannon",
+      "Jason Narducy"
+     ],
+     "43442251-michael-shannon-at-brooklyn-steel"
+    ],
+    [
+     "2027-03-05",
+     [
+      "Michael Shannon",
+      "Jason Narducy"
+     ],
+     "43442256-michael-shannon-at-brooklyn-steel"
+    ],
+    [
+     "2027-03-06",
+     [
+      "Mersiv"
+     ],
+     "43489309-mersiv-at-brooklyn-steel"
+    ],
+    [
+     "2027-03-12",
+     [
+      "Zingara"
+     ],
+     "43485630-zingara-at-brooklyn-steel"
+    ],
+    [
+     "2027-03-22",
+     [
+      "Blondshell",
+      "NoSo"
+     ],
+     "43220931-blondshell-at-brooklyn-steel"
+    ],
+    [
+     "2027-03-27",
+     [
+      "Lambrini Girls",
+      "SPRINTS"
+     ],
+     "43476382-lambrini-girls-at-brooklyn-steel"
+    ],
+    [
+     "2027-03-28",
+     [
+      "Lambrini Girls",
+      "SPRINTS"
+     ],
+     "43498634-lambrini-girls-at-brooklyn-steel"
+    ],
+    [
+     "2027-03-31",
+     [
+      "CALEMA"
+     ],
+     "43418233-calema-at-brooklyn-steel"
+    ],
+    [
+     "2027-04-02",
+     [
+      "Beirut"
+     ],
+     "43405947-beirut-at-brooklyn-steel"
+    ],
+    [
+     "2027-04-03",
+     [
+      "Beirut"
+     ],
+     "43405948-beirut-at-brooklyn-steel"
+    ],
+    [
+     "2027-04-16",
+     [
+      "Deca Joins"
+     ],
+     "43478473-deca-joins-at-brooklyn-steel"
+    ],
+    [
+     "2027-04-23",
+     [
+      "Dogpark"
+     ],
+     "43485679-dogpark-at-brooklyn-steel"
+    ]
+   ]
+  },
+  "elsewhere": {
+   "name": "Elsewhere",
+   "address": "599 Johnson Ave",
+   "capacity": 700,
+   "city": "brooklyn",
+   "shows": [
+    [
+     "2026-11-05",
+     [
+      "Deerhoof",
+      "Mercy",
+      "MY TRIO"
+     ],
+     "43314956-deerhoof-at-elsewhere"
+    ],
+    [
+     "2026-11-06",
+     [
+      "Lime Garden"
+     ],
+     "43297331-lime-garden-at-elsewhere"
+    ],
+    [
+     "2026-11-06",
+     [
+      "Aerea",
+      "Alex Farell"
+     ],
+     "43325581-aerea-at-elsewhere"
+    ],
+    [
+     "2026-11-06",
+     [
+      "Emancipator",
+      "Lapa",
+      "Shrimpnose"
+     ],
+     "43347509-emancipator-at-elsewhere"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Kamasi Washington",
+      "Ami Taf Ra"
+     ],
+     "43409945-kamasi-washington-at-elsewhere"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Flava D",
+      "Smokey Bubblin' B"
+     ],
+     "43419929-flava-d-at-elsewhere"
+    ],
+    [
+     "2026-11-08",
+     [
+      "Arde Bogotá"
+     ],
+     "43253428-arde-bogota-at-elsewhere"
+    ],
+    [
+     "2026-11-09",
+     [
+      "A Place To Bury Strangers",
+      "Adult.",
+      "Kill Alters"
+     ],
+     "43220902-a-place-to-bury-strangers-at-elsewhere"
+    ],
+    [
+     "2026-11-13",
+     [
+      "Cut Copy"
+     ],
+     "43379257-cut-copy-at-elsewhere"
+    ],
+    [
+     "2026-11-14",
+     [
+      "Freak Slug",
+      "Mila Degray",
+      "Lucky"
+     ],
+     "43314959-freak-slug-at-elsewhere"
+    ],
+    [
+     "2026-11-14",
+     [
+      "6 Sense",
+      "X-Coast"
+     ],
+     "43365838-6-sense-at-elsewhere"
+    ],
+    [
+     "2026-11-19",
+     [
+      "Sassy 009",
+      "Lipsticism"
+     ],
+     "43256913-sassy-009-at-elsewhere"
+    ],
+    [
+     "2026-11-19",
+     [
+      "James Ivy"
+     ],
+     "43416255-james-ivy-at-elsewhere"
+    ],
+    [
+     "2026-11-20",
+     [
+      "Mel 4Ever",
+      "Brooke Candy",
+      "BbyAfricka"
+     ],
+     "43469758-mel-4ever-at-elsewhere"
+    ],
+    [
+     "2026-11-20",
+     [
+      "49th & Main",
+      "Tre Reynolds"
+     ],
+     "43441926-49th-and-main-at-elsewhere"
+    ],
+    [
+     "2026-11-21",
+     [
+      "Snakehips",
+      "Twofaced"
+     ],
+     "43318435-snakehips-at-elsewhere"
+    ],
+    [
+     "2026-12-03",
+     [
+      "Static Dress",
+      "Car Underwater",
+      "I Promised the World"
+     ],
+     "43375807-static-dress-at-elsewhere"
+    ],
+    [
+     "2026-12-05",
+     [
+      "Malibu",
+      "Kelly Moran"
+     ],
+     "43419893-malibu-at-elsewhere"
+    ],
+    [
+     "2026-12-06",
+     [
+      "Daine",
+      "Eilish Constance"
+     ],
+     "43367672-daine-at-elsewhere"
+    ],
+    [
+     "2026-12-08",
+     [
+      "Luna"
+     ],
+     "43428308-luna-at-elsewhere"
+    ],
+    [
+     "2026-12-09",
+     [
+      "They are Gutting a Body of Water",
+      "Taxidermists"
+     ],
+     "43456987-they-are-gutting-a-body-of-water-at-elsewhere"
+    ],
+    [
+     "2026-12-11",
+     [
+      "Only Fire"
+     ],
+     "43467994-only-fire-at-elsewhere"
+    ],
+    [
+     "2026-12-12",
+     [
+      "Lip Critic"
+     ],
+     "43475477-lip-critic-at-elsewhere"
+    ],
+    [
+     "2026-12-13",
+     [
+      "Into It. Over It.",
+      "Sports"
+     ],
+     "43364043-into-it-over-it-at-elsewhere"
+    ],
+    [
+     "2026-12-31",
+     [
+      "San Pacho"
+     ],
+     "43445714-san-pacho-at-elsewhere"
+    ],
+    [
+     "2027-01-23",
+     [
+      "Eli Escobar"
+     ],
+     "43455352-eli-escobar-at-elsewhere"
+    ],
+    [
+     "2027-01-27",
+     [
+      "BREE RUNWAY"
+     ],
+     "43441688-bree-runway-at-elsewhere"
+    ],
+    [
+     "2027-01-29",
+     [
+      "miss bashful"
+     ],
+     "43444368-miss-bashful-at-elsewhere"
+    ],
+    [
+     "2027-02-03",
+     [
+      "Klangkarussell"
+     ],
+     "43480305-klangkarussell-at-elsewhere"
+    ],
+    [
+     "2027-02-05",
+     [
+      "Marian Hill"
+     ],
+     "43421860-marian-hill-at-elsewhere"
+    ],
+    [
+     "2027-02-19",
+     [
+      "Ikkimel"
+     ],
+     "43423813-ikkimel-at-elsewhere"
+    ],
+    [
+     "2027-02-20",
+     [
+      "Vansire"
+     ],
+     "43349345-vansire-at-elsewhere"
+    ],
+    [
+     "2027-03-19",
+     [
+      "Tommy Lefroy"
+     ],
+     "43475540-tommy-lefroy-at-elsewhere"
+    ],
+    [
+     "2027-03-27",
+     [
+      "Camel Power Club"
+     ],
+     "43469764-camel-power-club-at-elsewhere"
+    ],
+    [
+     "2027-04-21",
+     [
+      "Valencia Grace"
+     ],
+     "43482684-valencia-grace-at-elsewhere"
+    ],
+    [
+     "2027-04-30",
+     [
+      "YEИDRY"
+     ],
+     "43474627-yeidry-at-elsewhere"
+    ]
+   ]
+  },
+  "market-hotel": {
+   "name": "Market Hotel",
+   "address": "1140 Myrtle Ave",
+   "capacity": 400,
+   "city": "brooklyn",
+   "shows": [
+    [
+     "2026-11-05",
+     [
+      "Giles Corey",
+      "Kathryn Mohr"
+     ],
+     "43373095-giles-corey-at-market-hotel"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Desire",
+      "Johnny Jewel",
+      "MOTHERMARY"
+     ],
+     "43239846-desire-at-market-hotel"
+    ],
+    [
+     "2026-11-12",
+     [
+      "P.E.E.",
+      "Gapyear",
+      "The Ritornello Form",
+      "Zachshots"
+     ],
+     "43432116-p-e-e-at-market-hotel"
+    ],
+    [
+     "2027-02-12",
+     [
+      "MISSIO",
+      "Oxymorrons"
+     ],
+     "43365164-missio-at-market-hotel"
+    ]
+   ]
+  },
+  "the-sultan-room": {
+   "name": "The Sultan Room",
+   "address": "234 Starr St",
+   "capacity": 250,
+   "city": "brooklyn",
+   "shows": [
+    [
+     "2026-11-05",
+     [
+      "MaryAnne Muglia"
+     ],
+     "43133325-maryanne-muglia-at-sultan-room"
+    ],
+    [
+     "2026-11-06",
+     [
+      "Rivkah Reyes"
+     ],
+     "43414187-rivkah-reyes-at-sultan-room"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Banshee"
+     ],
+     "43325821-banshee-at-sultan-room"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Jewel House"
+     ],
+     "43443122-jewel-house-at-sultan-room"
+    ],
+    [
+     "2026-11-08",
+     [
+      "Fenne Lily",
+      "Wilby"
+     ],
+     "43363143-fenne-lily-at-sultan-room"
+    ],
+    [
+     "2026-11-10",
+     [
+      "Franni Cash"
+     ],
+     "43416736-franni-cash-at-sultan-room"
+    ],
+    [
+     "2026-11-12",
+     [
+      "Ria"
+     ],
+     "43486912-ria-at-sultan-room"
+    ],
+    [
+     "2026-11-14",
+     [
+      "AJ Lee",
+      "Blue Summit",
+      "The Cody Sisters"
+     ],
+     "43263495-aj-lee-and-blue-summit-at-sultan-room"
+    ],
+    [
+     "2026-11-15",
+     [
+      "Tina Hand"
+     ],
+     "43421101-tina-hand-at-sultan-room"
+    ],
+    [
+     "2026-11-16",
+     [
+      "PHER"
+     ],
+     "43460911-pher-at-sultan-room"
+    ],
+    [
+     "2026-11-17",
+     [
+      "Céline Dessberg"
+     ],
+     "43416503-celine-dessberg-at-sultan-room"
+    ],
+    [
+     "2026-11-20",
+     [
+      "Anand Wilder",
+      "Babas",
+      "Lee Ranaldo",
+      "Hisham Bharoocha",
+      "Heems"
+     ],
+     "43444467-anand-wilder-at-sultan-room"
+    ],
+    [
+     "2026-11-28",
+     [
+      "Downtown Boys",
+      "Pop Music Fever Dream",
+      "Nysa",
+      "FRIDA KILL"
+     ],
+     "43398028-downtown-boys-at-sultan-room"
+    ],
+    [
+     "2026-12-02",
+     [
+      "Clover Stieve",
+      "Dani Sundream"
+     ],
+     "43477473-clover-stieve-at-sultan-room"
+    ],
+    [
+     "2026-12-05",
+     [
+      "Octave Cat"
+     ],
+     "43289174-octave-cat-at-sultan-room"
+    ],
+    [
+     "2026-12-09",
+     [
+      "Jady",
+      "Luisa Wilson"
+     ],
+     "43286389-jady-at-sultan-room"
+    ],
+    [
+     "2026-12-19",
+     [
+      "Mondo Cozmo",
+      "John Pronto"
+     ],
+     "43409358-mondo-cozmo-at-sultan-room"
+    ],
+    [
+     "2027-02-12",
+     [
+      "Doll Parts"
+     ],
+     "43480562-doll-parts-at-sultan-room"
+    ],
+    [
+     "2027-02-19",
+     [
+      "Claud"
+     ],
+     "43421129-claud-at-sultan-room"
+    ],
+    [
+     "2027-04-02",
+     [
+      "Alt Bloom",
+      "DOUBLECAMP"
+     ],
+     "43477527-alt-bloom-at-sultan-room"
+    ],
+    [
+     "2027-04-21",
+     [
+      "Gyedu-Blay Ambolley",
+      "Super Yamba Band"
+     ],
+     "43334971-gyedublay-ambolley-at-sultan-room"
+    ]
+   ]
+  },
+  "saint-vitus": {
+   "name": "Saint Vitus",
+   "address": "428 Troutman St",
+   "capacity": 500,
+   "city": "brooklyn",
+   "shows": [
+    [
+     "2026-11-04",
+     [
+      "Wolf & Bear",
+      "Coletta",
+      "Origami Button"
+     ],
+     "43361500-wolf-and-bear-at-saint-vitus-bar"
+    ],
+    [
+     "2026-11-05",
+     [
+      "Forbidden",
+      "Heathen"
+     ],
+     "43363139-forbidden-at-saint-vitus-bar"
+    ],
+    [
+     "2026-11-06",
+     [
+      "Flipper",
+      "Crippling Alcoholism",
+      "95 Bulls"
+     ],
+     "43388850-flipper-at-saint-vitus-bar"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Torche",
+      "Spotlights",
+      "Silent Mass"
+     ],
+     "43365129-torche-at-saint-vitus-bar"
+    ],
+    [
+     "2026-11-08",
+     [
+      "Torche",
+      "Dropdead",
+      "Wastelands"
+     ],
+     "43428190-torche-at-saint-vitus-bar"
+    ],
+    [
+     "2026-11-10",
+     [
+      "All Get Out",
+      "Motherfolk",
+      "Saint Blonde"
+     ],
+     "43373103-all-get-out-at-saint-vitus-bar"
+    ],
+    [
+     "2026-11-11",
+     [
+      "Mugshot",
+      "Surfaced",
+      "BIG ASS TRUCK I.E."
+     ],
+     "43373104-mugshot-at-saint-vitus-bar"
+    ],
+    [
+     "2026-11-13",
+     [
+      "Ho99o9",
+      "N8NoFace",
+      "Slay Squad"
+     ],
+     "43345319-ho99o9-at-saint-vitus-bar"
+    ],
+    [
+     "2026-11-14",
+     [
+      "Silvertomb",
+      "Blood Vulture",
+      "Somnuri"
+     ],
+     "43479547-silvertomb-at-saint-vitus-bar"
+    ],
+    [
+     "2026-11-15",
+     [
+      "High Vis",
+      "division of mind",
+      "The Final Agony"
+     ],
+     "43446961-high-vis-at-saint-vitus-bar"
+    ],
+    [
+     "2026-11-16",
+     [
+      "Dallas Wax",
+      "The Free Label",
+      "Imani Graham"
+     ],
+     "43479321-dallas-wax-at-saint-vitus-bar"
+    ],
+    [
+     "2026-11-17",
+     [
+      "Youth Code",
+      "Final Gasp"
+     ],
+     "43496921-youth-code-at-saint-vitus-bar"
+    ],
+    [
+     "2026-11-19",
+     [
+      "SKORTS",
+      "Paper Lady"
+     ],
+     "43468884-skorts-at-saint-vitus-bar"
+    ],
+    [
+     "2026-11-20",
+     [
+      "Exhumed",
+      "Jarhead Fertilizer",
+      "Savage Master",
+      "Molder"
+     ],
+     "43366899-exhumed-at-saint-vitus-bar"
+    ],
+    [
+     "2026-11-22",
+     [
+      "Raw Brigade"
+     ],
+     "43476490-raw-brigade-at-saint-vitus-bar"
+    ],
+    [
+     "2026-11-28",
+     [
+      "Integrity",
+      "Indecision",
+      "Deadguy",
+      "Neolithic"
+     ],
+     "43376958-integrity-at-saint-vitus-bar"
+    ],
+    [
+     "2026-11-29",
+     [
+      "Integrity",
+      "Most Precious Blood",
+      "Inclination"
+     ],
+     "43376959-integrity-at-saint-vitus-bar"
+    ],
+    [
+     "2026-12-03",
+     [
+      "Caspian",
+      "industries of the blind",
+      "The Infinity Ring"
+     ],
+     "43409184-caspian-at-saint-vitus-bar"
+    ],
+    [
+     "2026-12-04",
+     [
+      "Xibalba",
+      "Big Boy",
+      "division of mind",
+      "Gemstar"
+     ],
+     "43456406-xibalba-at-saint-vitus-bar"
+    ],
+    [
+     "2026-12-05",
+     [
+      "Pig Destroyer",
+      "Undeath",
+      "Couch Slut"
+     ],
+     "43348422-pig-destroyer-at-saint-vitus-bar"
+    ],
+    [
+     "2026-12-06",
+     [
+      "Pig Destroyer",
+      "Undeath",
+      "Couch Slut"
+     ],
+     "43355056-pig-destroyer-at-saint-vitus-bar"
+    ],
+    [
+     "2026-12-07",
+     [
+      "mareux"
+     ],
+     "43364970-mareux-at-saint-vitus-bar"
+    ],
+    [
+     "2026-12-08",
+     [
+      "mareux",
+      "Future Nobodies"
+     ],
+     "43458166-mareux-at-saint-vitus-bar"
+    ],
+    [
+     "2026-12-10",
+     [
+      "Cinder Well"
+     ],
+     "43338374-cinder-well-at-saint-vitus-bar"
+    ],
+    [
+     "2026-12-11",
+     [
+      "Darkest Hour",
+      "Judiciary",
+      "Nehemiah"
+     ],
+     "43431894-darkest-hour-at-saint-vitus-bar"
+    ],
+    [
+     "2026-12-13",
+     [
+      "Whores."
+     ],
+     "43443350-whores-at-saint-vitus-bar"
+    ],
+    [
+     "2026-12-16",
+     [
+      "Eyehategod",
+      "Mélissa",
+      "Sunrot"
+     ],
+     "43477380-eyehategod-at-saint-vitus-bar"
+    ],
+    [
+     "2026-12-17",
+     [
+      "108",
+      "Soma",
+      "Ache"
+     ],
+     "43443155-108-at-saint-vitus-bar"
+    ],
+    [
+     "2026-12-18",
+     [
+      "Texas Is The Reason",
+      "Garden Variety",
+      "Common Sage"
+     ],
+     "43463020-texas-is-the-reason-at-saint-vitus-bar"
+    ],
+    [
+     "2026-12-19",
+     [
+      "LS DUNES",
+      "Blood Vulture"
+     ],
+     "43465492-ls-dunes-at-saint-vitus-bar"
+    ],
+    [
+     "2026-12-20",
+     [
+      "LS DUNES"
+     ],
+     "43465494-ls-dunes-at-saint-vitus-bar"
+    ],
+    [
+     "2027-01-08",
+     [
+      "The World Is a Beautiful Place & I Am No Longer Afraid to Die",
+      "Snowing"
+     ],
+     "43499868-world-is-a-beautiful-place-and-i-am-no-longer-afraid-to-die-at-saint-vitus-bar"
+    ],
+    [
+     "2027-01-09",
+     [
+      "Soul Blind",
+      "The Bleed",
+      "The Virgos",
+      "MX Lonely"
+     ],
+     "43500038-soul-blind-at-saint-vitus-bar"
+    ],
+    [
+     "2027-01-19",
+     [
+      "Thursday",
+      "Titus Andronicus"
+     ],
+     "43451728-thursday-at-saint-vitus-bar"
+    ],
+    [
+     "2027-02-04",
+     [
+      "Cave In",
+      "Glacier"
+     ],
+     "43495594-cave-in-at-saint-vitus-bar"
+    ],
+    [
+     "2027-02-05",
+     [
+      "Crooked Fingers"
+     ],
+     "43489489-crooked-fingers-at-saint-vitus-bar"
+    ],
+    [
+     "2027-02-07",
+     [
+      "portrayal of guilt"
+     ],
+     "43464630-portrayal-of-guilt-at-saint-vitus-bar"
+    ],
+    [
+     "2027-03-27",
+     [
+      "Metal Church",
+      "Armored Saint"
+     ],
+     "43431920-metal-church-at-saint-vitus-bar"
+    ]
+   ]
+  },
+  "warsaw": {
+   "name": "Warsaw",
+   "address": "261 Driggs Ave",
+   "capacity": 1000,
+   "city": "brooklyn",
+   "shows": [
+    [
+     "2026-11-05",
+     [
+      "Honey Revenge",
+      "Dead Poet Society",
+      "Broadside"
+     ],
+     "43341049-honey-revenge-at-warsaw"
+    ],
+    [
+     "2026-11-06",
+     [
+      "Pretty Sick",
+      "Computerwife"
+     ],
+     "43364969-pretty-sick-at-warsaw"
+    ],
+    [
+     "2026-11-10",
+     [
+      "The Afghan Whigs"
+     ],
+     "43254093-afghan-whigs-at-warsaw"
+    ],
+    [
+     "2026-11-11",
+     [
+      "Joy Oladokun"
+     ],
+     "43341109-joy-oladokun-at-warsaw"
+    ],
+    [
+     "2026-11-12",
+     [
+      "This is Lorelei",
+      "Star Moles"
+     ],
+     "43242539-this-is-lorelei-at-warsaw"
+    ],
+    [
+     "2026-11-13",
+     [
+      "Die Spitz"
+     ],
+     "43065899-die-spitz-at-warsaw"
+    ],
+    [
+     "2026-11-13",
+     [
+      "Faetooth"
+     ],
+     "43451108-faetooth-at-warsaw"
+    ],
+    [
+     "2026-11-14",
+     [
+      "Die Spitz"
+     ],
+     "43071083-die-spitz-at-warsaw"
+    ],
+    [
+     "2026-11-14",
+     [
+      "Faetooth"
+     ],
+     "43451109-faetooth-at-warsaw"
+    ],
+    [
+     "2026-11-16",
+     [
+      "El Cuarteto de Nos"
+     ],
+     "42941415-el-cuarteto-de-nos-at-warsaw"
+    ],
+    [
+     "2026-11-21",
+     [
+      "Fox Stevenson",
+      "Mystery Skulls"
+     ],
+     "43385709-fox-stevenson-at-warsaw"
+    ],
+    [
+     "2026-11-24",
+     [
+      "Danna Paola"
+     ],
+     "43395284-danna-paola-at-warsaw"
+    ],
+    [
+     "2026-11-25",
+     [
+      "Danna Paola"
+     ],
+     "43410707-danna-paola-at-warsaw"
+    ],
+    [
+     "2026-12-02",
+     [
+      "Temples"
+     ],
+     "43153064-temples-at-warsaw"
+    ],
+    [
+     "2026-12-02",
+     [
+      "GIFT"
+     ],
+     "43218948-gift-usa-at-warsaw"
+    ],
+    [
+     "2026-12-03",
+     [
+      "Autumn"
+     ],
+     "43413997-autumn-at-warsaw"
+    ],
+    [
+     "2026-12-09",
+     [
+      "Eloise",
+      "Amelie Lucille"
+     ],
+     "43320695-eloise-at-warsaw"
+    ],
+    [
+     "2026-12-10",
+     [
+      "They are Gutting a Body of Water",
+      "Taxidermists"
+     ],
+     "43227827-they-are-gutting-a-body-of-water-at-warsaw"
+    ],
+    [
+     "2026-12-12",
+     [
+      "The Bouncing Souls",
+      "The Suicide Machines",
+      "The Flatliners",
+      "The Jack Knives"
+     ],
+     "43333279-bouncing-souls-at-warsaw"
+    ],
+    [
+     "2026-12-13",
+     [
+      "Tamar Braxton"
+     ],
+     "43406642-tamar-braxton-at-warsaw"
+    ],
+    [
+     "2026-12-16",
+     [
+      "Night Lovell",
+      "1nonly"
+     ],
+     "43438328-night-lovell-at-warsaw"
+    ],
+    [
+     "2026-12-17",
+     [
+      "LAZER DIM 700"
+     ],
+     "43491617-lazer-dim-700-at-warsaw"
+    ],
+    [
+     "2026-12-18",
+     [
+      "Senses Fail",
+      "Initiate"
+     ],
+     "43290777-senses-fail-at-warsaw"
+    ],
+    [
+     "2026-12-19",
+     [
+      "Senses Fail",
+      "One Step Closer",
+      "Initiate"
+     ],
+     "43428497-senses-fail-at-warsaw"
+    ],
+    [
+     "2027-01-22",
+     [
+      "3l3d3p"
+     ],
+     "43475040-3l3d3p-at-warsaw"
+    ],
+    [
+     "2027-02-20",
+     [
+      "strongboi",
+      "Salami Rose Joe Louis"
+     ],
+     "43270798-strongboi-at-warsaw"
+    ],
+    [
+     "2027-03-05",
+     [
+      "Death from Above 1979"
+     ],
+     "43227509-death-from-above-1979-at-warsaw"
+    ],
+    [
+     "2027-03-14",
+     [
+      "Raleigh Ritchie"
+     ],
+     "43472465-raleigh-ritchie-at-warsaw"
+    ],
+    [
+     "2027-03-15",
+     [
+      "Raleigh Ritchie"
+     ],
+     "43480131-raleigh-ritchie-at-warsaw"
+    ],
+    [
+     "2027-03-26",
+     [
+      "Destroy Boys",
+      "illuminati hotties",
+      "The Rat Utopia Experiment"
+     ],
+     "43485101-destroy-boys-at-warsaw"
+    ],
+    [
+     "2027-04-09",
+     [
+      "VNV Nation"
+     ],
+     "42844545-vnv-nation-at-warsaw"
+    ],
+    [
+     "2027-04-14",
+     [
+      "susannah joffe"
+     ],
+     "43487401-susannah-joffe-at-warsaw"
+    ],
+    [
+     "2027-04-17",
+     [
+      "DIIV",
+      "Spirit of the Beehive"
+     ],
+     "43489438-diiv-at-warsaw"
     ]
    ]
   }
