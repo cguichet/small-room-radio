@@ -359,7 +359,8 @@ function createKalimbaCore(sampleRate, opt) {
   // 16-channel analog mux whose address is a counter running off the 25 kHz sustain clock, sampled at random by the blips.
   // Target sets, by note number counted from the left (1 = D3 ... 11 = D5).
   var DN_SETS = { all: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], odd: [1, 3, 5, 7, 9, 11], even: [2, 4, 6, 8, 10],
-    s4: [1, 3, 4, 6, 8, 9, 11], s5: [2, 4, 5, 7, 9, 10], s6: [3, 5, 6, 8, 10, 11], s7: [4, 6, 7, 9, 11] };
+    s4: [1, 3, 4, 6, 8, 9, 11], s5: [2, 4, 5, 7, 9, 10], s6: [3, 5, 6, 8, 10, 11], s7: [4, 6, 7, 9, 11],
+    low: [1, 2, 3, 4, 5, 6], high: [6, 7, 8, 9, 10, 11], roots: [1, 6, 11], fifths: [1, 4, 6, 9, 11], one: [6] };
   var dnSet = 'all', dnRandom = 0, dnTarget = -1, dnMask = new Uint8Array(N), dnPick = [];
   function dnSetMask() {
     dnPick = []; for (var i = 0; i < N; i++) dnMask[i] = 0;

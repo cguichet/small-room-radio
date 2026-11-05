@@ -503,6 +503,29 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 .epad.down{box-shadow:inset 0 0 0 2px var(--pad-ink)}
 .eselect{font:600 calc(var(--u) * .62)/1 var(--f-body);color:var(--lbl);background:transparent;border:calc(var(--u) * .08) solid color-mix(in srgb,var(--lbl) 55%,transparent);border-radius:calc(var(--u) * .25);padding:0 calc(var(--u) * .3)}
 .eselect option{color:#1d1e20}
+/* voice lamps along the very top: each voice's level LED */
+.elamp{--led:0;transform:translate(-50%,-50%);width:calc(var(--u) * .9);height:calc(var(--u) * .9);border-radius:50%;background:var(--velo);pointer-events:none}
+.elamp::before,.elamp::after{content:"";position:absolute;inset:20%;border-radius:50%}
+.elamp::before{background:var(--lamp-off)} .elamp::after{background:var(--lamp-on);box-shadow:0 0 calc(var(--u) * .45) calc(var(--u) * .12) var(--lamp-on);opacity:var(--led)}
+/* register: a three-position slide switch, Bass, Tenor, Alto */
+.ereg{--pos:1;display:grid;grid-template-columns:repeat(3,1fr)}
+.ereg button{position:relative;z-index:1;border:0;background:none;padding:0;cursor:pointer;color:var(--lbl);display:flex;align-items:flex-start;justify-content:center;
+  font:600 calc(var(--u) * .62)/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;opacity:.7}
+.ereg button[aria-checked="true"]{opacity:1;color:var(--copper-d)}
+:root[data-theme="dark"] .ereg button[aria-checked="true"]{color:var(--copper)}
+.ereg button:focus-visible{outline:2px solid var(--orange);outline-offset:2px;border-radius:3px}
+.ereg .eslot{position:absolute;left:12%;right:12%;bottom:0;height:calc(var(--u) * 1.0);border-radius:999px;background:#0b0b0b;box-shadow:inset 0 1px 2px #000,0 1px 0 rgba(255,255,255,.35);pointer-events:none}
+.ereg .ecap{position:absolute;top:calc(var(--u) * -.15);height:calc(var(--u) * 1.3);width:calc(var(--u) * 2.4);border-radius:calc(var(--u) * .35);
+  left:calc((100% - var(--u) * 2.4) * var(--pos) / 2);transition:left .14s ease;
+  background:radial-gradient(circle at 38% 30%,var(--k-hi),var(--k-mid) 55%,var(--k-lo));box-shadow:0 calc(var(--u) * .15) 0 var(--k-edge),0 calc(var(--u) * .3) calc(var(--u) * .45) rgba(0,0,0,.45)}
+.ereg .ecap::after{content:"";position:absolute;left:50%;top:20%;bottom:20%;width:calc(var(--u) * .14);margin-left:calc(var(--u) * -.07);border-radius:2px;background:var(--idx)}
+/* drone type: two lit buttons */
+.ebtn[aria-checked="true"]{color:var(--copper-d);border-color:var(--copper)}
+:root[data-theme="dark"] .ebtn[aria-checked="true"]{color:var(--copper)}
+/* bend: a copper tether from where the pad was struck up to the pointer */
+.etether{position:absolute;width:2px;margin-left:-1px;height:0;background:var(--pad-ink);box-shadow:0 0 4px rgba(240,137,58,.8);pointer-events:none;z-index:2}
+.etether::before{content:"";position:absolute;left:50%;bottom:-5px;width:10px;height:10px;margin-left:-5px;border-radius:50%;border:2px solid var(--pad-ink);box-sizing:border-box}
+.epad b .bd{color:var(--copper)}
 /* about eGuzheng, in place of the venues and listings */
 .egzabout{display:none}
 .egzmode .egzabout{display:block}
@@ -563,8 +586,9 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 </div></section>
 <section class="egzabout" id="egzAbout"><div class="in">
   <h2>eGuzheng</h2>
-  <p>Eleven analog resonators, D3 to D5 in D major pentatonic, played here by a model of Sound Workshop's bridged-T circuit.</p>
-  <p>Tap a pad to strike its note: higher on the pad is a harder tap. Touch a drone strip to make that voice drone, softly low on the strip and fully near the top; tap the finger again to lift it. Decay sets how long struck notes ring, Saw leans every voice toward a sawtooth, and dust noise adds crackle or scatters random strikes across the notes. Keys A to ' strike the notes too.</p>
+  <p>Synthesizer instrument inspired by &ldquo;less notes&rdquo; instruments like Kalimba, Hand Pan, and Guzheng.</p>
+  <p>Eleven analog resonators in D major pentatonic, played here by a model of Sound Workshop's bridged-T circuit. Tap a pad to strike its note: higher on the pad is a harder tap. Hold it down and drag upward to bend the note. Bass, Tenor and Alto move all eleven notes down or up an octave.</p>
+  <p>Touch a drone strip to make that voice drone, softly low on the strip and fully near the top; tap the finger again to lift it. Self-oscillation feeds each voice its own output until it sings on its own; Noise agitation blows white noise through each resonator, which picks its own note out of it. Decay sets how long struck notes ring, Saw leans every voice toward a sawtooth, and dust noise adds crackle or scatters random strikes across the notes you choose. Keys A to ' strike the notes too.</p>
 </div></section>
 <section class="digital"><div class="in">
   <div class="below">
@@ -1538,8 +1562,10 @@ function rainFrame(){
 
 /* ---------- eGuzheng: the radio's third mode ----------
    Eleven bridged-T resonators, D3 to D5 in D major pentatonic, struck from copper pads, droned from touch strips
-   that feed each voice's own output back to its + input, and scattered by dust noise. The sound is Sound Workshop's
-   circuit model (egz-worklet.js), sample by sample. Saw is the self-FM skew on the bridged-T (the chopped trimmer feed). */
+   that either feed each voice's own output back to its + input (self-oscillation) or carry shared white noise into it
+   (noise agitation: the resonator is the voice's band-pass), and scattered by dust noise. The sound is Sound Workshop's
+   circuit model (egz-worklet.js), sample by sample. Saw is the idealised self-FM time warp, the one the circuit chase
+   started from: it leans every voice toward a sawtooth without moving its pitch. */
 const EGZ_N=11, EGZ_NAMES=["D3","E3","F♯3","A3","B3","D4","E4","F♯4","A4","B4","D5"];
 const EGZ_KEYS=["KeyA","KeyS","KeyD","KeyF","KeyG","KeyH","KeyJ","KeyK","KeyL","Semicolon","Quote"], EGZ_CAPS=["A","S","D","F","G","H","J","K","L",";","'"];
 // Face layout, cm from the plate's top-left corner
@@ -1547,46 +1573,81 @@ const EFACE={
   wide:{w:71.2,h:39.2,scope:[2.2,2.2,17.2,5.6],
     knobs:{gain:[6.5,11.4,4.4],level:[15.1,11.4,4.4],dens:[6.4,21.9,4.4],dust:[14.9,20.3,3.2],hit:[14.9,26.0,3.2],skew:[6.5,33.0,4.6],sus:[15.1,33.0,4.6]},
     dustBox:[2.2,17.0,17.2,12.0], select:[2.8,26.7,7.2,1.6],
-    trim:[21.6,2.2,47.4,12.2], strips:[21.6,15.4,47.4,8.4], pads:[21.6,25.0,47.4,12.0]},
+    lamps:[21.6,2.2,47.4,1.5], trim:[21.6,4.5,47.4,11.0], droneHead:[21.6,16.1,47.4,1.4], strips:[21.6,17.7,47.4,8.0], pads:[21.6,26.4,47.4,10.6]},
   tall:{w:40.2,h:76.2,scope:[2.2,2.2,35.8,5.4],
     knobs:{gain:[6.7,11.6,4.4],level:[15.6,11.6,4.4],skew:[24.6,11.6,4.4],sus:[33.5,11.6,4.4],dens:[7.0,20.3,4.0],dust:[15.6,20.3,3.6],hit:[24.0,20.3,3.6]},
     dustBox:[2.2,16.6,35.8,7.9], select:[28.4,19.5,8.8,1.7],
-    trim:[2.2,26.2,35.8,13.0], strips:[2.2,40.8,35.8,9.6], pads:[2.2,52.0,35.8,22.0]}};
+    lamps:[2.2,25.5,35.8,1.5], trim:[2.2,27.8,35.8,12.4], droneHead:[2.2,40.8,35.8,1.4], strips:[2.2,42.4,35.8,9.2], pads:[2.2,52.4,35.8,21.6]}};
+const EGZ_OCT={bass:-1,tenor:0,alto:1};
+const egzNames=()=>{const o=EGZ_OCT[es.reg]||0; return EGZ_NAMES.map(n=>n.replace(/\d$/,d=>String(+d+o)))};
+// the notes "To random" and "To crackle" can reach, by voice number (1 is the lowest)
+const EGZ_SETS=[["all","All notes"],["odd","Odd notes"],["even","Even notes"],["low","Lower six"],["high","Upper six"],["roots","D notes only"],["fifths","D and A"],
+  ["s4","D F♯ A"],["s5","E A B"],["s6","B D F♯"],["s7","A D E"],["one","Middle D only"]];
+// drone strips: self-oscillation is scaled down so the strip needs a firmer, higher touch for the same drone;
+// noise agitation drives each resonator from shared white noise, and the resonator is the voice's own band-pass
+const TD_SCALE=.35, BR_SCALE=5;
 const EGZ_LABELS={gain:"Gain",level:"Attenuation",dens:"Density",dust:"To crackle",hit:"To random",skew:"Saw",sus:"Decay"};
 let egzMode=false, eref=null, ectx=null, enode=null, eStarting=null, eAnalyser=null;
 let emeters={lv:new Array(EGZ_N).fill(0),led:new Array(EGZ_N).fill(0),clip:0};
-let es={trim:new Array(EGZ_N).fill(0),gain:.45,level:.8,sus:.72,dens:.4,dust:0,hit:0,ds:"all",skew:0};
+let es={trim:new Array(EGZ_N).fill(0),gain:.45,level:.8,sus:.72,dens:.4,dust:0,hit:0,ds:"all",skew:0,reg:"tenor",dm:"self"};
 try{const s=store.get("egz",null); if(s) for(const k in es) if(k in s){ if(k==="trim"){ if(Array.isArray(s.trim)&&s.trim.length===EGZ_N) es.trim=s.trim.map(x=>Math.max(-1,Math.min(1,+x||0))) }
-  else if(k==="ds") es.ds=String(s.ds); else if(isFinite(s[k])) es[k]=Math.max(0,Math.min(1,+s[k])) }}catch(e){}
+  else if(k==="ds"){ if(EGZ_SETS.some(o=>o[0]===s.ds)) es.ds=s.ds }
+  else if(k==="reg"){ if(s.reg in EGZ_OCT) es.reg=s.reg } else if(k==="dm"){ if(s.dm==="self"||s.dm==="noise") es.dm=s.dm }
+  else if(isFinite(s[k])) es[k]=Math.max(0,Math.min(1,+s[k])) }}catch(e){}
 const egzSave=()=>store.set("egz",es);
-const ePadP=new Array(EGZ_N).fill(0), eTouchG=new Array(EGZ_N).fill(0), eFinger=new Array(EGZ_N).fill(null);
+const ePadP=new Array(EGZ_N).fill(0), eTouchG=new Array(EGZ_N).fill(0), eBreathG=new Array(EGZ_N).fill(0), eFinger=new Array(EGZ_N).fill(null), eBendX=new Array(EGZ_N).fill(0);
+let eWorklet=null;
+const egzRef=()=>createKalimbaCore(48000,{octave:EGZ_OCT[es.reg]||0,spread:0,skewHw:false});
 
 function loadEgzCore(){
   if(window.createKalimbaCore) return Promise.resolve();
-  return new Promise((res,rej)=>{const s=document.createElement("script");s.src="egz-core.js";s.onload=()=>{eref=createKalimbaCore(48000,{octave:0,spread:0,skewHw:true});res();renderEgz()};s.onerror=rej;document.head.appendChild(s)});
+  return new Promise((res,rej)=>{const s=document.createElement("script");s.src="egz-core.js";s.onload=()=>{eref=egzRef();res();renderEgz()};s.onerror=rej;document.head.appendChild(s)});
 }
 function epost(m){ if(enode) enode.port.postMessage(m) }
 function egzPushAll(){
-  for(let i=0;i<EGZ_N;i++){epost({t:"tune",i,s:es.trim[i]});epost({t:"pad",i,p:ePadP[i]});epost({t:"bend",i,x:0});epost({t:"touch",i,g:eTouchG[i]});epost({t:"breath",i,g:0})}
+  for(let i=0;i<EGZ_N;i++){epost({t:"tune",i,s:es.trim[i]});epost({t:"pad",i,p:ePadP[i]});epost({t:"bend",i,x:eBendX[i]});epost({t:"touch",i,g:eTouchG[i]});epost({t:"breath",i,g:eBreathG[i]})}
   epost({t:"gain",x:es.gain});epost({t:"level",x:es.level});epost({t:"sustain",x:es.sus});epost({t:"lim",x:0});epost({t:"ot",x:0});epost({t:"skew",x:es.skew});
   epost({t:"dens",x:es.dens});epost({t:"dust",x:es.dust});epost({t:"hit",x:es.hit});epost({t:"route",v:true,m:true});epost({t:"targets",s:es.ds});
 }
+// The register is part of the circuit (Bass, Tenor and Alto swap the resonators' capacitors), so changing it builds a new voice bank.
+function makeEgzNode(){
+  const oct=EGZ_OCT[es.reg]||0;
+  if(eWorklet) try{
+    const n=new AudioWorkletNode(ectx,"kalimba",{numberOfInputs:0,numberOfOutputs:1,outputChannelCount:[2],processorOptions:{octave:oct,spread:0,hw:false}});
+    n.port.onmessage=e=>{if(n!==enode)return;emeters.lv=e.data.lv;emeters.led=e.data.led;if(e.data.clip>emeters.clip)emeters.clip=e.data.clip};
+    return n;
+  }catch(err){ eWorklet=false }
+  // older browsers: the same model on the main thread
+  const core=createKalimbaCore(ectx.sampleRate,{octave:oct,spread:0,skewHw:false}), sp=ectx.createScriptProcessor(1024,1,2);
+  sp.onaudioprocess=ev=>{const a=ev.outputBuffer.getChannelData(0);core.process(a,a.length);ev.outputBuffer.getChannelData(1).set(a);
+    const m=core.meters(); if(m.clip>emeters.clip)emeters.clip=m.clip; for(let i=0;i<EGZ_N;i++){emeters.lv[i]=core.levels[i];emeters.led[i]=core.leds[i]}};
+  return {port:{postMessage:m=>applyMsg(core,m)},connect:x=>sp.connect(x),disconnect:()=>sp.disconnect()};
+}
 async function startEgzNode(){
   await loadEgzCore();
-  try{
-    if(!ectx.audioWorklet) throw new Error("no worklet");
-    await ectx.audioWorklet.addModule("egz-worklet.js");
-    enode=new AudioWorkletNode(ectx,"kalimba",{numberOfInputs:0,numberOfOutputs:1,outputChannelCount:[2],processorOptions:{octave:0,spread:0,hw:true}});
-    enode.port.onmessage=e=>{emeters.lv=e.data.lv;emeters.led=e.data.led;if(e.data.clip>emeters.clip)emeters.clip=e.data.clip};
-  }catch(err){   // older browsers: the same model on the main thread
-    const core=createKalimbaCore(ectx.sampleRate,{octave:0,spread:0,skewHw:true}), sp=ectx.createScriptProcessor(1024,1,2);
-    sp.onaudioprocess=ev=>{const a=ev.outputBuffer.getChannelData(0);core.process(a,a.length);ev.outputBuffer.getChannelData(1).set(a);
-      const m=core.meters(); if(m.clip>emeters.clip)emeters.clip=m.clip; for(let i=0;i<EGZ_N;i++){emeters.lv[i]=core.levels[i];emeters.led[i]=core.leds[i]}};
-    enode={port:{postMessage:m=>applyMsg(core,m)},connect:x=>sp.connect(x)};
-  }
-  egzPushAll();
+  try{ if(!ectx.audioWorklet) throw new Error("no worklet"); await ectx.audioWorklet.addModule("egz-worklet.js"); eWorklet=true }catch(err){ eWorklet=false }
+  enode=makeEgzNode(); egzPushAll();
   eAnalyser=ectx.createAnalyser(); eAnalyser.fftSize=2048; eAnalyser.smoothingTimeConstant=0;
   enode.connect(eAnalyser); enode.connect(ectx.destination);
+}
+function setReg(r){
+  if(!(r in EGZ_OCT)) return; const same=r===es.reg; es.reg=r; egzSave(); renameEgz(); renderEgz();
+  if(same) return;
+  if(window.createKalimbaCore) eref=egzRef();
+  if(enode&&eWorklet!==null){ const old=enode; enode=makeEgzNode(); egzPushAll(); enode.connect(eAnalyser); enode.connect(ectx.destination);
+    emeters.lv.fill(0); emeters.led.fill(0); try{old.disconnect()}catch(e){} }
+  renderEgz();
+}
+function renameEgz(){
+  const nm=egzNames();
+  for(let i=0;i<EGZ_N;i++){
+    eAll(`.enote[data-i="${i}"]`).forEach(el=>el.textContent=nm[i]);
+    eAll(`.epad[data-i="${i}"] b .nn`).forEach(el=>el.textContent=nm[i]);
+    eAll(`.etrim[data-i="${i}"]`).forEach(el=>el.setAttribute("aria-label","Tune "+nm[i]));
+    eAll(`.estrip[data-i="${i}"]`).forEach(el=>el.setAttribute("aria-label","Drone strip "+nm[i]));
+  }
+  eAll(".ereg").forEach(g=>{g.style.setProperty("--pos",["bass","tenor","alto"].indexOf(es.reg));
+    g.querySelectorAll("[data-reg]").forEach(b=>b.setAttribute("aria-checked",b.dataset.reg===es.reg))});
 }
 function egzAudio(on){
   if(!on){ if(ectx) ectx.suspend().catch(()=>{}); return }
@@ -1625,6 +1686,7 @@ function renderEgz(){
     eAll(`.etrim[data-i="${i}"]`).forEach(el=>{el.style.setProperty("--s",es.trim[i]); el.setAttribute("aria-valuetext",txt+" semitones")});
     eAll(`.eoff[data-i="${i}"]`).forEach(el=>{el.textContent=txt; el.classList.toggle("moved",Math.abs(st)>=.005)}) }
   eAll(".eselect").forEach(s=>s.value=es.ds);
+  eAll("[data-dm]").forEach(b=>b.setAttribute("aria-checked",b.dataset.dm===es.dm));
   eAll(".rain-msg").forEach(m=>m.hidden=power);
 }
 function bindEKnob(el,k){
@@ -1650,6 +1712,8 @@ function bindETrim(el,i){
 /* drone strips (from the e-guzheng R&D board): ten 5 mm copper pads per voice on a series ladder from the voice's clipped
    output; a 10 mm fingertip bridges the pads it covers to a return that reaches the + input through 100k. Pad 1, at the bottom, is softest. */
 const TD_CHAIN=[910e3,750e3,680e3,560e3,510e3,430e3,390e3,330e3,270e3,1100e3], TD_ESD=100e3, TD_KICK=.03, TD_SKIN=3e5;
+const BR_CHAIN=[910e3,680e3,560e3,430e3,330e3,240e3,200e3,150e3,120e3,100e3], BR_SRC=1e3;   // the same strip wired for noise: the comb carries it to the + input
+function setDroneMode(m){ if(m!=="self"&&m!=="noise") return; es.dm=m; egzSave(); for(let i=0;i<EGZ_N;i++) if(eFinger[i]!==null) setFinger(i,eFinger[i]); renderEgz() }
 function ladderG(chain,yc,rSkin,rEsd){
   const NP=10,PAD=5,RAD=5; let i,j,k;
   const band=(y0,y1)=>{const F=t=>{t=Math.max(-1,Math.min(1,t));return (t*Math.sqrt(1-t*t)+Math.asin(t))/Math.PI+.5};return Math.max(0,F((y1-yc)/RAD)-F((y0-yc)/RAD))};
@@ -1669,7 +1733,9 @@ function setFinger(i,y){
   eAll(`.estrip[data-i="${i}"]`).forEach(el=>{el.classList.toggle("touched",on); if(on) el.style.setProperty("--fy",((57-y)/64).toFixed(4));
     el.querySelectorAll("i.pd").forEach((pd,k)=>{const lo=k*5,hi=lo+5;pd.classList.toggle("on",on&&y+5>lo&&y-5<hi)});
     el.setAttribute("aria-valuenow",on?Math.max(1,Math.min(10,Math.floor(y/5)+1)):0)});
-  eTouchG[i]=on?ladderG(TD_CHAIN,y,TD_SKIN,TD_ESD):0; epost({t:"touch",i,g:eTouchG[i]});
+  const self=es.dm!=="noise";
+  eTouchG[i]=on&&self?TD_SCALE*ladderG(TD_CHAIN,y,TD_SKIN,TD_ESD):0; eBreathG[i]=on&&!self?BR_SCALE*ladderG(BR_CHAIN,y,TD_SKIN,BR_SRC):0;
+  epost({t:"touch",i,g:eTouchG[i]}); epost({t:"breath",i,g:eBreathG[i]});
   if(on&&!was&&eTouchG[i]>0) epost({t:"tkick",i,x:TD_KICK});
 }
 function bindEStrip(el,i){
@@ -1683,7 +1749,8 @@ function bindEStrip(el,i){
     if(st){e.preventDefault();e.stopPropagation();setFinger(i,eFinger[i]===null?(st>0?2.5:47.5):Math.max(-5,Math.min(55,eFinger[i]+st)))}
     else if(e.key==="Escape"||e.key==="Delete"||e.key==="Backspace"){e.preventDefault();setFinger(i,null)}});
 }
-/* strike pads: higher on a pad is a harder tap */
+/* strike pads: higher on a pad is a harder tap. Keep the button (or finger) down and drag upward to bend that note,
+   as the R&D board's spring-return slider does: up to 3 semitones, and it springs back on release. */
 const ePointers=new Map(), eKeys={};
 function eRecompute(){
   const want=new Array(EGZ_N).fill(0);
@@ -1691,11 +1758,24 @@ function eRecompute(){
   for(const c in eKeys){const k=EGZ_KEYS.indexOf(c); if(k>=0) want[k]=Math.max(want[k],eKeys[c])}
   for(let i=0;i<EGZ_N;i++) if(want[i]!==ePadP[i]){ePadP[i]=want[i];epost({t:"pad",i,p:want[i]});eAll(`.epad[data-i="${i}"]`).forEach(c=>c.classList.toggle("down",want[i]>0))}
 }
+function eBendRecompute(){
+  const want=new Array(EGZ_N).fill(0); ePointers.forEach(pt=>{want[pt.col]=Math.max(want[pt.col],pt.bx||0)});
+  for(let i=0;i<EGZ_N;i++) if(want[i]!==eBendX[i]){ eBendX[i]=want[i]; epost({t:"bend",i,x:want[i]});
+    const st=want[i]>.004&&eref?eref.bendAt(i,es.trim[i],want[i]):0;
+    eAll(`.epad[data-i="${i}"] b .bd`).forEach(el=>el.textContent=st?" +"+st.toFixed(1):"") }
+}
 function bindEPads(host){
   const at=e=>{const r=host.getBoundingClientRect(); return {col:Math.max(0,Math.min(EGZ_N-1,Math.floor((e.clientX-r.left)/r.width*EGZ_N))), p:.1+.9*Math.max(0,Math.min(1,(r.bottom-e.clientY)/r.height))}};
-  host.addEventListener("pointerdown",e=>{e.preventDefault();host.focus({preventScroll:true});host.setPointerCapture(e.pointerId);ePointers.set(e.pointerId,{...at(e),t0:performance.now()});eRecompute()});
+  host.addEventListener("pointerdown",e=>{if(e.pointerType==="mouse"&&e.button!==0)return; e.preventDefault();host.focus({preventScroll:true});host.setPointerCapture(e.pointerId);
+    const r=host.getBoundingClientRect(), tt=document.createElement("span"); tt.className="etether"; tt.style.left=(e.clientX-r.left)+"px"; tt.style.top=(e.clientY-r.top)+"px"; host.appendChild(tt);
+    ePointers.set(e.pointerId,{...at(e),t0:performance.now(),y0:e.clientY,travel:Math.max(60,r.height*.8),bx:0,tt});eRecompute()});
+  host.addEventListener("pointermove",e=>{const pt=ePointers.get(e.pointerId); if(!pt||!host.hasPointerCapture(e.pointerId)) return;
+    if(e.pointerType==="mouse"&&e.buttons===0) return rel(e);
+    const up=Math.max(0,pt.y0-e.clientY); pt.bx=Math.min(1,up/pt.travel); pt.tt.style.height=Math.min(up,pt.travel)+"px"; pt.tt.style.transform=`translateY(-${Math.min(up,pt.travel)}px)`; eBendRecompute()});
   const rel=e=>{const pt=ePointers.get(e.pointerId); if(!pt) return; const held=performance.now()-pt.t0, id=e.pointerId;
+    if(pt.bx){pt.bx=0;eBendRecompute()} pt.tt.remove();   // the spring
     const drop=()=>{if(ePointers.get(id)===pt){ePointers.delete(id);eRecompute()}}; if(held<35) setTimeout(drop,35-held); else drop()};  // a tap still needs time to charge the cap
+  host.addEventListener("lostpointercapture",rel);
   host.addEventListener("pointerup",rel); host.addEventListener("pointercancel",rel);
   host.addEventListener("contextmenu",e=>e.preventDefault());
 }
@@ -1717,23 +1797,32 @@ function egzFaceHTML(v){
   for(const [k,[x,y,d]] of Object.entries(F.knobs)){const ring=d*1.25;
     h+=`<div class="rknob eknob" data-k="${k}" role="slider" tabindex="0" aria-label="${EGZ_LABELS[k]}" aria-valuemin="0" aria-valuemax="100" style="left:${cm(x-ring/2)};top:${cm(y-ring/2)};width:${cm(ring)};height:${cm(ring)}"><svg viewBox="0 0 100 100" aria-hidden="true">${T}</svg><span class="body"><span class="ri"><i></i></span></span></div>`
       +lab(x,y+ring/2+.55,EGZ_LABELS[k],d<4.2?" sm":"")}
-  {const s=F.select; h+=`<select class="eselect" aria-label="Notes the dust reaches" style="${box(s)}"><option value="all">All notes</option><option value="odd">Odd notes</option><option value="even">Even notes</option><option value="s4">D major chord tones</option><option value="s6">B minor chord tones</option></select>`}
+  {const s=F.select; h+=`<select class="eselect" aria-label="Notes the dust noise reaches" style="${box(s)}">${EGZ_SETS.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join("")}</select>`}
+  const NM=egzNames();
+  // voice lamps, along the very top, one over each column
+  {const [x0,y0,w,hh]=F.lamps, cw=w/EGZ_N; h+=`<span class="ewell elamps" style="${box(F.lamps)}"></span>`;
+   for(let i=0;i<EGZ_N;i++) h+=`<i class="elamp" data-i="${i}" style="left:${cm(x0+cw*(i+.5))};top:${cm(y0+hh/2)}"></i>`}
   // tuning trimmers
   {const [x0,y0,w,hh]=F.trim, cw=w/EGZ_N;
-   h+=`<div class="etrimhead" style="left:${cm(x0)};top:${cm(y0)};width:${cm(w)};height:${cm(1.5)}"><span class="rlab sm left" style="position:static;transform:none">Tuning trimmers, low to high</span><span class="ebtns"><button type="button" class="ebtn" data-act="centre">Centre all</button><button type="button" class="ebtn" data-act="scramble">Scramble</button></span></div>`;
+   h+=`<div class="etrimhead" style="left:${cm(x0)};top:${cm(y0)};width:${cm(w)};height:${cm(1.5)}"><span class="rlab sm left" style="position:static;transform:none">Tuning trimmers</span><span class="ebtns"><button type="button" class="ebtn" data-act="centre">Centre all</button><button type="button" class="ebtn" data-act="scramble">Scramble</button></span></div>`;
+   const rw=10.2; h+=`<div class="ereg" role="radiogroup" aria-label="Register" style="left:${cm(x0+w/2-rw/2)};top:${cm(y0-.55)};width:${cm(rw)};height:${cm(1.9)}"><span class="eslot"><span class="ecap"></span></span>`
+     +["bass","tenor","alto"].map(r=>`<button type="button" role="radio" data-reg="${r}">${r[0].toUpperCase()+r.slice(1)}</button>`).join("")+`</div>`;
    for(let i=0;i<EGZ_N;i++){const cx=x0+cw*(i+.5);
      h+=`<span class="eoff" data-i="${i}" style="left:${cm(cx)};top:${cm(y0+2.4)}">±0.00</span>`
-       +`<div class="etrim" data-i="${i}" role="slider" tabindex="0" aria-orientation="vertical" aria-label="Tune ${EGZ_NAMES[i]}" style="left:${cm(cx-cw*.32)};top:${cm(y0+3.1)};width:${cm(cw*.64)};height:${cm(hh-4.9)}"><span class="eth"></span></div>`
-       +`<span class="enote" style="left:${cm(cx)};top:${cm(y0+hh-.85)}">${EGZ_NAMES[i]}</span>`}}
+       +`<div class="etrim" data-i="${i}" role="slider" tabindex="0" aria-orientation="vertical" aria-label="Tune ${NM[i]}" style="left:${cm(cx-cw*.32)};top:${cm(y0+3.1)};width:${cm(cw*.64)};height:${cm(hh-4.9)}"><span class="eth"></span></div>`
+       +`<span class="enote" data-i="${i}" style="left:${cm(cx)};top:${cm(y0+hh-.85)}">${NM[i]}</span>`}}
   // drone strips
-  {const [x0,y0,w,hh]=F.strips, cw=w/EGZ_N;
+  {const [x0,y0,w,hh]=F.strips, cw=w/EGZ_N, D=F.droneHead;
+   h+=`<div class="etrimhead" style="${box(D)}"><span class="rlab sm left" style="position:static;transform:none">Drone strips</span><span class="ebtns" role="radiogroup" aria-label="How the strips drone">`
+     +`<button type="button" class="ebtn" role="radio" data-dm="self" title="Each voice's own output fed back: it self-oscillates">Self-oscillation</button>`
+     +`<button type="button" class="ebtn" role="radio" data-dm="noise" title="Shared white noise into each voice: the resonator is its own band-pass">Noise agitation</button></span></div>`;
    h+=`<span class="ewell" style="${box(F.strips)}"></span>`;
    for(let i=0;i<EGZ_N;i++){const cx=x0+cw*(i+.5); let pads="";
      for(let k=0;k<10;k++) pads+=`<i class="pd" style="top:${((52-5*k)/64*100).toFixed(2)}%"></i>`;
-     h+=`<div class="estrip" data-i="${i}" role="slider" tabindex="0" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="10" aria-label="Drone strip ${EGZ_NAMES[i]}" style="left:${cm(cx-cw*.36)};top:${cm(y0+.5)};width:${cm(cw*.72)};height:${cm(hh-1)}">${pads}<span class="fing"></span></div>`}}
+     h+=`<div class="estrip" data-i="${i}" role="slider" tabindex="0" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="10" aria-label="Drone strip ${NM[i]}" style="left:${cm(cx-cw*.36)};top:${cm(y0+.5)};width:${cm(cw*.72)};height:${cm(hh-1)}">${pads}<span class="fing"></span></div>`}}
   // strike pads
-  {h+=`<span class="ewell" style="${box(F.pads)}"></span><div class="epads" tabindex="0" aria-label="Strike pads: higher on a pad is a harder tap. Keys A to apostrophe play them too." style="left:${cm(F.pads[0]+.4)};top:${cm(F.pads[1]+.4)};width:${cm(F.pads[2]-.8)};height:${cm(F.pads[3]-.8)}">`;
-   for(let i=0;i<EGZ_N;i++) h+=`<div class="epad" data-i="${i}"><i class="fill"></i><b>${EGZ_NAMES[i]}</b><i class="lamp"></i><span class="ekey">${EGZ_CAPS[i]}</span></div>`;
+  {h+=`<span class="ewell" style="${box(F.pads)}"></span><div class="epads" tabindex="0" aria-label="Strike pads: higher on a pad is a harder tap; hold and drag upward to bend. Keys A to apostrophe play them too." style="left:${cm(F.pads[0]+.4)};top:${cm(F.pads[1]+.4)};width:${cm(F.pads[2]-.8)};height:${cm(F.pads[3]-.8)}">`;
+   for(let i=0;i<EGZ_N;i++) h+=`<div class="epad" data-i="${i}"><i class="fill"></i><b><span class="nn">${NM[i]}</span><span class="bd"></span></b><span class="ekey">${EGZ_CAPS[i]}</span></div>`;
    h+=`</div>`}
   return h;
 }
@@ -1744,16 +1833,18 @@ function buildEgz(){
     f.querySelectorAll(".etrim").forEach(el=>bindETrim(el,+el.dataset.i));
     f.querySelectorAll(".estrip").forEach(el=>bindEStrip(el,+el.dataset.i));
     bindEPads(f.querySelector(".epads"));
+    f.querySelectorAll("[data-reg]").forEach(b=>b.onclick=()=>setReg(b.dataset.reg));
+    f.querySelectorAll("[data-dm]").forEach(b=>b.onclick=()=>setDroneMode(b.dataset.dm));
     f.querySelector(".eselect").addEventListener("change",e=>{es.ds=e.target.value;epost({t:"targets",s:es.ds});egzSave();renderEgz()});
     f.querySelector('[data-act="centre"]').onclick=()=>{for(let i=0;i<EGZ_N;i++)setTrim(i,0)};
     f.querySelector('[data-act="scramble"]').onclick=()=>{for(let i=0;i<EGZ_N;i++)setTrim(i,(Math.random()+Math.random()-1)*.5)};
     // touching any control switches the instrument on (phones only allow sound once the finger lifts, so resume then too)
-    f.addEventListener("pointerdown",e=>{if(egzMode&&!power&&e.target.closest(".eknob,.etrim,.estrip,.epads,.ebtn,.eselect")) setPower(true)},true);
+    f.addEventListener("pointerdown",e=>{if(egzMode&&!power&&e.target.closest(".eknob,.etrim,.estrip,.epads,.ebtn,.eselect,.ereg")) setPower(true)},true);
     f.addEventListener("keydown",e=>{if(egzMode&&!power&&e.target.closest(".eknob,.etrim,.estrip,.epads")&&e.key!=="Tab") setPower(true)},true);
     const res=()=>{if(egzMode&&power&&ectx&&ectx.state!=="running") ectx.resume().catch(()=>{})}; f.addEventListener("pointerup",res,true); f.addEventListener("click",res,true);
   }
   $("eggEgz").onclick=()=>{setMode(egzMode?"radio":"egz"); $("radio").scrollIntoView({behavior:"smooth",block:"start"})};
-  placeEgz(variant); renderEgz(); requestAnimationFrame(egzFrame);
+  placeEgz(variant); renameEgz(); renderEgz(); requestAnimationFrame(egzFrame);
 }
 function placeEgz(v){ const g=GEOM[v]; if(!g) return; document.querySelectorAll(".eface").forEach(f=>{f.hidden=f.dataset.v!==v; if(f.dataset.v===v) placeBox(f,g.plate)}) }
 /* ---------- meters and scope ---------- */
@@ -1763,8 +1854,8 @@ function egzFrame(){
   if(!egzMode) return;
   const face=document.querySelector(`.eface[data-v="${variant}"]`); if(!face) return;
   const full=eref?eref.ledFull:1e-3;
-  face.querySelectorAll(".epad").forEach((c,i)=>{c.style.setProperty("--lvl",Math.min(1,(power&&emeters.lv[i])||0).toFixed(3));
-    const lit=Math.sqrt(Math.min(1,((power&&emeters.led[i])||0)/full)); c.style.setProperty("--led",lit<.03?0:lit.toFixed(3))});
+  face.querySelectorAll(".epad").forEach((c,i)=>c.style.setProperty("--lvl",Math.min(1,(power&&emeters.lv[i])||0).toFixed(3)));
+  face.querySelectorAll(".elamp").forEach((c,i)=>{const lit=Math.sqrt(Math.min(1,((power&&emeters.led[i])||0)/full)); c.style.setProperty("--led",lit<.03?0:lit.toFixed(3))});
   const cv=face.querySelector(".escope-c"), r=cv.getBoundingClientRect(); if(!r.width) return;
   const dpr=Math.min(2,devicePixelRatio||1), W=Math.round(r.width*dpr), H=Math.round(r.height*dpr); if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H}
   const g=cv.getContext("2d"); g.fillStyle="#0b0d0d"; g.fillRect(0,0,W,H);
