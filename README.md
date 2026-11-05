@@ -8,6 +8,7 @@ Ten venues each in San Francisco and Brooklyn, and eight genre keys. Every stati
 |---|---|
 | `index.html` | The website |
 | `shows.json` | Upcoming shows for 20 venues. San Francisco: the first six pulled Nov 1 2026, The Fillmore, Regency Ballroom, Great American Music Hall and SFJAZZ Center added Nov 3. Brooklyn (each venue has `"city":"brooklyn"`): Baby's All Right, Union Pool, Music Hall of Williamsburg, National Sawdust, Brooklyn Steel, Elsewhere, Market Hotel, The Sultan Room, Saint Vitus and Warsaw, pulled Nov 4. The nightly songs job reads every venue, whatever the city. |
+| `rain-core.js`, `rain-worklet.js` | Rain Through a Window mode (the switch on top of the radio): the rev D circuit model, and the same model as an AudioWorklet |
 | `genres.json` | Which station each artist plays on. Anyone not listed goes to Indie |
 | `build_tracks.py` | Finds each artist's songs on YouTube and writes `tracks.json` |
 | `tracks.json` | Created by the script. The site plays whatever is in here |
