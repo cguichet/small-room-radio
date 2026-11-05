@@ -527,12 +527,12 @@ let blockTimer=null;
 function initYT(){
   window.onYouTubeIframeAPIReady=()=>{
     player=new YT.Player("yt",{width:"100%",height:"100%",
-      playerVars:{playsinline:1,controls:0,rel:0,modestbranding:1,iv_load_policy:3,fs:0,disablekb:1},
+      playerVars:{playsinline:1,controls:0,rel:0,modestbranding:1,iv_load_policy:3,fs:0,disablekb:1,cc_load_policy:0},
       events:{
         onReady:()=>{ytReady=true;applyVolume(); if(power){if(pendingDay!=null&&queue.length)pos=closestIndex(pendingDay)-1;pendingDay=null;pendingTrack?startPending():next()}},
         onStateChange:e=>{
           if(e.data===YT.PlayerState.ENDED) next();
-          if(e.data===YT.PlayerState.PLAYING){playing=true;errorsInRow=0;clearTimeout(blockTimer);$("video").classList.add("live");setTube(null)}
+          if(e.data===YT.PlayerState.PLAYING){playing=true;captionsOff();errorsInRow=0;clearTimeout(blockTimer);$("video").classList.add("live");setTube(null)}
           if(e.data===YT.PlayerState.PAUSED) playing=false;
           renderPP();
         },
@@ -543,6 +543,8 @@ function initYT(){
   s.onerror=fail; document.head.appendChild(s);
   setTimeout(()=>{if(!ytReady&&!ytFailed)fail()},8000);
 }
+// subtitles off: YouTube turns them on for some songs (or from the listener's YouTube settings)
+function captionsOff(){try{player.setOption("captions","track",{});player.unloadModule("captions");player.unloadModule("cc")}catch(e){}}
 function fail(){if(ytReady)return; ytFailed=true; if(power){setTube("No picture here","The video player can't load on this page. Use the YouTube link on the dial to hear each song.");if(!current)next()}}
 function setTube(title,text){
   const m=$("tubeMsg");
