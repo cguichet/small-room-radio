@@ -474,6 +474,12 @@ html.immersive,html.immersive body{overflow:hidden;overscroll-behavior:none;heig
 #imm.rain .rface:not([hidden]),#imm.egz .eface:not([hidden]){display:block}
 #imm .immhint{position:absolute;left:16px;right:16px;margin:0;text-align:center;color:rgba(241,233,223,.6);font:500 13px/1.3 var(--f-body)}
 #imm .immhint[hidden]{display:none}
+/* the hidden way into the eGuzheng: its egg only shows while it is playing; holding the way back from the Rain Machine fills slowly */
+#eggEgz{display:none} .egzmode #eggEgz{display:inline-flex}
+#eggBtn,#imm .immback{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;position:relative;overflow:hidden}
+#eggBtn.holding::after,#imm .immback.holding::after{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(240,137,58,.28);transform-origin:0 50%;
+  transform:scaleX(0);animation:eggHold 2.2s linear .8s forwards;pointer-events:none}
+@keyframes eggHold{to{transform:scaleX(1)}}
 
 /* ---------- eGuzheng mode: the face is drawn over the rendered plate in cm (--u), like the Rain Machine ---------- */
 .eface{display:none;container-type:inline-size}
@@ -1514,6 +1520,7 @@ function buildRain(){
     $("sceneBox").appendChild(f); bindFace(f)}
   placeRain(variant);
   $("eggBtn").onclick=()=>{setMode(rainMode?"radio":"rain"); $("radio").scrollIntoView({behavior:"smooth",block:"start"})};
+  rainSecret($("eggBtn"));
   renderRain(); requestAnimationFrame(rainFrame);
 }
 /* the face sits exactly on the rendered plate */
@@ -1596,6 +1603,7 @@ function immBuild(){
     +`<div class="immstage"></div><p class="immhint" hidden>Turn your phone sideways for a bigger instrument.</p>`;
   document.body.appendChild(immEl);
   immEl.querySelector(".immback").onclick=()=>setMode("radio");
+  rainSecret(immEl.querySelector(".immback"));
   immEl.querySelector(".immpow").onclick=()=>setPower(!power);
   // no page scrolling or rubber-banding behind the instrument
   immEl.addEventListener("touchmove",e=>{if(!(e.target.closest&&e.target.closest("select")))e.preventDefault()},{passive:false});
@@ -1636,6 +1644,18 @@ function updImmersive(){
 }
 addEventListener("resize",()=>{ if(immOn){ layoutScene(); immSize() } });
 addEventListener("orientationchange",()=>setTimeout(()=>{ if(immOn){ layoutScene(); immSize() } },250));
+
+/* The way into the eGuzheng is hidden: while the Rain Machine is on screen, hold the way back to the radio
+   (the egg on desktop, the Radio button in full screen) for three seconds. */
+function rainSecret(el){
+  let t=null, fired=false;
+  const stop=()=>{ if(t){clearTimeout(t);t=null} el.classList.remove("holding") };
+  el.addEventListener("pointerdown",e=>{ if(!rainMode||(e.pointerType==="mouse"&&e.button!==0)) return; fired=false; stop();
+    el.classList.add("holding"); t=setTimeout(()=>{ t=null; fired=true; el.classList.remove("holding"); setMode("egz") },3000) });
+  for(const ev of ["pointerup","pointerleave","pointercancel"]) el.addEventListener(ev,stop);
+  el.addEventListener("click",e=>{ if(fired){ fired=false; e.preventDefault(); e.stopImmediatePropagation() } },true);
+  el.addEventListener("contextmenu",e=>e.preventDefault());
+}
 
 /* ---------- eGuzheng: the radio's third mode ----------
    Eleven bridged-T resonators, D3 to D5 in D major pentatonic, struck from copper pads, droned from touch strips
