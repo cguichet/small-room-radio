@@ -470,13 +470,17 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;ga
 .eoff{transform:translate(-50%,-50%);font:500 calc(var(--u) * .58)/1 ui-monospace,Menlo,monospace;color:var(--lbl);white-space:nowrap;pointer-events:none}
 .eoff.moved{color:var(--copper)}
 .enote{transform:translate(-50%,-50%);font:700 calc(var(--u) * .82)/1 var(--f-body);color:var(--lbl);white-space:nowrap;pointer-events:none}
-/* a trimmer: a dark slot with whole-cent ticks and a copper thumb; centre is marked */
-.etrim{--s:0;border-radius:calc(var(--u) * .25);background:#0e1011;box-shadow:inset 0 1px 3px #000,0 1px 0 rgba(255,255,255,.18);cursor:ns-resize;touch-action:none;outline:none;
+/* a trimmer: a dark slot with a centre mark; its handle is a round knob whose thick line is the voice's level light */
+.etrim{--s:0;--led:0;cursor:ns-resize;touch-action:none;outline:none}
+.etrim::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:38%;transform:translateX(-50%);border-radius:calc(var(--u) * .25);background:#0e1011;box-shadow:inset 0 1px 3px #000,0 1px 0 rgba(255,255,255,.18);
   background-image:linear-gradient(transparent calc(50% - 1px),rgba(255,255,255,.75) calc(50% - 1px) calc(50% + 1px),transparent calc(50% + 1px)),
     linear-gradient(90deg,transparent calc(50% - 1px),rgba(255,255,255,.12) calc(50% - 1px) calc(50% + 1px),transparent calc(50% + 1px))}
-.etrim .eth{position:absolute;left:12%;right:12%;height:calc(var(--u) * .55);top:calc((1 - var(--s)) * 50% - var(--u) * .275);border-radius:calc(var(--u) * .12);
-  background:var(--copper);box-shadow:0 1px 2px rgba(0,0,0,.6);pointer-events:none}
-.etrim .eth::after{content:"";position:absolute;left:15%;right:15%;top:50%;height:2px;margin-top:-1px;background:#3a1a06}
+.etrim .eth{--d:min(calc(var(--u) * 2.3),100%);position:absolute;left:50%;width:var(--d);height:auto;aspect-ratio:1;transform:translateX(-50%);
+  top:calc((1 - var(--s)) / 2 * (100% - var(--d)));border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 38% 30%,var(--k-hi),var(--k-mid) 55%,var(--k-lo));box-shadow:0 0 0 calc(var(--u) * .06) var(--k-edge),0 calc(var(--u) * .25) calc(var(--u) * .5) rgba(0,0,0,.5)}
+.etrim .eth::before,.etrim .eth::after{content:"";position:absolute;left:14%;right:14%;top:50%;height:22%;margin-top:-11%;border-radius:calc(var(--u) * .12)}
+.etrim .eth::before{background:var(--lamp-off);box-shadow:inset 0 1px 2px rgba(0,0,0,.6)}
+.etrim .eth::after{background:var(--lamp-on);box-shadow:0 0 calc(var(--u) * .5) calc(var(--u) * .12) var(--lamp-on);opacity:var(--led)}
 .etrim:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
 /* recessed wells under the strips and the pads */
 .ewell{border-radius:calc(var(--u) * .6);background:#0d0f10;box-shadow:inset 0 calc(var(--u) * .15) calc(var(--u) * .35) rgba(0,0,0,.85),0 1px 0 rgba(255,255,255,.2)}
@@ -1573,11 +1577,11 @@ const EFACE={
   wide:{w:71.2,h:39.2,scope:[2.2,2.2,17.2,5.6],
     knobs:{gain:[6.5,11.4,4.4],level:[15.1,11.4,4.4],dens:[6.4,21.9,4.4],dust:[14.9,20.3,3.2],hit:[14.9,26.0,3.2],skew:[6.5,33.0,4.6],sus:[15.1,33.0,4.6]},
     dustBox:[2.2,17.0,17.2,12.0], select:[2.8,26.7,7.2,1.6],
-    lamps:[21.6,2.2,47.4,1.5], trim:[21.6,4.5,47.4,11.0], droneHead:[21.6,16.1,47.4,1.4], strips:[21.6,17.7,47.4,8.0], pads:[21.6,26.4,47.4,10.6]},
+    trim:[21.6,2.6,47.4,12.2], droneHead:[21.6,15.5,47.4,1.4], strips:[21.6,17.1,47.4,8.8], pads:[21.6,26.5,47.4,10.5]},
   tall:{w:40.2,h:76.2,scope:[2.2,2.2,35.8,5.4],
     knobs:{gain:[6.7,11.6,4.4],level:[15.6,11.6,4.4],skew:[24.6,11.6,4.4],sus:[33.5,11.6,4.4],dens:[7.0,20.3,4.0],dust:[15.6,20.3,3.6],hit:[24.0,20.3,3.6]},
     dustBox:[2.2,16.6,35.8,7.9], select:[28.4,19.5,8.8,1.7],
-    lamps:[2.2,25.5,35.8,1.5], trim:[2.2,27.8,35.8,12.4], droneHead:[2.2,40.8,35.8,1.4], strips:[2.2,42.4,35.8,9.2], pads:[2.2,52.4,35.8,21.6]}};
+    trim:[2.2,26.3,35.8,13.9], droneHead:[2.2,40.8,35.8,1.4], strips:[2.2,42.4,35.8,9.8], pads:[2.2,52.8,35.8,21.2]}};
 const EGZ_OCT={bass:-1,tenor:0,alto:1};
 const egzNames=()=>{const o=EGZ_OCT[es.reg]||0; return EGZ_NAMES.map(n=>n.replace(/\d$/,d=>String(+d+o)))};
 // the notes "To random" and "To crackle" can reach, by voice number (1 is the lowest)
@@ -1585,7 +1589,8 @@ const EGZ_SETS=[["all","All notes"],["odd","Odd notes"],["even","Even notes"],["
   ["s4","D F♯ A"],["s5","E A B"],["s6","B D F♯"],["s7","A D E"],["one","Middle D only"]];
 // drone strips: self-oscillation is scaled down so the strip needs a firmer, higher touch for the same drone;
 // noise agitation drives each resonator from shared white noise, and the resonator is the voice's own band-pass
-const TD_SCALE=.35, BR_SCALE=5;
+// (BR_EQ evens the voices out: within about 5% of each other at the strip's top, over most of the Decay knob)
+const TD_SCALE=.35, BR_SCALE=1, BR_EQ=[.616,.613,.795,.832,.664,.896,.758,.962,.817,.687,.813];
 const EGZ_LABELS={gain:"Gain",level:"Attenuation",dens:"Density",dust:"To crackle",hit:"To random",skew:"Saw",sus:"Decay"};
 let egzMode=false, eref=null, ectx=null, enode=null, eStarting=null, eAnalyser=null;
 let emeters={lv:new Array(EGZ_N).fill(0),led:new Array(EGZ_N).fill(0),clip:0};
@@ -1700,7 +1705,7 @@ function bindEKnob(el,k){
 }
 function bindETrim(el,i){
   let drag=null;
-  const sAt=e=>{const r=el.getBoundingClientRect(); return 1-2*(e.clientY-r.top)/r.height};
+  const sAt=e=>{const r=el.getBoundingClientRect(), d=el.firstElementChild.offsetHeight; return 1-2*(e.clientY-r.top-d/2)/Math.max(1,r.height-d)};
   el.addEventListener("pointerdown",e=>{e.preventDefault();el.focus({preventScroll:true});el.setPointerCapture(e.pointerId);drag={y:e.clientY,s:es.trim[i],h:el.getBoundingClientRect().height};if(!e.shiftKey){let s=sAt(e);if(Math.abs(s)<.02)s=0;setTrim(i,s)}});
   el.addEventListener("pointermove",e=>{if(!drag||!el.hasPointerCapture(e.pointerId))return;
     if(e.shiftKey) setTrim(i,drag.s-(e.clientY-drag.y)/drag.h*2/8); else {let s=sAt(e);if(Math.abs(s)<.02)s=0;drag={y:e.clientY,s,h:drag.h};setTrim(i,s)}});
@@ -1734,7 +1739,7 @@ function setFinger(i,y){
     el.querySelectorAll("i.pd").forEach((pd,k)=>{const lo=k*5,hi=lo+5;pd.classList.toggle("on",on&&y+5>lo&&y-5<hi)});
     el.setAttribute("aria-valuenow",on?Math.max(1,Math.min(10,Math.floor(y/5)+1)):0)});
   const self=es.dm!=="noise";
-  eTouchG[i]=on&&self?TD_SCALE*ladderG(TD_CHAIN,y,TD_SKIN,TD_ESD):0; eBreathG[i]=on&&!self?BR_SCALE*ladderG(BR_CHAIN,y,TD_SKIN,BR_SRC):0;
+  eTouchG[i]=on&&self?TD_SCALE*ladderG(TD_CHAIN,y,TD_SKIN,TD_ESD):0; eBreathG[i]=on&&!self?BR_SCALE*BR_EQ[i]*ladderG(BR_CHAIN,y,TD_SKIN,BR_SRC):0;
   epost({t:"touch",i,g:eTouchG[i]}); epost({t:"breath",i,g:eBreathG[i]});
   if(on&&!was&&eTouchG[i]>0) epost({t:"tkick",i,x:TD_KICK});
 }
@@ -1799,9 +1804,7 @@ function egzFaceHTML(v){
       +lab(x,y+ring/2+.55,EGZ_LABELS[k],d<4.2?" sm":"")}
   {const s=F.select; h+=`<select class="eselect" aria-label="Notes the dust noise reaches" style="${box(s)}">${EGZ_SETS.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join("")}</select>`}
   const NM=egzNames();
-  // voice lamps, along the very top, one over each column
-  {const [x0,y0,w,hh]=F.lamps, cw=w/EGZ_N; h+=`<span class="ewell elamps" style="${box(F.lamps)}"></span>`;
-   for(let i=0;i<EGZ_N;i++) h+=`<i class="elamp" data-i="${i}" style="left:${cm(x0+cw*(i+.5))};top:${cm(y0+hh/2)}"></i>`}
+
   // tuning trimmers
   {const [x0,y0,w,hh]=F.trim, cw=w/EGZ_N;
    h+=`<div class="etrimhead" style="left:${cm(x0)};top:${cm(y0)};width:${cm(w)};height:${cm(1.5)}"><span class="rlab sm left" style="position:static;transform:none">Tuning trimmers</span><span class="ebtns"><button type="button" class="ebtn" data-act="centre">Centre all</button><button type="button" class="ebtn" data-act="scramble">Scramble</button></span></div>`;
@@ -1809,7 +1812,7 @@ function egzFaceHTML(v){
      +["bass","tenor","alto"].map(r=>`<button type="button" role="radio" data-reg="${r}">${r[0].toUpperCase()+r.slice(1)}</button>`).join("")+`</div>`;
    for(let i=0;i<EGZ_N;i++){const cx=x0+cw*(i+.5);
      h+=`<span class="eoff" data-i="${i}" style="left:${cm(cx)};top:${cm(y0+2.4)}">±0.00</span>`
-       +`<div class="etrim" data-i="${i}" role="slider" tabindex="0" aria-orientation="vertical" aria-label="Tune ${NM[i]}" style="left:${cm(cx-cw*.32)};top:${cm(y0+3.1)};width:${cm(cw*.64)};height:${cm(hh-4.9)}"><span class="eth"></span></div>`
+       +`<div class="etrim" data-i="${i}" role="slider" tabindex="0" aria-orientation="vertical" aria-label="Tune ${NM[i]}" style="left:${cm(cx-cw*.45)};top:${cm(y0+3.0)};width:${cm(cw*.9)};height:${cm(hh-4.8)}"><span class="eth"></span></div>`
        +`<span class="enote" data-i="${i}" style="left:${cm(cx)};top:${cm(y0+hh-.85)}">${NM[i]}</span>`}}
   // drone strips
   {const [x0,y0,w,hh]=F.strips, cw=w/EGZ_N, D=F.droneHead;
@@ -1855,7 +1858,7 @@ function egzFrame(){
   const face=document.querySelector(`.eface[data-v="${variant}"]`); if(!face) return;
   const full=eref?eref.ledFull:1e-3;
   face.querySelectorAll(".epad").forEach((c,i)=>c.style.setProperty("--lvl",Math.min(1,(power&&emeters.lv[i])||0).toFixed(3)));
-  face.querySelectorAll(".elamp").forEach((c,i)=>{const lit=Math.sqrt(Math.min(1,((power&&emeters.led[i])||0)/full)); c.style.setProperty("--led",lit<.03?0:lit.toFixed(3))});
+  face.querySelectorAll(".etrim").forEach((c,i)=>{const lit=Math.sqrt(Math.min(1,((power&&emeters.led[i])||0)/full)); c.style.setProperty("--led",lit<.03?0:lit.toFixed(3))});
   const cv=face.querySelector(".escope-c"), r=cv.getBoundingClientRect(); if(!r.width) return;
   const dpr=Math.min(2,devicePixelRatio||1), W=Math.round(r.width*dpr), H=Math.round(r.height*dpr); if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H}
   const g=cv.getContext("2d"); g.fillStyle="#0b0d0d"; g.fillRect(0,0,W,H);

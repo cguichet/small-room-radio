@@ -230,11 +230,16 @@ function createKalimbaCore(sampleRate, opt) {
   // The per-sample step at speed w is exp(A w dt), written out from the resonator's own pole (sigma +- j omega) with short
   // series for the cosine, sine and exponential: at these step sizes they are exact to a part in a billion.
   var SK_AREF = 0.6, SK_UMAX = 0.82;
-  var skB = 0, skA = new Float64Array(N * 4), skSig = new Float64Array(N), skW2 = new Float64Array(N), skQa = new Float64Array(N), skQb = new Float64Array(N);
+  var skB = 0, skA = new Float64Array(N * 4), skSig = new Float64Array(N), skW2 = new Float64Array(N), skQa = new Float64Array(N), skQb = new Float64Array(N), skQn = new Float64Array(N);
+  // Phase skew (the original math model, applied to the phase alone). The PM-form accumulator dphi/dt = w / (1 - m cos phi)
+  // integrates to w t = phi - m sin phi (Kepler's equation). Each voice's state gives its own phase theta (in-phase
+  // and quadrature); solving theta = phi - m sin phi for phi and sending A sin phi to the mix leans the sine toward a
+  // sawtooth by exactly the same law, at any level, with the pitch and the resonator's own behaviour untouched.
+  var phM = 0, phMT = 0, PH_MMAX = 0.9;
   function skSet(v, A) {
     var w0 = 2 * Math.PI * designRes[v].f0, G_ = rG[v], sg = (A[0] + A[3]) * 0.5;
     skQa[v] = G_ * (A[0] - A[2]) / (w0 * SK_AREF); skQb[v] = G_ * (A[1] - A[3]) / (w0 * SK_AREF);   // slope of vo, per radian, over SK_AREF
-    skSig[v] = sg; skW2[v] = A[0] * A[3] - A[1] * A[2] - sg * sg;
+    skSig[v] = sg; skW2[v] = A[0] * A[3] - A[1] * A[2] - sg * sg; skQn[v] = skW2[v] > 0 ? w0 * SK_AREF / Math.sqrt(skW2[v]) : 0;
     skA[v * 4] = A[0] - sg; skA[v * 4 + 1] = A[1]; skA[v * 4 + 2] = A[2]; skA[v * 4 + 3] = A[3] - sg;
   }
   function resCoeffs(v) {
@@ -254,7 +259,7 @@ function createKalimbaCore(sampleRate, opt) {
     rG[v] = resGain(K);
     var u0 = (y.ynn - y.yno - y.ynx) / c, u1 = (y.yxo - y.yxx + 2 * y.ynx - y.ynn + y.yno) / c, hp = held(A, Ad, u0 * rG[v], u1 * rG[v]);
     pe0[v] = hp[0]; pe1[v] = hp[1];
-    if (skB > 0) skSet(v, A);
+    skSet(v, A);
     // op-amp stuck at a rail: the output is a fixed voltage and the network just relaxes
     var S = [-y.ynn / c, (y.ynn - y.ynx) / c, (y.ynn - y.ynx) / c, (2 * y.ynx - y.yxx - y.ynn) / c], Sd = expm2(S);
     var hf = held(S, Sd, (y.ynn - y.yno - y.ynx) / c, (y.yxo - y.yxx + 2 * y.ynx - y.ynn + y.yno) / c), hi = held(S, Sd, 0, 1 / c);
@@ -485,6 +490,7 @@ function createKalimbaCore(sampleRate, opt) {
       if (++ctrlCount >= CTRL) ctrlCount = 0;
       rf += (rfTarget - rf) * SMOOTH;
       level += (levelTarget - level) * SMOOTH;
+      phM += (phMT - phM) * SMOOTH; if (phMT === 0 && phM < 1e-4) phM = 0;
       otRf += (otRfTarget - otRf) * SMOOTH; if (otRfTarget === 0 && otRf < 1) otRf = 0;
       dnThr += (dnThrTarget - dnThr) * SMOOTH; dnLvl += (dnLvlTarget - dnLvl) * SMOOTH; if (dnLvlTarget === 0 && dnLvl < 1e-6) dnLvl = 0;
       dnHit += (dnHitTarget - dnHit) * SMOOTH; if (dnHitTarget === 0 && dnHit < 1e-6) dnHit = 0;
@@ -561,7 +567,20 @@ function createKalimbaCore(sampleRate, opt) {
           if (vb > 0) { var lp = vb * LED_SCALE, li = lp | 0; if (li > LED_N) { li = LED_N; lp = LED_N; } ie = ledTab[li] + (ledTab[li + 1] - ledTab[li]) * (lp - li); }
           ledX[v] = lx + LED_KC * (ie * (1 - LED_A) + (vo - lx) / LED_RB);
           ledAcc[v] += ie;
-          sum += vo; leSum += ie;
+          if (phM > 1e-4 && !rsat[v]) {
+            var qd = (skQa[v] * an + skQb[v] * bn) * skQn[v], A2p = vo * vo + qd * qd;
+            if (A2p > 1e-8) {
+              var Ap = Math.sqrt(A2p), sp = vo / Ap, cp = qd / Ap, dl = phM * sp / (1 - phM * cp), sd, cd, d2;
+              for (var it_ = 0; it_ < 2; it_++) {
+                d2 = dl * dl; sd = dl * (1 - d2 * (0.16666667 - d2 * (0.0083333333 - d2 * 0.000198413))); cd = 1 - d2 * (0.5 - d2 * (0.041666667 - d2 * 0.0013888889));
+                dl -= (dl - phM * (sp * cd + cp * sd)) / (1 - phM * (cp * cd - sp * sd));
+                if (dl > 1.7) dl = 1.7; else if (dl < -1.7) dl = -1.7;
+              }
+              d2 = dl * dl; sd = dl * (1 - d2 * (0.16666667 - d2 * (0.0083333333 - d2 * 0.000198413))); cd = 1 - d2 * (0.5 - d2 * (0.041666667 - d2 * 0.0013888889));
+              sum += vo * cd + qd * sd;
+            } else sum += vo;
+          } else sum += vo;
+          leSum += ie;
         }
         ledCount++;
         // overtone bus: the eleven resistors look like one source, the average emitter voltage behind OT_R / N
@@ -655,7 +674,7 @@ function createKalimbaCore(sampleRate, opt) {
     breathF: BR_F,
     // SKEW: 0 off; 1 gives a note at 0.6 V (half a full tap) a self-FM index of 0.8; louder notes lean further, up to SK_UMAX
     skewHw: SKH,
-    setSkew: function (x) { x = x < 0 ? 0 : (x > 1 ? 1 : x); hwH = 2.4 * Math.pow(0.2 / 2.4, x); if (SKH) return; var was = skB; skB = 0.8 * x; if (skB > 0 && was === 0) for (var i = 0; i < N; i++) resCoeffs(i); },
+    setSkew: function (x) { x = x < 0 ? 0 : (x > 1 ? 1 : x); hwH = 2.4 * Math.pow(0.2 / 2.4, x); if (SKH) return; phMT = PH_MMAX * x; },
     resOut: rvo, levels: levels, leds: leds, ledFull: LED_FULL,
     meters: function () {
       // per-voice level for the display: the ring's amplitude at each op-amp since the last call,
