@@ -20,7 +20,8 @@ var RainLaw = (function () {
   function resL(x) { return 1 / (1 + Math.exp(-resU(x))); }
   function resK(x, kmax) { return (kmax || KMAX) * resL(x); }
   function densVt(x) { var R = 10e3 * (1 - x); return 2.5 * R / (15e3 + R); }   // 5 V - 7.5k - DENSITY - 7.5k - GND
-  function volGain(x) { var Rp = 10e3, RL = 1.5e3; return x <= 0 ? 0 : x * RL / (RL + Rp * x * (1 - x)); } // linear pot, 1.5k wiper load
+  // Volume: an audio-taper (log) pot, 50 dB of travel, so the quiet end has room; the last 5% fades to silence. (Nov 5; was a linear pot with a 1.5k wiper load)
+  function volGain(x) { return x <= 0 ? 0 : Math.pow(10, -2.5 * (1 - x)) * (x < 0.05 ? x / 0.05 : 1); }
   // dominant pole pair of the Q-compensated ladder for feedback k (k < 4): ring time constant at pole freq f
   function ringTau(k, f) { var r = Math.pow(Math.max(k, 0), 0.25), s = 1 - r / Math.SQRT2; return s <= 0 ? Infinity : 1 / (2 * PI * f * s); }
   function ringQ(k) { var r = Math.pow(Math.max(k, 0), 0.25), s = 1 - r / Math.SQRT2; return s <= 0 ? Infinity : (r / Math.SQRT2) / (2 * s); }

@@ -1402,11 +1402,15 @@ const RFACE={
         diamond:{cx:14.4,cy:58.0,d:24.4},vol:{x:28.3,y:43.8,w:9.4,h:12.2},rain:{x:28.3,y:59.6,w:9.4,h:12.2}}};
 // Chris's presets (Nov 4), read off his settings
 const RAIN_PRESETS=[
-  ["Gentle rain",{density:.537,hp:.612,lp:.434,res:.22,mod:.22,vol:.75,poles:0}],
-  ["Filtered noise",{density:1,hp:.36,lp:.675,res:0,mod:0,vol:.132,poles:0}],   // half the level it had at .385 (Nov 5)
-  ["Wind chimes",{density:.141,hp:.496,lp:.467,res:.74,mod:.385,vol:.97,poles:0}]];
+// Volumes are on the log-taper knob (Nov 5): Gentle rain and Wind chimes keep the loudness they had on the old linear one;
+// Filtered noise has both filters at half and matches Gentle rain's loudness (K-weighted, BS.1770).
+  ["Gentle rain",{density:.537,hp:.612,lp:.434,res:.22,mod:.22,vol:.809,poles:0}],
+  ["Filtered noise",{density:1,hp:.5,lp:.5,res:0,mod:0,vol:.102,poles:0}],
+  ["Wind chimes",{density:.141,hp:.496,lp:.467,res:.74,mod:.385,vol:.964,poles:0}]];
 const RAIN_DEF=RAIN_PRESETS[2][1];
 let rainMode=false, rv=Object.assign({},RAIN_DEF,store.get("rainVals",{})), rPreset=store.get("rainPreset","Wind chimes");
+// a volume saved on the old linear knob moves to the spot on the log knob that sounds the same
+if(store.get("rainVolLaw",1)<2){ const sv=store.get("rainVals",null); if(sv&&isFinite(sv.vol)){const x=sv.vol, g=x<=0?0:x*1.5/(1.5+10*x*(1-x)); rv.vol=g>0?Math.max(.05,1+20*Math.log10(g)/50):0; store.set("rainVals",rv)} store.set("rainVolLaw",2) }
 if(rPreset&&!RAIN_PRESETS.some(p=>p[0]===rPreset)) rPreset=null;
 let rctx=null, rnode=null, rStarting=null, rInfo=null, rLed=0, rLvl=0;
 const RL=()=>window.RainLaw||null;
