@@ -484,6 +484,10 @@ html.immersive,html.immersive body{overflow:hidden;overscroll-behavior:none;heig
 #eggBtn.holding::after,#imm .immback.holding::after{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(240,137,58,.28);transform-origin:0 50%;
   transform:scaleX(0);animation:eggHold 2.2s linear .8s forwards;pointer-events:none}
 @keyframes eggHold{to{transform:scaleX(1)}}
+/* the tall face's XY pad: the square turned 45 degrees, its message kept upright */
+.rscreen.rdiamond{transform:rotate(-45deg);border-radius:calc(var(--u) * 1.4)}
+.rscreen.rdiamond .rain-msg{transform:rotate(45deg);padding:22%;background:none}
+.rbank .rkey .gl{white-space:normal;text-align:center;line-height:1.05}
 
 /* ---------- eGuzheng mode: the face is drawn over the rendered plate in cm (--u), like the Rain Machine ---------- */
 .eface{display:none;container-type:inline-size}
@@ -1140,12 +1144,12 @@ function applyGeom(v){
 }
 function layoutScene(){
   const vw=document.documentElement.clientWidth;
-  const RC=document.documentElement.classList, v=!GEOM.tall||RC.contains("egzmode")?"wide":RC.contains("immersive")?(innerHeight>innerWidth?"tall":"wide"):vw<700?"tall":"wide"; if(v!==variant) applyGeom(v);   // eGuzheng keeps the desktop face on every screen
+  const RC=document.documentElement.classList, v=!GEOM.tall||RC.contains("egzmode")?"wide":RC.contains("rainmode")?"tall":RC.contains("immersive")?(innerHeight>innerWidth?"tall":"wide"):vw<700?"tall":"wide"; if(v!==variant) applyGeom(v);   // eGuzheng keeps the desktop face on every screen
   const g=GEOM[v], pw=g.plate[2]-g.plate[0], cx=(g.plate[0]+g.plate[2])/2;
   const cropTop=v==="tall"?.0:.235, cropBot=v==="tall"?.0:.045;
   const vh=window.innerHeight, top=$("radio").getBoundingClientRect().top+scrollY;
   const fitH=(vh-top-230)/(g.h/(g.w*pw)*(1-cropTop-cropBot));
-  const platePx=v==="tall"?Math.min(560,vw*.92):Math.max(Math.min(600,vw*.94),Math.min(1000,vw*.94,fitH));
+  const platePx=v==="tall"?(vw<700?Math.min(560,vw*.92):Math.max(340,Math.min(560,vw*.92,(vh-28)*pw*g.w/g.h/(1-cropTop-cropBot)))):Math.max(Math.min(600,vw*.94),Math.min(1000,vw*.94,fitH));
   const W=platePx/pw, H=W*g.h/g.w;
   const box=$("sceneBox"); box.style.width=W+"px"; box.style.height=H+"px"; box.style.left=(vw/2-cx*W)+"px"; box.style.top=(-cropTop*H)+"px";
   box.style.setProperty("--pw",platePx+"px");
@@ -1391,8 +1395,11 @@ document.addEventListener("keydown",e=>{
 const RFACE={
   wide:{w:71.2,h:39.2,screen:{x:2.2,y:2.2,w:28.9,h:20.8},display:{x:33.3,y:2.2,w:35.7,h:8},sliders:{x:33.3,y:12.4,w:35.7,h:10.6},
         presets:{x:2.2,y:25.2,w:8.6,h:11.8},rain:{x:13.0,y:25.2,w:10.5,h:11.8},gbox:{x:25.7,y:25.2,w:30.6,h:11.8},vol:{x:58.5,y:25.2,w:10.5,h:11.8}},
-  tall:{w:40.2,h:76.2,screen:{x:2.3,y:2.3,w:35.6,h:23.5},display:{x:2.3,y:28.1,w:35.6,h:7},sliders:{x:2.3,y:37.4,w:35.6,h:10.4},
-        presets:{x:2.3,y:50.1,w:9.6,h:11.8},rain:{x:14.2,y:50.1,w:10.75,h:11.8},vol:{x:27.25,y:50.1,w:10.75,h:11.8},gbox:{x:2.3,y:64.2,w:35.6,h:9.7}}};
+  // Every screen gets the tall face (Nov 5 layout): amber window, the crossed sliders, the low pass box with the presets
+  // beside it, then the XY pad turned 45 degrees (bottom point silent, top point unfiltered) with Volume over Rain.
+  tall:{w:40.2,h:76.2,display:{x:2.3,y:2.3,w:35.6,h:8.6},sliders:{x:2.3,y:14.0,w:35.6,h:10.4},
+        gbox:{x:2.3,y:28.0,w:26.4,h:10.4,label:"Low Pass Filter"},presets:{x:31.0,y:30.2,w:6.9,h:9.6,labelTop:true},
+        diamond:{cx:14.4,cy:58.0,d:24.4},vol:{x:28.3,y:43.8,w:9.4,h:12.2},rain:{x:28.3,y:59.6,w:9.4,h:12.2}}};
 // Chris's presets (Nov 4), read off his settings
 const RAIN_PRESETS=[
   ["Gentle rain",{density:.537,hp:.612,lp:.434,res:.22,mod:.22,vol:.75,poles:0}],
@@ -1498,8 +1505,9 @@ function faceHTML(v){
   const lbl=(x,y,t,cls="")=>`<span class="rlab${cls}" style="left:${cm(x)};top:${cm(y)}" aria-hidden="true">${t}</span>`;
   const knob=(id,name,x,y,ring)=>`<div class="rknob" data-r="${id}" role="slider" tabindex="0" aria-label="${name}" aria-valuemin="0" aria-valuemax="100" style="left:${cm(x-ring/2)};top:${cm(y-ring/2)};width:${cm(ring)};height:${cm(ring)}"><svg viewBox="0 0 100 100" aria-hidden="true">${T}</svg><span class="body"><span class="ri"><i></i></span></span></div>`;
   let h=`<div class="rplate"></div>`;
-  // screen: the XY pad
-  const S=F.screen; h+=`<div class="rscreen" style="${at(S)}"><canvas class="rpane" aria-hidden="true"></canvas><div class="xypad" role="slider" tabindex="0" aria-label="Filter pad: up opens the low pass, right lowers the high pass; bottom left is silent, top right is unfiltered"></div><div class="rain-msg"><span>Rain Through a Window</span><small>Flip the power switch to start the rain.</small></div></div>`;
+  // screen: the XY pad (on the tall face a square turned 45 degrees: a diamond)
+  const D=F.diamond, S=F.screen||{x:D.cx-D.d/Math.SQRT2/2,y:D.cy-D.d/Math.SQRT2/2,w:D.d/Math.SQRT2,h:D.d/Math.SQRT2};
+  h+=`<div class="rscreen${D?" rdiamond":""}" style="${at(S)}"><canvas class="rpane" aria-hidden="true"></canvas><div class="xypad" role="slider" tabindex="0" aria-label="Filter pad: the bottom point is silent, the top point is unfiltered; the left point keeps only the highs, the right point only the lows"></div><div class="rain-msg"><span>Rain Through a Window</span><small>Flip the power switch to start the rain.</small></div></div>`;
   // amber window: the filter's response
   h+=`<div class="ramber" style="${at(F.display)}"><canvas class="rcurve" aria-hidden="true"></canvas></div>`;
   // sliders: LPF on top, HPF below, staggered, a printed box around the shared middle
@@ -1513,13 +1521,14 @@ function faceHTML(v){
   {const P=F.presets, kh=2.8, g=(9.6-3*kh)/2;
    h+=`<div class="rbank" role="group" aria-label="Presets" style="left:${cm(P.x)};top:${cm(P.y)};width:${cm(P.w)};height:${cm(9.6)}">`+
      RAIN_PRESETS.map(p=>`<button type="button" class="gkey rkey" data-p="${p[0]}" aria-pressed="false" style="height:${cm(kh)}"><span class="cap"><span class="gl">${p[0]}</span></span></button>`).join("")+`</div>`;
-   h+=lbl(P.x+P.w/2,P.y+P.h-.6,"Presets")}
+   h+=P.labelTop?lbl(P.x+P.w/2,P.y-1.3,"Presets"," sm"):lbl(P.x+P.w/2,P.y+P.h-.6,"Presets")}
   // Rain and Volume
   for(const [id,k,n] of [["density","rain","Rain"],["vol","vol","Volume"]]){const E=F[k]; h+=knob(id,n,E.x+E.w/2,E.y+E.w/2,E.w)+lbl(E.x+E.w/2,E.y+E.h-.6,n)}
   // Motion, LPF Reso and the 2/4 pole switch, evenly spaced in their printed box
   {const G=F.gbox, kd=4.6, ring=kd*1.25, sw=6.2, gap=(G.w-2*ring-sw)/4, inner=ring+1.8, top=G.y+(G.h-inner)/2, cy=top+ring/2, ly=top+ring+1.2;
    const x1=G.x+gap+ring/2, x2=x1+ring+gap, xs=x2+ring/2+gap+.85, sh=G.h>10.5?5.2:5.0, sy=(top+ly+.6)/2;
-   h+=`<span class="rbox" style="${at(G)}"></span>`+knob("mod","Motion",x1,cy,ring)+lbl(x1,ly,"Motion"," sm")+knob("res","LPF resonance",x2,cy,ring)+lbl(x2,ly,"LPF Reso"," sm");
+   if(G.label) h+=lbl(G.x+G.w/2,G.y+G.h+1.3,G.label," sm");
+   h+=`<span class="rbox" style="${at(G)}"></span>`+knob("mod","Motion",x1,cy,ring)+lbl(x1,ly,"Motion"," sm")+knob("res","LPF resonance",x2,cy,ring)+lbl(x2,ly,G.label?"Reso":"LPF Reso"," sm");
    h+=`<span class="rpslot" style="left:${cm(xs-.85)};top:${cm(sy-sh/2)};width:${cm(1.7)};height:${cm(sh)}"></span>`+
       `<button type="button" class="rswitch" role="switch" aria-checked="true" aria-label="Low pass slope" style="left:${cm(xs-.85)};top:${cm(sy-sh/2)};width:${cm(1.7)};height:${cm(sh)}"><span class="act"></span></button>`+
       lbl(xs+1.35,sy-sh/2+.6,"2 pole"," sm left")+lbl(xs+1.35,sy+sh/2-.6,"4 pole"," sm left")}
@@ -1535,12 +1544,18 @@ function bindFace(face){
   face.querySelectorAll(".rslider").forEach(f=>bindRainDrag(f,f.dataset.s,e=>{const r=f.getBoundingClientRect(),h=r.height;return (e.clientX-r.left-h/2)/Math.max(1,r.width-h)},true));
   // XY pad on the screen: up opens the low pass, right lowers the high pass.
   // Bottom left: low pass shut and high pass high, so nothing gets through. Top right: both wide open.
-  const pad=face.querySelector(".xypad"), xy=e=>{const r=pad.getBoundingClientRect(); setRain("lp",1-(e.clientY-r.top)/r.height); setRain("hp",1-(e.clientX-r.left)/r.width)};
+  const pad=face.querySelector(".xypad"), rot=!!face.querySelector(".rdiamond"), C=Math.SQRT1_2;
+  const xy=e=>{const r=pad.getBoundingClientRect(), side=pad.offsetWidth||r.width;
+    let dx=e.clientX-(r.left+r.width/2), dy=e.clientY-(r.top+r.height/2);
+    if(rot){const lx=(dx-dy)*C, ly=(dx+dy)*C; dx=lx; dy=ly}   // the pad is the square turned 45 degrees anticlockwise
+    const k=rot?1.08:1;   // the diamond's points are rounded off, so its far ends are reached a little inside them
+    setRain("lp",.5-k*dy/side); setRain("hp",.5-k*dx/side)};
   pad.addEventListener("pointerdown",e=>{pad.setPointerCapture(e.pointerId);e.preventDefault();pad.focus({preventScroll:true});xy(e)});
   pad.addEventListener("pointermove",e=>{if(pad.hasPointerCapture(e.pointerId))xy(e)});
   pad.addEventListener("keydown",e=>{const s=e.shiftKey?.002:.01, k=e.key;
-    if(k==="ArrowUp")setRain("lp",rv.lp+s); else if(k==="ArrowDown")setRain("lp",rv.lp-s);
-    else if(k==="ArrowRight")setRain("hp",rv.hp-s); else if(k==="ArrowLeft")setRain("hp",rv.hp+s); else return; e.preventDefault(); e.stopPropagation()});
+    // on the diamond, up and down travel between silent and unfiltered; left and right between highs only and lows only
+    const mv={ArrowUp:rot?[s,-s]:[s,0],ArrowDown:rot?[-s,s]:[-s,0],ArrowRight:rot?[-s,-s]:[0,-s],ArrowLeft:rot?[s,s]:[0,s]}[k];
+    if(!mv) return; setRain("lp",rv.lp+mv[0]); setRain("hp",rv.hp+mv[1]); e.preventDefault(); e.stopPropagation()});
   face.querySelector(".rswitch").onclick=()=>setRain("poles",rv.poles>=.5?0:1);
   face.querySelectorAll(".rkey").forEach(b=>b.onclick=()=>applyPreset(b.dataset.p));
 }
@@ -1576,7 +1591,7 @@ function setMode(m){
   updImmersive();
 }
 /* ---------- drawing: the XY pad on the screen, the filter's response in the amber window ---------- */
-function fitCanvas(cv){const r=cv.getBoundingClientRect(); if(!r.width) return null;
+function fitCanvas(cv){const r={width:cv.clientWidth,height:cv.clientHeight}; if(!r.width) return null;
   const dpr=Math.min(2,devicePixelRatio||1), W=Math.round(r.width*dpr), H=Math.round(r.height*dpr);
   if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H} return [cv.getContext("2d"),W,H,dpr]}
 function respDb(f,fh,fc,k,four){
@@ -1663,7 +1678,7 @@ function immSize(){
   const top={x:P,y:BH+2*P,w:VW-2*P,h:VH-BH-3*P}, side={x:BW+2*P,y:P,w:VW-BW-3*P,h:VH-2*P};
   const useSide=fit(side.w,side.h)>fit(top.w,top.h), A=useSide?side:top, s=fit(A.w,A.h), W=Math.floor(F.w*s), H=Math.floor(F.h*s);
   immEl.classList.toggle("immside",useSide);
-  immEl.style.setProperty("--immW",W+"px"); immEl.style.setProperty("--immH",H+"px");
+  immEl.style.setProperty("--immW",W+"px"); immEl.style.setProperty("--immH",H+"px"); immEl.style.setProperty("--pw",W+"px");   // keys size themselves from the plate's width
   immEl.style.setProperty("--immX",Math.round(A.x+(A.w-W)/2)+"px"); immEl.style.setProperty("--immY",Math.round(A.y+(A.h-H)/2)+"px");
   const hint=immEl.querySelector(".immhint"); hint.hidden=!(egz&&VH>VW&&VW<700);
   if(!hint.hidden) hint.style.top=Math.round(A.y+(A.h+H)/2+16)+"px";
