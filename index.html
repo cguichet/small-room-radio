@@ -1403,7 +1403,7 @@ const RFACE={
 // Chris's presets (Nov 4), read off his settings
 const RAIN_PRESETS=[
   ["Gentle rain",{density:.537,hp:.612,lp:.434,res:.22,mod:.22,vol:.75,poles:0}],
-  ["Filtered noise",{density:1,hp:.36,lp:.675,res:0,mod:0,vol:.385,poles:0}],
+  ["Filtered noise",{density:1,hp:.36,lp:.675,res:0,mod:0,vol:.132,poles:0}],   // half the level it had at .385 (Nov 5)
   ["Wind chimes",{density:.141,hp:.496,lp:.467,res:.74,mod:.385,vol:.97,poles:0}]];
 const RAIN_DEF=RAIN_PRESETS[2][1];
 let rainMode=false, rv=Object.assign({},RAIN_DEF,store.get("rainVals",{})), rPreset=store.get("rainPreset","Wind chimes");
@@ -1545,15 +1545,17 @@ function bindFace(face){
   // XY pad on the screen: up opens the low pass, right lowers the high pass.
   // Bottom left: low pass shut and high pass high, so nothing gets through. Top right: both wide open.
   const pad=face.querySelector(".xypad"), rot=!!face.querySelector(".rdiamond"), C=Math.SQRT1_2;
-  const xy=e=>{const r=pad.getBoundingClientRect(), side=pad.offsetWidth||r.width;
-    let dx=e.clientX-(r.left+r.width/2), dy=e.clientY-(r.top+r.height/2);
-    if(rot){const lx=(dx-dy)*C, ly=(dx+dy)*C; dx=lx; dy=ly}   // the pad is the square turned 45 degrees anticlockwise
-    const k=rot?1.08:1;   // the diamond's points are rounded off, so its far ends are reached a little inside them
+  // Grabbing the pad anywhere takes hold of the control where it is: it moves with the finger from there, it does not jump to it.
+  let grab=null;
+  const local=(e,r)=>{let dx=e.clientX, dy=e.clientY; if(rot){const lx=(dx-dy)*C, ly=(dx+dy)*C; dx=lx; dy=ly} return [dx,dy]};   // the pad is the square turned 45 degrees anticlockwise
+  const drag=e=>{const side=pad.offsetWidth||pad.getBoundingClientRect().width, [u,v]=local(e), du=(u-grab.u)/side, dv=(v-grab.v)/side; grab.u=u; grab.v=v;
+    // each move adds what the finger travelled since the last one, so pushing past an end does nothing and turning back answers at once.
     // On the diamond the square is also mirrored across its bottom-to-top diagonal, so the left point keeps only the lows
     // and the right point only the highs (bottom still silent, top still unfiltered).
-    if(rot){ setRain("lp",.5+k*dx/side); setRain("hp",.5+k*dy/side) } else { setRain("lp",.5-k*dy/side); setRain("hp",.5-k*dx/side) }};
-  pad.addEventListener("pointerdown",e=>{pad.setPointerCapture(e.pointerId);e.preventDefault();pad.focus({preventScroll:true});xy(e)});
-  pad.addEventListener("pointermove",e=>{if(pad.hasPointerCapture(e.pointerId))xy(e)});
+    if(rot){ setRain("lp",rv.lp+du); setRain("hp",rv.hp+dv) } else { setRain("lp",rv.lp-dv); setRain("hp",rv.hp-du) }};
+  pad.addEventListener("pointerdown",e=>{pad.setPointerCapture(e.pointerId);e.preventDefault();pad.focus({preventScroll:true});const [u,v]=local(e);grab={u,v}});
+  pad.addEventListener("pointermove",e=>{if(grab&&pad.hasPointerCapture(e.pointerId))drag(e)});
+  const drop=()=>{grab=null}; pad.addEventListener("pointerup",drop); pad.addEventListener("pointercancel",drop);
   pad.addEventListener("keydown",e=>{const s=e.shiftKey?.002:.01, k=e.key;
     // on the diamond, up and down travel between silent and unfiltered; left and right between highs only and lows only
     const mv={ArrowUp:rot?[s,-s]:[s,0],ArrowDown:rot?[-s,s]:[-s,0],ArrowRight:rot?[s,s]:[0,-s],ArrowLeft:rot?[-s,-s]:[0,s]}[k];
