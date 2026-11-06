@@ -1,5 +1,5 @@
 {
- "_source": "Songkick venue calendars, fetched 2026-11-01 (first six venues) and 2026-11-03 (Fillmore, Regency Ballroom, Great American Music Hall, SFJAZZ Center). Sold-out status from venue sites, 2026-11-02. Brooklyn: Songkick calendars for Baby's All Right, Union Pool, Music Hall of Williamsburg, National Sawdust, Brooklyn Steel, Elsewhere (incl. The Hall), Market Hotel, The Sultan Room, Saint Vitus and Warsaw, fetched 2026-11-04. Added Nov 6: Songkick calendars for Pete's Candy Store, Sleepwalk, Good Room, Barbès, Public Records, Hart Bar and Knockdown Center (Maspeth, just over the Queens line), fetched 2026-11-06. Ann Arbor venues (The Ark, The Blind Pig, The Michigan Theater, Hill Auditorium): Songkick calendars fetched 2026-11-06; comedy and theme nights left out.",
+ "_source": "Songkick venue calendars, fetched 2026-11-01 (first six venues) and 2026-11-03 (Fillmore, Regency Ballroom, Great American Music Hall, SFJAZZ Center). Sold-out status from venue sites, 2026-11-02. Brooklyn: Songkick calendars for Baby's All Right, Union Pool, Music Hall of Williamsburg, National Sawdust, Brooklyn Steel, Elsewhere (incl. The Hall), Market Hotel, The Sultan Room, Saint Vitus and Warsaw, fetched 2026-11-04. Added Nov 6: Songkick calendars for Pete's Candy Store, Sleepwalk, Good Room, Barbès, Public Records, Hart Bar and Knockdown Center (Maspeth, just over the Queens line), fetched 2026-11-06. Ann Arbor venues (The Ark, The Blind Pig, The Michigan Theater, Hill Auditorium): Songkick calendars fetched 2026-11-06; comedy and theme nights left out. Minneapolis (Berlin, First Avenue, Icehouse, The Cedar Cultural Center, Green Room), fetched 2026-11-06: First Avenue from Songkick; Berlin from its own calendar; Icehouse, the Cedar and Green Room from Bandsintown (more complete than Songkick there). Ticket links point at whichever source listed the show. DJ nights, listening parties, open jams and tribute acts left out.",
  "_updated": "2026-11-06",
  "venues": {
   "rickshaw-stop": {
@@ -6015,6 +6015,1012 @@
       "Wynton Marsalis"
      ],
      "43499421-wynton-marsalis-at-hill-auditorium"
+    ]
+   ]
+  },
+  "berlin": {
+   "name": "Berlin",
+   "address": "204 N 1st St",
+   "capacity": 120,
+   "city": "minneapolis",
+   "shows": [
+    [
+     "2026-11-06",
+     [
+      "Mill City Hot Club"
+     ],
+     "https://www.berlinmpls.com/calendar/mill-city-hot-club-november-2026"
+    ],
+    [
+     "2026-11-06",
+     [
+      "Alex Koi",
+      "Kirin McElwain"
+     ],
+     "https://www.berlinmpls.com/calendar/alex-koi-kirin-mcelwain-nov-2026"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Trish Hurd-Paczkowski",
+      "Graydon Peterson",
+      "Peter Goggin"
+     ],
+     "https://www.berlinmpls.com/calendar/trish-hurd-graydon-peterson-peter-goggin-november-2026"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Adam Meckler Quintet"
+     ],
+     "https://www.berlinmpls.com/calendar/adam-meckler-quintet-nov-2026"
+    ],
+    [
+     "2026-11-09",
+     [
+      "Eiko Ishibashi",
+      "LXD"
+     ],
+     "https://www.berlinmpls.com/calendar/eiko-ishibashi-nov-9-2026"
+    ],
+    [
+     "2026-11-10",
+     [
+      "Eiko Ishibashi",
+      "Kenneth Gregory"
+     ],
+     "https://www.berlinmpls.com/calendar/eiko-ishibashi-nov-10-2026"
+    ],
+    [
+     "2026-11-11",
+     [
+      "John Carroll Kirby",
+      "Stevie"
+     ],
+     "https://www.berlinmpls.com/calendar/john-carroll-kirby-november-2026"
+    ],
+    [
+     "2026-11-12",
+     [
+      "Son de Cuerdas"
+     ],
+     "https://www.berlinmpls.com/calendar/son-de-cuerdas-oct-2026"
+    ],
+    [
+     "2026-11-13",
+     [
+      "Jason Fabus"
+     ],
+     "https://www.berlinmpls.com/calendar/jason-fabus-plays-and-sings-november-2026"
+    ],
+    [
+     "2026-11-13",
+     [
+      "Alyssa Allgood Quartet"
+     ],
+     "https://www.berlinmpls.com/calendar/alyssa-allgood-quartet-november-2026"
+    ],
+    [
+     "2026-11-14",
+     [
+      "Jackson Peters Trio"
+     ],
+     "https://www.berlinmpls.com/calendar/early-evening-jazz-jackson-peters-trio-nov-2026"
+    ],
+    [
+     "2026-11-14",
+     [
+      "Kenny Reichert"
+     ],
+     "https://www.berlinmpls.com/calendar/kenny-reichert-5tet-november-2026"
+    ],
+    [
+     "2026-11-15",
+     [
+      "Marquis Hill"
+     ],
+     "https://www.berlinmpls.com/calendar/marquis-hill-november-2026"
+    ],
+    [
+     "2026-11-18",
+     [
+      "David Feily"
+     ],
+     "https://www.berlinmpls.com/calendar/david-feily-ep-release-nov-2026"
+    ],
+    [
+     "2026-11-20",
+     [
+      "Robert Lehmann",
+      "Jordan Sarkis",
+      "Suwal Singh"
+     ],
+     "https://www.berlinmpls.com/calendar/early-evening-jazz-robert-lehmann-suwal-singh-jordan-sarkis"
+    ],
+    [
+     "2026-11-20",
+     [
+      "Marvelous"
+     ],
+     "https://www.berlinmpls.com/calendar/marvelous-album-release-nov-2026"
+    ],
+    [
+     "2026-11-21",
+     [
+      "Calvin Caron Trio"
+     ],
+     "https://www.berlinmpls.com/calendar/early-evening-jazz-calvin-caron-trio-nov-2026"
+    ],
+    [
+     "2026-11-21",
+     [
+      "BZ3 Organ Trio"
+     ],
+     "https://www.berlinmpls.com/calendar/bz3-organ-trio-nov-2026"
+    ],
+    [
+     "2026-11-25",
+     [
+      "Hans Fuerst",
+      "DLC"
+     ],
+     "https://www.berlinmpls.com/calendar/hans-fuerst-dlc-november-2026"
+    ],
+    [
+     "2026-11-27",
+     [
+      "Harry Scott Trio"
+     ],
+     "https://www.berlinmpls.com/calendar/early-evening-jazz-harry-scott-trio-nov-2026"
+    ],
+    [
+     "2026-11-27",
+     [
+      "Zacc Harris Group"
+     ],
+     "https://www.berlinmpls.com/calendar/zacc-harris-group-november-2026-kmj9n"
+    ],
+    [
+     "2026-11-28",
+     [
+      "Anna Dolde",
+      "Klo Vivienne Garoute"
+     ],
+     "https://www.berlinmpls.com/calendar/early-evening-jazz-anna-dolde-klo-vivienne-garoute-november-2026"
+    ],
+    [
+     "2026-11-28",
+     [
+      "Omar Abdulkarim Quartet"
+     ],
+     "https://www.berlinmpls.com/calendar/omar-abdulkarim-quartet-november-2026"
+    ],
+    [
+     "2026-12-05",
+     [
+      "Blue Earth Sound"
+     ],
+     "https://www.berlinmpls.com/calendar/blue-earth-sound-december-2026"
+    ],
+    [
+     "2026-12-11",
+     [
+      "Adam Harder Nussbaum Trio"
+     ],
+     "https://www.berlinmpls.com/calendar/early-evening-jazz-adam-harder-nussbaum-trio-dec-2026"
+    ],
+    [
+     "2026-12-11",
+     [
+      "Jakob Dreyer Quartet",
+      "Sasha Berliner"
+     ],
+     "https://www.berlinmpls.com/calendar/jakob-dreyer-quartet-december-2026"
+    ],
+    [
+     "2026-12-22",
+     [
+      "Joey Arias",
+      "Nelson Devereaux"
+     ],
+     "https://www.berlinmpls.com/calendar/joey-arias-and-nelson-devereaux-quartet-december-2026"
+    ],
+    [
+     "2026-12-30",
+     [
+      "Dan Carpel",
+      "Miguel Hurtado",
+      "Kavyesh Kaviraj"
+     ],
+     "https://www.berlinmpls.com/calendar/carpel-hurtado-kaviraj-december-2026"
+    ],
+    [
+     "2027-01-08",
+     [
+      "New Jazz Underground"
+     ],
+     "https://www.berlinmpls.com/calendar/new-jazz-underground-jan-8-2027"
+    ],
+    [
+     "2027-01-09",
+     [
+      "New Jazz Underground"
+     ],
+     "https://www.berlinmpls.com/calendar/new-jazz-underground-jan-9-2027"
+    ],
+    [
+     "2027-04-24",
+     [
+      "Stephan Crump's Passerine"
+     ],
+     "43406920-stephan-crump-s-passerine-at-berlin"
+    ]
+   ]
+  },
+  "first-avenue": {
+   "name": "First Avenue",
+   "address": "701 N 1st Ave",
+   "capacity": 1550,
+   "city": "minneapolis",
+   "shows": [
+    [
+     "2026-11-06",
+     [
+      "Die Spitz"
+     ],
+     "43331685-die-spitz-at-first-avenue"
+    ],
+    [
+     "2026-11-06",
+     [
+      "Faetooth"
+     ],
+     "43451100-faetooth-at-first-avenue"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Brigitte Calls Me Baby"
+     ],
+     "43323485-brigitte-calls-me-baby-at-first-avenue"
+    ],
+    [
+     "2026-11-11",
+     [
+      "Michelle Branch"
+     ],
+     "43325719-michelle-branch-at-first-avenue"
+    ],
+    [
+     "2026-11-12",
+     [
+      "Low Cut Connie",
+      "Fantastic Cat"
+     ],
+     "43108490-low-cut-connie-at-first-avenue"
+    ],
+    [
+     "2026-11-13",
+     [
+      "Julia Jacklin"
+     ],
+     "43249238-julia-jacklin-at-first-avenue"
+    ],
+    [
+     "2026-11-14",
+     [
+      "Kitchen Dwellers"
+     ],
+     "43371275-kitchen-dwellers-at-first-avenue"
+    ],
+    [
+     "2026-11-15",
+     [
+      "Hurricane Wisdom"
+     ],
+     "43372153-hurricane-wisdom-at-first-avenue"
+    ],
+    [
+     "2026-11-19",
+     [
+      "The Living Tombstone"
+     ],
+     "43081496-the-living-tombstone-at-first-avenue"
+    ],
+    [
+     "2026-11-20",
+     [
+      "Slow Pulp",
+      "Her New Knife"
+     ],
+     "43208652-slow-pulp-at-first-avenue"
+    ],
+    [
+     "2026-11-21",
+     [
+      "Porch Light"
+     ],
+     "43356018-porch-light-at-first-avenue"
+    ],
+    [
+     "2026-11-24",
+     [
+      "Bonobo"
+     ],
+     "43261867-bonobo-at-first-avenue"
+    ],
+    [
+     "2026-11-25",
+     [
+      "Tommy Stinson"
+     ],
+     "43429450-tommy-stinson-at-first-avenue"
+    ],
+    [
+     "2026-11-25",
+     [
+      "The Ike Reilly Assassination"
+     ],
+     "43464714-the-ike-reilly-assassination-at-first-avenue"
+    ],
+    [
+     "2026-11-28",
+     [
+      "Night Moves"
+     ],
+     "43443521-night-moves-at-first-avenue"
+    ],
+    [
+     "2026-11-28",
+     [
+      "Solid Gold"
+     ],
+     "43464368-solid-gold-at-first-avenue"
+    ],
+    [
+     "2026-12-01",
+     [
+      "Angine de Poitrine",
+      "zouz"
+     ],
+     "43287712-angine-de-poitrine-at-first-avenue"
+    ],
+    [
+     "2026-12-02",
+     [
+      "Angine de Poitrine"
+     ],
+     "43218103-angine-de-poitrine-at-first-avenue"
+    ],
+    [
+     "2026-12-05",
+     [
+      "Pert Near Sandstone",
+      "Buffalo Galaxy",
+      "Molly Brandt"
+     ],
+     "43444292-pert-near-sandstone-at-first-avenue"
+    ],
+    [
+     "2026-12-12",
+     [
+      "Earlybirds Club"
+     ],
+     "43453433-earlybirds-club-at-first-avenue"
+    ],
+    [
+     "2026-12-18",
+     [
+      "Viva Knievel"
+     ],
+     "43455401-viva-knievel-at-first-avenue"
+    ],
+    [
+     "2026-12-19",
+     [
+      "The Big Wu"
+     ],
+     "43458925-the-big-wu-at-first-avenue"
+    ],
+    [
+     "2026-12-26",
+     [
+      "Soul Asylum"
+     ],
+     "43485574-soul-asylum-at-first-avenue"
+    ],
+    [
+     "2027-01-09",
+     [
+      "G. Love & Special Sauce",
+      "Todd Carey"
+     ],
+     "43418206-g-love-special-sauce-at-first-avenue"
+    ],
+    [
+     "2027-01-14",
+     [
+      "Portugal. The Man",
+      "Anthony Green"
+     ],
+     "43488087-portugal-the-man-at-first-avenue"
+    ],
+    [
+     "2027-01-15",
+     [
+      "The Last Revel",
+      "Wild Horses"
+     ],
+     "43442227-the-last-revel-at-first-avenue"
+    ],
+    [
+     "2027-01-30",
+     [
+      "The Womack Sisters"
+     ],
+     "43453449-the-womack-sisters-at-first-avenue"
+    ],
+    [
+     "2027-02-06",
+     [
+      "Josh Meloy"
+     ],
+     "43484513-josh-meloy-at-first-avenue"
+    ],
+    [
+     "2027-02-07",
+     [
+      "Atmosphere",
+      "Souls of Mischief",
+      "Mac Lethal",
+      "Blueprint"
+     ],
+     "43425895-atmosphere-at-first-avenue"
+    ],
+    [
+     "2027-02-19",
+     [
+      "Buffalo Traffic Jam",
+      "Jack Van Cleaf"
+     ],
+     "43476331-buffalo-traffic-jam-at-first-avenue"
+    ],
+    [
+     "2027-03-04",
+     [
+      "Dinosaur Jr.",
+      "Starcrawler"
+     ],
+     "43389713-dinosaur-jr-at-first-avenue"
+    ],
+    [
+     "2027-03-07",
+     [
+      "Vacations",
+      "TWEN"
+     ],
+     "43451203-vacations-at-first-avenue"
+    ],
+    [
+     "2027-03-10",
+     [
+      "Boy Throb"
+     ],
+     "43496779-boy-throb-at-first-avenue"
+    ],
+    [
+     "2027-04-03",
+     [
+      "Lambrini Girls",
+      "SPRINTS"
+     ],
+     "43476394-lambrini-girls-at-first-avenue"
+    ],
+    [
+     "2027-04-08",
+     [
+      "Wheeler Walker, Jr."
+     ],
+     "43262739-wheeler-walker-jr-at-first-avenue"
+    ],
+    [
+     "2027-04-28",
+     [
+      "Ricky Montgomery"
+     ],
+     "43501912-ricky-montgomery-at-first-avenue"
+    ],
+    [
+     "2027-05-05",
+     [
+      "The Wombats",
+      "The Lathums"
+     ],
+     "43476436-the-wombats-at-first-avenue"
+    ],
+    [
+     "2027-05-07",
+     [
+      "Cory Wong",
+      "Blu DeTiger"
+     ],
+     "43442267-cory-wong-at-first-avenue"
+    ],
+    [
+     "2027-05-08",
+     [
+      "Cory Wong",
+      "Blu DeTiger"
+     ],
+     "43442268-cory-wong-at-first-avenue"
+    ],
+    [
+     "2027-05-09",
+     [
+      "Cory Wong",
+      "Blu DeTiger"
+     ],
+     "43498273-cory-wong-at-first-avenue"
+    ],
+    [
+     "2027-05-14",
+     [
+      "Hazlett"
+     ],
+     "43275934-hazlett-at-first-avenue"
+    ]
+   ]
+  },
+  "icehouse": {
+   "name": "Icehouse",
+   "address": "2528 Nicollet Ave",
+   "capacity": 200,
+   "city": "minneapolis",
+   "shows": [
+    [
+     "2026-11-10",
+     [
+      "Dessa",
+      "Jeremy Messersmith"
+     ],
+     "https://www.bandsintown.com/e/1040507545"
+    ],
+    [
+     "2026-11-14",
+     [
+      "The Dollys"
+     ],
+     "https://www.bandsintown.com/e/1040654056"
+    ],
+    [
+     "2026-11-15",
+     [
+      "Sadie Gustafson-Zook"
+     ],
+     "https://www.bandsintown.com/e/1040524080"
+    ],
+    [
+     "2026-11-18",
+     [
+      "Mike Baggetta",
+      "Eli Winter"
+     ],
+     "https://www.bandsintown.com/e/1039802946"
+    ],
+    [
+     "2026-11-20",
+     [
+      "Pullstring",
+      "Scorched Waves"
+     ],
+     "https://www.bandsintown.com/e/1040506268"
+    ],
+    [
+     "2026-12-04",
+     [
+      "Willy Porter"
+     ],
+     "https://www.bandsintown.com/e/1040459743"
+    ],
+    [
+     "2026-12-17",
+     [
+      "Maria and the Coins"
+     ],
+     "https://www.bandsintown.com/e/1040549173"
+    ],
+    [
+     "2027-02-06",
+     [
+      "Doyle Turner"
+     ],
+     "https://www.bandsintown.com/e/1040782195"
+    ],
+    [
+     "2027-02-27",
+     [
+      "Mike Viola"
+     ],
+     "https://www.bandsintown.com/e/1040701993"
+    ],
+    [
+     "2027-03-02",
+     [
+      "Dessa"
+     ],
+     "https://www.bandsintown.com/e/1040099037"
+    ]
+   ]
+  },
+  "cedar-cultural-center": {
+   "name": "The Cedar Cultural Center",
+   "address": "416 Cedar Ave S",
+   "capacity": 600,
+   "city": "minneapolis",
+   "shows": [
+    [
+     "2026-11-06",
+     [
+      "Bill Callahan",
+      "Rick Maguire"
+     ],
+     "https://www.bandsintown.com/e/108954893"
+    ],
+    [
+     "2026-11-08",
+     [
+      "Teddy Thompson",
+      "Jenna Nicholls"
+     ],
+     "https://www.bandsintown.com/e/108468784"
+    ],
+    [
+     "2026-11-10",
+     [
+      "Great Lake Swimmers"
+     ],
+     "https://www.bandsintown.com/e/108583444"
+    ],
+    [
+     "2026-11-12",
+     [
+      "Gill Weather"
+     ],
+     "https://www.bandsintown.com/e/109006989"
+    ],
+    [
+     "2026-11-14",
+     [
+      "Chicago Farmer"
+     ],
+     "https://www.bandsintown.com/e/107657016"
+    ],
+    [
+     "2026-11-15",
+     [
+      "Ofer Ronen"
+     ],
+     "https://www.bandsintown.com/e/108933587"
+    ],
+    [
+     "2026-11-19",
+     [
+      "Jake Blount"
+     ],
+     "https://www.bandsintown.com/e/108655124"
+    ],
+    [
+     "2026-11-21",
+     [
+      "John Gorka"
+     ],
+     "https://www.bandsintown.com/e/1039735497"
+    ],
+    [
+     "2026-11-22",
+     [
+      "Alla Boara"
+     ],
+     "https://www.bandsintown.com/e/108887323"
+    ],
+    [
+     "2026-11-28",
+     [
+      "Pieta Brown"
+     ],
+     "https://www.bandsintown.com/e/1040334472"
+    ],
+    [
+     "2026-12-02",
+     [
+      "The Wildwoods"
+     ],
+     "https://www.bandsintown.com/e/108954902"
+    ],
+    [
+     "2026-12-03",
+     [
+      "Peter Mulvey"
+     ],
+     "https://www.bandsintown.com/e/1040311246"
+    ],
+    [
+     "2026-12-04",
+     [
+      "Dos Santos"
+     ],
+     "https://www.bandsintown.com/e/108954913"
+    ],
+    [
+     "2026-12-05",
+     [
+      "ARLEN"
+     ],
+     "https://www.bandsintown.com/e/108933187"
+    ],
+    [
+     "2026-12-11",
+     [
+      "The Nunnery"
+     ],
+     "https://www.bandsintown.com/e/1040836795"
+    ],
+    [
+     "2026-12-12",
+     [
+      "Nathan Graham"
+     ],
+     "https://www.bandsintown.com/e/108933605"
+    ],
+    [
+     "2026-12-13",
+     [
+      "Ben Cook-Feltz"
+     ],
+     "https://www.bandsintown.com/e/109003147"
+    ],
+    [
+     "2026-12-18",
+     [
+      "Red Thread"
+     ],
+     "https://www.bandsintown.com/e/109003320"
+    ],
+    [
+     "2027-01-08",
+     [
+      "Kelley Smith"
+     ],
+     "https://www.bandsintown.com/e/1040759720"
+    ],
+    [
+     "2027-01-16",
+     [
+      "Antje Duvekot"
+     ],
+     "https://www.bandsintown.com/e/109003196"
+    ],
+    [
+     "2027-01-22",
+     [
+      "Alela Diane"
+     ],
+     "https://www.bandsintown.com/e/109082026"
+    ],
+    [
+     "2027-01-24",
+     [
+      "Colin Hay"
+     ],
+     "https://www.bandsintown.com/e/109081728"
+    ],
+    [
+     "2027-01-25",
+     [
+      "Colin Hay"
+     ],
+     "https://www.bandsintown.com/e/109081729"
+    ],
+    [
+     "2027-02-02",
+     [
+      "CelloGayageum"
+     ],
+     "https://www.bandsintown.com/e/108933574"
+    ],
+    [
+     "2027-02-03",
+     [
+      "Jeff Parker"
+     ],
+     "https://www.bandsintown.com/e/109067624"
+    ],
+    [
+     "2027-02-04",
+     [
+      "Alash"
+     ],
+     "https://www.bandsintown.com/e/109081776"
+    ],
+    [
+     "2027-02-13",
+     [
+      "Gadan"
+     ],
+     "https://www.bandsintown.com/e/109007040"
+    ],
+    [
+     "2027-02-26",
+     [
+      "Charlie Hunter"
+     ],
+     "https://www.bandsintown.com/e/1040785183"
+    ],
+    [
+     "2027-03-10",
+     [
+      "Stundom"
+     ],
+     "https://www.bandsintown.com/e/109067497"
+    ],
+    [
+     "2027-03-13",
+     [
+      "Dan Reeder",
+      "Peggy Reeder"
+     ],
+     "https://www.bandsintown.com/e/1039632344"
+    ],
+    [
+     "2027-03-19",
+     [
+      "Susan Werner"
+     ],
+     "https://www.bandsintown.com/e/109067537"
+    ],
+    [
+     "2027-03-26",
+     [
+      "Manu Delago"
+     ],
+     "https://www.bandsintown.com/e/109003277"
+    ],
+    [
+     "2027-04-01",
+     [
+      "SML"
+     ],
+     "https://www.bandsintown.com/e/108662030"
+    ],
+    [
+     "2027-04-11",
+     [
+      "GNOSS"
+     ],
+     "https://www.bandsintown.com/e/1040801216"
+    ],
+    [
+     "2027-04-27",
+     [
+      "Väsen"
+     ],
+     "https://www.bandsintown.com/e/109006944"
+    ],
+    [
+     "2027-04-30",
+     [
+      "Gyedu-Blay Ambolley"
+     ],
+     "https://www.bandsintown.com/e/1039758094"
+    ],
+    [
+     "2027-05-01",
+     [
+      "Carsie Blanton"
+     ],
+     "https://www.bandsintown.com/e/1040202025"
+    ]
+   ]
+  },
+  "green-room": {
+   "name": "Green Room",
+   "address": "2923 Girard Ave S",
+   "capacity": 300,
+   "city": "minneapolis",
+   "shows": [
+    [
+     "2026-11-06",
+     [
+      "Uncle Muskrat"
+     ],
+     "https://www.bandsintown.com/e/1040664929"
+    ],
+    [
+     "2026-11-10",
+     [
+      "Bad Weather"
+     ],
+     "https://www.bandsintown.com/e/1040672611"
+    ],
+    [
+     "2026-11-11",
+     [
+      "Dev Lemons",
+      "Venus & the Flytraps"
+     ],
+     "https://www.bandsintown.com/e/1039645557"
+    ],
+    [
+     "2026-11-13",
+     [
+      "Chalant"
+     ],
+     "https://www.bandsintown.com/e/1040466097"
+    ],
+    [
+     "2026-11-14",
+     [
+      "Post Animal"
+     ],
+     "https://www.bandsintown.com/e/1039937817"
+    ],
+    [
+     "2026-11-15",
+     [
+      "Token",
+      "Clark D"
+     ],
+     "https://www.bandsintown.com/e/1039649566"
+    ],
+    [
+     "2026-11-27",
+     [
+      "Toussaint Morrison",
+      "Gently Gently"
+     ],
+     "https://www.bandsintown.com/e/1040676443"
+    ],
+    [
+     "2026-11-28",
+     [
+      "Eelke Kleijn"
+     ],
+     "https://www.bandsintown.com/e/1040266950"
+    ],
+    [
+     "2026-12-04",
+     [
+      "MK"
+     ],
+     "https://www.bandsintown.com/e/1040828063"
+    ],
+    [
+     "2026-12-08",
+     [
+      "Anxiety Society"
+     ],
+     "https://www.bandsintown.com/e/1040800346"
+    ],
+    [
+     "2026-12-11",
+     [
+      "The Heyz"
+     ],
+     "https://www.bandsintown.com/e/1040551271"
+    ],
+    [
+     "2026-12-13",
+     [
+      "Tailor Briann"
+     ],
+     "https://www.bandsintown.com/e/1040641191"
+    ],
+    [
+     "2027-01-19",
+     [
+      "The Gould Brothers Band"
+     ],
+     "https://www.bandsintown.com/e/1040795770"
     ]
    ]
   }

@@ -1,13 +1,13 @@
 # Small Room Radio
 
-Ten venues in San Francisco, seventeen in Brooklyn and four in Ann Arbor, and eleven genre keys plus All. Every station plays 3–5 songs from each band booked there in the coming months, with a ticket link on every song.
+Ten venues in San Francisco, seventeen in Brooklyn, four in Ann Arbor and five in Minneapolis, and eleven genre keys plus All. Every station plays 3–5 songs from each band booked there in the coming months, with a ticket link on every song.
 
 ## What's in this folder
 
 | File | What it is |
 |---|---|
 | `index.html` | The website |
-| `shows.json` | Upcoming shows for 31 venues. San Francisco: the first six pulled Nov 1 2026, The Fillmore, Regency Ballroom, Great American Music Hall and SFJAZZ Center added Nov 3. Brooklyn (each venue has `"city":"brooklyn"`): Baby's All Right, Union Pool, Music Hall of Williamsburg, National Sawdust, Brooklyn Steel, Elsewhere, Market Hotel, The Sultan Room, Saint Vitus and Warsaw, pulled Nov 4; Pete's Candy Store, Sleepwalk, Good Room, Barbès, Public Records, Hart Bar and Knockdown Center (Maspeth, just over the Queens line) added Nov 6. Ann Arbor (`"city":"annarbor"`): The Ark, The Blind Pig, The Michigan Theater and Hill Auditorium, pulled Nov 6. The nightly songs job reads every venue, whatever the city. |
+| `shows.json` | Upcoming shows for 36 venues. San Francisco: the first six pulled Nov 1 2026, The Fillmore, Regency Ballroom, Great American Music Hall and SFJAZZ Center added Nov 3. Brooklyn (each venue has `"city":"brooklyn"`): Baby's All Right, Union Pool, Music Hall of Williamsburg, National Sawdust, Brooklyn Steel, Elsewhere, Market Hotel, The Sultan Room, Saint Vitus and Warsaw, pulled Nov 4; Pete's Candy Store, Sleepwalk, Good Room, Barbès, Public Records, Hart Bar and Knockdown Center (Maspeth, just over the Queens line) added Nov 6. Ann Arbor (`"city":"annarbor"`): The Ark, The Blind Pig, The Michigan Theater and Hill Auditorium, pulled Nov 6. Minneapolis (`"city":"minneapolis"`): Berlin, First Avenue, Icehouse, The Cedar Cultural Center and Green Room, pulled Nov 6 from Songkick, Bandsintown and Berlin's own calendar; a show's third field is either a Songkick concert id or a full ticket URL. The nightly songs job reads every venue, whatever the city. |
 | `rain-core.js`, `rain-worklet.js` | Rain Through a Window mode (the switch on top of the radio): the rev D circuit model, and the same model as an AudioWorklet |
 | `genres.json` | Which station each artist plays on. Anyone not listed goes to Indie |
 | `build_tracks.py` | Finds each artist's songs on YouTube and writes `tracks.json` |
