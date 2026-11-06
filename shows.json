@@ -1,6 +1,6 @@
 {
- "_source": "Songkick venue calendars, fetched 2026-11-01 (first six venues) and 2026-11-03 (Fillmore, Regency Ballroom, Great American Music Hall, SFJAZZ Center). Sold-out status from venue sites, 2026-11-02. Brooklyn: Songkick calendars for Baby's All Right, Union Pool, Music Hall of Williamsburg, National Sawdust, Brooklyn Steel, Elsewhere (incl. The Hall), Market Hotel, The Sultan Room, Saint Vitus and Warsaw, fetched 2026-11-04.",
- "_updated": "2026-11-04",
+ "_source": "Songkick venue calendars, fetched 2026-11-01 (first six venues) and 2026-11-03 (Fillmore, Regency Ballroom, Great American Music Hall, SFJAZZ Center). Sold-out status from venue sites, 2026-11-02. Brooklyn: Songkick calendars for Baby's All Right, Union Pool, Music Hall of Williamsburg, National Sawdust, Brooklyn Steel, Elsewhere (incl. The Hall), Market Hotel, The Sultan Room, Saint Vitus and Warsaw, fetched 2026-11-04. Added Nov 6: Songkick calendars for Pete's Candy Store, Sleepwalk, Good Room, Barbès, Public Records, Hart Bar and Knockdown Center (Maspeth, just over the Queens line), fetched 2026-11-06.",
+ "_updated": "2026-11-06",
  "venues": {
   "rickshaw-stop": {
    "name": "Rickshaw Stop",
@@ -5087,6 +5087,533 @@
       "Spirit of the Beehive"
      ],
      "43489438-diiv-at-warsaw"
+    ]
+   ]
+  },
+  "petes-candy-store": {
+   "name": "Pete's Candy Store",
+   "address": "709 Lorimer St",
+   "capacity": 50,
+   "city": "brooklyn",
+   "shows": [
+    [
+     "2026-11-06",
+     [
+      "Strange Neighbors",
+      "Sorry Darling",
+      "Local Honeymoon"
+     ],
+     "43434895-strange-neighbors-at-petes-candy-store"
+    ],
+    [
+     "2026-11-14",
+     [
+      "Collapsing Stars"
+     ],
+     "43408652-collapsing-stars-at-petes-candy-store"
+    ],
+    [
+     "2026-12-18",
+     [
+      "Robert Bock"
+     ],
+     "43483030-robert-bock-at-petes-candy-store"
+    ]
+   ]
+  },
+  "sleepwalk": {
+   "name": "Sleepwalk",
+   "address": "251 Bushwick Ave",
+   "capacity": 100,
+   "city": "brooklyn",
+   "shows": [
+    [
+     "2026-11-12",
+     [
+      "Sharkswimmer",
+      "Early Internet"
+     ],
+     "43444453-sharkswimmer-at-sleepwalk"
+    ],
+    [
+     "2026-11-14",
+     [
+      "Iceblynk",
+      "Spirit Hotel"
+     ],
+     "43436233-iceblynk-at-sleepwalk"
+    ],
+    [
+     "2026-11-19",
+     [
+      "The Waterfall Strainer"
+     ],
+     "43479563-waterfall-strainer-at-sleepwalk"
+    ],
+    [
+     "2026-11-21",
+     [
+      "The Fixations",
+      "MEEP!"
+     ],
+     "43488262-fixations-at-sleepwalk"
+    ],
+    [
+     "2026-11-28",
+     [
+      "Will Patrick"
+     ],
+     "43428443-will-patrick-at-sleepwalk"
+    ],
+    [
+     "2026-12-01",
+     [
+      "Noréll",
+      "Socha",
+      "Judette Elliston"
+     ],
+     "43365153-norell-at-sleepwalk"
+    ],
+    [
+     "2026-12-04",
+     [
+      "Arlo Indigo",
+      "The Hugs"
+     ],
+     "43352132-arlo-indigo-at-sleepwalk"
+    ],
+    [
+     "2026-12-05",
+     [
+      "Black Moss",
+      "Ella Galvin"
+     ],
+     "43464241-black-moss-at-sleepwalk"
+    ],
+    [
+     "2026-12-07",
+     [
+      "shepup"
+     ],
+     "43444501-shepup-at-sleepwalk"
+    ],
+    [
+     "2026-12-09",
+     [
+      "Nina Luna",
+      "ok, tyler"
+     ],
+     "43498861-nina-luna-at-sleepwalk"
+    ],
+    [
+     "2027-01-09",
+     [
+      "Son of Jacob",
+      "Peaceful Faces"
+     ],
+     "43470057-son-of-jacob-at-sleepwalk"
+    ]
+   ]
+  },
+  "good-room": {
+   "name": "Good Room",
+   "address": "98 Meserole Ave",
+   "capacity": 500,
+   "city": "brooklyn",
+   "shows": [
+    [
+     "2026-11-27",
+     [
+      "Dee Diggs"
+     ],
+     "43486841-dee-diggs-at-good-room"
+    ],
+    [
+     "2026-12-03",
+     [
+      "Lucy",
+      "FGS"
+     ],
+     "43374864-lucy-at-good-room"
+    ],
+    [
+     "2027-02-09",
+     [
+      "Girl Ultra"
+     ],
+     "43456972-girl-ultra-at-good-room"
+    ]
+   ]
+  },
+  "barbes": {
+   "name": "Barbès",
+   "address": "376 9th St",
+   "capacity": 70,
+   "city": "brooklyn",
+   "shows": [
+    [
+     "2026-11-10",
+     [
+      "Stephan Crump",
+      "Yuhan Su"
+     ],
+     "43388673-stephan-crump-at-barbes"
+    ],
+    [
+     "2026-11-19",
+     [
+      "The Pre-War Ponies"
+     ],
+     "43459427-prewar-ponies-at-barbes"
+    ],
+    [
+     "2026-12-17",
+     [
+      "The Pre-War Ponies"
+     ],
+     "43459429-prewar-ponies-at-barbes"
+    ],
+    [
+     "2026-12-30",
+     [
+      "Leo Sidran",
+      "Moses Patrou",
+      "Randy Ingram"
+     ],
+     "43432373-leo-sidran-at-barbes"
+    ]
+   ]
+  },
+  "public-records": {
+   "name": "Public Records",
+   "address": "233 Butler St",
+   "capacity": 200,
+   "city": "brooklyn",
+   "shows": [
+    [
+     "2026-11-07",
+     [
+      "Dorisburg",
+      "Clarisa Kimskii",
+      "Alex Kassian"
+     ],
+     "42930412-dorisburg-at-public-records"
+    ],
+    [
+     "2026-11-09",
+     [
+      "William Basinski"
+     ],
+     "43372888-william-basinski-at-public-records"
+    ],
+    [
+     "2026-11-10",
+     [
+      "William Basinski"
+     ],
+     "43372889-william-basinski-at-public-records"
+    ],
+    [
+     "2026-11-11",
+     [
+      "William Basinski",
+      "Chantal Michelle"
+     ],
+     "43372892-william-basinski-at-public-records"
+    ],
+    [
+     "2026-11-15",
+     [
+      "Pavel Milyakov"
+     ],
+     "43402141-pavel-milyakov-at-public-records"
+    ],
+    [
+     "2026-11-20",
+     [
+      "Infinity Machine"
+     ],
+     "43474023-infinity-machine-at-public-records"
+    ],
+    [
+     "2026-11-21",
+     [
+      "Tagua Tagua",
+      "Orlas"
+     ],
+     "43342830-tagua-tagua-at-public-records"
+    ],
+    [
+     "2026-11-22",
+     [
+      "Jump Source",
+      "HANK JACKSON"
+     ],
+     "43453602-jump-source-at-public-records"
+    ],
+    [
+     "2026-11-28",
+     [
+      "Cinthie"
+     ],
+     "43387976-cinthie-at-public-records"
+    ],
+    [
+     "2026-12-02",
+     [
+      "Storefront Church"
+     ],
+     "43434893-storefront-church-at-public-records"
+    ],
+    [
+     "2026-12-03",
+     [
+      "Shane Butler",
+      "Strugglin'"
+     ],
+     "43451716-shane-butler-at-public-records"
+    ],
+    [
+     "2026-12-05",
+     [
+      "Genevieve Artadi",
+      "Chiquita Magic"
+     ],
+     "43360953-genevieve-artadi-at-public-records"
+    ],
+    [
+     "2026-12-06",
+     [
+      "Laura Itandehui"
+     ],
+     "43277124-laura-itandehui-at-public-records"
+    ],
+    [
+     "2026-12-09",
+     [
+      "Advance Base",
+      "Karima Walker",
+      "Bobbie"
+     ],
+     "43408572-advance-base-at-public-records"
+    ],
+    [
+     "2026-12-10",
+     [
+      "Anna Butterss",
+      "Ben Lumsdaine"
+     ],
+     "43406764-josh-johnson-comedian-at-public-records"
+    ],
+    [
+     "2026-12-11",
+     [
+      "Mira Mira"
+     ],
+     "43463192-mira-mira-at-public-records"
+    ],
+    [
+     "2026-12-12",
+     [
+      "Magic Tuber Stringband"
+     ],
+     "43403208-magic-tuber-stringband-at-public-records"
+    ],
+    [
+     "2026-12-17",
+     [
+      "Trace Mountains",
+      "Mallory Hawk",
+      "The Big Net"
+     ],
+     "43465307-trace-mountains-at-public-records"
+    ],
+    [
+     "2026-12-18",
+     [
+      "Spencer Zahn"
+     ],
+     "43497899-spencer-zahn-at-public-records"
+    ],
+    [
+     "2026-12-19",
+     [
+      "Dos Santos"
+     ],
+     "43322357-dos-santos-at-public-records"
+    ],
+    [
+     "2027-01-21",
+     [
+      "Lael Neale",
+      "Guy Blakeslee"
+     ],
+     "43463021-lael-neale-at-public-records"
+    ],
+    [
+     "2027-03-17",
+     [
+      "Rowena Wise"
+     ],
+     "43451235-rowena-wise-at-public-records"
+    ],
+    [
+     "2027-03-31",
+     [
+      "Vlad Holiday",
+      "Modern Cult"
+     ],
+     "43451938-vlad-holiday-at-public-records"
+    ],
+    [
+     "2027-04-24",
+     [
+      "Ken Yates"
+     ],
+     "43463231-ken-yates-at-public-records"
+    ]
+   ]
+  },
+  "hart-bar": {
+   "name": "Hart Bar",
+   "address": "538 Hart St",
+   "capacity": 200,
+   "city": "brooklyn",
+   "shows": [
+    [
+     "2026-11-08",
+     [
+      "Fool And The World",
+      "Lucia"
+     ],
+     "43481879-fool-and-the-world-at-hart-bar"
+    ],
+    [
+     "2026-11-12",
+     [
+      "Axis: Sova",
+      "Upper Wilds"
+     ],
+     "43363178-axis-sova-at-hart-bar"
+    ],
+    [
+     "2026-11-21",
+     [
+      "Battlemode",
+      "Bubblegum Octopus",
+      "(T-T)b",
+      "Gosh Diggity",
+      "Ultra Deluxe",
+      "nelly was nervous",
+      "gulfwargameboy"
+     ],
+     "43439123-battlemode-at-hart-bar"
+    ]
+   ]
+  },
+  "knockdown-center": {
+   "name": "Knockdown Center",
+   "address": "52-19 Flushing Ave",
+   "capacity": 3000,
+   "city": "brooklyn",
+   "shows": [
+    [
+     "2026-11-06",
+     [
+      "Brutalismus 3000",
+      "SPFDJ",
+      "eera",
+      "Dorian Electra",
+      "Nurse",
+      "Bodybag"
+     ],
+     "43444997-brutalismus-3000-at-knockdown-center"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Danny L Harle",
+      "Yeule",
+      "Saya Gray",
+      "Contact Sports",
+      "Ela Minus"
+     ],
+     "43387013-danny-l-harle-at-knockdown-center"
+    ],
+    [
+     "2026-11-12",
+     [
+      "Headache",
+      "amr*",
+      "Collé",
+      "Baba Stiltz"
+     ],
+     "43222374-headache-uk-at-knockdown-center"
+    ],
+    [
+     "2026-11-13",
+     [
+      "DJ Harvey",
+      "Dee Diggs"
+     ],
+     "43415878-dj-harvey-at-knockdown-center"
+    ],
+    [
+     "2026-12-04",
+     [
+      "Kim Petras"
+     ],
+     "43440754-kim-petras-at-knockdown-center"
+    ],
+    [
+     "2026-12-05",
+     [
+      "Bonobo"
+     ],
+     "43449667-bonobo-at-knockdown-center"
+    ],
+    [
+     "2026-12-12",
+     [
+      "Horse Meat Disco",
+      "Dee Diggs"
+     ],
+     "43486829-horse-meat-disco-at-knockdown-center"
+    ],
+    [
+     "2027-01-20",
+     [
+      "Omar"
+     ],
+     "43349877-omar-at-knockdown-center"
+    ],
+    [
+     "2027-01-22",
+     [
+      "Anna von Hausswolff"
+     ],
+     "43087101-anna-von-hausswolff-at-knockdown-center"
+    ],
+    [
+     "2027-01-30",
+     [
+      "Omar"
+     ],
+     "43429961-omar-at-knockdown-center"
+    ],
+    [
+     "2027-03-20",
+     [
+      "Bicep"
+     ],
+     "43477519-bicep-at-knockdown-center"
+    ],
+    [
+     "2027-05-16",
+     [
+      "Mass of the Fermenting Dregs"
+     ],
+     "43363156-mass-of-the-fermenting-dregs-at-knockdown-center"
     ]
    ]
   }
