@@ -1507,7 +1507,7 @@ function faceHTML(v){
   let h=`<div class="rplate"></div>`;
   // screen: the XY pad (on the tall face a square turned 45 degrees: a diamond)
   const D=F.diamond, S=F.screen||{x:D.cx-D.d/Math.SQRT2/2,y:D.cy-D.d/Math.SQRT2/2,w:D.d/Math.SQRT2,h:D.d/Math.SQRT2};
-  h+=`<div class="rscreen${D?" rdiamond":""}" style="${at(S)}"><canvas class="rpane" aria-hidden="true"></canvas><div class="xypad" role="slider" tabindex="0" aria-label="Filter pad: the bottom point is silent, the top point is unfiltered; the left point keeps only the highs, the right point only the lows"></div><div class="rain-msg"><span>Rain Through a Window</span><small>Flip the power switch to start the rain.</small></div></div>`;
+  h+=`<div class="rscreen${D?" rdiamond":""}" style="${at(S)}"><canvas class="rpane" aria-hidden="true"></canvas><div class="xypad" role="slider" tabindex="0" aria-label="Filter pad: the bottom point is silent, the top point is unfiltered; the left point keeps only the lows, the right point only the highs"></div><div class="rain-msg"><span>Rain Through a Window</span><small>Flip the power switch to start the rain.</small></div></div>`;
   // amber window: the filter's response
   h+=`<div class="ramber" style="${at(F.display)}"><canvas class="rcurve" aria-hidden="true"></canvas></div>`;
   // sliders: LPF on top, HPF below, staggered, a printed box around the shared middle
@@ -1549,12 +1549,14 @@ function bindFace(face){
     let dx=e.clientX-(r.left+r.width/2), dy=e.clientY-(r.top+r.height/2);
     if(rot){const lx=(dx-dy)*C, ly=(dx+dy)*C; dx=lx; dy=ly}   // the pad is the square turned 45 degrees anticlockwise
     const k=rot?1.08:1;   // the diamond's points are rounded off, so its far ends are reached a little inside them
-    setRain("lp",.5-k*dy/side); setRain("hp",.5-k*dx/side)};
+    // On the diamond the square is also mirrored across its bottom-to-top diagonal, so the left point keeps only the lows
+    // and the right point only the highs (bottom still silent, top still unfiltered).
+    if(rot){ setRain("lp",.5+k*dx/side); setRain("hp",.5+k*dy/side) } else { setRain("lp",.5-k*dy/side); setRain("hp",.5-k*dx/side) }};
   pad.addEventListener("pointerdown",e=>{pad.setPointerCapture(e.pointerId);e.preventDefault();pad.focus({preventScroll:true});xy(e)});
   pad.addEventListener("pointermove",e=>{if(pad.hasPointerCapture(e.pointerId))xy(e)});
   pad.addEventListener("keydown",e=>{const s=e.shiftKey?.002:.01, k=e.key;
     // on the diamond, up and down travel between silent and unfiltered; left and right between highs only and lows only
-    const mv={ArrowUp:rot?[s,-s]:[s,0],ArrowDown:rot?[-s,s]:[-s,0],ArrowRight:rot?[-s,-s]:[0,-s],ArrowLeft:rot?[s,s]:[0,s]}[k];
+    const mv={ArrowUp:rot?[s,-s]:[s,0],ArrowDown:rot?[-s,s]:[-s,0],ArrowRight:rot?[s,s]:[0,-s],ArrowLeft:rot?[-s,-s]:[0,s]}[k];
     if(!mv) return; setRain("lp",rv.lp+mv[0]); setRain("hp",rv.hp+mv[1]); e.preventDefault(); e.stopPropagation()});
   face.querySelector(".rswitch").onclick=()=>setRain("poles",rv.poles>=.5?0:1);
   face.querySelectorAll(".rkey").forEach(b=>b.onclick=()=>applyPreset(b.dataset.p));
@@ -1613,15 +1615,16 @@ function rainFrame(){
     c.fillStyle="#08100f"; c.fillRect(0,0,W,H);
     c.strokeStyle="rgba(150,190,170,.09)"; c.lineWidth=1;
     for(let i=1;i<6;i++){const x=Math.round(W*i/6)+.5,y=Math.round(H*i/6)+.5;c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.moveTo(0,y);c.lineTo(W,y);c.stroke()}
-    const x=(1-rv.hp)*W, y=(1-rv.lp)*H, on=power;
+    const dia=!!face.querySelector(".rdiamond"), x=dia?rv.lp*W:(1-rv.hp)*W, y=dia?rv.hp*H:(1-rv.lp)*H, on=power;
     c.strokeStyle=on?"rgba(255,170,70,.45)":"rgba(150,190,170,.25)"; c.lineWidth=dpr;
     c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.moveTo(0,y);c.lineTo(W,y);c.stroke();
     const r=Math.max(6*dpr,Math.min(W,H)*.035);
     if(on){c.fillStyle="rgba(255,150,40,.18)";c.beginPath();c.arc(x,y,r*2.4,0,7);c.fill()}
     c.fillStyle=on?"#ffb050":"#7f9a8a"; c.beginPath();c.arc(x,y,r,0,7);c.fill();
     c.fillStyle=on?"rgba(255,200,130,.75)":"rgba(127,154,138,.6)"; c.font=`600 ${Math.round(Math.max(9*dpr,H*.045))}px ui-sans-serif,system-ui,sans-serif`;
-    c.textBaseline="alphabetic"; c.textAlign="right"; c.fillText(`HPF ${L?fmtHz(L.hpF(rv.hp)):""}`,W-H*.04,H-H*.04);
-    c.textAlign="left"; c.save(); c.translate(H*.04+H*.04,H-H*.04); c.rotate(-Math.PI/2); c.fillText(`LPF ${L?fmtHz(L.lpF(rv.lp,0)):""}`,0,0); c.restore();
+    const tH=`HPF ${L?fmtHz(L.hpF(rv.hp)):""}`, tL=`LPF ${L?fmtHz(L.lpF(rv.lp,0)):""}`;   // each readout sits along its own axis
+    c.textBaseline="alphabetic"; c.textAlign="right"; c.fillText(dia?tL:tH,W-H*.04,H-H*.04);
+    c.textAlign="left"; c.save(); c.translate(H*.04+H*.04,H-H*.04); c.rotate(-Math.PI/2); c.fillText(dia?tH:tL,0,0); c.restore();
   }
   // amber window: the filter response, as bright as the output
   a=fitCanvas(face.querySelector(".rcurve"));
