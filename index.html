@@ -1409,7 +1409,7 @@ const RFACE={
 const RAIN_PRESETS=[
 // Volumes are on the log-taper knob (Nov 5): Gentle rain and Wind chimes keep the loudness they had on the old linear one;
 // Filtered noise has both filters at half and matches Gentle rain's loudness (K-weighted, BS.1770).
-  ["Pitter patter",{density:.537,hp:.612,lp:.434,res:.22,mod:.22,vol:.809,poles:0}],
+  ["On the roof",{density:.537,hp:.612,lp:.434,res:.22,mod:.22,vol:.809,poles:0}],
   ["Filtered noise",{density:1,hp:.5,lp:.5,res:0,mod:0,vol:.102,poles:0}],
   ["Wind chimes",{density:.141,hp:.496,lp:.467,res:.74,mod:.385,vol:.964,poles:0}],
   // Chris's Nov 5 settings: filters from the pad's readouts (1.86/2.75 kHz, 50/43 Hz, 1.66/4.53 kHz), knobs read off his screenshots
@@ -1420,7 +1420,7 @@ const RAIN_DEF=RAIN_PRESETS[2][1];
 let rainMode=false, rv=Object.assign({},RAIN_DEF,store.get("rainVals",{})), rPreset=store.get("rainPreset","Wind chimes");
 // a volume saved on the old linear knob moves to the spot on the log knob that sounds the same
 if(store.get("rainVolLaw",1)<2){ const sv=store.get("rainVals",null); if(sv&&isFinite(sv.vol)){const x=sv.vol, g=x<=0?0:x*1.5/(1.5+10*x*(1-x)); rv.vol=g>0?Math.max(.05,1+20*Math.log10(g)/50):0; store.set("rainVals",rv)} store.set("rainVolLaw",2) }
-rPreset={"Gentle rain":"Pitter patter","Processing data":"Data process","Processing":"Data process","Hearth":"Gentle fire"}[rPreset]||rPreset;   // renamed Nov 5
+rPreset={"Gentle rain":"On the roof","Pitter patter":"On the roof","Processing data":"Data process","Processing":"Data process","Hearth":"Gentle fire"}[rPreset]||rPreset;   // renamed Nov 5
 if(rPreset&&!RAIN_PRESETS.some(p=>p[0]===rPreset)) rPreset=null;
 let rctx=null, rnode=null, rStarting=null, rInfo=null, rLed=0, rLvl=0;
 const RL=()=>window.RainLaw||null;
@@ -1535,7 +1535,7 @@ function faceHTML(v){
   {const P=F.presets, n=RAIN_PRESETS.length;
    if(P.row){   // one row of keys along the top, no label
      h+=`<div class="rbank rrow" role="group" aria-label="Presets" style="left:${cm(P.x)};top:${cm(P.y)};width:${cm(P.w)};height:${cm(P.h)};gap:${cm(P.gap)}">`+
-       RAIN_PRESETS.map(p=>`<button type="button" class="gkey rkey" data-p="${p[0]}" aria-pressed="false" aria-label="${p[0]}"><span class="cap"><span class="gl">${p[0].split(" ").join("<br>")}</span></span></button>`).join("")+`</div>`;
+       RAIN_PRESETS.map(p=>`<button type="button" class="gkey rkey" data-p="${p[0]}" aria-pressed="false" aria-label="${p[0]}"><span class="cap"><span class="gl">${(w=>w.length>2?w.slice(0,-1).join(" ")+"<br>"+w[w.length-1]:w.join("<br>"))(p[0].split(" "))}</span></span></button>`).join("")+`</div>`;
    } else {
    const kh=2.8;
    h+=`<div class="rbank" role="group" aria-label="Presets" style="left:${cm(P.x)};top:${cm(P.y)};width:${cm(P.w)};height:${cm(9.6)}">`+
