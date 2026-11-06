@@ -488,6 +488,9 @@ html.immersive,html.immersive body{overflow:hidden;overscroll-behavior:none;heig
 .rscreen.rdiamond{transform:rotate(-45deg);border-radius:calc(var(--u) * 1.4)}
 .rscreen.rdiamond .rain-msg{transform:rotate(45deg);padding:22%;background:none}
 .rbank .rkey .gl{white-space:normal;text-align:center;line-height:1.05}
+.rbank.rrow{flex-direction:row;justify-content:stretch}
+.rbank.rrow .rkey{flex:1 1 0;min-width:0;height:100%}
+.rbank.rrow .rkey .gl{font-size:calc(var(--u) * .66);letter-spacing:.02em}
 
 /* ---------- eGuzheng mode: the face is drawn over the rendered plate in cm (--u), like the Rain Machine ---------- */
 .eface{display:none;container-type:inline-size}
@@ -1397,9 +1400,11 @@ const RFACE={
         presets:{x:2.2,y:25.2,w:8.6,h:11.8},rain:{x:13.0,y:25.2,w:10.5,h:11.8},gbox:{x:25.7,y:25.2,w:30.6,h:11.8},vol:{x:58.5,y:25.2,w:10.5,h:11.8}},
   // Every screen gets the tall face (Nov 5 layout): amber window, the crossed sliders, the low pass box with the presets
   // beside it, then the XY pad turned 45 degrees (bottom point silent, top point unfiltered) with Volume over Rain.
-  tall:{w:40.2,h:76.2,display:{x:2.3,y:2.3,w:35.6,h:8.6},sliders:{x:2.3,y:14.0,w:35.6,h:10.4},
-        gbox:{x:2.3,y:28.0,w:26.4,h:10.4,label:"Low Pass Filter"},presets:{x:31.0,y:29.6,w:6.9,kh:2.1,gap:.35,labelTop:true},
-        diamond:{cx:14.4,cy:58.0,d:24.4},vol:{x:28.3,y:45.0,w:9.4,h:12.2},rain:{x:28.3,y:60.0,w:9.4,h:12.2}}};
+  // Presets across the very top (Nov 5), then the amber window, the crossed sliders, the low pass box the full width,
+  // and the XY diamond with Volume over Rain.
+  tall:{w:40.2,h:76.2,presets:{x:2.3,y:2.3,w:35.6,h:2.6,row:true,gap:.4},display:{x:2.3,y:6.0,w:35.6,h:7.8},sliders:{x:2.3,y:15.8,w:35.6,h:10.4},
+        gbox:{x:2.3,y:28.6,w:35.6,h:10.2,label:"Low Pass Filter"},
+        diamond:{cx:14.4,cy:58.2,d:24.4},vol:{x:28.3,y:44.2,w:9.4,h:12.2},rain:{x:28.3,y:59.8,w:9.4,h:12.2}}};
 // Chris's presets (Nov 4), read off his settings
 const RAIN_PRESETS=[
 // Volumes are on the log-taper knob (Nov 5): Gentle rain and Wind chimes keep the loudness they had on the old linear one;
@@ -1408,7 +1413,7 @@ const RAIN_PRESETS=[
   ["Filtered noise",{density:1,hp:.5,lp:.5,res:0,mod:0,vol:.102,poles:0}],
   ["Wind chimes",{density:.141,hp:.496,lp:.467,res:.74,mod:.385,vol:.964,poles:0}],
   // Chris's Nov 5 settings: filters from the pad's readouts (1.86/2.75 kHz, 50/43 Hz, 1.66/4.53 kHz), knobs read off his screenshots
-  ["Processing data",{density:.43,hp:.788,lp:.663,res:.69,mod:.41,vol:.60,poles:1}],
+  ["Processing",{density:.43,hp:.788,lp:.663,res:.69,mod:.41,vol:.60,poles:1}],
   ["Hearth",{density:.51,hp:.122,lp:.065,res:.78,mod:.33,vol:.985,poles:0}],
   ["Warm jungle",{density:.63,hp:.867,lp:.644,res:.12,mod:.096,vol:.833,poles:0}]];
 const RAIN_DEF=RAIN_PRESETS[2][1];
@@ -1526,10 +1531,15 @@ function faceHTML(v){
         `<div class="rslider" data-s="${id}" role="slider" tabindex="0" aria-label="${n}" aria-valuemin="0" aria-valuemax="100" style="left:${cm(x-1.6)};top:${cm(y-1.6)};width:${cm(Ls+3.2)};height:${cm(3.2)}"><span class="rhandle"></span></div>`;
    h+=lbl(U.x+U.w/2,yl-1.5,"LPF"," sm")+lbl(U.x+U.w/2,yh+1.5,"HPF"," sm")}
   // presets
-  {const P=F.presets, n=RAIN_PRESETS.length, kh=P.kh||2.8, bh=P.kh?n*kh+(n-1)*P.gap:9.6;
-   h+=`<div class="rbank" role="group" aria-label="Presets" style="left:${cm(P.x)};top:${cm(P.y)};width:${cm(P.w)};height:${cm(bh)}">`+
+  {const P=F.presets, n=RAIN_PRESETS.length;
+   if(P.row){   // one row of keys along the top, no label
+     h+=`<div class="rbank rrow" role="group" aria-label="Presets" style="left:${cm(P.x)};top:${cm(P.y)};width:${cm(P.w)};height:${cm(P.h)};gap:${cm(P.gap)}">`+
+       RAIN_PRESETS.map(p=>`<button type="button" class="gkey rkey" data-p="${p[0]}" aria-pressed="false"><span class="cap"><span class="gl">${p[0]}</span></span></button>`).join("")+`</div>`;
+   } else {
+   const kh=2.8;
+   h+=`<div class="rbank" role="group" aria-label="Presets" style="left:${cm(P.x)};top:${cm(P.y)};width:${cm(P.w)};height:${cm(9.6)}">`+
      RAIN_PRESETS.map(p=>`<button type="button" class="gkey rkey" data-p="${p[0]}" aria-pressed="false" style="height:${cm(kh)}"><span class="cap"><span class="gl">${p[0]}</span></span></button>`).join("")+`</div>`;
-   h+=P.labelTop?lbl(P.x+P.w/2,P.y-1.3,"Presets"," sm"):lbl(P.x+P.w/2,P.y+P.h-.6,"Presets")}
+   h+=lbl(P.x+P.w/2,P.y+P.h-.6,"Presets")}}
   // Rain and Volume
   for(const [id,k,n] of [["density","rain","Rain"],["vol","vol","Volume"]]){const E=F[k]; h+=knob(id,n,E.x+E.w/2,E.y+E.w/2,E.w)+lbl(E.x+E.w/2,E.y+E.h-.6,n)}
   // Motion, LPF Reso and the 2/4 pole switch, evenly spaced in their printed box
