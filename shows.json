@@ -1,5 +1,5 @@
 {
- "_source": "Songkick venue calendars, fetched 2026-11-01 (first six venues) and 2026-11-03 (Fillmore, Regency Ballroom, Great American Music Hall, SFJAZZ Center). Sold-out status from venue sites, 2026-11-02. Brooklyn: Songkick calendars for Baby's All Right, Union Pool, Music Hall of Williamsburg, National Sawdust, Brooklyn Steel, Elsewhere (incl. The Hall), Market Hotel, The Sultan Room, Saint Vitus and Warsaw, fetched 2026-11-04. Added Nov 6: Songkick calendars for Pete's Candy Store, Sleepwalk, Good Room, Barbès, Public Records, Hart Bar and Knockdown Center (Maspeth, just over the Queens line), fetched 2026-11-06.",
+ "_source": "Songkick venue calendars, fetched 2026-11-01 (first six venues) and 2026-11-03 (Fillmore, Regency Ballroom, Great American Music Hall, SFJAZZ Center). Sold-out status from venue sites, 2026-11-02. Brooklyn: Songkick calendars for Baby's All Right, Union Pool, Music Hall of Williamsburg, National Sawdust, Brooklyn Steel, Elsewhere (incl. The Hall), Market Hotel, The Sultan Room, Saint Vitus and Warsaw, fetched 2026-11-04. Added Nov 6: Songkick calendars for Pete's Candy Store, Sleepwalk, Good Room, Barbès, Public Records, Hart Bar and Knockdown Center (Maspeth, just over the Queens line), fetched 2026-11-06. Ann Arbor venues (The Ark, The Blind Pig, The Michigan Theater, Hill Auditorium): Songkick calendars fetched 2026-11-06; comedy and theme nights left out.",
  "_updated": "2026-11-06",
  "venues": {
   "rickshaw-stop": {
@@ -5614,6 +5614,407 @@
       "Mass of the Fermenting Dregs"
      ],
      "43363156-mass-of-the-fermenting-dregs-at-knockdown-center"
+    ]
+   ]
+  },
+  "the-ark": {
+   "name": "The Ark",
+   "address": "316 S Main St",
+   "capacity": 400,
+   "city": "annarbor",
+   "shows": [
+    [
+     "2026-11-07",
+     [
+      "Adam Ezra Group",
+      "Sirsy"
+     ],
+     "43256103-adam-ezra-group-at-ark"
+    ],
+    [
+     "2026-11-11",
+     [
+      "Hiss Golden Messenger"
+     ],
+     "43304844-hiss-golden-messenger-at-ark"
+    ],
+    [
+     "2026-11-11",
+     [
+      "Sam Amidon"
+     ],
+     "43434416-sam-amidon-at-ark"
+    ],
+    [
+     "2026-11-17",
+     [
+      "Jackie Greene",
+      "Lost Mary"
+     ],
+     "43479592-jackie-greene-at-ark"
+    ],
+    [
+     "2026-11-29",
+     [
+      "Kat Edmonson"
+     ],
+     "43422572-kat-edmonson-at-ark"
+    ],
+    [
+     "2026-12-03",
+     [
+      "S. Carey"
+     ],
+     "43353044-s-carey-at-ark"
+    ],
+    [
+     "2026-12-04",
+     [
+      "Over the Rhine"
+     ],
+     "43455702-over-the-rhine-at-ark"
+    ],
+    [
+     "2026-12-06",
+     [
+      "Griffin House"
+     ],
+     "43437738-griffin-house-at-ark"
+    ],
+    [
+     "2026-12-08",
+     [
+      "Patterson Hood"
+     ],
+     "43459238-patterson-hood-at-ark"
+    ],
+    [
+     "2026-12-13",
+     [
+      "Jon McLaughlin"
+     ],
+     "43354971-jon-mclaughlin-at-ark"
+    ],
+    [
+     "2027-03-01",
+     [
+      "Mei Semones"
+     ],
+     "43442748-mei-semones-at-ark"
+    ],
+    [
+     "2027-04-02",
+     [
+      "Kelly Willis",
+      "Radney Foster"
+     ],
+     "43414580-kelly-willis-at-ark"
+    ],
+    [
+     "2027-04-16",
+     [
+      "Kim Richey"
+     ],
+     "43350040-kim-richey-at-ark"
+    ],
+    [
+     "2027-05-08",
+     [
+      "Paul Thorn"
+     ],
+     "43491059-paul-thorn-at-ark"
+    ],
+    [
+     "2027-05-11",
+     [
+      "Hazlett"
+     ],
+     "43284467-hazlett-at-ark"
+    ]
+   ]
+  },
+  "the-blind-pig": {
+   "name": "The Blind Pig",
+   "address": "208 S First St",
+   "capacity": 400,
+   "city": "annarbor",
+   "shows": [
+    [
+     "2026-11-06",
+     [
+      "Maddie Zahm",
+      "Semler"
+     ],
+     "43315254-maddie-zahm-at-blind-pig"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Winnie Wanders"
+     ],
+     "43335719-winnie-wanders-at-blind-pig"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Maria and the Coins"
+     ],
+     "43417448-maria-and-the-coins-at-blind-pig"
+    ],
+    [
+     "2026-11-11",
+     [
+      "Moose",
+      "Slipstream",
+      "Stockwell",
+      "Tainted"
+     ],
+     "43478203-moose-at-blind-pig"
+    ],
+    [
+     "2026-11-12",
+     [
+      "Ethan Regan",
+      "Lily Kershaw"
+     ],
+     "43251187-ethan-regan-at-blind-pig"
+    ],
+    [
+     "2026-11-13",
+     [
+      "Velvet Snakes",
+      "Electric Bug",
+      "The Telephone Poles",
+      "the tape cassettes"
+     ],
+     "43322616-velvet-snakes-at-blind-pig"
+    ],
+    [
+     "2026-11-18",
+     [
+      "The Curfew"
+     ],
+     "43497158-the-curfew-at-blind-pig"
+    ],
+    [
+     "2026-11-19",
+     [
+      "Token"
+     ],
+     "43324478-token-at-blind-pig"
+    ],
+    [
+     "2026-11-20",
+     [
+      "Sir Woman",
+      "SNACKTIME"
+     ],
+     "43385550-sir-woman-at-blind-pig"
+    ],
+    [
+     "2026-11-21",
+     [
+      "Nicole Atkins",
+      "John Gallagher, Jr.",
+      "Jim Cherewick"
+     ],
+     "43292547-nicole-atkins-at-blind-pig"
+    ],
+    [
+     "2026-12-02",
+     [
+      "Dayproof",
+      "Birds Eye View"
+     ],
+     "43497163-dayproof-at-blind-pig"
+    ],
+    [
+     "2026-12-05",
+     [
+      "Bonehawk",
+      "Blue Snaggletooth",
+      "King Under the Mountain"
+     ],
+     "43475916-bonehawk-at-blind-pig"
+    ],
+    [
+     "2026-12-08",
+     [
+      "TRSH",
+      "Adjust the Sails",
+      "Dear Maryanne",
+      "Dear Cincinnati"
+     ],
+     "43355386-trsh-at-blind-pig"
+    ],
+    [
+     "2026-12-09",
+     [
+      "Stubborn Assholes",
+      "Sozen"
+     ],
+     "43442159-stubborn-assholes-at-blind-pig"
+    ],
+    [
+     "2026-12-12",
+     [
+      "Cyril Neville"
+     ],
+     "43405377-cyril-neville-at-blind-pig"
+    ],
+    [
+     "2026-12-19",
+     [
+      "friendship philly",
+      "Charlotte Cornfield",
+      "Fred Thomas"
+     ],
+     "43321865-friendship-philly-at-blind-pig"
+    ],
+    [
+     "2027-01-16",
+     [
+      "Avalanche The Band",
+      "Vase"
+     ],
+     "43403073-avalanche-the-band-at-blind-pig"
+    ],
+    [
+     "2027-01-28",
+     [
+      "Back Alley",
+      "Six Foot Blonde"
+     ],
+     "43498758-back-alley-at-blind-pig"
+    ],
+    [
+     "2027-01-29",
+     [
+      "Hot Freaks"
+     ],
+     "43439248-hot-freaks-at-blind-pig"
+    ],
+    [
+     "2027-02-04",
+     [
+      "Cloud Nothings"
+     ],
+     "43498661-cloud-nothings-at-blind-pig"
+    ],
+    [
+     "2027-02-06",
+     [
+      "Hans Williams"
+     ],
+     "43452129-hans-williams-at-blind-pig"
+    ],
+    [
+     "2027-02-11",
+     [
+      "Bumpin Uglies",
+      "Jakobs Castle"
+     ],
+     "43487169-bumpin-uglies-at-blind-pig"
+    ],
+    [
+     "2027-03-15",
+     [
+      "Horsepower"
+     ],
+     "43472515-horsepower-at-blind-pig"
+    ],
+    [
+     "2027-03-18",
+     [
+      "Alex Cameron"
+     ],
+     "43481307-alex-cameron-at-blind-pig"
+    ],
+    [
+     "2027-04-04",
+     [
+      "Vincent Lima"
+     ],
+     "43472722-vincent-lima-at-blind-pig"
+    ],
+    [
+     "2027-04-06",
+     [
+      "Alaska Thunderfuck"
+     ],
+     "43416955-alaska-thunderfuck-at-blind-pig"
+    ],
+    [
+     "2027-04-13",
+     [
+      "Chasing Abbey"
+     ],
+     "43417541-chasing-abbey-at-blind-pig"
+    ],
+    [
+     "2027-04-21",
+     [
+      "We Three"
+     ],
+     "43463326-we-three-at-blind-pig"
+    ]
+   ]
+  },
+  "michigan-theater": {
+   "name": "The Michigan Theater",
+   "address": "603 E Liberty St",
+   "capacity": 1700,
+   "city": "annarbor",
+   "shows": [
+    [
+     "2027-03-31",
+     [
+      "Julian Lage"
+     ],
+     "43235001-julian-lage-at-michigan-theater"
+    ],
+    [
+     "2027-04-16",
+     [
+      "Tally Hall"
+     ],
+     "43490931-tally-hall-at-michigan-theater"
+    ],
+    [
+     "2027-04-17",
+     [
+      "Tally Hall"
+     ],
+     "43490832-tally-hall-at-michigan-theater"
+    ]
+   ]
+  },
+  "hill-auditorium": {
+   "name": "Hill Auditorium",
+   "address": "825 N University Ave",
+   "capacity": 3500,
+   "city": "annarbor",
+   "shows": [
+    [
+     "2027-02-11",
+     [
+      "Gregory Porter"
+     ],
+     "43476978-gregory-porter-at-hill-auditorium"
+    ],
+    [
+     "2027-04-24",
+     [
+      "Wynton Marsalis"
+     ],
+     "43499420-wynton-marsalis-at-hill-auditorium"
+    ],
+    [
+     "2027-04-25",
+     [
+      "Wynton Marsalis"
+     ],
+     "43499421-wynton-marsalis-at-hill-auditorium"
     ]
    ]
   }
