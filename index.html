@@ -490,7 +490,7 @@ html.immersive,html.immersive body{overflow:hidden;overscroll-behavior:none;heig
 .rbank .rkey .gl{white-space:normal;text-align:center;line-height:1.05}
 .rbank.rrow{flex-direction:row;justify-content:stretch}
 .rbank.rrow .rkey{flex:1 1 0;min-width:0;height:100%}
-.rbank.rrow .rkey .gl{font-size:calc(var(--u) * .66);letter-spacing:.02em}
+.rbank.rrow .rkey .gl{font-size:calc(var(--u) * .9);letter-spacing:.03em;line-height:1.08}
 
 /* ---------- eGuzheng mode: the face is drawn over the rendered plate in cm (--u), like the Rain Machine ---------- */
 .eface{display:none;container-type:inline-size}
@@ -1402,24 +1402,25 @@ const RFACE={
   // beside it, then the XY pad turned 45 degrees (bottom point silent, top point unfiltered) with Volume over Rain.
   // Presets across the very top (Nov 5), then the amber window, the crossed sliders, the low pass box the full width,
   // and the XY diamond with Volume over Rain.
-  tall:{w:40.2,h:76.2,presets:{x:2.3,y:2.3,w:35.6,h:2.6,row:true,gap:.4},display:{x:2.3,y:6.0,w:35.6,h:7.8},sliders:{x:2.3,y:15.8,w:35.6,h:10.4},
-        gbox:{x:2.3,y:28.6,w:35.6,h:10.2,label:"Low Pass Filter"},
+  tall:{w:40.2,h:76.2,presets:{x:2.3,y:2.3,w:35.6,h:3.9,row:true,gap:.4},display:{x:2.3,y:7.3,w:35.6,h:7.0},sliders:{x:2.3,y:16.3,w:35.6,h:10.4},
+        gbox:{x:2.3,y:29.0,w:35.6,h:9.9,label:"Low Pass Filter"},
         diamond:{cx:14.4,cy:58.2,d:24.4},vol:{x:28.3,y:44.2,w:9.4,h:12.2},rain:{x:28.3,y:59.8,w:9.4,h:12.2}}};
 // Chris's presets (Nov 4), read off his settings
 const RAIN_PRESETS=[
 // Volumes are on the log-taper knob (Nov 5): Gentle rain and Wind chimes keep the loudness they had on the old linear one;
 // Filtered noise has both filters at half and matches Gentle rain's loudness (K-weighted, BS.1770).
-  ["Gentle rain",{density:.537,hp:.612,lp:.434,res:.22,mod:.22,vol:.809,poles:0}],
+  ["Pitter patter",{density:.537,hp:.612,lp:.434,res:.22,mod:.22,vol:.809,poles:0}],
   ["Filtered noise",{density:1,hp:.5,lp:.5,res:0,mod:0,vol:.102,poles:0}],
   ["Wind chimes",{density:.141,hp:.496,lp:.467,res:.74,mod:.385,vol:.964,poles:0}],
   // Chris's Nov 5 settings: filters from the pad's readouts (1.86/2.75 kHz, 50/43 Hz, 1.66/4.53 kHz), knobs read off his screenshots
-  ["Processing",{density:.43,hp:.788,lp:.663,res:.69,mod:.41,vol:.60,poles:1}],
-  ["Hearth",{density:.51,hp:.122,lp:.065,res:.78,mod:.33,vol:.985,poles:0}],
+  ["Data process",{density:.43,hp:.788,lp:.663,res:.69,mod:.41,vol:.60,poles:1}],
+  ["Gentle fire",{density:.51,hp:.122,lp:.065,res:.78,mod:.33,vol:.985,poles:0}],
   ["Warm jungle",{density:.63,hp:.867,lp:.644,res:.12,mod:.096,vol:.833,poles:0}]];
 const RAIN_DEF=RAIN_PRESETS[2][1];
 let rainMode=false, rv=Object.assign({},RAIN_DEF,store.get("rainVals",{})), rPreset=store.get("rainPreset","Wind chimes");
 // a volume saved on the old linear knob moves to the spot on the log knob that sounds the same
 if(store.get("rainVolLaw",1)<2){ const sv=store.get("rainVals",null); if(sv&&isFinite(sv.vol)){const x=sv.vol, g=x<=0?0:x*1.5/(1.5+10*x*(1-x)); rv.vol=g>0?Math.max(.05,1+20*Math.log10(g)/50):0; store.set("rainVals",rv)} store.set("rainVolLaw",2) }
+rPreset={"Gentle rain":"Pitter patter","Processing data":"Data process","Processing":"Data process","Hearth":"Gentle fire"}[rPreset]||rPreset;   // renamed Nov 5
 if(rPreset&&!RAIN_PRESETS.some(p=>p[0]===rPreset)) rPreset=null;
 let rctx=null, rnode=null, rStarting=null, rInfo=null, rLed=0, rLvl=0;
 const RL=()=>window.RainLaw||null;
@@ -1534,7 +1535,7 @@ function faceHTML(v){
   {const P=F.presets, n=RAIN_PRESETS.length;
    if(P.row){   // one row of keys along the top, no label
      h+=`<div class="rbank rrow" role="group" aria-label="Presets" style="left:${cm(P.x)};top:${cm(P.y)};width:${cm(P.w)};height:${cm(P.h)};gap:${cm(P.gap)}">`+
-       RAIN_PRESETS.map(p=>`<button type="button" class="gkey rkey" data-p="${p[0]}" aria-pressed="false"><span class="cap"><span class="gl">${p[0]}</span></span></button>`).join("")+`</div>`;
+       RAIN_PRESETS.map(p=>`<button type="button" class="gkey rkey" data-p="${p[0]}" aria-pressed="false" aria-label="${p[0]}"><span class="cap"><span class="gl">${p[0].split(" ").join("<br>")}</span></span></button>`).join("")+`</div>`;
    } else {
    const kh=2.8;
    h+=`<div class="rbank" role="group" aria-label="Presets" style="left:${cm(P.x)};top:${cm(P.y)};width:${cm(P.w)};height:${cm(9.6)}">`+
