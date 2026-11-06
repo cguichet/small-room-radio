@@ -97,8 +97,8 @@ button{font:inherit;color:inherit}
 .scene-img{display:block;width:100%;height:100%;max-width:none;user-select:none;-webkit-user-drag:none}
 .scene-box>*{position:absolute;box-sizing:border-box}
 .scene-box>.scene-img{position:relative}
-/* genre bank: two rows of four light keys with the genre printed on the cap; a latched key sits down and its legend glows amber */
-.gbank{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:auto auto;align-content:space-between;column-gap:calc(var(--pw) * .019);padding:0 calc(var(--pw) * .022) 0 0;box-sizing:border-box}
+/* genre bank: three rows of four light keys; the last key, All, wears a mild accent with the genre printed on the cap; a latched key sits down and its legend glows amber */
+.gbank{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:auto auto auto;align-content:space-between;column-gap:calc(var(--pw) * .019);padding:0 calc(var(--pw) * .022) 0 0;box-sizing:border-box}
 .gkey,.tkey{--c-hi:#fdfcf8;--c-mid:#efece4;--c-lo:#dcd8cd;--c-edge:#a9a497;--ink:#1d1e20;--glow:#ff7a00}
 :root[data-theme="dark"] .gkey,:root[data-theme="dark"] .tkey{--c-edge:#8f8a7e}
 .gkey{min-width:0;border:0;background:none;padding:0;margin:0;display:block;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none;-webkit-user-select:none}
@@ -108,6 +108,9 @@ button{font:inherit;color:inherit}
 .gkey[aria-pressed="true"] .cap,.tkey[aria-checked="true"]{transform:translateY(calc(var(--pw) * .0024));box-shadow:0 calc(var(--pw) * .0007) 0 var(--c-edge),0 calc(var(--pw) * .0014) calc(var(--pw) * .002) rgba(0,0,0,.35)}
 .gkey .gl,.tkey{font:800 calc(var(--pw) * .0118)/1 var(--f-body);letter-spacing:.02em;text-transform:uppercase;color:var(--ink);white-space:nowrap;transition:color .2s,text-shadow .2s}
 .gkey[aria-pressed="true"] .gl,.tkey[aria-checked="true"]{color:#c86a1c}
+.gkey.gall{--c-hi:#fbeedd;--c-mid:#f3dcc0;--c-lo:#e4c39e;--c-edge:#b08a62}
+:root[data-theme="dark"] .gkey.gall{--c-edge:#8f6e4c}
+.gkey .gl.wrap{white-space:normal;text-align:center;line-height:1.05}
 .on .gkey[aria-pressed="true"] .gl,.on .tkey[aria-checked="true"]{color:var(--glow);text-shadow:0 0 calc(var(--pw) * .0016) rgba(255,170,60,.9),0 0 calc(var(--pw) * .007) rgba(255,140,30,.45)}
 .vlabel{font:600 calc(var(--pw) * .0138)/1.15 var(--f-body);letter-spacing:.03em;text-transform:uppercase;color:var(--lbl);white-space:nowrap;text-align:center}
 .vlabel{position:absolute;transform:translateX(-50%);line-height:1.15;margin-top:calc(var(--pw) * .012);pointer-events:none;--lbl:#6f7072}
@@ -604,7 +607,7 @@ html.immersive,html.immersive body{overflow:hidden;overscroll-behavior:none;heig
         <div class="dial-gig" id="gig"></div>
       </div>
     </div>
-    <div class="gbank" id="gbank" role="group" aria-label="Genres"><button type="button" class="gkey" data-g="indie" aria-pressed="true"><span class="cap"><span class="gl">INDIE</span></span></button><button type="button" class="gkey" data-g="jazz" aria-pressed="true"><span class="cap"><span class="gl">JAZZ</span></span></button><button type="button" class="gkey" data-g="hiphop" aria-pressed="true"><span class="cap"><span class="gl">HIP HOP</span></span></button><button type="button" class="gkey" data-g="rnb" aria-pressed="true"><span class="cap"><span class="gl">R&amp;B</span></span></button><button type="button" class="gkey" data-g="rock" aria-pressed="true"><span class="cap"><span class="gl">ROCK</span></span></button><button type="button" class="gkey" data-g="punk" aria-pressed="true"><span class="cap"><span class="gl">METAL</span></span></button><button type="button" class="gkey" data-g="electronic" aria-pressed="true"><span class="cap"><span class="gl">EDM</span></span></button><button type="button" class="gkey" data-g="ambient" aria-pressed="true"><span class="cap"><span class="gl">AMBIENT</span></span></button></div>
+    <div class="gbank" id="gbank" role="group" aria-label="Genres"><button type="button" class="gkey" data-g="indie" aria-pressed="true"><span class="cap"><span class="gl">INDIE</span></span></button><button type="button" class="gkey" data-g="jazz" aria-pressed="true"><span class="cap"><span class="gl">JAZZ</span></span></button><button type="button" class="gkey" data-g="hiphop" aria-pressed="true"><span class="cap"><span class="gl">HIP HOP</span></span></button><button type="button" class="gkey" data-g="rnb" aria-pressed="true"><span class="cap"><span class="gl">R&amp;B</span></span></button><button type="button" class="gkey" data-g="rock" aria-pressed="true"><span class="cap"><span class="gl">ROCK</span></span></button><button type="button" class="gkey" data-g="punk" aria-pressed="true"><span class="cap"><span class="gl">METAL</span></span></button><button type="button" class="gkey" data-g="electronic" aria-pressed="true"><span class="cap"><span class="gl">EDM</span></span></button><button type="button" class="gkey" data-g="ambient" aria-pressed="true"><span class="cap"><span class="gl">AMBIENT</span></span></button><button type="button" class="gkey" data-g="country" aria-pressed="true"><span class="cap"><span class="gl">COUNTRY</span></span></button><button type="button" class="gkey" data-g="funk" aria-pressed="true"><span class="cap"><span class="gl">FUNK</span></span></button><button type="button" class="gkey" data-g="experimental" aria-pressed="true"><span class="cap"><span class="gl wrap">EXPERI-<br>MENTAL</span></span></button><button type="button" class="gkey gall" id="gAll" aria-pressed="true" aria-label="All genres"><span class="cap"><span class="gl">ALL</span></span></button></div>
     <span class="vlabel" id="vlabel" aria-hidden="true">Volume</span>
     <button type="button" class="lamphit" id="lampStem" aria-label="Lamp: switch between day and night"></button><button type="button" class="lamphit" id="lampBase" aria-label="Lamp: switch between day and night" tabindex="-1"></button>
     <span class="vlabel tl" data-for="fav" aria-hidden="true">Favorite</span><span class="vlabel tl" data-for="remove" aria-hidden="true">Remove</span>
@@ -676,7 +679,10 @@ const STATIONS=[
   {id:"rock",l1:"ROCK",name:"Rock"},
   {id:"punk",l1:"METAL",name:"Metal"},
   {id:"electronic",l1:"EDM",name:"EDM"},
-  {id:"ambient",l1:"AMBIENT",name:"Ambient"}];
+  {id:"ambient",l1:"AMBIENT",name:"Ambient"},
+  {id:"country",l1:"COUNTRY",name:"Country"},
+  {id:"funk",l1:"FUNK",name:"Funk"},
+  {id:"experimental",l1:"EXPERIMENTAL",name:"Experimental"}];
 /* Each venue gets a line bullet: a letter and a line colour, like a train you can catch. */
 const LINES={"rickshaw-stop":["R","#b8453d"],"bottom-of-the-hill":["B","#b8453d"],
   "the-independent":["I","#c95f2a"],"great-american-music-hall":["G","#c95f2a"],
@@ -709,8 +715,13 @@ let player=null, ytReady=false, ytFailed=false, errorsInRow=0;
 async function load(name,fb){try{const r=await fetch(name,{cache:"no-store"});return r.ok?await r.json():fb}catch(e){return fb}}
 const genreName=()=>sel.size===STATIONS.length?"All genres":!sel.size?"No genres":sel.size===1?STATIONS.find(s=>sel.has(s.id)).name:sel.size===2?STATIONS.filter(s=>sel.has(s.id)).map(s=>s.name.split(" /")[0]).join(" + "):sel.size+" genres";
 const station=()=>({id:STATIONS.filter(s=>sel.has(s.id)).map(s=>s.id).join("+"),name:genreName()});
-function parseGenres(str){ if(typeof str!=="string") return null; const ids=str.split("+").filter(id=>STATIONS.some(s=>s.id===id)); return ids.length?new Set(ids):null }
-const genresOf=a=>GENRE_OF[a]||["indie"];
+function parseGenres(str){ if(typeof str!=="string") return null; const ids=str.split("+").filter(id=>STATIONS.some(s=>s.id===id));
+  // saved before Country, Funk and Experimental existed: all eight of the first genres on still means every genre
+  if(["indie","jazz","hiphop","rnb","rock","punk","electronic","ambient"].every(id=>ids.includes(id))) return new Set(STATIONS.map(s=>s.id));
+  return ids.length?new Set(ids):null }
+const genresOf=a=>GENRE_OF[a]||(GENRE_OF[a]=billGenres(a));
+// a band added since genres.json was last sorted takes the two genres most common among the other acts on its bill
+function billGenres(a){const c={};for(const v of Object.values(ALL_SHOWS))for(const sh of (v.shows||[]))if(sh[1].includes(a))for(const b of sh[1])if(b!==a&&GENRE_OF[b])GENRE_OF[b].forEach((g,i)=>c[g]=(c[g]||0)+2-i);const r=Object.keys(c).sort((x,y)=>c[y]-c[x]).slice(0,2);return r.length===2?r:r.length?[r[0],r[0]==="indie"?"rock":"indie"]:["indie","rock"]}
 const vname=s=>SHOWS[s.venue]?.name||s.vname||"";
 const START_MSG=`<span>Press <span class="playdot" aria-hidden="true"></span> to start</span><small class="tip">Tip: check which venues are on in the Venues window. Try picking a few near you.</small>`;
 
@@ -874,12 +885,15 @@ addEventListener("resize",()=>{if(current)fitVenue()});
 document.fonts&&document.fonts.ready.then(()=>{if(current)fitVenue()});
 function renderKnob(){
   document.querySelectorAll(".gkey[data-g]").forEach(b=>b.setAttribute("aria-pressed",sel.has(b.dataset.g)));
+  const ga=$("gAll"); if(ga) ga.setAttribute("aria-pressed",sel.size===STATIONS.length);
 }
 /* Each key latches on or off; several can be on at once. Pressing a key twice quickly turns every other key off.
    Pressing the only key that is on turns every key back on. */
 let gTimer=null, gLast={g:null,t:0};
+let GB_H=1.55, GB_DY=0;   // the bank's height (in two-row heights) and its nudge up or down (in knob radii)
 function commitGenres(){ savePrefs(); rebuild(true); renderAll(); if(power&&!current) next(); }   // the song playing carries on
 function buildKnob(){
+  const ga=$("gAll"); if(ga) ga.addEventListener("click",()=>{ sel=new Set(STATIONS.map(s=>s.id)); renderKnob(); clearTimeout(gTimer); gTimer=setTimeout(commitGenres,0) });
   document.querySelectorAll(".gkey[data-g]").forEach(b=>{
     const g=b.dataset.g; b.setAttribute("aria-label",STATIONS.find(s=>s.id===g).name);
     b.addEventListener("click",()=>{
@@ -1103,7 +1117,7 @@ function applyGeom(v){
    // genre bank and volume knob sit centred between the dateline window and the tops of the transport keys
    const v0=B.vol, vh=(v0[3]-v0[1])/2/1.3, vc=(B.dial[3]+cy-Hv/2*fy)/2+4/4.5*fy, vb=[v0[0],vc-(v0[3]-v0[1])/2,v0[2],vc+(v0[3]-v0[1])/2];
    placeBox($("vol"),vb); $("vlabel").style.left=pc((vb[0]+vb[2])/2); $("vlabel").style.top=pc(vc+vh);
-   k.style.transform="none"; k.style.bottom="auto"; k.style.top=pc(vc-vh*1.06); k.style.height=pc(vh*2.12);
+   k.style.transform="none"; k.style.bottom="auto"; {const gh=vh*2.12*GB_H; k.style.top=pc(vc-gh/2+vh*GB_DY); k.style.height=pc(gh)}
    const xP=(vb[0]+vb[2])/2, sp=xP-xL;
    const gx=xL+sp*.645, bw=hw("prev")*2*.9, off=bw*(2.45/(2*g.keys.prev.half))/2+bw*.125;
    // every transport key is as tall as last/next; labels sit in one row about 5 mm under them
