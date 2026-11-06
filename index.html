@@ -1269,6 +1269,8 @@ $("order").onclick=()=>{shuffle=!shuffle;renderShuffle();savePrefs();rebuild(fal
    The heart key saves the song playing. The Favorites key switches the radio to play the saved songs:
    newest first (only the genres that are on), or in shuffle order when Shuffle is on too. */
 let favs=store.get("favs",[]), favMode=!!store.get("favMode",false), favOpen=false;
+// with nothing saved there is nothing for Favorites to play, so the radio always opens on the stations (Nov 6)
+if(favMode&&!favs.length){favMode=false;store.set("favMode",false)}
 const favKey=t=>t.id+"|"+t.artist;
 const isFav=t=>!!t&&favs.some(f=>favKey(f)===favKey(t));
 const escH=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -1289,7 +1291,11 @@ function renderFavKey(){
   k.setAttribute("aria-label",on?"Remove this song from favorites":"Favorite this song");
 }
 function renderFavMode(){$("favmode").setAttribute("aria-checked",favMode);$("favIco").classList.toggle("lit",favMode)}
-function setFavMode(on){favMode=on;store.set("favMode",on);renderFavMode();queue=buildQueue();pos=-1;played=[];current=null;renderAll();if(power)next()}
+function setFavMode(on){
+  // pressing Favorites before any song is hearted shows how to save one, without switching the radio over
+  if(on&&!favs.length){ if(power) setTube("No favorites yet","Press the heart while a song plays to save it."); else setTube("No favorites yet","Turn the radio on, then press the heart while a song plays to save it.");
+    setTimeout(()=>{ if(favMode) return; if(!power) setTube(START_MSG); else if(current&&playing) setTube(null) },3500); return }
+  favMode=on;store.set("favMode",on);renderFavMode();queue=buildQueue();pos=-1;played=[];current=null;renderAll();if(power)next()}
 $("favmode").onclick=()=>setFavMode(!favMode);
 $("fav").onclick=()=>toggleFav();
 
