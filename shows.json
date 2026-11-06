@@ -1,5 +1,5 @@
 {
- "_source": "Songkick venue calendars, fetched 2026-11-01 (first six venues) and 2026-11-03 (Fillmore, Regency Ballroom, Great American Music Hall, SFJAZZ Center). Sold-out status from venue sites, 2026-11-02. Brooklyn: Songkick calendars for Baby's All Right, Union Pool, Music Hall of Williamsburg, National Sawdust, Brooklyn Steel, Elsewhere (incl. The Hall), Market Hotel, The Sultan Room, Saint Vitus and Warsaw, fetched 2026-11-04. Added Nov 6: Songkick calendars for Pete's Candy Store, Sleepwalk, Good Room, Barbès, Public Records, Hart Bar and Knockdown Center (Maspeth, just over the Queens line), fetched 2026-11-06. Ann Arbor venues (The Ark, The Blind Pig, The Michigan Theater, Hill Auditorium): Songkick calendars fetched 2026-11-06; comedy and theme nights left out. Minneapolis (Berlin, First Avenue, Icehouse, The Cedar Cultural Center, Green Room), fetched 2026-11-06: First Avenue from Songkick; Berlin from its own calendar; Icehouse, the Cedar and Green Room from Bandsintown (more complete than Songkick there). Ticket links point at whichever source listed the show. DJ nights, listening parties, open jams and tribute acts left out.",
+ "_source": "Songkick venue calendars, fetched 2026-11-01 (first six venues) and 2026-11-03 (Fillmore, Regency Ballroom, Great American Music Hall, SFJAZZ Center). Sold-out status from venue sites, 2026-11-02. Brooklyn: Songkick calendars for Baby's All Right, Union Pool, Music Hall of Williamsburg, National Sawdust, Brooklyn Steel, Elsewhere (incl. The Hall), Market Hotel, The Sultan Room, Saint Vitus and Warsaw, fetched 2026-11-04. Added Nov 6: Songkick calendars for Pete's Candy Store, Sleepwalk, Good Room, Barbès, Public Records, Hart Bar and Knockdown Center (Maspeth, just over the Queens line), fetched 2026-11-06. Ann Arbor venues (The Ark, The Blind Pig, The Michigan Theater, Hill Auditorium): Songkick calendars fetched 2026-11-06; comedy and theme nights left out. Minneapolis (Berlin, 7th St Entry, Icehouse, The Cedar Cultural Center, Green Room), fetched 2026-11-06: Berlin from its own calendar; 7th St Entry, Icehouse, the Cedar and Green Room from Bandsintown (more complete than Songkick there). Ticket links point at whichever source listed the show. DJ nights, listening parties, open jams and tribute acts left out.",
  "_updated": "2026-11-06",
  "venues": {
   "rickshaw-stop": {
@@ -6257,317 +6257,445 @@
     ]
    ]
   },
-  "first-avenue": {
-   "name": "First Avenue",
+  "7th-st-entry": {
+   "name": "7th St Entry",
    "address": "701 N 1st Ave",
-   "capacity": 1550,
+   "capacity": 250,
    "city": "minneapolis",
    "shows": [
     [
      "2026-11-06",
      [
-      "Die Spitz"
+      "Dent May"
      ],
-     "43331685-die-spitz-at-first-avenue"
-    ],
-    [
-     "2026-11-06",
-     [
-      "Faetooth"
-     ],
-     "43451100-faetooth-at-first-avenue"
+     "https://www.bandsintown.com/e/1039076088"
     ],
     [
      "2026-11-07",
      [
-      "Brigitte Calls Me Baby"
+      "The Animeros"
      ],
-     "43323485-brigitte-calls-me-baby-at-first-avenue"
+     "https://www.bandsintown.com/e/1040075663"
+    ],
+    [
+     "2026-11-08",
+     [
+      "Six Foot Blonde"
+     ],
+     "https://www.bandsintown.com/e/1039407593"
+    ],
+    [
+     "2026-11-09",
+     [
+      "Ninth Key"
+     ],
+     "https://www.bandsintown.com/e/1039914153"
+    ],
+    [
+     "2026-11-10",
+     [
+      "Lefty Parker"
+     ],
+     "https://www.bandsintown.com/e/1039045116"
     ],
     [
      "2026-11-11",
      [
-      "Michelle Branch"
+      "Pretty Sick"
      ],
-     "43325719-michelle-branch-at-first-avenue"
+     "https://www.bandsintown.com/e/1039941649"
     ],
     [
      "2026-11-12",
      [
-      "Low Cut Connie",
-      "Fantastic Cat"
+      "Tyler Ballgame"
      ],
-     "43108490-low-cut-connie-at-first-avenue"
+     "https://www.bandsintown.com/e/1038608583"
     ],
     [
      "2026-11-13",
      [
-      "Julia Jacklin"
+      "Francis of Delirium"
      ],
-     "43249238-julia-jacklin-at-first-avenue"
+     "https://www.bandsintown.com/e/1038775130"
     ],
     [
      "2026-11-14",
      [
-      "Kitchen Dwellers"
+      "LUCY"
      ],
-     "43371275-kitchen-dwellers-at-first-avenue"
+     "https://www.bandsintown.com/e/1040006791"
     ],
     [
      "2026-11-15",
      [
-      "Hurricane Wisdom"
+      "Ha Ha Tonka"
      ],
-     "43372153-hurricane-wisdom-at-first-avenue"
+     "https://www.bandsintown.com/e/1039078123"
     ],
     [
      "2026-11-19",
      [
-      "The Living Tombstone"
+      "Geordie Kieffer"
      ],
-     "43081496-the-living-tombstone-at-first-avenue"
+     "https://www.bandsintown.com/e/1040131899"
     ],
     [
      "2026-11-20",
      [
-      "Slow Pulp",
-      "Her New Knife"
+      "Kelsey Hart"
      ],
-     "43208652-slow-pulp-at-first-avenue"
+     "https://www.bandsintown.com/e/1040218249"
     ],
     [
      "2026-11-21",
      [
-      "Porch Light"
+      "Stephen Stanley"
      ],
-     "43356018-porch-light-at-first-avenue"
+     "https://www.bandsintown.com/e/1039429502"
+    ],
+    [
+     "2026-11-22",
+     [
+      "Jade Street"
+     ],
+     "https://www.bandsintown.com/e/1039992399"
     ],
     [
      "2026-11-24",
      [
-      "Bonobo"
+      "Masto"
      ],
-     "43261867-bonobo-at-first-avenue"
+     "https://www.bandsintown.com/e/1040545947"
     ],
     [
      "2026-11-25",
      [
-      "Tommy Stinson"
+      "Pullstring"
      ],
-     "43429450-tommy-stinson-at-first-avenue"
+     "https://www.bandsintown.com/e/1040408075"
     ],
     [
-     "2026-11-25",
+     "2026-11-30",
      [
-      "The Ike Reilly Assassination"
+      "Daisy Grenade"
      ],
-     "43464714-the-ike-reilly-assassination-at-first-avenue"
-    ],
-    [
-     "2026-11-28",
-     [
-      "Night Moves"
-     ],
-     "43443521-night-moves-at-first-avenue"
-    ],
-    [
-     "2026-11-28",
-     [
-      "Solid Gold"
-     ],
-     "43464368-solid-gold-at-first-avenue"
-    ],
-    [
-     "2026-12-01",
-     [
-      "Angine de Poitrine",
-      "zouz"
-     ],
-     "43287712-angine-de-poitrine-at-first-avenue"
+     "https://www.bandsintown.com/e/1039710147"
     ],
     [
      "2026-12-02",
      [
-      "Angine de Poitrine"
+      "sahn"
      ],
-     "43218103-angine-de-poitrine-at-first-avenue"
+     "https://www.bandsintown.com/e/1040547038"
+    ],
+    [
+     "2026-12-03",
+     [
+      "Hunny Bear"
+     ],
+     "https://www.bandsintown.com/e/1040486282"
+    ],
+    [
+     "2026-12-04",
+     [
+      "Chutes"
+     ],
+     "https://www.bandsintown.com/e/1040685888"
     ],
     [
      "2026-12-05",
      [
-      "Pert Near Sandstone",
-      "Buffalo Galaxy",
-      "Molly Brandt"
+      "Virga"
      ],
-     "43444292-pert-near-sandstone-at-first-avenue"
+     "https://www.bandsintown.com/e/1040404398"
+    ],
+    [
+     "2026-12-06",
+     [
+      "Josie Edwards"
+     ],
+     "https://www.bandsintown.com/e/1040218744"
+    ],
+    [
+     "2026-12-09",
+     [
+      "Chris Simpson"
+     ],
+     "https://www.bandsintown.com/e/1040458834"
+    ],
+    [
+     "2026-12-10",
+     [
+      "wolfbabycup"
+     ],
+     "https://www.bandsintown.com/e/1040785076"
+    ],
+    [
+     "2026-12-11",
+     [
+      "Late Night Thoughts"
+     ],
+     "https://www.bandsintown.com/e/1040059808"
     ],
     [
      "2026-12-12",
      [
-      "Earlybirds Club"
+      "Modern Joey"
      ],
-     "43453433-earlybirds-club-at-first-avenue"
+     "https://www.bandsintown.com/e/1040404939"
     ],
     [
-     "2026-12-18",
+     "2026-12-13",
      [
-      "Viva Knievel"
+      "Sosmula"
      ],
-     "43455401-viva-knievel-at-first-avenue"
+     "https://www.bandsintown.com/e/1040478961"
+    ],
+    [
+     "2026-12-17",
+     [
+      "Linus"
+     ],
+     "https://www.bandsintown.com/e/1040619020"
     ],
     [
      "2026-12-19",
      [
-      "The Big Wu"
+      "Gully Boys"
      ],
-     "43458925-the-big-wu-at-first-avenue"
+     "https://www.bandsintown.com/e/1040484249"
     ],
     [
      "2026-12-26",
      [
-      "Soul Asylum"
+      "Shrimpnose"
      ],
-     "43485574-soul-asylum-at-first-avenue"
+     "https://www.bandsintown.com/e/1040598639"
     ],
     [
      "2027-01-09",
      [
-      "G. Love & Special Sauce",
-      "Todd Carey"
+      "Clay Fulton and the Lost Forty"
      ],
-     "43418206-g-love-special-sauce-at-first-avenue"
+     "https://www.bandsintown.com/e/1040831816"
     ],
     [
-     "2027-01-14",
+     "2027-01-20",
      [
-      "Portugal. The Man",
-      "Anthony Green"
+      "Third Goodbye"
      ],
-     "43488087-portugal-the-man-at-first-avenue"
+     "https://www.bandsintown.com/e/1040840846"
     ],
     [
-     "2027-01-15",
+     "2027-01-21",
      [
-      "The Last Revel",
-      "Wild Horses"
+      "Jon Spencer"
      ],
-     "43442227-the-last-revel-at-first-avenue"
+     "https://www.bandsintown.com/e/1040455476"
+    ],
+    [
+     "2027-01-27",
+     [
+      "Tara Clerkin Trio"
+     ],
+     "https://www.bandsintown.com/e/1040459630"
     ],
     [
      "2027-01-30",
      [
-      "The Womack Sisters"
+      "Sadurn"
      ],
-     "43453449-the-womack-sisters-at-first-avenue"
+     "https://www.bandsintown.com/e/1040660811"
+    ],
+    [
+     "2027-02-02",
+     [
+      "Girl Ultra"
+     ],
+     "https://www.bandsintown.com/e/1040536691"
+    ],
+    [
+     "2027-02-04",
+     [
+      "Latter"
+     ],
+     "https://www.bandsintown.com/e/1040701697"
+    ],
+    [
+     "2027-02-04",
+     [
+      "Scarlet Demore"
+     ],
+     "https://www.bandsintown.com/e/1040691648"
     ],
     [
      "2027-02-06",
      [
-      "Josh Meloy"
+      "Fiona Hayes"
      ],
-     "43484513-josh-meloy-at-first-avenue"
+     "https://www.bandsintown.com/e/1040691406"
     ],
     [
-     "2027-02-07",
+     "2027-02-11",
      [
-      "Atmosphere",
-      "Souls of Mischief",
-      "Mac Lethal",
-      "Blueprint"
+      "DOUBLECAMP"
      ],
-     "43425895-atmosphere-at-first-avenue"
+     "https://www.bandsintown.com/e/1040685910"
+    ],
+    [
+     "2027-02-11",
+     [
+      "Alt Bloom"
+     ],
+     "https://www.bandsintown.com/e/1040679235"
+    ],
+    [
+     "2027-02-16",
+     [
+      "Starbenders"
+     ],
+     "https://www.bandsintown.com/e/1040559119"
+    ],
+    [
+     "2027-02-17",
+     [
+      "Zach Seabaugh"
+     ],
+     "https://www.bandsintown.com/e/1040644880"
     ],
     [
      "2027-02-19",
      [
-      "Buffalo Traffic Jam",
-      "Jack Van Cleaf"
+      "The Back Alley"
      ],
-     "43476331-buffalo-traffic-jam-at-first-avenue"
+     "https://www.bandsintown.com/e/1040802719"
     ],
     [
-     "2027-03-04",
+     "2027-02-20",
      [
-      "Dinosaur Jr.",
-      "Starcrawler"
+      "SHĀHERI"
      ],
-     "43389713-dinosaur-jr-at-first-avenue"
+     "https://www.bandsintown.com/e/1040791819"
     ],
     [
-     "2027-03-07",
+     "2027-02-23",
      [
-      "Vacations",
-      "TWEN"
+      "Aubory Bugg"
      ],
-     "43451203-vacations-at-first-avenue"
+     "https://www.bandsintown.com/e/1040342773"
+    ],
+    [
+     "2027-02-26",
+     [
+      "Fake Names"
+     ],
+     "https://www.bandsintown.com/e/1040132170"
+    ],
+    [
+     "2027-02-27",
+     [
+      "Kate Yeager"
+     ],
+     "https://www.bandsintown.com/e/1040771860"
+    ],
+    [
+     "2027-02-28",
+     [
+      "Youth Fountain"
+     ],
+     "https://www.bandsintown.com/e/1040451875"
+    ],
+    [
+     "2027-03-05",
+     [
+      "Hot Freaks"
+     ],
+     "https://www.bandsintown.com/e/1040435659"
+    ],
+    [
+     "2027-03-08",
+     [
+      "Valencia Grace"
+     ],
+     "https://www.bandsintown.com/e/1039631403"
     ],
     [
      "2027-03-10",
      [
-      "Boy Throb"
+      "Anna Shoemaker"
      ],
-     "43496779-boy-throb-at-first-avenue"
+     "https://www.bandsintown.com/e/1040298527"
     ],
     [
-     "2027-04-03",
+     "2027-03-12",
      [
-      "Lambrini Girls",
-      "SPRINTS"
+      "Brooke Alexx"
      ],
-     "43476394-lambrini-girls-at-first-avenue"
+     "https://www.bandsintown.com/e/1040205853"
     ],
     [
-     "2027-04-08",
+     "2027-03-14",
      [
-      "Wheeler Walker, Jr."
+      "Baby Bugs"
      ],
-     "43262739-wheeler-walker-jr-at-first-avenue"
+     "https://www.bandsintown.com/e/1040486871"
     ],
     [
-     "2027-04-28",
+     "2027-03-15",
      [
-      "Ricky Montgomery"
+      "Call It Off"
      ],
-     "43501912-ricky-montgomery-at-first-avenue"
+     "https://www.bandsintown.com/e/1040736574"
     ],
     [
-     "2027-05-05",
+     "2027-03-31",
      [
-      "The Wombats",
-      "The Lathums"
+      "Jack & Jack"
      ],
-     "43476436-the-wombats-at-first-avenue"
+     "https://www.bandsintown.com/e/1040663091"
     ],
     [
-     "2027-05-07",
+     "2027-04-05",
      [
-      "Cory Wong",
-      "Blu DeTiger"
+      "Sarah Julia"
      ],
-     "43442267-cory-wong-at-first-avenue"
+     "https://www.bandsintown.com/e/1040672211"
     ],
     [
-     "2027-05-08",
+     "2027-04-12",
      [
-      "Cory Wong",
-      "Blu DeTiger"
+      "Vlad Holiday"
      ],
-     "43442268-cory-wong-at-first-avenue"
+     "https://www.bandsintown.com/e/1040518798"
     ],
     [
-     "2027-05-09",
+     "2027-04-13",
      [
-      "Cory Wong",
-      "Blu DeTiger"
+      "Rec Hall"
      ],
-     "43498273-cory-wong-at-first-avenue"
+     "https://www.bandsintown.com/e/1040817180"
     ],
     [
-     "2027-05-14",
+     "2027-04-16",
      [
-      "Hazlett"
+      "Temper City"
      ],
-     "43275934-hazlett-at-first-avenue"
+     "https://www.bandsintown.com/e/1040733638"
+    ],
+    [
+     "2027-05-02",
+     [
+      "Haiden Henderson"
+     ],
+     "https://www.bandsintown.com/e/1040359951"
+    ],
+    [
+     "2027-06-07",
+     [
+      "Alfie Jukes"
+     ],
+     "https://www.bandsintown.com/e/1040800218"
     ]
    ]
   },
