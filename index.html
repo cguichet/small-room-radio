@@ -1463,7 +1463,7 @@ async function startRainNode(){
   }
   for(const k in rv) rnode.port.postMessage({set:k,v:rv[k]});
   rnode.port.onmessage=e=>{rInfo=e.data; rLed=e.data.led}; const trim=rctx.createGain(); trim.gain.value=.5; rnode.connect(trim); trim.connect(rctx.destination);   // the whole machine sits 6 dB down
-  rAn=rctx.createAnalyser(); rAn.fftSize=4096; rAn.smoothingTimeConstant=.5; trim.connect(rAn);
+  rAn=rctx.createAnalyser(); rAn.fftSize=8192; rAn.smoothingTimeConstant=.5; trim.connect(rAn);
   rTd=new Float32Array(rAn.fftSize); rFd=new Float32Array(rAn.frequencyBinCount);
 }
 function rainAudio(on){
@@ -1693,25 +1693,30 @@ function rainFrame(){
   if(a&&L){const [c,W,H,dpr]=a; c.clearRect(0,0,W,H);
     const fh=L.hpF(rv.hp), fc=rInfo&&power?rInfo.fc:L.lpF(rv.lp,0), k=Math.min(L.resK(rv.res),3.9995), four=rv.poles>=.5;
     const FMIN=20,FMAX=20000, top=H*.14, bot=H*.1, fx=f=>W*.04+W*.92*Math.log(f/FMIN)/Math.log(FMAX/FMIN), dy=db=>top+(30-Math.max(-30,Math.min(30,db)))/60*(H-top-bot);
-    // spectrum analyser bars on the curve's own axes: each bar is the sound in its slice of the spectrum, in dB, drawn
-    // against the curve's dB scale. The level is pinned (slowly) so the passband sits on the curve, which makes the bars
+    // spectrum analyser on the curve's own axes: each column is the sound in its slice of the spectrum, in dB, drawn
+    // against the curve's dB scale. The level is pinned (slowly) so the passband sits on the curve, which makes it
     // follow the filter's shape while drops and swells still jump above and below it.
-    const NBAR=72, gap=Math.max(1,dpr*1.2), x0=W*.04, x1=W*.96, bwid=(x1-x0)/NBAR;
-    if(!rWf||rWf.length!==NBAR) rWf=new Float32Array(NBAR).fill(-60);
+    // one column per screen pixel (the spectrogram's resolution), so it reads as a fine-grained spectrum
+    const x0=W*.04, x1=W*.96, cs=Math.max(1,Math.round(dpr)), NC=Math.ceil((x1-x0)/cs);
+    if(!rWf||rWf.length!==NC) rWf=new Float32Array(NC).fill(-90);
     if(live){ rAn.getFloatFrequencyData(rFd); rWfOn=Math.min(1,rWfOn+dt*4);
       const nb=rFd.length, hz=rctx.sampleRate/2/nb; let est=0, n=0;
-      for(let b=0;b<NBAR;b++){ const fa=FMIN*Math.pow(FMAX/FMIN,b/NBAR), fb=FMIN*Math.pow(FMAX/FMIN,(b+1)/NBAR), fm=Math.sqrt(fa*fb);
+      for(let b=0;b<NC;b++){ const fa=FMIN*Math.pow(FMAX/FMIN,b*cs/(x1-x0)), fb=FMIN*Math.pow(FMAX/FMIN,(b+1)*cs/(x1-x0)), fm=Math.sqrt(fa*fb);
         let v;
-        if(fb-fa<hz*1.5){ const u=Math.min(nb-2,fm/hz), i0=Math.floor(u); v=rFd[i0]+(rFd[i0+1]-rFd[i0])*(u-i0) }
-        else { let p=0,c_=0; for(let k=Math.max(1,Math.floor(fa/hz));k<=Math.min(nb-1,Math.ceil(fb/hz));k++){p+=Math.pow(10,rFd[k]/10);c_++} v=10*Math.log10(p/c_+1e-20) }
-        const r=respDb(fm,fh,fc,k,four); if(r>-18){est+=v-r;n++}
-        const lvl=v-rOff; rWf[b]+= (lvl-rWf[b])*(lvl>rWf[b]?.6:.18) }   // quick to rise, slower to fall
+        if(fb-fa<hz*1.5){ const u=Math.min(nb-2,fm/hz), i0=Math.floor(u); v=rFd[i0]+(rFd[i0+1]-rFd[i0])*(u-i0) }   // low end: between bins
+        else { let p=0,c_=0; for(let q=Math.max(1,Math.floor(fa/hz));q<=Math.min(nb-1,Math.ceil(fb/hz));q++){p+=Math.pow(10,rFd[q]/10);c_++} v=10*Math.log10(p/c_+1e-20) }
+        if(!(v>-200)) v=-200;   // silence reads as -Infinity
+        const r=respDb(fm,fh,fc,k,four); if(r>-18&&v>-190&&b%4===0){est+=v-r;n++}
+        const lvl=v-rOff; rWf[b]+=(lvl-rWf[b])*(lvl>rWf[b]?.6:.2) }   // quick to rise, slower to fall
       if(n) rOff+=((est/n)-rOff)*Math.min(1,dt*.8);
     } else rWfOn=Math.max(0,rWfOn-dt*2);
-    if(rWfOn>0){ const base=dy(-30);
-      const gr=c.createLinearGradient(0,top,0,base); gr.addColorStop(0,"rgba(255,205,120,.75)"); gr.addColorStop(1,"rgba(255,140,40,.18)");
+    if(rWfOn>0){
+      // above the curve's -30 dB floor the spectrum uses the curve's own scale; below it, down to -66 dB, it fills the
+      // strip under the floor line, so the deep lows and highs the filter has cut still show as a low glow
+      const fl=dy(-30), sy=db=>db>=-30?dy(db):fl+(H-fl)*Math.min(1,(-30-db)/36);
+      const gr=c.createLinearGradient(0,top,0,H); gr.addColorStop(0,"rgba(255,205,120,.8)"); gr.addColorStop(.85,"rgba(255,150,50,.3)"); gr.addColorStop(1,"rgba(255,130,40,.12)");
       c.save(); c.globalAlpha=rWfOn*(.6+.35*(power?rLvl:0)); c.fillStyle=gr;
-      for(let b=0;b<NBAR;b++){ const yy=dy(rWf[b]); if(yy<base) c.fillRect(x0+b*bwid+gap/2, yy, bwid-gap, base-yy) }
+      for(let b=0;b<NC;b++){ const yy=sy(rWf[b]); if(yy<H) c.fillRect(x0+b*cs, yy, cs, H-yy) }
       c.restore() }
     // A narrow resonance falls between evenly spaced points and its drawn height flickers as the cutoff moves, so the
     // curve is sampled densely around the cutoff and always includes the true peak, found by a golden-section search.
