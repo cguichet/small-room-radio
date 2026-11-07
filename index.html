@@ -530,15 +530,15 @@ html.immersive,html.immersive body{overflow:hidden;overscroll-behavior:none;heig
 .rlab.rdn{transform:translate(-50%,-50%) rotate(90deg)} .rlab.rup90{transform:translate(-50%,-50%) rotate(-90deg)}
 .rdeco{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;fill:none;stroke:var(--lbl);stroke-width:.2;stroke-linecap:round}
 .rface[data-v="wide"] .xyknob{width:calc(var(--u) * 2.4)}
-/* vertical faders: half-circle handles whose flat edge marks the value; high pass round on top, low pass round below */
+/* vertical faders: half-circle handles whose flat edge marks the value; high pass round below, low pass round on top */
 .rslider.vert{cursor:ns-resize}
 .rslider.vert[data-s] .rhandle{left:-7.5%;width:115%;height:calc(var(--u) * 1.84);aspect-ratio:auto}
-.rslider.vert[data-s="hp"] .rhandle{top:calc((100% - var(--u) * 3.2) * (1 - var(--v)) + var(--u) * 1.6 - var(--u) * 1.84);
+.rslider.vert[data-s="lp"] .rhandle{top:calc((100% - var(--u) * 3.2) * (1 - var(--v)) + var(--u) * 1.6 - var(--u) * 1.84);
   border-radius:50% 50% calc(var(--u) * .4) calc(var(--u) * .4) / 100% 100% calc(var(--u) * .4) calc(var(--u) * .4)}
-.rslider.vert[data-s="lp"] .rhandle{top:calc((100% - var(--u) * 3.2) * (1 - var(--v)) + var(--u) * 1.6);
+.rslider.vert[data-s="hp"] .rhandle{top:calc((100% - var(--u) * 3.2) * (1 - var(--v)) + var(--u) * 1.6);
   border-radius:calc(var(--u) * .4) calc(var(--u) * .4) 50% 50% / calc(var(--u) * .4) calc(var(--u) * .4) 100% 100%}
 .rslider.vert[data-s] .rhandle::after{left:22%;right:22%;width:auto;height:16%;margin-left:0}
-.rslider.vert[data-s="hp"] .rhandle::after{top:auto;bottom:16%} .rslider.vert[data-s="lp"] .rhandle::after{top:16%;bottom:auto}
+.rslider.vert[data-s="lp"] .rhandle::after{top:auto;bottom:16%} .rslider.vert[data-s="hp"] .rhandle::after{top:16%;bottom:auto}
 
 /* ---------- eGuzheng mode: the face is drawn over the rendered plate in cm (--u), like the Rain Machine ---------- */
 .eface{display:none;container-type:inline-size}
