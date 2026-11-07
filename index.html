@@ -497,6 +497,22 @@ html.immersive,html.immersive body{overflow:hidden;overscroll-behavior:none;heig
 .rlab.redge.el{transform:translate(-50%,-50%) rotate(-45deg)} .rlab.redge.er{transform:translate(-50%,-50%) rotate(45deg)}
 /* the 2/4 pole switch: a full moon and a crescent */
 .rlab .rmoon{display:block;width:calc(var(--u) * 1.6);height:calc(var(--u) * 1.6);fill:var(--lbl)}
+/* no glow over the display: the spectrogram reads on the plain amber glass */
+.ramber::before{display:none}
+/* XY pad handle: a chunky cream knob cap, upright on the turned screen */
+.xyknob{position:absolute;width:calc(var(--u) * 3.2);aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:1;
+  background:radial-gradient(circle at 38% 30%,var(--k-hi),var(--k-mid) 55%,var(--k-lo));box-shadow:0 calc(var(--u) * .2) 0 var(--k-edge),0 calc(var(--u) * .45) calc(var(--u) * .7) rgba(0,0,0,.5)}
+.rdiamond .xyknob{transform:translate(-50%,-50%) rotate(45deg)}
+.rain:not(.on) .xyknob{filter:brightness(.8)}
+/* slider handles as half circles: HPF round on the left and open to the right, LPF the mirror; the flat edge marks the value */
+.rslider[data-s="hp"] .rhandle,.rslider[data-s="lp"] .rhandle{aspect-ratio:auto;width:calc(var(--u) * 1.6)}
+.rslider[data-s="hp"] .rhandle{border-radius:100% 0 0 100% / 50% 0 0 50%}
+.rslider[data-s="lp"] .rhandle{left:calc((100% - var(--u) * 3.2) * var(--v) + var(--u) * 1.6);border-radius:0 100% 100% 0 / 0 50% 50% 0}
+.rslider[data-s="hp"] .rhandle::after{left:auto;right:16%;width:16%;margin-left:0}
+.rslider[data-s="lp"] .rhandle::after{left:16%;width:16%;margin-left:0}
+.rlab .ricon{display:block;width:calc(var(--u) * 1.9);height:calc(var(--u) * 1.9);fill:var(--lbl);stroke:var(--lbl)}
+/* the screen doesn't clip, so the handle can sit right on a corner; the canvas rounds its own corners */
+.rscreen.rdiamond{overflow:visible} .rscreen.rdiamond .rpane{border-radius:inherit}
 
 /* ---------- eGuzheng mode: the face is drawn over the rendered plate in cm (--u), like the Rain Machine ---------- */
 .eface{display:none;container-type:inline-size}
@@ -1445,9 +1461,8 @@ if(store.get("rainVolLaw",1)<2){ const sv=store.get("rainVals",null); if(sv&&isF
 rPreset={"Gentle rain":"On the roof","Pitter patter":"On the roof","Processing data":"Data process","Processing":"Data process","Hearth":"Gentle fire"}[rPreset]||rPreset;   // renamed Nov 5
 if(rPreset&&!RAIN_PRESETS.some(p=>p[0]===rPreset)) rPreset=null;
 let rctx=null, rnode=null, rStarting=null, rInfo=null, rLed=0, rLvl=0;
-// the output is tapped by an analyser for the two displays: a scrolling spectrogram behind the filter curve and a scope in the pad
+// the output is tapped by an analyser for the scrolling spectrogram behind the filter curve
 let rAn=null, rTd=null, rFd=null, rLastT=0, rColAcc=0, rWf=null, rWfOn=0;
-const SC_N=320, SC_RATE=110, scMin=new Float32Array(SC_N), scMax=new Float32Array(SC_N);   // 320 columns, ~2.9 s across
 const RL=()=>window.RainLaw||null;
 
 function loadRainCore(){
@@ -1521,6 +1536,8 @@ function renderRain(){
   for(const id of ["lp","hp"]) rAll(`[data-s="${id}"]`).forEach(f=>{f.style.setProperty("--v",rv[id]); f.setAttribute("aria-valuenow",Math.round(rv[id]*100)); f.setAttribute("aria-valuetext",rainText(id))});
   rAll(".rswitch").forEach(b=>{b.setAttribute("aria-checked",rv.poles>=.5); b.setAttribute("aria-label",`Low pass slope: ${rv.poles>=.5?4:2} pole`)});
   rAll(".xypad").forEach(p=>p.setAttribute("aria-valuetext",`Low pass ${rainText("lp")}, high pass ${rainText("hp")}`));
+  rAll(".xyknob").forEach(k=>{const dia=!!k.closest(".rdiamond");   // same mapping as the crosshair on the canvas
+    k.style.left=((dia?rv.lp:1-rv.hp)*100).toFixed(2)+"%"; k.style.top=((dia?rv.hp:1-rv.lp)*100).toFixed(2)+"%"});
   rAll(".rkey").forEach(b=>b.setAttribute("aria-pressed",b.dataset.p===rPreset));
   rAll(".rain-msg").forEach(m=>m.hidden=power);
 }
@@ -1548,11 +1565,13 @@ function faceHTML(v){
   let h=`<div class="rplate"></div>`;
   // screen: the XY pad (on the tall face a square turned 45 degrees: a diamond)
   const D=F.diamond, S=F.screen||{x:D.cx-D.d/Math.SQRT2/2,y:D.cy-D.d/Math.SQRT2/2,w:D.d/Math.SQRT2,h:D.d/Math.SQRT2};
-  h+=`<div class="rscreen${D?" rdiamond":""}" style="${at(S)}"><canvas class="rpane" aria-hidden="true"></canvas><div class="xypad" role="slider" tabindex="0" aria-label="Filter pad: the bottom point is silent, the top point is unfiltered; the left point keeps only the lows, the right point only the highs"></div><div class="rain-msg"><span>Rain Through a Window</span><small>Flip the power switch to start the rain.</small></div></div>`;
+  h+=`<div class="rscreen${D?" rdiamond":""}" style="${at(S)}"><canvas class="rpane" aria-hidden="true"></canvas><span class="xyknob" aria-hidden="true"></span><div class="xypad" role="slider" tabindex="0" aria-label="Filter pad: the bottom point is silent, the top point is unfiltered; the left point keeps only the lows, the right point only the highs"></div><div class="rain-msg"><span>Rain Through a Window</span><small>Flip the power switch to start the rain.</small></div></div>`;
   // printed around the diamond: what each point and each top edge does
   if(D){const r=D.d/2, o=.95, e=.75, mx=r/2;
-   h+=lbl(D.cx,D.cy-r-o,"Unfiltered"," sm")+lbl(D.cx,D.cy+r+o,"Silent"," sm")+
-      lbl(D.cx-r-o*.85,D.cy,"Dark"," sm rv")+lbl(D.cx+r+o*.85,D.cy,"Bright"," sm rv rr")+
+   h+=lbl(D.cx,D.cy-r-2.1,"Unfiltered"," sm")+lbl(D.cx,D.cy+r+2.1,"Silent"," sm")+   // clear of the handle when it sits on a corner
+      
+      lbl(D.cx-r-2.35,D.cy,`<svg class="ricon" viewBox="0 0 24 24"><title>Dark</title><circle cx="12" cy="12" r="5.2" fill="none" stroke-width="2"/></svg>`," sm")+
+      lbl(D.cx+r+2.35,D.cy,`<svg class="ricon" viewBox="0 0 24 24"><title>Bright</title><circle cx="12" cy="12" r="4.6"/>${[0,45,90,135,180,225,270,315].map(a=>{const c=Math.cos(a*Math.PI/180),n=Math.sin(a*Math.PI/180);return `<line x1="${(12+7.4*c).toFixed(2)}" y1="${(12+7.4*n).toFixed(2)}" x2="${(12+10.4*c).toFixed(2)}" y2="${(12+10.4*n).toFixed(2)}" stroke-width="2" stroke-linecap="round"/>`}).join("")}</svg>`," sm")+
       lbl(D.cx-mx-e,D.cy-mx-e,"Low pass filter"," sm redge el")+lbl(D.cx+mx+e,D.cy-mx-e,"High pass filter"," sm redge er")}
   // amber window: the filter's response
   h+=`<div class="ramber" style="${at(F.display)}"><canvas class="rcurve" aria-hidden="true"></canvas></div>`;
@@ -1663,12 +1682,6 @@ function rainFrame(){
   document.querySelectorAll(".ramber").forEach(m=>m.style.setProperty("--lvl",rLvl.toFixed(3)));
   const L=RL();
   const live=!!(rAn&&power&&rctx&&rctx.state==="running"), now=performance.now(), dt=Math.min(.1,(now-(rLastT||now))/1000); rLastT=now;
-  if(live){ rAn.getFloatTimeDomainData(rTd);
-    rColAcc+=dt*SC_RATE; let k=Math.min(Math.floor(rColAcc),Math.floor(rTd.length/(rctx.sampleRate/SC_RATE))); rColAcc-=Math.floor(rColAcc);
-    if(k>0){ const seg=Math.round(rctx.sampleRate/SC_RATE); scMin.copyWithin(0,k); scMax.copyWithin(0,k);
-      for(let j=0;j<k;j++){ let lo=0,hi=0; const st=rTd.length-(k-j)*seg; for(let i=st;i<st+seg;i++){const v=rTd[i]; if(v<lo)lo=v; if(v>hi)hi=v}
-        scMin[SC_N-k+j]=lo; scMax[SC_N-k+j]=hi } } }
-  else if(dt>0){ for(let i=0;i<SC_N;i++){scMin[i]*=.9;scMax[i]*=.9} }   // switched off: the trace settles to a flat line
   // XY pad
   const face=document.querySelector(`.rface[data-v="${variant}"]`); if(!face) return;
   let a=fitCanvas(face.querySelector(".rpane"));
@@ -1677,24 +1690,9 @@ function rainFrame(){
     c.strokeStyle="rgba(150,190,170,.09)"; c.lineWidth=1;
     for(let i=1;i<6;i++){const x=Math.round(W*i/6)+.5,y=Math.round(H*i/6)+.5;c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.moveTo(0,y);c.lineTo(W,y);c.stroke()}
     const dia=!!face.querySelector(".rdiamond"), x=dia?rv.lp*W:(1-rv.hp)*W, y=dia?rv.hp*H:(1-rv.lp)*H, on=power;
-    // scope: the waveform enters at the right and slides left, upright on screen, inside a box that fits within the diamond
-    { c.save(); c.translate(W/2,H/2); let bw=W*.9, bh=H*.36;
-      if(dia){ c.rotate(Math.PI/4); const D=W*Math.SQRT2; bw=D*.6; bh=D*.3 }   // w + h < the diagonal, so the corners stay inside
-      const r0=Math.min(bw,bh)*.12;
-      c.beginPath(); c.roundRect?c.roundRect(-bw/2,-bh/2,bw,bh,r0):c.rect(-bw/2,-bh/2,bw,bh);
-      c.fillStyle="rgba(0,0,0,.28)"; c.fill(); c.strokeStyle="rgba(150,190,170,.14)"; c.lineWidth=dpr; c.stroke(); c.clip();
-      c.strokeStyle="rgba(150,190,170,.12)"; c.beginPath(); c.moveTo(-bw/2,0); c.lineTo(bw/2,0); c.stroke();
-      const cw=bw/SC_N; c.fillStyle=on?"rgba(120,235,190,.85)":"rgba(127,154,138,.45)";
-      if(on){c.shadowColor="rgba(90,230,170,.6)"; c.shadowBlur=4*dpr}
-      const sq=v=>Math.sign(v)*Math.min(1,Math.sqrt(Math.abs(v)*4));   // square-root scale: quiet presets still show, loud ones don't clip
-      for(let i=0;i<SC_N;i++){ const lo=sq(scMin[i])*bh*.46, hi=sq(scMax[i])*bh*.46;
-        c.fillRect(-bw/2+i*cw, -hi-dpr*.5, cw+.5, Math.max(dpr, hi-lo)) }
-      c.restore(); }
     c.strokeStyle=on?"rgba(255,170,70,.45)":"rgba(150,190,170,.25)"; c.lineWidth=dpr;
     c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.moveTo(0,y);c.lineTo(W,y);c.stroke();
-    const r=Math.max(6*dpr,Math.min(W,H)*.035);
-    if(on){c.fillStyle="rgba(255,150,40,.18)";c.beginPath();c.arc(x,y,r*2.4,0,7);c.fill()}
-    c.fillStyle=on?"#ffb050":"#7f9a8a"; c.beginPath();c.arc(x,y,r,0,7);c.fill();
+    // the handle itself is a knob cap laid over the canvas (.xyknob)
     c.fillStyle=on?"rgba(255,200,130,.75)":"rgba(127,154,138,.6)"; c.font=`600 ${Math.round(Math.max(9*dpr,H*.045))}px ui-sans-serif,system-ui,sans-serif`;
     const tH=`HPF ${L?fmtHz(L.hpF(rv.hp)):""}`, tL=`LPF ${L?fmtHz(L.lpF(rv.lp,0)):""}`;   // each readout sits along its own axis
     c.textBaseline="alphabetic"; c.textAlign="right"; c.fillText(dia?tL:tH,W-H*.04,H-H*.04);
@@ -1735,8 +1733,8 @@ function rainFrame(){
     c.beginPath(); fl.forEach((f,i)=>{const xx=fx(f), yy=dy(respDb(f,fh,fc,k,four)); i?c.lineTo(xx,yy):c.moveTo(xx,yy)});
     const lv=power?rLvl:0, al=.28+.72*lv;
     c.lineJoin="round"; c.lineCap="round";
-    c.shadowColor=`rgba(255,150,40,${.9*lv})`; c.shadowBlur=(3+6*lv)*dpr;
-    c.strokeStyle=`rgba(255,${Math.round(150+60*lv)},${Math.round(60+40*lv)},${al})`; c.lineWidth=.8*dpr; c.stroke(); c.shadowBlur=0;
+    
+    c.strokeStyle=`rgba(255,${Math.round(150+60*lv)},${Math.round(60+40*lv)},${al})`; c.lineWidth=.8*dpr; c.stroke();
   }
 }
 
