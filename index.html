@@ -1658,8 +1658,8 @@ function respDb(f,fh,fc,k,four){
 function rainFrame(){
   requestAnimationFrame(rainFrame);
   if(!rainMode) return;
-  // output level: the amber window brightens with it (the instrument's level light)
-  const target=power?Math.min(1,Math.pow(rLed/5.5,.6)):0; rLvl+=(target-rLvl)*(target>rLvl?.5:.12);
+  // the window glows steadily while the machine is on (it used to follow the output level, which flickered)
+  const target=power?.5:0; rLvl+=(target-rLvl)*.12;
   document.querySelectorAll(".ramber").forEach(m=>m.style.setProperty("--lvl",rLvl.toFixed(3)));
   const L=RL();
   const live=!!(rAn&&power&&rctx&&rctx.state==="running"), now=performance.now(), dt=Math.min(.1,(now-(rLastT||now))/1000); rLastT=now;
@@ -1735,8 +1735,8 @@ function rainFrame(){
     c.beginPath(); fl.forEach((f,i)=>{const xx=fx(f), yy=dy(respDb(f,fh,fc,k,four)); i?c.lineTo(xx,yy):c.moveTo(xx,yy)});
     const lv=power?rLvl:0, al=.28+.72*lv;
     c.lineJoin="round"; c.lineCap="round";
-    c.shadowColor=`rgba(255,150,40,${.9*lv})`; c.shadowBlur=(4+14*lv)*dpr;
-    c.strokeStyle=`rgba(255,${Math.round(150+60*lv)},${Math.round(60+40*lv)},${al})`; c.lineWidth=(1.2+.6*lv)*dpr; c.stroke(); c.shadowBlur=0;
+    c.shadowColor=`rgba(255,150,40,${.9*lv})`; c.shadowBlur=(3+6*lv)*dpr;
+    c.strokeStyle=`rgba(255,${Math.round(150+60*lv)},${Math.round(60+40*lv)},${al})`; c.lineWidth=.8*dpr; c.stroke(); c.shadowBlur=0;
   }
 }
 
