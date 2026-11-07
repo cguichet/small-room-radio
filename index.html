@@ -505,9 +505,11 @@ html.immersive,html.immersive body{overflow:hidden;overscroll-behavior:none;heig
 .rdiamond .xyknob{transform:translate(-50%,-50%) rotate(45deg)}
 .rain:not(.on) .xyknob{filter:brightness(.8)}
 /* slider handles as half circles: HPF round on the left and open to the right, LPF the mirror; the flat edge marks the value */
-.rslider[data-s="hp"] .rhandle,.rslider[data-s="lp"] .rhandle{aspect-ratio:auto;width:calc(var(--u) * 1.6)}
-.rslider[data-s="hp"] .rhandle{border-radius:100% 0 0 100% / 50% 0 0 50%}
-.rslider[data-s="lp"] .rhandle{left:calc((100% - var(--u) * 3.2) * var(--v) + var(--u) * 1.6);border-radius:0 100% 100% 0 / 0 50% 50% 0}
+.rslider[data-s="hp"] .rhandle,.rslider[data-s="lp"] .rhandle{aspect-ratio:auto;width:calc(var(--u) * 1.84);height:115%;top:-7.5%}
+.rslider[data-s="hp"] .rhandle{left:calc((100% - var(--u) * 3.2) * var(--v) + var(--u) * 1.6 - var(--u) * 1.84);
+  border-radius:100% calc(var(--u) * .4) calc(var(--u) * .4) 100% / 50% calc(var(--u) * .4) calc(var(--u) * .4) 50%}
+.rslider[data-s="lp"] .rhandle{left:calc((100% - var(--u) * 3.2) * var(--v) + var(--u) * 1.6);
+  border-radius:calc(var(--u) * .4) 100% 100% calc(var(--u) * .4) / calc(var(--u) * .4) 50% 50% calc(var(--u) * .4)}
 .rslider[data-s="hp"] .rhandle::after{left:auto;right:16%;width:16%;margin-left:0}
 .rslider[data-s="lp"] .rhandle::after{left:16%;width:16%;margin-left:0}
 .rlab .ricon{display:block;width:calc(var(--u) * 1.9);height:calc(var(--u) * 1.9);fill:var(--lbl);stroke:var(--lbl)}
@@ -1570,9 +1572,8 @@ function faceHTML(v){
   if(D){const r=D.d/2, o=.95, e=.75, mx=r/2;
    h+=lbl(D.cx,D.cy-r-2.1,"Unfiltered"," sm")+lbl(D.cx,D.cy+r+2.1,"Silent"," sm")+   // clear of the handle when it sits on a corner
       
-      lbl(D.cx-r-2.35,D.cy,`<svg class="ricon" viewBox="0 0 24 24"><title>Dark</title><circle cx="12" cy="12" r="5.2" fill="none" stroke-width="2"/></svg>`," sm")+
-      lbl(D.cx+r+2.35,D.cy,`<svg class="ricon" viewBox="0 0 24 24"><title>Bright</title><circle cx="12" cy="12" r="4.6"/>${[0,45,90,135,180,225,270,315].map(a=>{const c=Math.cos(a*Math.PI/180),n=Math.sin(a*Math.PI/180);return `<line x1="${(12+7.4*c).toFixed(2)}" y1="${(12+7.4*n).toFixed(2)}" x2="${(12+10.4*c).toFixed(2)}" y2="${(12+10.4*n).toFixed(2)}" stroke-width="2" stroke-linecap="round"/>`}).join("")}</svg>`," sm")+
-      lbl(D.cx-mx-e,D.cy-mx-e,"Low pass filter"," sm redge el")+lbl(D.cx+mx+e,D.cy-mx-e,"High pass filter"," sm redge er")}
+      lbl(D.cx-r-.85,D.cy,`<svg class="ricon" viewBox="0 0 24 24"><title>Dark</title><circle cx="12" cy="12" r="5.2" fill="none" stroke-width="2"/></svg>`," sm")+
+      lbl(D.cx+r+.85,D.cy,`<svg class="ricon" viewBox="0 0 24 24"><title>Bright</title><circle cx="12" cy="12" r="4.6"/>${[0,45,90,135,180,225,270,315].map(a=>{const c=Math.cos(a*Math.PI/180),n=Math.sin(a*Math.PI/180);return `<line x1="${(12+7.4*c).toFixed(2)}" y1="${(12+7.4*n).toFixed(2)}" x2="${(12+10.4*c).toFixed(2)}" y2="${(12+10.4*n).toFixed(2)}" stroke-width="2" stroke-linecap="round"/>`}).join("")}</svg>`," sm")}
   // amber window: the filter's response
   h+=`<div class="ramber" style="${at(F.display)}"><canvas class="rcurve" aria-hidden="true"></canvas></div>`;
   // sliders: LPF on top, HPF below, staggered, a printed box around the shared middle
@@ -1581,7 +1582,7 @@ function faceHTML(v){
    for(const [id,x,y,n] of [["lp",xl,yl,"Low pass cutoff"],["hp",xh,yh,"High pass cutoff"]])
      h+=`<span class="rslot" style="left:${cm(x)};top:${cm(y-.35)};width:${cm(Ls)};height:${cm(.7)}"></span>`+
         `<div class="rslider" data-s="${id}" role="slider" tabindex="0" aria-label="${n}" aria-valuemin="0" aria-valuemax="100" style="left:${cm(x-1.6)};top:${cm(y-1.6)};width:${cm(Ls+3.2)};height:${cm(3.2)}"><span class="rhandle"></span></div>`;
-   h+=lbl(U.x+U.w/2,yl-1.5,"LPF"," sm")+lbl(U.x+U.w/2,yh+1.5,"HPF"," sm")}
+   h+=lbl(U.x+U.w/2,U.y-.85,"Low pass filter"," sm")+lbl(U.x+U.w/2,U.y+U.h+.85,"High pass filter"," sm")}   // just outside the box, clear of the handles
   // presets
   {const P=F.presets, n=RAIN_PRESETS.length;
    if(P.row){   // one row of keys along the top, no label
@@ -1693,10 +1694,6 @@ function rainFrame(){
     c.strokeStyle=on?"rgba(255,170,70,.45)":"rgba(150,190,170,.25)"; c.lineWidth=dpr;
     c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.moveTo(0,y);c.lineTo(W,y);c.stroke();
     // the handle itself is a knob cap laid over the canvas (.xyknob)
-    c.fillStyle=on?"rgba(255,200,130,.75)":"rgba(127,154,138,.6)"; c.font=`600 ${Math.round(Math.max(9*dpr,H*.045))}px ui-sans-serif,system-ui,sans-serif`;
-    const tH=`HPF ${L?fmtHz(L.hpF(rv.hp)):""}`, tL=`LPF ${L?fmtHz(L.lpF(rv.lp,0)):""}`;   // each readout sits along its own axis
-    c.textBaseline="alphabetic"; c.textAlign="right"; c.fillText(dia?tL:tH,W-H*.04,H-H*.04);
-    c.textAlign="left"; c.save(); c.translate(H*.04+H*.04,H-H*.04); c.rotate(-Math.PI/2); c.fillText(dia?tH:tL,0,0); c.restore();
   }
   // amber window: the filter response, as bright as the output
   a=fitCanvas(face.querySelector(".rcurve"));
