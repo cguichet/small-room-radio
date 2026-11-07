@@ -1439,6 +1439,9 @@ if(store.get("rainVolLaw",1)<2){ const sv=store.get("rainVals",null); if(sv&&isF
 rPreset={"Gentle rain":"On the roof","Pitter patter":"On the roof","Processing data":"Data process","Processing":"Data process","Hearth":"Gentle fire"}[rPreset]||rPreset;   // renamed Nov 5
 if(rPreset&&!RAIN_PRESETS.some(p=>p[0]===rPreset)) rPreset=null;
 let rctx=null, rnode=null, rStarting=null, rInfo=null, rLed=0, rLvl=0;
+// the output is tapped by an analyser for the two displays: a spectrogram behind the filter curve and a scope in the pad
+let rAn=null, rTd=null, rFd=null, rLastT=0, rColAcc=0, rWf=null, rWfOn=0;
+const SC_N=320, SC_RATE=110, scMin=new Float32Array(SC_N), scMax=new Float32Array(SC_N);   // 320 columns, ~2.9 s across
 const RL=()=>window.RainLaw||null;
 
 function loadRainCore(){
@@ -1460,6 +1463,8 @@ async function startRainNode(){
   }
   for(const k in rv) rnode.port.postMessage({set:k,v:rv[k]});
   rnode.port.onmessage=e=>{rInfo=e.data; rLed=e.data.led}; const trim=rctx.createGain(); trim.gain.value=.5; rnode.connect(trim); trim.connect(rctx.destination);   // the whole machine sits 6 dB down
+  rAn=rctx.createAnalyser(); rAn.fftSize=4096; rAn.smoothingTimeConstant=.5; trim.connect(rAn);
+  rTd=new Float32Array(rAn.fftSize); rFd=new Float32Array(rAn.frequencyBinCount);
 }
 function rainAudio(on){
   if(!on){ if(rctx) rctx.suspend().catch(()=>{}); rInfo=null; return }
@@ -1645,6 +1650,13 @@ function rainFrame(){
   const target=power?Math.min(1,Math.pow(rLed/5.5,.6)):0; rLvl+=(target-rLvl)*(target>rLvl?.5:.12);
   document.querySelectorAll(".ramber").forEach(m=>m.style.setProperty("--lvl",rLvl.toFixed(3)));
   const L=RL();
+  const live=!!(rAn&&power&&rctx&&rctx.state==="running"), now=performance.now(), dt=Math.min(.1,(now-(rLastT||now))/1000); rLastT=now;
+  if(live){ rAn.getFloatTimeDomainData(rTd);
+    rColAcc+=dt*SC_RATE; let k=Math.min(Math.floor(rColAcc),Math.floor(rTd.length/(rctx.sampleRate/SC_RATE))); rColAcc-=Math.floor(rColAcc);
+    if(k>0){ const seg=Math.round(rctx.sampleRate/SC_RATE); scMin.copyWithin(0,k); scMax.copyWithin(0,k);
+      for(let j=0;j<k;j++){ let lo=0,hi=0; const st=rTd.length-(k-j)*seg; for(let i=st;i<st+seg;i++){const v=rTd[i]; if(v<lo)lo=v; if(v>hi)hi=v}
+        scMin[SC_N-k+j]=lo; scMax[SC_N-k+j]=hi } } }
+  else if(dt>0){ for(let i=0;i<SC_N;i++){scMin[i]*=.9;scMax[i]*=.9} }   // switched off: the trace settles to a flat line
   // XY pad
   const face=document.querySelector(`.rface[data-v="${variant}"]`); if(!face) return;
   let a=fitCanvas(face.querySelector(".rpane"));
@@ -1653,6 +1665,19 @@ function rainFrame(){
     c.strokeStyle="rgba(150,190,170,.09)"; c.lineWidth=1;
     for(let i=1;i<6;i++){const x=Math.round(W*i/6)+.5,y=Math.round(H*i/6)+.5;c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.moveTo(0,y);c.lineTo(W,y);c.stroke()}
     const dia=!!face.querySelector(".rdiamond"), x=dia?rv.lp*W:(1-rv.hp)*W, y=dia?rv.hp*H:(1-rv.lp)*H, on=power;
+    // scope: the waveform enters at the right and slides left, upright on screen, inside a box that fits within the diamond
+    { c.save(); c.translate(W/2,H/2); let bw=W*.9, bh=H*.36;
+      if(dia){ c.rotate(Math.PI/4); const D=W*Math.SQRT2; bw=D*.6; bh=D*.3 }   // w + h < the diagonal, so the corners stay inside
+      const r0=Math.min(bw,bh)*.12;
+      c.beginPath(); c.roundRect?c.roundRect(-bw/2,-bh/2,bw,bh,r0):c.rect(-bw/2,-bh/2,bw,bh);
+      c.fillStyle="rgba(0,0,0,.28)"; c.fill(); c.strokeStyle="rgba(150,190,170,.14)"; c.lineWidth=dpr; c.stroke(); c.clip();
+      c.strokeStyle="rgba(150,190,170,.12)"; c.beginPath(); c.moveTo(-bw/2,0); c.lineTo(bw/2,0); c.stroke();
+      const cw=bw/SC_N; c.fillStyle=on?"rgba(120,235,190,.85)":"rgba(127,154,138,.45)";
+      if(on){c.shadowColor="rgba(90,230,170,.6)"; c.shadowBlur=4*dpr}
+      const sq=v=>Math.sign(v)*Math.min(1,Math.sqrt(Math.abs(v)*4));   // square-root scale: quiet presets still show, loud ones don't clip
+      for(let i=0;i<SC_N;i++){ const lo=sq(scMin[i])*bh*.46, hi=sq(scMax[i])*bh*.46;
+        c.fillRect(-bw/2+i*cw, -hi-dpr*.5, cw+.5, Math.max(dpr, hi-lo)) }
+      c.restore(); }
     c.strokeStyle=on?"rgba(255,170,70,.45)":"rgba(150,190,170,.25)"; c.lineWidth=dpr;
     c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.moveTo(0,y);c.lineTo(W,y);c.stroke();
     const r=Math.max(6*dpr,Math.min(W,H)*.035);
@@ -1668,6 +1693,25 @@ function rainFrame(){
   if(a&&L){const [c,W,H,dpr]=a; c.clearRect(0,0,W,H);
     const fh=L.hpF(rv.hp), fc=rInfo&&power?rInfo.fc:L.lpF(rv.lp,0), k=Math.min(L.resK(rv.res),3.9995), four=rv.poles>=.5;
     const FMIN=20,FMAX=20000, top=H*.14, bot=H*.1, fx=f=>W*.04+W*.92*Math.log(f/FMIN)/Math.log(FMAX/FMIN), dy=db=>top+(30-Math.max(-30,Math.min(30,db)))/60*(H-top-bot);
+    // spectrogram on the curve's frequency axis: the newest slice at the bottom, older ones rising and fading
+    if(!rWf) rWf=document.createElement("canvas");
+    if(rWf.width!==W||rWf.height!==H){rWf.width=W;rWf.height=H}
+    const wc=rWf.getContext("2d"), step=Math.max(1,Math.round(dpr));
+    if(live){ rAn.getFloatFrequencyData(rFd); rWfOn=1;
+      wc.globalCompositeOperation="copy"; wc.drawImage(rWf,0,-step); wc.globalCompositeOperation="source-over";
+      const row=wc.createImageData(W,step), d=row.data, nb=rFd.length, hz=rctx.sampleRate/2/nb;
+      for(let px=0;px<W;px++){ const t=(px-W*.04)/(W*.92); if(t<0||t>1) continue;
+        const f0=FMIN*Math.pow(FMAX/FMIN,t), f1=FMIN*Math.pow(FMAX/FMIN,t+1/(W*.92));
+        let b0=Math.max(1,Math.floor(f0/hz)), b1=Math.min(nb-1,Math.max(b0,Math.floor(f1/hz))), m=-200;
+        if(b1===b0){ const u=Math.min(nb-2,f0/hz), i0=Math.floor(u); m=rFd[i0]+(rFd[i0+1]-rFd[i0])*(u-i0) }   // low end: between bins, so it doesn't step
+        else for(let b=b0;b<=b1;b++) if(rFd[b]>m) m=rFd[b];
+        const v=Math.max(0,Math.min(1,(m+150)/90)), al=Math.round(255*Math.pow(v,1.6));
+        for(let r=0;r<step;r++){const o=(r*W+px)*4; d[o]=255; d[o+1]=150+Math.round(80*v); d[o+2]=50+Math.round(60*v); d[o+3]=al} }
+      wc.putImageData(row,0,H-step);
+    } else if(rWfOn>0) rWfOn=Math.max(0,rWfOn-dt*1.5);
+    if(rWfOn>0){ c.save(); c.globalAlpha=.55*rWfOn; c.globalCompositeOperation="lighter"; c.drawImage(rWf,0,0);
+      const fade=c.createLinearGradient(0,0,0,H); fade.addColorStop(0,"rgba(29,14,5,1)"); fade.addColorStop(.75,"rgba(29,14,5,0)");
+      c.globalCompositeOperation="destination-out"; c.globalAlpha=.85; c.fillStyle=fade; c.fillRect(0,0,W,H); c.restore() }
     // A narrow resonance falls between evenly spaced points and its drawn height flickers as the cutoff moves, so the
     // curve is sampled densely around the cutoff and always includes the true peak, found by a golden-section search.
     const fs_=[]; for(let i=0;i<=180;i++) fs_.push(FMIN*Math.pow(FMAX/FMIN,i/180));
