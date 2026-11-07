@@ -515,6 +515,13 @@ html.immersive,html.immersive body{overflow:hidden;overscroll-behavior:none;heig
 .rlab .ricon{display:block;width:calc(var(--u) * 1.9);height:calc(var(--u) * 1.9);fill:var(--lbl);stroke:var(--lbl)}
 /* the screen doesn't clip, so the handle can sit right on a corner; the canvas rounds its own corners */
 .rscreen.rdiamond{overflow:visible} .rscreen.rdiamond .rpane{border-radius:inherit}
+/* Rain and Motion: dark grey caps with an off-white line, in either theme */
+.rknob[data-r="density"],.rknob[data-r="mod"]{--k-hi:#55585c;--k-mid:#36383b;--k-lo:#222326;--k-edge:#151618;--idx:#f3f1ea}
+.rlab .kic{width:calc(var(--u) * 1.9);height:calc(var(--u) * 1.9)}
+/* XY handle: two short vertical grip lines */
+.xyknob::before,.xyknob::after{content:"";position:absolute;top:31%;bottom:31%;width:5.5%;border-radius:2px;background:var(--idx)}
+.xyknob::before{left:39.5%} .xyknob::after{right:39.5%}
+.rface[data-v="tall"] .xyknob{width:calc(var(--u) * 3.5)}
 
 /* ---------- eGuzheng mode: the face is drawn over the rendered plate in cm (--u), like the Rain Machine ---------- */
 .eface{display:none;container-type:inline-size}
@@ -1442,9 +1449,10 @@ const RFACE={
   // beside it, then the XY pad turned 45 degrees (bottom point silent, top point unfiltered) with Volume over Rain.
   // Presets across the very top (Nov 5), then the amber window, the crossed sliders, the low pass box the full width,
   // and the XY diamond with Volume over Rain.
-  tall:{w:40.2,h:76.2,presets:{x:2.3,y:2.3,w:35.6,h:3.9,row:true,gap:.4},display:{x:2.3,y:8.5,w:35.6,h:7.0},sliders:{x:2.3,y:17.5,w:35.6,h:10.4},
-        gbox:{x:2.3,y:30.2,w:35.6,h:9.9,label:"Low Pass Filter"},
-        diamond:{cx:14.8,cy:58.2,d:22},vol:{x:28.3,y:44.2,w:9.4,h:12.2},rain:{x:28.3,y:59.8,w:9.4,h:12.2}}};
+  tall:{w:40.2,h:76.2,presets:{x:2.3,y:2.3,w:35.6,h:3.9,row:true,gap:.4},display:{x:2.3,y:8.4,w:35.6,h:7.2},sliders:{x:2.3,y:17.7,w:35.6,h:10.4},
+        gbox:{x:2.3,y:30.5,w:35.6,h:9.9,label:"Low pass filter"},
+        // balanced Nov 6: even gaps down the face; the diamond as large as the corner icons and the knob column allow
+        diamond:{cx:15.6,cy:58.4,d:24},vol:{x:29.3,y:44.0,w:8.6,h:11.4},rain:{x:29.3,y:60.6,w:8.6,h:11.4}}};
 // Chris's presets (Nov 4), read off his settings
 const RAIN_PRESETS=[
 // Volumes are on the log-taper knob (Nov 5): Gentle rain and Wind chimes keep the loudness they had on the old linear one;
@@ -1594,7 +1602,13 @@ function faceHTML(v){
      RAIN_PRESETS.map(p=>`<button type="button" class="gkey rkey" data-p="${p[0]}" aria-pressed="false" style="height:${cm(kh)}"><span class="cap"><span class="gl">${p[0]}</span></span></button>`).join("")+`</div>`;
    h+=lbl(P.x+P.w/2,P.y+P.h-.6,"Presets")}}
   // Rain and Volume
-  for(const [id,k,n] of [["density","rain","Rain"],["vol","vol","Volume"]]){const E=F[k]; h+=knob(id,n,E.x+E.w/2,E.y+E.w/2,E.w)+lbl(E.x+E.w/2,E.y+E.h-.6,n)}
+  const ICON=(t,b)=>`<svg class="ricon kic" viewBox="0 0 24 24"><title>${t}</title>${b}</svg>`,
+    DROP=(x,y,s)=>`<path d="M${x} ${y-7*s}C${x+1.5*s} ${y-4.2*s} ${x+4.6*s} ${y-1.2*s} ${x+4.6*s} ${y+1.6*s}A${4.6*s} ${4.6*s} 0 0 1 ${x-4.6*s} ${y+1.6*s}C${x-4.6*s} ${y-1.2*s} ${x-1.5*s} ${y-4.2*s} ${x} ${y-7*s}Z"/>`,
+    SPK=`<path d="M3 9.2h4l5-4.2v14l-5-4.2H3z"/>`, ARC=r=>`<path d="M${14+r*.6} ${12-r}A${r*1.15} ${r*1.15} 0 0 1 ${14+r*.6} ${12+r}" fill="none" stroke-width="1.8" stroke-linecap="round"/>`,
+    ENDS={density:[ICON("No rain",DROP(12,13.5,1)),ICON("Heavy rain",DROP(7.5,10.5,.62)+DROP(16.5,10.5,.62)+DROP(12,17.5,.62))],
+          vol:[ICON("Silent",SPK),ICON("Loud",SPK+ARC(2.4)+ARC(4.6)+ARC(6.8))]};
+  for(const [id,k,n] of [["density","rain","Rain"],["vol","vol","Volume"]]){const E=F[k], cx=E.x+E.w/2, cy=E.y+E.w/2, q=(E.w/2+1.15)*Math.SQRT1_2;
+    h+=knob(id,n,cx,cy,E.w)+lbl(cx,E.y+E.h-.6,n)+lbl(cx-q,cy+q,ENDS[id][0]," sm")+lbl(cx+q,cy+q,ENDS[id][1]," sm")}
   // Motion, LPF Reso and the 2/4 pole switch, evenly spaced in their printed box
   {const G=F.gbox, kd=4.6, ring=kd*1.25, sw=6.2, gap=(G.w-2*ring-sw)/4, inner=ring+1.8, top=G.y+(G.h-inner)/2, cy=top+ring/2, ly=top+ring+1.2;
    const x1=G.x+gap+ring/2, x2=x1+ring+gap, xs=x2+ring/2+gap+.85, sh=G.h>10.5?5.2:5.0, sy=(top+ly+.6)/2;
