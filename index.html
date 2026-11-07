@@ -492,6 +492,12 @@ html.immersive,html.immersive body{overflow:hidden;overscroll-behavior:none;heig
 .rbank.rrow .rkey{flex:1 1 0;min-width:0;height:100%}
 .rbank.rrow .rkey .gl{font-size:calc(var(--u) * .9);letter-spacing:.03em;line-height:1.08}
 
+/* around the XY diamond: corner names; the side ones stand on end, the edge ones run along their edge */
+.rlab.rv{transform:translate(-50%,-50%) rotate(-90deg)} .rlab.rv.rr{transform:translate(-50%,-50%) rotate(90deg)}
+.rlab.redge.el{transform:translate(-50%,-50%) rotate(-45deg)} .rlab.redge.er{transform:translate(-50%,-50%) rotate(45deg)}
+/* the 2/4 pole switch: a full moon and a crescent */
+.rlab .rmoon{display:block;width:calc(var(--u) * 1.6);height:calc(var(--u) * 1.6);fill:var(--lbl)}
+
 /* ---------- eGuzheng mode: the face is drawn over the rendered plate in cm (--u), like the Rain Machine ---------- */
 .eface{display:none;container-type:inline-size}
 .egz .eface:not([hidden]){display:block}
@@ -1420,7 +1426,7 @@ const RFACE={
   // and the XY diamond with Volume over Rain.
   tall:{w:40.2,h:76.2,presets:{x:2.3,y:2.3,w:35.6,h:3.9,row:true,gap:.4},display:{x:2.3,y:8.5,w:35.6,h:7.0},sliders:{x:2.3,y:17.5,w:35.6,h:10.4},
         gbox:{x:2.3,y:30.2,w:35.6,h:9.9,label:"Low Pass Filter"},
-        diamond:{cx:14.4,cy:58.2,d:24.4},vol:{x:28.3,y:44.2,w:9.4,h:12.2},rain:{x:28.3,y:59.8,w:9.4,h:12.2}}};
+        diamond:{cx:14.8,cy:58.2,d:22},vol:{x:28.3,y:44.2,w:9.4,h:12.2},rain:{x:28.3,y:59.8,w:9.4,h:12.2}}};
 // Chris's presets (Nov 4), read off his settings
 const RAIN_PRESETS=[
 // Volumes are on the log-taper knob (Nov 5): Gentle rain and Wind chimes keep the loudness they had on the old linear one;
@@ -1439,8 +1445,8 @@ if(store.get("rainVolLaw",1)<2){ const sv=store.get("rainVals",null); if(sv&&isF
 rPreset={"Gentle rain":"On the roof","Pitter patter":"On the roof","Processing data":"Data process","Processing":"Data process","Hearth":"Gentle fire"}[rPreset]||rPreset;   // renamed Nov 5
 if(rPreset&&!RAIN_PRESETS.some(p=>p[0]===rPreset)) rPreset=null;
 let rctx=null, rnode=null, rStarting=null, rInfo=null, rLed=0, rLvl=0;
-// the output is tapped by an analyser for the two displays: spectrum bars behind the filter curve and a scope in the pad
-let rAn=null, rTd=null, rFd=null, rLastT=0, rColAcc=0, rWf=null, rWfOn=0, rOff=-60;
+// the output is tapped by an analyser for the two displays: a scrolling spectrogram behind the filter curve and a scope in the pad
+let rAn=null, rTd=null, rFd=null, rLastT=0, rColAcc=0, rWf=null, rWfOn=0;
 const SC_N=320, SC_RATE=110, scMin=new Float32Array(SC_N), scMax=new Float32Array(SC_N);   // 320 columns, ~2.9 s across
 const RL=()=>window.RainLaw||null;
 
@@ -1463,7 +1469,7 @@ async function startRainNode(){
   }
   for(const k in rv) rnode.port.postMessage({set:k,v:rv[k]});
   rnode.port.onmessage=e=>{rInfo=e.data; rLed=e.data.led}; const trim=rctx.createGain(); trim.gain.value=.5; rnode.connect(trim); trim.connect(rctx.destination);   // the whole machine sits 6 dB down
-  rAn=rctx.createAnalyser(); rAn.fftSize=8192; rAn.smoothingTimeConstant=.5; trim.connect(rAn);
+  rAn=rctx.createAnalyser(); rAn.fftSize=4096; rAn.smoothingTimeConstant=.5; trim.connect(rAn);
   rTd=new Float32Array(rAn.fftSize); rFd=new Float32Array(rAn.frequencyBinCount);
 }
 function rainAudio(on){
@@ -1543,6 +1549,11 @@ function faceHTML(v){
   // screen: the XY pad (on the tall face a square turned 45 degrees: a diamond)
   const D=F.diamond, S=F.screen||{x:D.cx-D.d/Math.SQRT2/2,y:D.cy-D.d/Math.SQRT2/2,w:D.d/Math.SQRT2,h:D.d/Math.SQRT2};
   h+=`<div class="rscreen${D?" rdiamond":""}" style="${at(S)}"><canvas class="rpane" aria-hidden="true"></canvas><div class="xypad" role="slider" tabindex="0" aria-label="Filter pad: the bottom point is silent, the top point is unfiltered; the left point keeps only the lows, the right point only the highs"></div><div class="rain-msg"><span>Rain Through a Window</span><small>Flip the power switch to start the rain.</small></div></div>`;
+  // printed around the diamond: what each point and each top edge does
+  if(D){const r=D.d/2, o=.95, e=.75, mx=r/2;
+   h+=lbl(D.cx,D.cy-r-o,"Unfiltered"," sm")+lbl(D.cx,D.cy+r+o,"Silent"," sm")+
+      lbl(D.cx-r-o*.85,D.cy,"Dark"," sm rv")+lbl(D.cx+r+o*.85,D.cy,"Bright"," sm rv rr")+
+      lbl(D.cx-mx-e,D.cy-mx-e,"Low pass filter"," sm redge el")+lbl(D.cx+mx+e,D.cy-mx-e,"High pass filter"," sm redge er")}
   // amber window: the filter's response
   h+=`<div class="ramber" style="${at(F.display)}"><canvas class="rcurve" aria-hidden="true"></canvas></div>`;
   // sliders: LPF on top, HPF below, staggered, a printed box around the shared middle
@@ -1571,7 +1582,8 @@ function faceHTML(v){
    h+=`<span class="rbox" style="${at(G)}"></span>`+knob("mod","Motion",x1,cy,ring)+lbl(x1,ly,"Motion"," sm")+knob("res","LPF resonance",x2,cy,ring)+lbl(x2,ly,G.label?"Reso":"LPF Reso"," sm");
    h+=`<span class="rpslot" style="left:${cm(xs-.85)};top:${cm(sy-sh/2)};width:${cm(1.7)};height:${cm(sh)}"></span>`+
       `<button type="button" class="rswitch" role="switch" aria-checked="true" aria-label="Low pass slope" style="left:${cm(xs-.85)};top:${cm(sy-sh/2)};width:${cm(1.7)};height:${cm(sh)}"><span class="act"></span></button>`+
-      lbl(xs+1.35,sy-sh/2+.6,"2 pole"," sm left")+lbl(xs+1.35,sy+sh/2-.6,"4 pole"," sm left")}
+      lbl(xs+1.35,sy-sh/2+.6,`<svg class="rmoon" viewBox="0 0 20 20"><title>2 pole</title><circle cx="10" cy="10" r="7.5"/></svg>`," sm left")+
+      lbl(xs+1.35,sy+sh/2-.6,`<svg class="rmoon" viewBox="0 0 20 20"><title>4 pole</title><path d="M12.6 2.9A7.5 7.5 0 1 0 17.1 13.1 6 6 0 0 1 12.6 2.9Z"/></svg>`," sm left")}
   return h;
 }
 function bindFace(face){
@@ -1693,31 +1705,26 @@ function rainFrame(){
   if(a&&L){const [c,W,H,dpr]=a; c.clearRect(0,0,W,H);
     const fh=L.hpF(rv.hp), fc=rInfo&&power?rInfo.fc:L.lpF(rv.lp,0), k=Math.min(L.resK(rv.res),3.9995), four=rv.poles>=.5;
     const FMIN=20,FMAX=20000, top=H*.14, bot=H*.1, fx=f=>W*.04+W*.92*Math.log(f/FMIN)/Math.log(FMAX/FMIN), dy=db=>top+(30-Math.max(-30,Math.min(30,db)))/60*(H-top-bot);
-    // spectrum analyser on the curve's own axes: each column is the sound in its slice of the spectrum, in dB, drawn
-    // against the curve's dB scale. The level is pinned (slowly) so the passband sits on the curve, which makes it
-    // follow the filter's shape while drops and swells still jump above and below it.
-    // one column per screen pixel (the spectrogram's resolution), so it reads as a fine-grained spectrum
-    const x0=W*.04, x1=W*.96, cs=Math.max(1,Math.round(dpr)), NC=Math.ceil((x1-x0)/cs);
-    if(!rWf||rWf.length!==NC) rWf=new Float32Array(NC).fill(-90);
-    if(live){ rAn.getFloatFrequencyData(rFd); rWfOn=Math.min(1,rWfOn+dt*4);
-      const nb=rFd.length, hz=rctx.sampleRate/2/nb; let est=0, n=0;
-      for(let b=0;b<NC;b++){ const fa=FMIN*Math.pow(FMAX/FMIN,b*cs/(x1-x0)), fb=FMIN*Math.pow(FMAX/FMIN,(b+1)*cs/(x1-x0)), fm=Math.sqrt(fa*fb);
-        let v;
-        if(fb-fa<hz*1.5){ const u=Math.min(nb-2,fm/hz), i0=Math.floor(u); v=rFd[i0]+(rFd[i0+1]-rFd[i0])*(u-i0) }   // low end: between bins
-        else { let p=0,c_=0; for(let q=Math.max(1,Math.floor(fa/hz));q<=Math.min(nb-1,Math.ceil(fb/hz));q++){p+=Math.pow(10,rFd[q]/10);c_++} v=10*Math.log10(p/c_+1e-20) }
-        if(!(v>-200)) v=-200;   // silence reads as -Infinity
-        const r=respDb(fm,fh,fc,k,four); if(r>-18&&v>-190&&b%4===0){est+=v-r;n++}
-        const lvl=v-rOff; rWf[b]+=(lvl-rWf[b])*(lvl>rWf[b]?.6:.2) }   // quick to rise, slower to fall
-      if(n) rOff+=((est/n)-rOff)*Math.min(1,dt*.8);
-    } else rWfOn=Math.max(0,rWfOn-dt*2);
-    if(rWfOn>0){
-      // above the curve's -30 dB floor the spectrum uses the curve's own scale; below it, down to -66 dB, it fills the
-      // strip under the floor line, so the deep lows and highs the filter has cut still show as a low glow
-      const fl=dy(-30), sy=db=>db>=-30?dy(db):fl+(H-fl)*Math.min(1,(-30-db)/36);
-      const gr=c.createLinearGradient(0,top,0,H); gr.addColorStop(0,"rgba(255,205,120,.8)"); gr.addColorStop(.85,"rgba(255,150,50,.3)"); gr.addColorStop(1,"rgba(255,130,40,.12)");
-      c.save(); c.globalAlpha=rWfOn*(.6+.35*(power?rLvl:0)); c.fillStyle=gr;
-      for(let b=0;b<NC;b++){ const yy=sy(rWf[b]); if(yy<H) c.fillRect(x0+b*cs, yy, cs, H-yy) }
-      c.restore() }
+    // spectrogram on the curve's frequency axis: the newest slice at the bottom, older ones rising and fading
+    if(!rWf) rWf=document.createElement("canvas");
+    if(rWf.width!==W||rWf.height!==H){rWf.width=W;rWf.height=H}
+    const wc=rWf.getContext("2d"), step=Math.max(1,Math.round(dpr));
+    if(live){ rAn.getFloatFrequencyData(rFd); rWfOn=1;
+      wc.globalCompositeOperation="copy"; wc.drawImage(rWf,0,-step); wc.globalCompositeOperation="source-over";
+      const row=wc.createImageData(W,step), d=row.data, nb=rFd.length, hz=rctx.sampleRate/2/nb;
+      for(let px=0;px<W;px++){ const t=(px-W*.04)/(W*.92); if(t<0||t>1) continue;
+        const f0=FMIN*Math.pow(FMAX/FMIN,t), f1=FMIN*Math.pow(FMAX/FMIN,t+1/(W*.92));
+        let b0=Math.max(1,Math.floor(f0/hz)), b1=Math.min(nb-1,Math.max(b0,Math.floor(f1/hz))), m=-200;
+        if(b1===b0){ const u=Math.min(nb-2,f0/hz), i0=Math.floor(u); m=rFd[i0]+(rFd[i0+1]-rFd[i0])*(u-i0) }   // low end: between bins, so it doesn't step
+        else for(let b=b0;b<=b1;b++) if(rFd[b]>m) m=rFd[b];
+        if(!(m>-200)) m=-200;   // silence reads as -Infinity
+        const v=Math.max(0,Math.min(1,(m+150)/90)), al=Math.round(255*Math.pow(v,1.6));
+        for(let r=0;r<step;r++){const o=(r*W+px)*4; d[o]=255; d[o+1]=150+Math.round(80*v); d[o+2]=50+Math.round(60*v); d[o+3]=al} }
+      wc.putImageData(row,0,H-step);
+    } else if(rWfOn>0) rWfOn=Math.max(0,rWfOn-dt*1.5);
+    if(rWfOn>0){ c.save(); c.globalAlpha=.55*rWfOn; c.globalCompositeOperation="lighter"; c.drawImage(rWf,0,0);
+      const fade=c.createLinearGradient(0,0,0,H); fade.addColorStop(0,"rgba(29,14,5,1)"); fade.addColorStop(.75,"rgba(29,14,5,0)");
+      c.globalCompositeOperation="destination-out"; c.globalAlpha=.85; c.fillStyle=fade; c.fillRect(0,0,W,H); c.restore() }
     // A narrow resonance falls between evenly spaced points and its drawn height flickers as the cutoff moves, so the
     // curve is sampled densely around the cutoff and always includes the true peak, found by a golden-section search.
     const fs_=[]; for(let i=0;i<=180;i++) fs_.push(FMIN*Math.pow(FMAX/FMIN,i/180));
@@ -1729,7 +1736,7 @@ function rainFrame(){
     const lv=power?rLvl:0, al=.28+.72*lv;
     c.lineJoin="round"; c.lineCap="round";
     c.shadowColor=`rgba(255,150,40,${.9*lv})`; c.shadowBlur=(4+14*lv)*dpr;
-    c.strokeStyle=`rgba(255,${Math.round(150+60*lv)},${Math.round(60+40*lv)},${al})`; c.lineWidth=(2.2+1.2*lv)*dpr; c.stroke(); c.shadowBlur=0;
+    c.strokeStyle=`rgba(255,${Math.round(150+60*lv)},${Math.round(60+40*lv)},${al})`; c.lineWidth=(1.2+.6*lv)*dpr; c.stroke(); c.shadowBlur=0;
   }
 }
 
