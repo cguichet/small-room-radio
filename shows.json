@@ -1,5 +1,5 @@
 {
- "_source": "Songkick venue calendars, fetched 2026-11-01 (first six venues) and 2026-11-03 (Fillmore, Regency Ballroom, Great American Music Hall, SFJAZZ Center). Sold-out status from venue sites, 2026-11-02. Brooklyn: Songkick calendars for Baby's All Right, Union Pool, Music Hall of Williamsburg, National Sawdust, Brooklyn Steel, Elsewhere (incl. The Hall), Market Hotel, The Sultan Room, Saint Vitus and Warsaw, fetched 2026-11-04. Added Nov 6: Songkick calendars for Pete's Candy Store, Sleepwalk, Good Room, Barbès, Public Records, Hart Bar and Knockdown Center (Maspeth, just over the Queens line), fetched 2026-11-06. Ann Arbor venues (The Ark, The Blind Pig, The Michigan Theater, Hill Auditorium): Songkick calendars fetched 2026-11-06; comedy and theme nights left out. Minneapolis (Berlin, 7th St Entry, Icehouse, The Cedar Cultural Center, Green Room), fetched 2026-11-06: Berlin from its own calendar; 7th St Entry, Icehouse, the Cedar and Green Room from Bandsintown (more complete than Songkick there). Ticket links point at whichever source listed the show. DJ nights, listening parties, open jams and tribute acts left out.",
+ "_source": "Songkick venue calendars, fetched 2026-11-01 (first six venues) and 2026-11-03 (Fillmore, Regency Ballroom, Great American Music Hall, SFJAZZ Center). Sold-out status from venue sites, 2026-11-02. Brooklyn: Songkick calendars for Baby's All Right, Union Pool, Music Hall of Williamsburg, National Sawdust, Brooklyn Steel, Elsewhere (incl. The Hall), Market Hotel, The Sultan Room, Saint Vitus and Warsaw, fetched 2026-11-04. Added Nov 6: Songkick calendars for Pete's Candy Store, Sleepwalk, Good Room, Barbès, Public Records, Hart Bar and Knockdown Center (Maspeth, just over the Queens line), fetched 2026-11-06. Ann Arbor venues (The Ark, The Blind Pig, The Michigan Theater, Hill Auditorium): Songkick calendars fetched 2026-11-06; comedy and theme nights left out. Minneapolis (Berlin, 7th St Entry, Icehouse, The Cedar Cultural Center, Green Room), fetched 2026-11-06: Berlin from its own calendar; 7th St Entry, Icehouse, the Cedar and Green Room from Bandsintown (more complete than Songkick there). Ticket links point at whichever source listed the show. DJ nights, listening parties, open jams and tribute acts left out. Atelier Kromatica (SF), fetched 2026-11-06 from its own event calendar: concerts only; the writers' meet-up and the piano beach bonfire left out.",
  "_updated": "2026-11-06",
  "venues": {
   "rickshaw-stop": {
@@ -7149,6 +7149,58 @@
       "The Gould Brothers Band"
      ],
      "https://www.bandsintown.com/e/1040795770"
+    ]
+   ]
+  },
+  "atelier-kromatica": {
+   "name": "Atelier Kromatica",
+   "address": "182 Shipley St",
+   "capacity": 60,
+   "city": "sf",
+   "shows": [
+    [
+     "2026-11-06",
+     [
+      "Karwan Ensemble"
+     ],
+     "https://www.atelierkromatica.com/event-calendar-W53dk/afghan-folk-trio-karwan-ensemble"
+    ],
+    [
+     "2026-11-07",
+     [
+      "Danielle Braga",
+      "Tin Yi Chelsea Wong"
+     ],
+     "https://www.atelierkromatica.com/event-calendar-W53dk/magical-joy-of-piano-fourhands"
+    ],
+    [
+     "2026-11-14",
+     [
+      "Still Deer",
+      "HOWAN"
+     ],
+     "https://www.atelierkromatica.com/event-calendar-W53dk/still-deer-x-howan"
+    ],
+    [
+     "2026-12-03",
+     [
+      "The Good Talks"
+     ],
+     "https://www.atelierkromatica.com/event-calendar-W53dk/the-good-talks"
+    ],
+    [
+     "2026-12-12",
+     [
+      "Second Fig"
+     ],
+     "https://www.atelierkromatica.com/event-calendar-W53dk/second-fig"
+    ],
+    [
+     "2027-01-17",
+     [
+      "Mosaic Strings"
+     ],
+     "https://www.atelierkromatica.com/event-calendar-W53dk/mosaic-strings-wine-pairing-with-string-quartet"
     ]
    ]
   }
